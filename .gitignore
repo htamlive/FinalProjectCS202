@@ -18,3 +18,4 @@ _deps
 *.vcxproj
 *.vcxproj.filters
 out
+External
