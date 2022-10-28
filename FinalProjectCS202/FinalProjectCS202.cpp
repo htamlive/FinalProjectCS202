@@ -4,12 +4,14 @@
 #include "FinalProjectCS202.h"
 #include "Entity.h"
 #include "TextureHolder.h"
+#include "AudioController.h"
 #include <SFML/Graphics.hpp>
 
 int main()
 {
     // check build
     auto &ins = TextureHolder::instance();
+    auto &audio = AudioController::instance();
 
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");

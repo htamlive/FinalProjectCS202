@@ -15,7 +15,13 @@ class TextureHolder {
 private:
     std::map<Texture::ID, std::vector<std::unique_ptr<sf::Texture>>> textures;
 
+    TextureHolder() = default;
+
 public:
+    TextureHolder(const TextureHolder&) = delete;
+
+    void operator=(const TextureHolder&) = delete;
+
     static TextureHolder &instance();
 
     /**
