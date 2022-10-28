@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(TextureType type, float velocity, float x, float y, float w, float h) : spriteStage(type),
+Entity::Entity(Texture::ID type, float velocity, float x, float y, float w, float h) : spriteStage(type),
                                                                                        velocity(velocity),
                                                                                        box(x, y, w, h) {}
 

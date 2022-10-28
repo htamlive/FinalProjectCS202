@@ -1,5 +1,4 @@
 #include "AudioController.h"
-#include "Enums.h"
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <memory>

@@ -6,16 +6,16 @@
 
 class SpriteStage {
 private:
-    TextureType type;
+    Texture::ID type;
     int stage;
     std::size_t size;
 
 public:
     SpriteStage() = default;
 
-    SpriteStage(TextureType);
+    SpriteStage(Texture::ID);
 
-    TextureType getType() const;
+    Texture::ID getType() const;
 
     int getStage() const;
 

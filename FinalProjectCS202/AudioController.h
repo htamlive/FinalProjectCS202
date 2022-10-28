@@ -7,22 +7,23 @@
 #include <map>
 #include <string>
 #include <memory>
-#include "Enums.h"
 
-namespace SoundEffect
-{
-    enum ID { Hit, };
+namespace SoundEffect {
+    enum ID {
+        Hit,
+    };
 }
 
 
-namespace Music
-{
-    enum ID { Game, Menu, Pause };
+namespace Music {
+    enum ID {
+        Game, Menu, Pause
+    };
 }
 
 /**
- * A Singleton unit used for controling audio
- * Only classes that inherits SoundPlayable will be able to access audio play interface
+ * A Singleton unit used for controlling audio
+ * Only classes that inherit SoundPlayable will be able to access audio play interface
 */
 class AudioController {
     AudioController();

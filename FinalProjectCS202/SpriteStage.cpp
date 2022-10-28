@@ -1,11 +1,11 @@
 #include "SpriteStage.h"
 #include "TextureHolder.h"
 
-SpriteStage::SpriteStage(TextureType type) : type(type), stage(0) {
+SpriteStage::SpriteStage(Texture::ID type) : type(type), stage(0) {
     size = TextureHolder::instance().getSpritesSize(type);
 }
 
-TextureType SpriteStage::getType() const {
+Texture::ID SpriteStage::getType() const {
     return type;
 }
 

@@ -1,22 +1,21 @@
 #include "TextureHolder.h"
 
-TextureHolder *TextureHolder::self = nullptr;
-
 TextureHolder &TextureHolder::instance() {
-    if (self == nullptr) {
-        self = new TextureHolder;
+    static TextureHolder *ins = nullptr;
+    if (ins == nullptr) {
+        ins = new TextureHolder;
     }
-    return *self;
+    return *ins;
 }
 
-void TextureHolder::load(TextureType type, const std::string &filename, std::size_t stage = 0) {
+void TextureHolder::load(Texture::ID type, const std::string &filename, std::size_t stage = 0) {
     std::unique_ptr<sf::Texture> texture{};
     texture->loadFromFile(filename);
     auto &sprites = textures[type];
     sprites.insert(sprites.begin() + (int) stage, std::move(texture));
 }
 
-std::size_t TextureHolder::load(TextureType type, const std::vector<std::string> &filenames) {
+std::size_t TextureHolder::load(Texture::ID type, const std::vector<std::string> &filenames) {
     auto &sprites = textures[type];
     for (auto &filename: filenames) {
         std::unique_ptr<sf::Texture> texture{};
@@ -40,7 +39,7 @@ sf::Texture const &TextureHolder::get(const SpriteStage &spriteStage) const {
     return *(found->second[stage]);
 }
 
-std::size_t TextureHolder::getSpritesSize(TextureType type) const {
+std::size_t TextureHolder::getSpritesSize(Texture::ID type) const {
     auto found = textures.find(type);
     return found->second.size();
 }

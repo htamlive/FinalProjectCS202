@@ -1,11 +1,8 @@
 #pragma once
 
-enum class TextureType {
-    VehicleSprites,
-    AnimalSprites
-};
-
-enum class AudioType {
-    Effect,
-    Music
-};
+namespace Texture {
+    enum ID {
+        VehicleSprites,
+        AnimalSprites
+    };
+}
