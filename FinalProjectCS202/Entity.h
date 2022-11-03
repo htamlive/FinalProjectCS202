@@ -15,7 +15,7 @@ public:
     Entity() = default;
 
     Entity(Texture::ID type, float velocity, float x, float y, float w, float h);
-
+    
     // TODO: how does it move?
     void move(float dt, float direction_x, float direction_y);
 

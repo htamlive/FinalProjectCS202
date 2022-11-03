@@ -6,19 +6,18 @@
 #include <thread>
 #include "MainMenuState.h"
 
-using namespace sf;
 
 class Game
 {
 private:
-	RenderWindow* window;
-	VideoMode videoMode;
+	sf::RenderWindow* window;
+	sf::VideoMode videoMode;
 	sf::Event ev;
-	std::vector<VideoMode> videoModes;
-	ContextSettings windowSettings;
+	std::vector<sf::VideoMode> videoModes;
+	sf::ContextSettings windowSettings;
 	bool fullscreen;
 
-	Clock dtClock;
+	sf::Clock dtClock;
 	float dt;
 
 	std::vector<State*> states;

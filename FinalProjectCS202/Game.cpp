@@ -10,7 +10,7 @@ void Game::initVariables()
 void Game::initWindow()
 {
 
-	this->videoModes = VideoMode::getFullscreenModes();
+	this->videoModes = sf::VideoMode::getFullscreenModes();
 
 	this->videoMode.height = 768;
 	this->videoMode.width = 1024;
@@ -20,7 +20,7 @@ void Game::initWindow()
 	this->fullscreen = false;
 	this->windowSettings.antialiasingLevel = antialiasing_level;
 	if (this->fullscreen) {
-		this->window = new RenderWindow(this->videoMode, "Dictionary", Style::Fullscreen, windowSettings);
+		this->window = new sf::RenderWindow(this->videoMode, "Dictionary", sf::Style::Fullscreen, windowSettings);
 	}
 	else {
 
@@ -29,7 +29,7 @@ void Game::initWindow()
 		//Image icon;
 		//icon.loadFromFile("images/icon.png");
 
-		this->window = new RenderWindow(this->videoMode, "Dictionary", Style::Titlebar | Style::Close, windowSettings);
+		this->window = new sf::RenderWindow(this->videoMode, "Dictionary", sf::Style::Titlebar | sf::Style::Close, windowSettings);
 		
 		//this->window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
@@ -154,10 +154,10 @@ void Game::keyReleasedProc()
 {
 	switch (ev.key.code)
 	{
-	case Keyboard::Enter:
+	case sf::Keyboard::Enter:
 		//field.restart();
 
-	case Keyboard::Escape:
+	case sf::Keyboard::Escape:
 		this->window->close();
 	}
 }
@@ -166,8 +166,8 @@ void Game::mouseProc()
 {
 	switch (this->ev.mouseButton.button)
 	{
-	case Mouse::Left:
-		std::cout << "\nLeft click " << Mouse::getPosition(*this->window).x << " " << Mouse::getPosition(*this->window).y;
+	case sf::Mouse::Left:
+		std::cout << "\nLeft click " << sf::Mouse::getPosition(*this->window).x << " " << sf::Mouse::getPosition(*this->window).y;
 		//field.open_cell(mouse_cell_x, mouse_cell_y);
 
 		break;

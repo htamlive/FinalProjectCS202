@@ -8,7 +8,6 @@
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 
-using namespace tgui;
 using namespace std;
 
 class State
@@ -17,7 +16,7 @@ protected:
 	std::vector<State*>* states;
 	sf::RenderWindow* window;
 	bool quit;
-	Gui* gui;
+	tgui::Gui* gui;
 	sf::Vector2i mousePosScreen;
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;

@@ -2,7 +2,7 @@
 
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::vector<State*>* states) : State(window, states)
 {
-	this->gui = new Gui(ref(*window));
+	this->gui = new tgui::Gui(ref(*window));
 	this->gui->loadWidgetsFromFile("FinalProjectCS202/Template/MainMenuTemplate.txt");
 	//initBackground();
 
