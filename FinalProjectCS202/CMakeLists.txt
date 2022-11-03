@@ -24,7 +24,7 @@ if(WIN32)
 	add_custom_command(TARGET FinalProjectCS202 POST_BUILD        # Adds a post-build event to MyTest
         COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
             "${CMAKE_SOURCE_DIR}/External/bin"      # <--this is in-file
-            $<TARGET_FILE_DIR:FinalProjectCS202>) 
+            $<TARGET_FILE_DIR:FinalProjectCS202>)
 
     target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-audio.lib)
     target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-graphics.lib)
