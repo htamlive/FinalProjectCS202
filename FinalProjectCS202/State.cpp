@@ -5,6 +5,7 @@ State::State(sf::RenderWindow* window, std::vector<State*>* states)
 {
 	this->window = window;
 	this->states = states;
+	this -> gui = new tgui::Gui(*window);
 	this->quit = false;
 }
 

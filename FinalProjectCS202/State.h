@@ -7,6 +7,7 @@
 #include <vector>
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#include <TGUI/Widget.hpp>
 
 using namespace std;
 

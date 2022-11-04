@@ -11,6 +11,11 @@ int main()
 {
     Game game;
     game.run();
+    
+    
+    
+    
+
     //// check build
     //auto &ins = TextureHolder::instance();
     //auto &audio = AudioController::instance();
