@@ -1,4 +1,6 @@
 #include "SceneNode.h"
+#include <SFML/Graphics/Transform.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cassert>
 
@@ -30,4 +32,30 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     for (const auto& child: mChildren) {
         child->draw(target, states);
     }
+}
+
+void SceneNode::update(sf::Time dt) {
+    updateCurrent(dt);
+    updateChildren(dt);
+}
+
+void SceneNode::updateChildren(sf::Time dt) {
+    for (auto& child: mChildren) {
+        child->update(dt);
+    }
+}
+
+sf::Transform SceneNode::getAbsTransform() const {
+    sf::Transform transform = sf::Transform::Identity;
+    const SceneNode *cur = this;
+    while (cur) {
+        transform *= cur->getTransform();
+        cur = cur->mParent;
+    }
+
+    return transform;
+}
+
+sf::Vector2f SceneNode::getAbsPosition() const {
+    return getAbsTransform() * sf::Vector2f();
 }
