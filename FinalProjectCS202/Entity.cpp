@@ -1,17 +1,21 @@
 #include "Entity.h"
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
 
-Entity::Entity(Texture::ID type, float velocity, float x, float y, float w, float h) : spriteStage(type),
-                                                                                       velocity(velocity),
-                                                                                       box(x, y, w, h) {}
-
-void Entity::move(float dt, float direction_x, float direction_y) {
-
+Entity::Entity(Texture::ID type, sf::Vector2f velocity, float x, float y, float w,
+               float h)
+    : spriteStage(type), velocity(velocity)
+{
 }
 
-void Entity::update() {
-
+const sf::Vector2f Entity::getVelocity() const {
+    return velocity;
 }
 
-void Entity::render() {
+sf::Vector2f Entity::getVelocity() {
+    return velocity;
+}
 
+void Entity::setVelocity(sf::Vector2f _velocity) {
+    velocity = _velocity;
 }

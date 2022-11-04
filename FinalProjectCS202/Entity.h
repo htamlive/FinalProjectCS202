@@ -1,26 +1,31 @@
 #pragma once
 
-#include "Box.h"
 #include "Enums.h"
+#include "SceneNode.h"
 #include "SpriteStage.h"
-#include "Renderable.h"
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Vector2.hpp>
 
-class Entity : public Renderable {
-protected:
-    float velocity;
-    Box box;
+/**
+ * This is an abstract class for Entity in a scene such as car, human, ...
+ * Override `drawCurrent` and `updateCurrent` to implement the concrete class
+ */
+
+class Entity : public SceneNode {
+  private:
+    sf::Vector2f velocity;
+
+  protected:
     SpriteStage spriteStage;
 
-public:
+  public:
     Entity() = default;
 
-    Entity(Texture::ID type, float velocity, float x, float y, float w, float h);
-    
-    // TODO: how does it move?
-    void move(float dt, float direction_x, float direction_y);
+    Entity(Texture::ID type, sf::Vector2f velocity, float x, float y, float w,
+           float h);
 
-    // TODO: update every frame? what does it do?
-    virtual void update();
+    const sf::Vector2f getVelocity() const;
+    sf::Vector2f getVelocity();
 
-    void render() override;
+    void setVelocity(sf::Vector2f velocity);
 };
