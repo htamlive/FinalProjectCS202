@@ -26,3 +26,5 @@ External
 *.dll
 *.ilk
 *.pdb
+
+.clang-format
