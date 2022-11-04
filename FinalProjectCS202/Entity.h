@@ -12,13 +12,13 @@
  */
 
 class Entity : public SceneNode {
-  private:
+private:
     sf::Vector2f velocity;
 
-  protected:
+protected:
     SpriteStage spriteStage;
 
-  public:
+public:
     Entity() = default;
 
     Entity(Texture::ID type, sf::Vector2f velocity, float x, float y, float w,

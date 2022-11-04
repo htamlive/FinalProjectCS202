@@ -12,7 +12,7 @@
 class SceneNode : public sf::Drawable,
                   public sf::Transformable,
                   private sf::NonCopyable {
-  public:
+public:
     typedef std::unique_ptr<SceneNode> SceneNodePtr;
 
     SceneNode();
@@ -23,14 +23,15 @@ class SceneNode : public sf::Drawable,
     sf::Transform getAbsTransform() const;
     sf::Vector2f getAbsPosition() const;
 
-  private:
+private:
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
-    virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const = 0;
+    virtual void drawCurrent(sf::RenderTarget &target,
+                             sf::RenderStates state) const = 0;
 
     virtual void updateCurrent(sf::Time dt) = 0;
     void updateChildren(sf::Time dt);
 
-  private:
+private:
     std::vector<SceneNodePtr> mChildren;
     SceneNode *mParent;
 };

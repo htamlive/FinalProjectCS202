@@ -29,7 +29,7 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
     drawCurrent(target, states);
 
-    for (const auto& child: mChildren) {
+    for (const auto &child : mChildren) {
         child->draw(target, states);
     }
 }
@@ -40,7 +40,7 @@ void SceneNode::update(sf::Time dt) {
 }
 
 void SceneNode::updateChildren(sf::Time dt) {
-    for (auto& child: mChildren) {
+    for (auto &child : mChildren) {
         child->update(dt);
     }
 }
