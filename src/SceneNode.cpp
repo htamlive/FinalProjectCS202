@@ -6,15 +6,15 @@
 
 SceneNode::SceneNode() { mParent = nullptr; }
 
-void SceneNode::attachChild(SceneNodePtr child) {
+void SceneNode::attachChild(Ptr child) {
     child->mParent = this;
     mChildren.push_back(std::move(child));
 }
 
-SceneNode::SceneNodePtr SceneNode::detachChild(const SceneNode &childTarget) {
+SceneNode::Ptr SceneNode::detachChild(const SceneNode &childTarget) {
     auto found = std::find_if(
-            mChildren.begin(), mChildren.end(),
-            [&](const SceneNodePtr &node) { return node.get() == &childTarget; });
+        mChildren.begin(), mChildren.end(),
+        [&](const Ptr &node) { return node.get() == &childTarget; });
 
     assert(found != mChildren.end());
 
@@ -58,4 +58,26 @@ sf::Transform SceneNode::getAbsTransform() const {
 
 sf::Vector2f SceneNode::getAbsPosition() const {
     return getAbsTransform() * sf::Vector2f();
+}
+
+void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisions) {
+    if (this != &node && checkCollision(*this, node)) {
+        collisions.insert(std::minmax(this, &node));
+    }
+
+    for (const auto& child: mChildren) {
+        checkNodeCollision(*child, collisions);
+    }
+}
+
+void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisions) {
+    checkNodeCollision(node, collisions);
+
+    for (const auto& child: mChildren) {
+        checkSceneCollision(*child, collisions);
+    }
+}
+
+bool checkCollision(const SceneNode& lnode, const SceneNode& rnode) {
+    return lnode.getBoundingRect().intersects(rnode.getBoundingRect());
 }
