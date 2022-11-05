@@ -1,6 +1,7 @@
 /cmake-build-debug/
 /cmake-build-release/
 /.idea/
+/TGUI-0.9.5/
 
 .vs
 .vscode

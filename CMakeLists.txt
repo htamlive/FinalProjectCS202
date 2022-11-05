@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.13)
 
-project ("FinalProjectCS202")
+project ("src")
 #add_executable(FinalProjectCS202 "FinalProjectCS202.cpp" "FinalProjectCS202.h")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
@@ -18,7 +18,7 @@ foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
 endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 # Include sub-projects.
-add_subdirectory ("FinalProjectCS202")
+add_subdirectory ("src")
 
 
 
