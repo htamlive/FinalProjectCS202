@@ -6,6 +6,7 @@ cmake_minimum_required (VERSION 3.21)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 # Add source to this project's executable.
 file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/FinalProjectCS202/*.cpp)
 add_executable (FinalProjectCS202 ${sourcecode})
