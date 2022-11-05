@@ -11,7 +11,7 @@ private:
     std::size_t size;
 
 public:
-    SpriteStage() = default;
+    SpriteStage();
 
     SpriteStage(Texture::ID);
 
@@ -24,11 +24,12 @@ public:
      *
      * @return <tt>int</tt> current stage after moving.
      */
-    int next();
+    int next(unsigned int step = 1);
+
     /**
      * Moves to previous stage.
      *
      * @return <tt>int</tt> current stage after moving.
      */
-    int prev();
+    int prev(unsigned int step = 1);
 };

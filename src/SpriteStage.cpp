@@ -1,7 +1,9 @@
 #include "SpriteStage.h"
 #include "TextureHolder.h"
 
-SpriteStage::SpriteStage(Texture::ID type) : type(type), stage(0) {
+SpriteStage::SpriteStage() : type(Texture::ID::VehicleSprites), stage(-1), size(-1) {}
+
+SpriteStage::SpriteStage(Texture::ID type) : type(type), stage(-1) {
     size = TextureHolder::instance().getSpritesSize(type);
 }
 
@@ -13,10 +15,11 @@ int SpriteStage::getStage() const {
     return stage;
 }
 
-int SpriteStage::next() {
-    return (stage = (stage + 1) % (int) size);
+int SpriteStage::next(unsigned int step) {
+    return (stage = (stage + (int) step) % (int) size);
 }
 
-int SpriteStage::prev() {
-    return (stage = (stage + (int) size - 1) % (int) size);
+int SpriteStage::prev(unsigned int step) {
+    step %= size;
+    return (stage = (stage + (int) size - (int) step) % (int) size);
 }

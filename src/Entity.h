@@ -24,8 +24,9 @@ public:
     Entity(Texture::ID type, sf::Vector2f velocity, float x, float y, float w,
            float h);
 
-    const sf::Vector2f getVelocity() const;
-    sf::Vector2f getVelocity();
+    sf::Vector2f getVelocity() const;
+
+    sf::Vector2f &getVelocity();
 
     void setVelocity(sf::Vector2f velocity);
 };
