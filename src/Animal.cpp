@@ -14,11 +14,7 @@ void Animal::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const
 void Animal::updateCurrent(sf::Time dt) {
     // TODO: time between sprites is currently a constant. does it need to be custom?
     spriteStage.next((int) (dt / TIME_BETWEEN_SPRITE));
-
-    auto pos = getPosition();
-    pos.x += getVelocity().x * (float) dt.asSeconds();
-    pos.y += getVelocity().y * (float) dt.asSeconds();
-    setPosition(pos);
+    Entity::updateCurrent(dt);
 }
 
 Animal::Animal(sf::Vector2f velocity, float x, float y, float w, float h) : Entity(Texture::ID::AnimalSprites,

@@ -16,10 +16,7 @@ void Vehicle::updateCurrent(sf::Time dt) {
     spriteStage.next((int) (dt / TIME_BETWEEN_SPRITE));
 
     if (!stop) {
-        auto pos = getPosition();
-        pos.x += getVelocity().x * (float) dt.asSeconds();
-        pos.y += getVelocity().y * (float) dt.asSeconds();
-        setPosition(pos);
+        Entity::updateCurrent(dt);
     }
 }
 
