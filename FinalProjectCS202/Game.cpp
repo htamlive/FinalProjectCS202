@@ -20,16 +20,16 @@ void Game::initWindow()
 	this->fullscreen = false;
 	this->windowSettings.antialiasingLevel = antialiasing_level;
 	if (this->fullscreen) {
-		this->window = new sf::RenderWindow(this->videoMode, "Dictionary", sf::Style::Fullscreen, windowSettings);
+		this->window = new sf::RenderWindow(this->videoMode, "Crossing Road", sf::Style::Fullscreen, windowSettings);
 	}
 	else {
 
 		std::string name;
-		name += "Dictionary";
+		name += "Crossing Road";
 		//Image icon;
 		//icon.loadFromFile("images/icon.png");
 
-		this->window = new sf::RenderWindow(this->videoMode, "Dictionary", sf::Style::Titlebar | sf::Style::Close, windowSettings);
+		this->window = new sf::RenderWindow(this->videoMode, "Crossing Road", sf::Style::Titlebar | sf::Style::Close, windowSettings);
 		
 		//this->window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 

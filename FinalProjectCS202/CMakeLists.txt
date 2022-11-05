@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.21)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add source to this project's executable.
@@ -21,17 +21,11 @@ endif()
 # TODO: Add tests and install targets if needed.
 
 if(WIN32)
-	add_custom_command(TARGET FinalProjectCS202 POST_BUILD        # Adds a post-build event to MyTest
-        COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
-            "${CMAKE_SOURCE_DIR}/External/bin"      # <--this is in-file
-            $<TARGET_FILE_DIR:FinalProjectCS202>)
 
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-audio.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-graphics.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-network.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-system.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-window.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/tgui.lib)
+	#add_custom_command(TARGET FinalProjectCS202 POST_BUILD        # Adds a post-build event to MyTest
+    #   COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
+    #        "${CMAKE_SOURCE_DIR}/External/bin"      # <--this is in-file
+    #        $<TARGET_FILE_DIR:FinalProjectCS202>)
 
     target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-audio-d.lib)
     target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-graphics-d.lib)
@@ -41,7 +35,7 @@ if(WIN32)
     target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/tgui-d.lib)
 
     include_directories(${CMAKE_SOURCE_DIR}/External/include)
-    include_directories(${CMAKE_SOURCE_DIR}/External/bin)
+    #include_directories(${CMAKE_SOURCE_DIR}/External/bin)
 endif (WIN32)
 
 if(UNIX)

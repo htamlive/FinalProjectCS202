@@ -32,7 +32,19 @@ public:
 	};
 
 	void updateEvents() {
+		this->gui->handleEvent(this->ev);
+		switch (this->ev.type)
+		{
+		case sf::Event::Closed:
+			this->endState();
+			break;
+		case sf::Event::TextEntered:
 
+			//update
+			break;
+		default:
+			break;
+		}
 	};
 
 	void update(const float& dt) {

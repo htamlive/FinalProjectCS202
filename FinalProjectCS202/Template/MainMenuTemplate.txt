@@ -1,8 +1,0 @@
-Picture.background {
-    Size = (1024, 768);
-
-    Renderer {
-        Texture = "../images/exampleBackground.png" Smooth;
-        TransparentTexture = false;
-    }
-}
