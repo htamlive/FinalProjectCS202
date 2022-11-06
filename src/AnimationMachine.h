@@ -4,38 +4,42 @@
 #include <SFML/System/Time.hpp>
 #include <sys/types.h>
 
+#include "Consts.h"
+#include "Enums.h"
+#include "TextureHolder.h"
+
 
 /**
- * This class is used to automatically update the animated sprite acording to
+ * This class is used to automatically update the animated sprite according to
  * various configurations. Can be view as a wrapper for sprite to provide
  * animated functionality.
  */
 class AnimationMachine {
-    sf::Time elaspedTime;
+    sf::Time elapsedTime;
     sf::Time duration;
-    u_int spriteCount;
-    u_int spriteSize;
-    u_int textureRow;
 
-    sf::Texture &texture;
-    sf::Sprite &sprite;
+    SpriteSheet const &sheet;
 
-    sf::Sprite getSprite(u_int i);
+    void getSprite(u_int i, sf::Sprite &sprite) const;
 
 public:
     /**
-     * @param sprite: the sprite to be animated
-     * @param texture: the texture used to update the sprite
-     * @param spriteCount: number of sprites in the spritesheet
+     * @param textureID: ID of the texture
      * @param duration: the duration of the animation
-     * @param spriteSize: size of a sprite in the spritesheet
-     * @param textureRow: number of row in the texture
      */
-    AnimationMachine(sf::Sprite &sprite, sf::Texture &texture,
-                     u_int spriteCount, sf::Time duration = sf::seconds(1.f),
-                     u_int spriteSize = 128, u_int textureRow = 1);
+    explicit AnimationMachine(Texture::ID textureID, sf::Time duration = DEF_ANIMATION_DURATION);
+
     /**
-     * Update the sprite over time
+     * Update the stage of the animation over time
+     *
+     * @param dt delta time
      */
-    void updateAnimation(sf::Time dt);
+    void update(sf::Time dt);
+
+    /**
+     * Apply texture of current stage onto sprite
+     *
+     * @param sprite reference to the sprite
+     */
+    void toSprite(sf::Sprite &sprite) const;
 };

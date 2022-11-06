@@ -1,37 +1,35 @@
 #include "AnimationMachine.h"
+
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
+
 #include <cassert>
-#include <iostream>
 #include <sys/types.h>
 
-AnimationMachine::AnimationMachine(sf::Sprite &sprite, sf::Texture &texture,
-                                   u_int spriteCount, sf::Time duration,
-                                   u_int spriteSize, u_int textureRow)
-    : texture(texture), sprite(sprite), spriteCount(spriteCount),
-      textureRow(textureRow), spriteSize(spriteSize), duration(duration) {}
+AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration)
+        : sheet(TextureHolder::instance().get(textureID)), duration(duration) {}
 
-void AnimationMachine::updateAnimation(sf::Time dt) {
-    elaspedTime += dt;
-    sf::Time frameTime = duration / (float)spriteCount;
-    if (elaspedTime > duration) {
-        elaspedTime = sf::Time::Zero;
+void AnimationMachine::update(sf::Time dt) {
+    elapsedTime += dt;
+    sf::Time frameTime = duration / (float) sheet.spriteCount;
+    if (elapsedTime > duration) {
+        elapsedTime = sf::Time::Zero;
     }
-
-    sprite = getSprite(elaspedTime / frameTime);
 }
 
-sf::Sprite AnimationMachine::getSprite(u_int i) {
-    assert(i <= spriteCount);
-    int row = i / textureRow;
-    int col = i - row * textureRow;
+void AnimationMachine::getSprite(u_int i, sf::Sprite &sprite) const {
+    assert(i <= sheet.spriteCount);
+    int row = i / sheet.textureRow;
+    int col = i - row * sheet.textureRow;
     auto subRect =
-        sf::IntRect(row * spriteSize, col * spriteSize, spriteSize, spriteSize);
+            sf::IntRect(row * sheet.spriteSize, col * sheet.spriteSize, sheet.spriteSize, sheet.spriteSize);
 
-    sf::Sprite sp;
-    sp.setTexture(texture);
-    sp.setTextureRect(subRect);
+    sprite.setTexture(*sheet.texture, true);
+    sprite.setTextureRect(subRect);
+}
 
-    return sp;
+void AnimationMachine::toSprite(sf::Sprite &sprite) const {
+    auto frameTime = duration / (float) sheet.spriteCount;
+    getSprite(elapsedTime / frameTime, sprite);
 }

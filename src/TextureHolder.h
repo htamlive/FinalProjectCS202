@@ -6,50 +6,50 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include "Enums.h"
-#include "SpriteStage.h"
+#include "Consts.h"
+
+struct SpriteSheet {
+    std::unique_ptr<sf::Texture> texture = nullptr;
+    unsigned int spriteCount = 0;
+    unsigned int spriteSize = 0;
+    unsigned int textureRow = 0;
+};
 
 /**
  * A singleton that handles textures.
  */
 class TextureHolder {
 private:
-    std::map<Texture::ID, std::vector<std::unique_ptr<sf::Texture>>> textures;
+    std::map<Texture::ID, SpriteSheet> textures;
 
     TextureHolder() = default;
 
 public:
-    TextureHolder(const TextureHolder&) = delete;
+    TextureHolder(const TextureHolder &) = delete;
 
-    void operator=(const TextureHolder&) = delete;
+    void operator=(const TextureHolder &) = delete;
 
     static TextureHolder &instance();
 
     /**
-     * Loads a texture from file as a stage of an animation sequence. Stage is default to 0 in case Texture::ID is not an animation.
-     */
-    void load(Texture::ID, const std::string &filename, std::size_t stage);
-    /**
-     * Loads a series of textures from files as an animation sequence of Texture::ID. If the sequence already exists, it is concatenated.
+     * Loads a texture containing multiple sprites (spritesheet) from file as an animation sequence of Texture::ID.
      *
-     * @return <tt>std::size_t</tt> size of the current sequence.
+     * @param spriteCount is 1 by default, in case texture contains a single sprite (not an animation).
      */
-    std::size_t load(Texture::ID, const std::vector<std::string> &filenames);
+    void load(Texture::ID, const std::string &filename, unsigned int spriteCount = 1,
+              unsigned int spriteSize = DEF_SPRITE_SIZE, unsigned int textureRow = 1);
+
     /**
-     * Gets the texture of a stage of an animation sequence.
-     *
-     * @return <tt>sf::Texture &</tt> a reference to the texture.
-     */
-    sf::Texture &get(const SpriteStage &);
-    /**
-     * Gets the texture of a stage of an animation sequence.
+     * Gets the texture of a Texture::ID.
      *
      * @return <tt>const sf::Texture &</tt> a reference to the texture.
      */
-    sf::Texture const &get(const SpriteStage &) const;
+    sf::Texture const &getTexture(Texture::ID) const;
+
     /**
-     * Gets the size of an animation sequence.
+     * Gets spritesheet information of a Texture::ID.
      *
-     * @return <tt>std::size_t</tt>
+     * @return <tt>const SpriteSheet &</tt>
      */
-    std::size_t getSpritesSize(Texture::ID) const;
+    SpriteSheet const &get(Texture::ID) const;
 };
