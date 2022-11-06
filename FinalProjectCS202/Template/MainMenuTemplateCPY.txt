@@ -8,9 +8,9 @@ Picture.background {
 }
 
 Button.btnPlay {
-    Position = (320, 170);
-    Size = (160, 58.6667);
-    Text = Button;
+    Position = (432, 170);
+    Size = (160, 62);
+    Text = "New Game";
     TextSize = 13;
 
     Renderer {
@@ -39,17 +39,48 @@ Button.btnPlay {
     }
 }
 
-Button.Button2 {
-    Position = (320, 270);
-    Size = (160, 58.6667);
-    Text = Button;
+Button.btnLoad {
+    Position = (432, 270);
+    Size = (160, 62);
+    Text = "Load Game";
     TextSize = 13;
 
     Renderer {
         BackgroundColor = #F5F5F5;
         BackgroundColorDisabled = #E6E6E6;
         BackgroundColorDown = #EBEBEB;
-        BackgroundColorHover = white;
+        BackgroundColorHover = #48FFF4;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
+
+Button.btnSetting {
+    Position = (432, 370);
+    Size = (160, 62);
+    Text = Control;
+    TextSize = 13;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = #48FFF4;
         BorderColor = #3C3C3C;
         BorderColorDisabled = #7D7D7D;
         BorderColorDown = black;
