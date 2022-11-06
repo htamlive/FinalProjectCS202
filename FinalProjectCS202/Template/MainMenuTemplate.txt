@@ -7,7 +7,7 @@ Picture.background {
     }
 }
 
-Button.btnPlay {
+Button.btnMusic {
     Position = (382, 170);
     Size = (110, 58.6667);
     Text = Music;
@@ -40,7 +40,7 @@ Button.btnPlay {
     }
 }
 
-Button.Button2 {
+Button.btnBack {
     Position = (432, 270);
     Size = (160, 58.6667);
     Text = Back;
@@ -75,7 +75,7 @@ Button.Button2 {
     }
 }
 
-Button.Button1 {
+Button.btnSound {
     Position = (532, 170);
     Size = (110, 58.6667);
     Text = Sound;

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "State.h"
+#include "SettingState.h"
 
 class MainMenuState : public State {
 private:
@@ -20,7 +21,17 @@ public:
 	};
 
 	void initButtons() {
-
+		this->gui->get<tgui::Button>("btnPlay")->onClick([&]() {
+			cout << "helllo\n";
+			});
+		this->gui->get<tgui::Button>("btnLoad")->onClick([&]() {
+			cout << "123\n";
+			});
+		this->gui->get<tgui::Button>("btnSetting")->onClick([&, this]() {
+			cout << "oooooo\n";
+			this->gui->loadWidgetsFromFile("FinalProjectCS202/Template/MainMenuTemplate.txt");
+			this->states->push_back(new SettingState(this->window, this->states));
+			});
 	};
 
 	~MainMenuState() {
