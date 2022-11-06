@@ -83,12 +83,12 @@ private:
      * node's parent 
      */
     virtual void drawCurrent(sf::RenderTarget &target,
-                             sf::RenderStates state) const = 0;
+                             sf::RenderStates state) const;
 
     /**
      * Derived class should implement this method to update itself
      */
-    virtual void updateCurrent(sf::Time dt) = 0;
+    virtual void updateCurrent(sf::Time dt);
 
     /**
      * Call the update methods of children
@@ -99,7 +99,7 @@ protected:
     /**
      * Implement this to use allow collision dectection
      */
-    virtual sf::FloatRect getBoundingRect() const = 0;
+    virtual sf::FloatRect getBoundingRect() const;
 
 private:
     std::vector<Ptr> mChildren;

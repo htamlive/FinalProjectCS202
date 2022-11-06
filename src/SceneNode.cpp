@@ -1,5 +1,8 @@
 #include "SceneNode.h"
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/Transform.hpp>
+#include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cassert>
@@ -80,4 +83,14 @@ void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisions)
 
 bool checkCollision(const SceneNode& lnode, const SceneNode& rnode) {
     return lnode.getBoundingRect().intersects(rnode.getBoundingRect());
+}
+
+sf::FloatRect SceneNode::getBoundingRect() const {
+    return sf::FloatRect();
+}
+
+void SceneNode::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {
+}
+
+void SceneNode::updateCurrent(sf::Time dt) {
 }
