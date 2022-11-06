@@ -12,7 +12,6 @@ AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration)
 
 void AnimationMachine::update(sf::Time dt) {
     elapsedTime += dt;
-    sf::Time frameTime = duration / (float) sheet.spriteCount;
     if (elapsedTime > duration) {
         elapsedTime = sf::Time::Zero;
     }
