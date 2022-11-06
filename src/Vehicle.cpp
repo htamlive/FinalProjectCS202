@@ -7,25 +7,16 @@ void Vehicle::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) cons
     sf::Transformable trans = *this;
     auto sprite = dynamic_cast<sf::Sprite &>(trans);
 
-    sprite.setTexture(TextureHolder::instance().get(spriteStage), true);
+    animation.toSprite(sprite);
     target.draw(sprite, state);
 }
 
-void Vehicle::updateCurrent(sf::Time dt) {
-    // TODO: time between sprites is currently a constant. does it need to be custom?
-    spriteStage.next((int) (dt / TIME_BETWEEN_SPRITE));
-
-    if (!stop) {
-        Entity::updateCurrent(dt);
-    }
-}
-
 void Vehicle::onLightChanged() {
-    stop = !stop;
+    std::swap(tmp_velocity, getVelocity());
 }
 
-Vehicle::Vehicle() : stop(false) {}
+Vehicle::Vehicle() : tmp_velocity(0, 0) {}
 
-Vehicle::Vehicle(sf::Vector2f velocity, float x, float y, float w, float h) : stop(false),
+Vehicle::Vehicle(sf::Vector2f velocity, float x, float y, float w, float h) : tmp_velocity(0, 0),
                                                                               Entity(Texture::ID::VehicleSprites,
                                                                                      velocity, x, y, w, h) {}

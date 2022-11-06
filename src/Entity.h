@@ -2,7 +2,8 @@
 
 #include "Enums.h"
 #include "SceneNode.h"
-#include "SpriteStage.h"
+#include "AnimationMachine.h"
+
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -17,10 +18,10 @@ private:
     sf::Vector2f velocity;
 
 protected:
-    SpriteStage spriteStage;
+    AnimationMachine animation;
 
 public:
-    Entity() = default;
+    Entity();
 
     Entity(Texture::ID type, sf::Vector2f velocity, float x, float y, float w,
            float h);
@@ -47,5 +48,5 @@ public:
      *
      * @param: Time since last frame
      */
-    virtual void updateCurrent(sf::Time dt) override;
+    void updateCurrent(sf::Time dt) override;
 };

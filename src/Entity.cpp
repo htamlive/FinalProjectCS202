@@ -2,11 +2,11 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
+Entity::Entity() : animation(Texture::ID::VehicleSprites) {}
+
 Entity::Entity(Texture::ID type, sf::Vector2f velocity, float x, float y,
                float w, float h)
-    : spriteStage(type), velocity(velocity)
-{
-}
+        : animation(type), velocity(velocity) {}
 
 sf::Vector2f Entity::getVelocity() const { return velocity; }
 
@@ -20,4 +20,5 @@ sf::FloatRect Entity::getBoundingRect() const {
 
 void Entity::updateCurrent(sf::Time dt) {
     move(getVelocity() * dt.asSeconds());
+    animation.update(dt);
 }

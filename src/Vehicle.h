@@ -13,7 +13,5 @@ public:
 private:
     void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const override;
 
-    void updateCurrent(sf::Time dt) override;
-
-    bool stop;
+    sf::Vector2f tmp_velocity;
 };

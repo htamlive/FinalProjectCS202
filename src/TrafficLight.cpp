@@ -7,15 +7,9 @@ void TrafficLight::drawCurrent(sf::RenderTarget &target, sf::RenderStates state)
     sf::Transformable trans = *this;
     auto sprite = dynamic_cast<sf::Sprite &>(trans);
 
-    sprite.setTexture(TextureHolder::instance().get(spriteStage), true);
+    animation.toSprite(sprite);
     target.draw(sprite, state);
 }
-
-void TrafficLight::updateCurrent(sf::Time dt) {
-    Entity::updateCurrent(dt);
-}
-
-TrafficLight::TrafficLight() {}
 
 TrafficLight::TrafficLight(float x, float y, float w, float h) : Entity(Texture::ID::TrafficLightSprites,
                                                                         {0, 0}, x, y, w, h) {}

@@ -10,6 +10,4 @@ public:
 
 private:
     void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const override;
-
-    void updateCurrent(sf::Time dt) override;
 };

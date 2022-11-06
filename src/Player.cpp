@@ -12,14 +12,8 @@ void Player::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const
     sf::Transformable trans = *this;
     auto sprite = dynamic_cast<sf::Sprite &>(trans);
 
-    sprite.setTexture(TextureHolder::instance().get(spriteStage), true);
+    animation.toSprite(sprite);
     target.draw(sprite, state);
-}
-
-void Player::updateCurrent(sf::Time dt) {
-    // TODO: time between sprites is currently a constant. does it need to be custom?
-    spriteStage.next((int) (dt / TIME_BETWEEN_SPRITE));
-    Entity::updateCurrent(dt);
 }
 
 Player::Player() : speed(0) {}
