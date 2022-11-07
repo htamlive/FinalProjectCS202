@@ -44,9 +44,9 @@ public:
 
     /**
      * Update the Entity, can be extended in derived class. Default
-     * implementation only update the position according to velocity
+     * implementation only update the position according to velocity & animation.
      *
-     * @param: Time since last frame
+     * @param dt time since last frame
      */
     void updateCurrent(sf::Time dt) override;
 };

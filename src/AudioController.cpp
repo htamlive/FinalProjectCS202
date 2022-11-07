@@ -38,10 +38,10 @@ void AudioController::playMusic(Music::ID id) {
     auto filename = musicPlaylist.find(id)->second;
     
     if (!music.openFromFile(filename)) {
-        throw ("Music file " + filename + " not found.");
+        music.play();
+    } else {
+        std::cerr << "Loading music from \"" + filename + "\" failed.\n";
     }
-
-    music.play();
 }
 
 void AudioController::pauseMusic() {
@@ -58,7 +58,7 @@ void AudioController::setMuted(bool mute) {
     updateSettings();
 }
 
-void AudioController::setMusicVolumn(float vol) {
+void AudioController::setMusicVolume(float vol) {
     musicVolume = vol;
 
     updateSettings();
@@ -78,7 +78,9 @@ void AudioController::loadMusicFromFile(Music::ID id, const std::string &path) {
 
 void AudioController::loadSoundFromFile(SoundEffect::ID id, const std::string &path) {
     std::unique_ptr<sf::SoundBuffer> pBuffer(new sf::SoundBuffer);
-    pBuffer->loadFromFile(path);
-
-    soundBar.insert({ id, std::move(pBuffer) });
+    if (pBuffer->loadFromFile(path)) {
+        soundBar.insert({id, std::move(pBuffer)});
+    } else {
+        std::cerr << "Loading sound effect from \"" << path << "\" failed.\n";
+    }
 }

@@ -14,7 +14,6 @@ namespace SoundEffect {
     };
 }
 
-
 namespace Music {
     enum ID {
         Game, Menu, Pause
@@ -54,5 +53,5 @@ public:
     void resumeMusic();
     void pauseMusic();
     void setMuted(bool);
-    void setMusicVolumn(float vol);
+    void setMusicVolume(float vol);
 };
