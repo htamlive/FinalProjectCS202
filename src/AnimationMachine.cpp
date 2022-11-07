@@ -22,7 +22,7 @@ void AnimationMachine::getSprite(u_int i, sf::Sprite &sprite) const {
     int row = i / sheet.textureRow;
     int col = i - row * sheet.textureRow;
     auto subRect =
-            sf::IntRect(row * sheet.spriteSize, col * sheet.spriteSize, sheet.spriteSize, sheet.spriteSize);
+            sf::IntRect(col * sheet.spriteSize.x, row * sheet.spriteSize.y, sheet.spriteSize.x, sheet.spriteSize.y);
 
     sprite.setTexture(*sheet.texture, true);
     sprite.setTextureRect(subRect);

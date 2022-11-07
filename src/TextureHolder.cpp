@@ -9,7 +9,7 @@ TextureHolder &TextureHolder::instance() {
 }
 
 void
-TextureHolder::load(Texture::ID type, const std::string &filename, unsigned int spriteCount, unsigned int spriteSize,
+TextureHolder::load(Texture::ID type, const std::string &filename, sf::Vector2u spriteSize, unsigned int spriteCount,
                     unsigned int textureRow) {
     std::unique_ptr<sf::Texture> texture{};
     texture->loadFromFile(filename);

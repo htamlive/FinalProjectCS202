@@ -9,8 +9,8 @@
 #include <SFML/System/Vector2.hpp>
 
 /**
- * This is an abstract class for Entity in a scene such as car, human, ...
- * Override `drawCurrent` and `updateCurrent` to implement the concrete class
+ * This is a class for Entity in a scene such as car, human,...
+ * Override `drawCurrent` and `updateCurrent` if need to.
  */
 
 class Entity : public SceneNode {

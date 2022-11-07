@@ -11,7 +11,7 @@
 struct SpriteSheet {
     std::unique_ptr<sf::Texture> texture = nullptr;
     unsigned int spriteCount = 0;
-    unsigned int spriteSize = 0;
+    sf::Vector2u spriteSize = {0, 0};
     unsigned int textureRow = 0;
 };
 
@@ -34,10 +34,12 @@ public:
     /**
      * Loads a texture containing multiple sprites (spritesheet) from file as an animation sequence of Texture::ID.
      *
-     * @param spriteCount is 1 by default, in case texture contains a single sprite (not an animation).
+     * @param spriteSize is {0, 0} by default (takes the whole texture's size as spriteSize)
+     * @param spriteCount is 1 by default, in case texture contains a single sprite (not an animation)
+     * @param textureRow is 1 by default
      */
-    void load(Texture::ID, const std::string &filename, unsigned int spriteCount = 1,
-              unsigned int spriteSize = DEF_SPRITE_SIZE, unsigned int textureRow = 1);
+    void load(Texture::ID, const std::string &filename, sf::Vector2u spriteSize = {0, 0},
+              unsigned int spriteCount = 1, unsigned int textureRow = 1);
 
     /**
      * Gets the texture of a Texture::ID.
