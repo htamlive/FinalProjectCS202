@@ -12,13 +12,13 @@ AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration)
 
 void AnimationMachine::update(sf::Time dt) {
     elapsedTime += dt;
-    if (elapsedTime > duration) {
+    if (elapsedTime >= duration) {
         elapsedTime = sf::Time::Zero;
     }
 }
 
 void AnimationMachine::getSprite(u_int i, sf::Sprite &sprite) const {
-    assert(i <= sheet.spriteCount);
+    assert(i < sheet.spriteCount);
     int row = i / sheet.textureRow;
     int col = i - row * sheet.textureRow;
     auto subRect =

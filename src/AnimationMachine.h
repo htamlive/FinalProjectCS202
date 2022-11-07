@@ -20,6 +20,9 @@ class AnimationMachine {
 
     SpriteSheet const &sheet;
 
+    /**
+     * @param i is a 0-based index
+     */
     void getSprite(u_int i, sf::Sprite &sprite) const;
 
 public:
