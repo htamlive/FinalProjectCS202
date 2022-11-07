@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <sys/types.h>
+#include <iostream>
 
 AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration)
         : sheet(TextureHolder::instance().get(textureID)), duration(duration) {}
@@ -19,13 +20,18 @@ void AnimationMachine::update(sf::Time dt) {
 
 void AnimationMachine::getSprite(u_int i, sf::Sprite &sprite) const {
     assert(i < sheet.spriteCount);
-    int row = i / sheet.textureRow;
-    int col = i - row * sheet.textureRow;
-    auto subRect =
-            sf::IntRect(col * sheet.spriteSize.x, row * sheet.spriteSize.y, sheet.spriteSize.x, sheet.spriteSize.y);
+    if (i < sheet.spriteCount) {
+        int row = i / sheet.textureRow;
+        int col = i - row * sheet.textureRow;
+        auto subRect =
+                sf::IntRect(col * sheet.spriteSize.x, row * sheet.spriteSize.y, sheet.spriteSize.x, sheet.spriteSize.y);
 
-    sprite.setTexture(*sheet.texture, true);
-    sprite.setTextureRect(subRect);
+        sprite.setTexture(*sheet.texture, true);
+        sprite.setTextureRect(subRect);
+    } else {
+        std::cerr << "Asking AnimationMachine::getSprite() to get a sprite of out-of-bound index: " << i
+                  << " (spriteCount: " << sheet.spriteCount << ", 0-indexed).\n";
+    }
 }
 
 void AnimationMachine::toSprite(sf::Sprite &sprite) const {

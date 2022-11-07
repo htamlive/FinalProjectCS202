@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "TextureHolder.h"
 
 TextureHolder &TextureHolder::instance() {
@@ -12,8 +14,13 @@ void
 TextureHolder::load(Texture::ID type, const std::string &filename, sf::Vector2u spriteSize, unsigned int spriteCount,
                     unsigned int textureRow) {
     std::unique_ptr<sf::Texture> texture{};
-    texture->loadFromFile(filename);
-    textures[type] = {std::move(texture), spriteCount, spriteSize, textureRow};
+    if (texture->loadFromFile(filename)) {
+        if (!spriteSize.x || !spriteSize.y)
+            spriteSize = texture->getSize();
+        textures[type] = {std::move(texture), spriteCount, spriteSize, textureRow};
+    } else {
+        std::cerr << "Loading texture from \"" << filename << "\" failed.\n";
+    }
 }
 
 sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
