@@ -18,5 +18,5 @@ void Vehicle::onLightChanged() {
 Vehicle::Vehicle() : tmp_velocity(0, 0) {}
 
 Vehicle::Vehicle(sf::Vector2f velocity, float x, float y, float w, float h) : tmp_velocity(0, 0),
-                                                                              Entity(Texture::ID::VehicleSprites,
-                                                                                     velocity, x, y, w, h) {}
+                                                                              Entity(velocity, x, y, w, h,
+                                                                                     Texture::ID::VehicleSprites) {}

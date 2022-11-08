@@ -11,5 +11,5 @@ void TrafficLight::drawCurrent(sf::RenderTarget &target, sf::RenderStates state)
     target.draw(sprite, state);
 }
 
-TrafficLight::TrafficLight(float x, float y, float w, float h) : Entity(Texture::ID::TrafficLightSprites,
-                                                                        {0, 0}, x, y, w, h) {}
+TrafficLight::TrafficLight(float x, float y, float w, float h) : Entity({0, 0}, x, y, w, h,
+                                                                        Texture::ID::TrafficLightSprites) {}

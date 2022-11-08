@@ -11,5 +11,5 @@ void Animal::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const
     target.draw(sprite, state);
 }
 
-Animal::Animal(sf::Vector2f velocity, float x, float y, float w, float h) : Entity(Texture::ID::AnimalSprites,
-                                                                                   velocity, x, y, w, h) {}
+Animal::Animal(sf::Vector2f velocity, float x, float y, float w, float h) : Entity(velocity, x, y, w, h,
+                                                                                   Texture::ID::AnimalSprites) {}

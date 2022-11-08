@@ -4,7 +4,8 @@ namespace Texture {
     enum ID {
         VehicleSprites,
         AnimalSprites,
-        PlayerSprites,
+        StandingSprites,
+        JumpingSprites,
         TrafficLightSprites,
     };
 }
