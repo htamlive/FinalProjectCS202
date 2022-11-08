@@ -6,35 +6,41 @@
 
 #include <cassert>
 #include <sys/types.h>
-#include <iostream>
 
-AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration)
-        : sheet(TextureHolder::instance().get(textureID)), duration(duration) {}
+AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration, bool loop)
+        : id(textureID), sheet(TextureHolder::instance().get(id)), duration(duration), loop(loop) {}
 
 void AnimationMachine::update(sf::Time dt) {
-    elapsedTime += dt;
-    if (elapsedTime >= duration) {
-        elapsedTime = sf::Time::Zero;
+    if (elapsedTime < duration) {
+        elapsedTime += dt;
+        if (loop && elapsedTime >= duration) {
+            elapsedTime = sf::Time::Zero;
+        }
     }
 }
 
 void AnimationMachine::getSprite(u_int i, sf::Sprite &sprite) const {
-    assert(i < sheet.spriteCount);
-    if (i < sheet.spriteCount) {
-        int row = i / sheet.textureRow;
-        int col = i - row * sheet.textureRow;
-        auto subRect =
-                sf::IntRect(col * sheet.spriteSize.x, row * sheet.spriteSize.y, sheet.spriteSize.x, sheet.spriteSize.y);
+    i = std::min(i, sheet.get().spriteCount - 1);
+    int row = i / sheet.get().textureRow;
+    int col = i - row * sheet.get().textureRow;
+    auto subRect =
+            sf::IntRect(col * sheet.get().spriteSize.x, row * sheet.get().spriteSize.y, sheet.get().spriteSize.x,
+                        sheet.get().spriteSize.y);
 
-        sprite.setTexture(*sheet.texture, true);
-        sprite.setTextureRect(subRect);
-    } else {
-        std::cerr << "Asking AnimationMachine::getSprite() to get a sprite of out-of-bound index: " << i
-                  << " (spriteCount: " << sheet.spriteCount << ", 0-indexed).\n";
-    }
+    sprite.setTexture(*sheet.get().texture, true);
+    sprite.setTextureRect(subRect);
 }
 
 void AnimationMachine::toSprite(sf::Sprite &sprite) const {
-    auto frameTime = duration / (float) sheet.spriteCount;
+    auto frameTime = duration / (float) sheet.get().spriteCount;
     getSprite(elapsedTime / frameTime, sprite);
+}
+
+bool AnimationMachine::isFinished() const {
+    auto frameTime = duration / (float) sheet.get().spriteCount;
+    return !loop && (elapsedTime / frameTime) >= sheet.get().spriteCount;
+}
+
+Texture::ID AnimationMachine::getID() const {
+    return id;
 }

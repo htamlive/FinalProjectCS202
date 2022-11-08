@@ -15,10 +15,15 @@
  * animated functionality.
  */
 class AnimationMachine {
+    Texture::ID id;
     sf::Time elapsedTime;
     sf::Time duration;
+    bool loop;
 
-    SpriteSheet const &sheet;
+    /**
+     * Use std::reference_wrapper to enable operator= on AnimationMachine.
+     */
+    std::reference_wrapper<SpriteSheet const> sheet;
 
     /**
      * @param i is a 0-based index
@@ -27,10 +32,11 @@ class AnimationMachine {
 
 public:
     /**
-     * @param textureID: ID of the texture
-     * @param duration: the duration of the animation
+     * @param textureID ID of the texture
+     * @param duration the duration of the animation
+     * @param loop true to loop animation, otherwise false
      */
-    explicit AnimationMachine(Texture::ID textureID, sf::Time duration = DEF_ANIMATION_DURATION);
+    AnimationMachine(Texture::ID textureID, sf::Time duration, bool loop);
 
     /**
      * Update the stage of the animation over time
@@ -45,4 +51,12 @@ public:
      * @param sprite reference to the sprite
      */
     void toSprite(sf::Sprite &sprite) const;
+
+    /**
+     * Check if a non-looped animation is finished.
+     * @return true if animation is finished, otherwise false
+     */
+    bool isFinished() const;
+
+    Texture::ID getID() const;
 };
