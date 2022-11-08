@@ -16,6 +16,7 @@
 class Entity : public SceneNode {
 private:
     sf::Vector2f velocity;
+    float width, height;
 
 protected:
     AnimationMachine animation;
@@ -23,8 +24,8 @@ protected:
 public:
     Entity();
 
-    Entity(Texture::ID type, sf::Vector2f velocity, float x, float y, float w,
-           float h);
+    Entity(sf::Vector2f velocity, float x, float y, float w,
+           float h, Texture::ID type, sf::Time animation_duration = DEF_ANIMATION_DURATION, bool loop = true);
 
     sf::Vector2f getVelocity() const;
 

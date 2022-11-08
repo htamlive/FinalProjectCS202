@@ -86,7 +86,7 @@ bool checkCollision(const SceneNode& lnode, const SceneNode& rnode) {
 }
 
 sf::FloatRect SceneNode::getBoundingRect() const {
-    return sf::FloatRect();
+    return {};
 }
 
 void SceneNode::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {

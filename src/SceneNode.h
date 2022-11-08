@@ -40,12 +40,12 @@ public:
     /**
      * Update the node and all the children node
      *
-     * @param dt: time eslapsed since last frame
+     * @param dt: time elapsed since last frame
      */
     void update(sf::Time dt);
 
     /**
-     * @return the absolute transform (all transform of node hiearchy combined)
+     * @return the absolute transform (all transform of node hierarchy combined)
      */
     sf::Transform getAbsTransform() const;
 
@@ -97,7 +97,7 @@ private:
 
 protected:
     /**
-     * Implement this to use allow collision dectection
+     * Implement this to use allow collision detection
      */
     virtual sf::FloatRect getBoundingRect() const;
 
