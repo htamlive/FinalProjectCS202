@@ -7,8 +7,7 @@
 
 AudioController *AudioController::_instance = nullptr;
 
-AudioController::AudioController() {
-    isMuted = false;
+AudioController::AudioController() : isMuted(false), musicVolume(0) {
     loadSoundFromFile(SoundEffect::Hit, "./SmallHit.wav");
     loadMusicFromFile(Music::Game, "./MainTheme.wav");
 }
@@ -25,18 +24,18 @@ void AudioController::playSound(SoundEffect::ID id) {
     if (isMuted)
         return;
 
-    sound.setBuffer(getSoundBuffer(id));
-    sound.play();
+    sounds.emplace_back(getSoundBuffer(id));
+    sounds.back().play();
 }
 
-sf::SoundBuffer& AudioController::getSoundBuffer(SoundEffect::ID id) {
+sf::SoundBuffer &AudioController::getSoundBuffer(SoundEffect::ID id) {
     auto found = soundBar.find(id);
     return *found->second;
 }
 
 void AudioController::playMusic(Music::ID id) {
     auto filename = musicPlaylist.find(id)->second;
-    
+
     if (!music.openFromFile(filename)) {
         music.play();
     } else {
@@ -53,8 +52,8 @@ void AudioController::resumeMusic() {
 }
 
 void AudioController::setMuted(bool mute) {
-    mute = isMuted;
-    
+    isMuted = mute;
+
     updateSettings();
 }
 
@@ -83,4 +82,10 @@ void AudioController::loadSoundFromFile(SoundEffect::ID id, const std::string &p
     } else {
         std::cerr << "Loading sound effect from \"" << path << "\" failed.\n";
     }
+}
+
+void AudioController::removeStoppedSounds() {
+    sounds.remove_if([](const auto &sound) {
+        return sound.getStatus() == sf::Sound::Stopped;
+    });
 }
