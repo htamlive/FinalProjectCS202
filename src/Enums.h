@@ -6,6 +6,13 @@ namespace Texture {
         AnimalSprites,
         StandingSprites,
         JumpingSprites,
-        TrafficLightSprites,
+        RedLightSprite,
+        GreenLightSprite
+    };
+}
+
+namespace Event {
+    enum ID {
+        LightChanged
     };
 }
