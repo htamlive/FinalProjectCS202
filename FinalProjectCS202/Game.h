@@ -15,6 +15,7 @@ private:
 	sf::Event ev;
 	std::vector<sf::VideoMode> videoModes;
 	sf::ContextSettings windowSettings;
+	std::map<std::string, int> supportedKeys;
 	bool fullscreen;
 
 	sf::Clock dtClock;
@@ -27,8 +28,18 @@ private:
 	void initWindow();
 	void initState();
 
+	void initKeys()
+	{
+		this->supportedKeys.emplace("Escape", Keyboard::Key::Escape);
+		this->supportedKeys.emplace("A", Keyboard::Key::A);
+		this->supportedKeys.emplace("W", Keyboard::Key::W);
+		this->supportedKeys.emplace("D", Keyboard::Key::D);
+		this->supportedKeys.emplace("S", Keyboard::Key::S);
+	}
+
 	void updateEvents();
 	void updateDt();
+
 
 public:
 	Game();

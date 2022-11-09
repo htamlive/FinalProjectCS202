@@ -7,11 +7,13 @@
 //#include "AudioController.h"
 #include <SFML/Graphics.hpp>
 #include <TGUI/TGUI.hpp>
-
+#include "AnimationsByFrames.h"
 
 int main()
 {
+    //AnimationsByFrames animations("FinalProjectCS202/spritesheet/main/goDown.png");
 
+    
     Game game;
     game.run();
 

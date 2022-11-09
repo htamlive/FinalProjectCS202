@@ -2,8 +2,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "State.h"
 #include "SettingState.h"
+#include "GameState.h"
 
 class MainMenuState : public State {
 private:
@@ -16,13 +16,18 @@ public:
 	bool isWordMode = true;
 	MainMenuState(sf::RenderWindow* window, std::vector<State*>* states);
 
+	MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states)
+		: MainMenuState(window, states) {
+		this->supportedKeys = supportedKeys;
+	};
+
 	void initBackground() {
 
 	};
 
 	void initButtons() {
 		this->gui->get<tgui::Button>("btnPlay")->onClick([&]() {
-			cout << "helllo\n";
+			this->states->push_back(new GameState(this->window, this->supportedKeys, this->states));
 			});
 		this->gui->get<tgui::Button>("btnLoad")->onClick([&]() {
 			cout << "123\n";

@@ -43,7 +43,7 @@ void Game::initWindow()
 
 void Game::initState()
 {
-	this->states.push_back(new MainMenuState(this->window, &this->states));
+	this->states.push_back(new MainMenuState(this->window, &supportedKeys, &this->states));
 	//this->states.push_back(new LoadingState(this->window, &this->states));
 }
 
@@ -52,6 +52,7 @@ Game::Game() {
 	this->initVariables();
 	this->initWindow();
 	this->initState();
+	this->initKeys();
 }
 
 Game::~Game() {
