@@ -31,20 +31,23 @@ public:
 	//Vector2u setCenter(const int totalX, const int totalY);
 
 	//bool checkLastPlay();
-
+	
+	//void sinkingDown(const float& dt) { // apply to lanes, cars, ... float downward
+	//	
+	//}
 	void updateEvents() {
 
 	};
 	void updateInput(const float& dt) {
-		this->player.move(dt, 0, 0);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
+		this->player.move(dt, 0, 0.25f);
+		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
 			this->player.move(dt, -1.f, 0.f);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_UP"))))
 			this->player.move(dt, 0.f, -1.f);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
 			this->player.move(dt, 1.f, 0.f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
-			this->player.move(dt, 0.f, 1.f);
+		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
+			this->player.move(dt, 0.f, 1.25f);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
 			this->endState();
