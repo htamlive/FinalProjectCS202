@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Add source to this project's executable.
-file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/FinalProjectCS202/*.cpp)
+file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/src/*.cpp)
 add_executable (FinalProjectCS202 ${sourcecode})
 
 
@@ -43,9 +43,9 @@ if(UNIX)
     find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
     include_directories(${SFML_INCLUDE_DIRS})
     target_link_libraries(FinalProjectCS202 sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+
+    include_directories(${CMAKE_SOURCE_DIR}/TGUI-0.9.5/include)
+    file(GLOB LIBRARIES "${CMAKE_SOURCE_DIR}/TGUI-0.9.5/lib/*.dylib")
+    message("LIBRARIES = ${LIBRARIES}")
+    target_link_libraries(FinalProjectCS202 ${LIBRARIES})
 endif (UNIX)
-
-
-
-
-

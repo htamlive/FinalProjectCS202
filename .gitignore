@@ -1,6 +1,8 @@
 /cmake-build-debug/
 /cmake-build-release/
 /.idea/
+/TGUI-0.9.5/
+FinalProjectCS202
 
 .vs
 .vscode
@@ -27,3 +29,6 @@ External
 *.ilk
 *.pdb
 *.manifest
+
+.clang-format
+test_*

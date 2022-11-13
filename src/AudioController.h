@@ -7,13 +7,17 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <list>
 
 namespace SoundEffect {
     enum ID {
         Hit,
+        Jump,
+        GreenLight,
+        RedLight,
+        ButtonPressed
     };
 }
-
 
 namespace Music {
     enum ID {
@@ -29,21 +33,16 @@ class AudioController {
     AudioController();
     static AudioController* _instance;
 
-    friend class SoundPlayable;
-
     std::map<Music::ID, std::string> musicPlaylist;
     std::map<SoundEffect::ID, std::unique_ptr<sf::SoundBuffer>> soundBar;
 
     sf::Music music;
-    sf::Sound sound;
+    std::list<sf::Sound> sounds;
     float musicVolume;
     bool isMuted;
-  
-    void loadMusicFromFile(Music::ID type, const std::string &path);
-    void loadSoundFromFile(SoundEffect::ID id, const std::string &path);
+
     sf::SoundBuffer& getSoundBuffer(SoundEffect::ID id);
     void updateSettings();
-    void playSound(SoundEffect::ID id);
 
 public:
     AudioController(const AudioController&) = delete;
@@ -54,5 +53,10 @@ public:
     void resumeMusic();
     void pauseMusic();
     void setMuted(bool);
-    void setMusicVolumn(float vol);
+    void setMusicVolume(float vol);
+    void loadMusicFromFile(Music::ID type, const std::string &path);
+    void loadSoundFromFile(SoundEffect::ID id, const std::string &path);
+    void playSound(SoundEffect::ID id);
+
+    void removeStoppedSounds();
 };
