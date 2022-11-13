@@ -1,26 +1,26 @@
 #pragma once
 #include "State.h"
-#include "TmpPlayer.h"
+#include "Player.h"
 
 class GameState : public State
 {
 private:
-	Texture backgroundTexture;
-	RectangleShape background;
+	sf::Texture backgroundTexture;
+	sf::RectangleShape background;
 
-	Font font;
+	sf::Font font;
 
 	int curLv, rows, columns, mines, currentFlags;
 	float height, width;
 	bool lastPlay;
 
-	TmpPlayer player;
+	Player player;
 
 	//std::string getMode();
 
 public:
 
-	GameState(RenderWindow* window, std::map<std::string, int>* supportedKey, std::vector<State*>* states) : State(window, supportedKeys,states)  {
+	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKey, std::vector<State*>* states) : State(window, supportedKeys,states)  {
 		this->supportedKeys = supportedKey;
 		this->initKeyBinds();
 	};
@@ -37,23 +37,23 @@ public:
 	};
 	void updateInput(const float& dt) {
 		this->player.move(dt, 0, 0);
-		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
 			this->player.move(dt, -1.f, 0.f);
-		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_UP"))))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_UP"))))
 			this->player.move(dt, 0.f, -1.f);
-		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
 			this->player.move(dt, 1.f, 0.f);
-		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
 			this->player.move(dt, 0.f, 1.f);
 
-		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("CLOSE"))))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
 			this->endState();
 	};
 	void update(const float& dt) {
 		updateInput(dt);
 		this->player.update(dt);
 	};
-	void render(RenderTarget* target = nullptr) {
+	void render(sf::RenderTarget* target = nullptr) {
 		if (!target) {
 			target = this->window;
 		}

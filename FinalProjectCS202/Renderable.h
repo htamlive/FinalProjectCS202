@@ -3,5 +3,5 @@
 class Renderable {
 public:
     // TODO: any parameter?
-    virtual void render() = 0;
+    virtual void render(sf::RenderTarget* target = nullptr) = 0;
 };

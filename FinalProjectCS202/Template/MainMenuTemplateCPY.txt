@@ -2,7 +2,7 @@ Picture.background {
     Size = (1024, 768);
 
     Renderer {
-        Texture = "../images/exampleBackground.png" Smooth;
+        Texture = "../images/background.png" Smooth;
         TransparentTexture = false;
     }
 }

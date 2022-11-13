@@ -30,11 +30,11 @@ private:
 
 	void initKeys()
 	{
-		this->supportedKeys.emplace("Escape", Keyboard::Key::Escape);
-		this->supportedKeys.emplace("A", Keyboard::Key::A);
-		this->supportedKeys.emplace("W", Keyboard::Key::W);
-		this->supportedKeys.emplace("D", Keyboard::Key::D);
-		this->supportedKeys.emplace("S", Keyboard::Key::S);
+		this->supportedKeys.emplace("Escape", sf::Keyboard::Key::Escape);
+		this->supportedKeys.emplace("A", sf::Keyboard::Key::A);
+		this->supportedKeys.emplace("W", sf::Keyboard::Key::W);
+		this->supportedKeys.emplace("D", sf::Keyboard::Key::D);
+		this->supportedKeys.emplace("S", sf::Keyboard::Key::S);
 	}
 
 	void updateEvents();
