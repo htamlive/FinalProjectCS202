@@ -19,7 +19,7 @@ void AnimationMachine::update(sf::Time dt) {
     }
 }
 
-void AnimationMachine::getSprite(u_int i, sf::Sprite &sprite) const {
+void AnimationMachine::getSprite(unsigned i, sf::Sprite &sprite) const {
     i = std::min(i, sheet.get().spriteCount - 1);
     int row = i / sheet.get().textureRow;
     int col = i - row * sheet.get().textureRow;

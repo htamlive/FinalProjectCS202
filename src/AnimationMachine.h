@@ -28,7 +28,7 @@ class AnimationMachine {
     /**
      * @param i is a 0-based index
      */
-    void getSprite(u_int i, sf::Sprite &sprite) const;
+    void getSprite(unsigned i, sf::Sprite &sprite) const;
 
 public:
     /**
