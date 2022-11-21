@@ -9,7 +9,7 @@
 #include "Consts.h"
 
 struct SpriteSheet {
-    std::unique_ptr<sf::Texture> texture = nullptr;
+    sf::Texture texture;
     unsigned int spriteCount = 0;
     sf::Vector2u spriteSize = {0, 0};
     unsigned int textureRow = 0;
@@ -20,7 +20,7 @@ struct SpriteSheet {
  */
 class TextureHolder {
 private:
-    std::map<Texture::ID, SpriteSheet> textures;
+    std::map<Texture::ID, std::unique_ptr<SpriteSheet>> textures;
 
     TextureHolder() = default;
 
