@@ -3,8 +3,7 @@
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::vector<State*>* states) : State(window, states)
 {
 	this->gui = new tgui::Gui(ref(*window));
-	this->gui->loadWidgetsFromFile("FinalProjectCS202/Template/MainMenuTemplateCPY.txt");
-	
+	this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplateCPY.txt");
 
 	//initBackground();
 

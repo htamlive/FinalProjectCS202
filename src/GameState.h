@@ -39,27 +39,27 @@ public:
 
 	};
 	void updateInput(const float& dt) {
-		this->player.move(dt, 0, 0.25f);
-		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
-			this->player.move(dt, -1.f, 0.f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_UP"))))
-			this->player.move(dt, 0.f, -1.f);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
-			this->player.move(dt, 1.f, 0.f);
-		if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
-			this->player.move(dt, 0.f, 1.25f);
+		//this->player.move(dt, 0, 0.25f);
+		//if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
+		//	this->player.move(dt, -1.f, 0.f);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_UP"))))
+		//	this->player.move(dt, 0.f, -1.f);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
+		//	this->player.move(dt, 1.f, 0.f);
+		//if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
+		//	this->player.move(dt, 0.f, 1.25f);
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
-			this->endState();
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
+		//	this->endState();
 	};
 	void update(const float& dt) {
 		updateInput(dt);
-		this->player.update(dt);
+		//this->player.update(dt);
 	};
 	void render(sf::RenderTarget* target = nullptr) {
 		if (!target) {
 			target = this->window;
 		}
-		this->player.render(target);
+		//this->player.render(target);
 	};
 };
