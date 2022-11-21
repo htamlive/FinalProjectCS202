@@ -10,9 +10,9 @@
 
 
 /**
- * This class is used to automatically update the animated sprite according to
- * various configurations. Can be view as a wrapper for sprite to provide
- * animated functionality.
+ * This Class is mainly to keep track of the animation of a sprite. The Class
+ * is short-lived and lightweight so that it can be switched out quickly and
+ * replace with other animation.
  */
 class AnimationMachine {
     Texture::ID id;
@@ -21,14 +21,10 @@ class AnimationMachine {
     bool loop;
 
     /**
-     * Use std::reference_wrapper to enable operator= on AnimationMachine.
-     */
-    std::reference_wrapper<SpriteSheet const> sheet;
-
-    /**
      * @param i is a 0-based index
      */
-    void getSprite(unsigned i, sf::Sprite &sprite) const;
+    sf::Sprite getSprite(unsigned i) const;
+    SpriteSheet const &getSheet() const;
 
 public:
     /**
@@ -50,7 +46,7 @@ public:
      *
      * @param sprite reference to the sprite
      */
-    void toSprite(sf::Sprite &sprite) const;
+    sf::Sprite toSprite() const;
 
     /**
      * Check if a non-looped animation is finished.
