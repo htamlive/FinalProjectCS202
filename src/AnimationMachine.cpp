@@ -18,14 +18,17 @@ void AnimationMachine::update(sf::Time dt) {
         }
     }
 }
-
+//#include <iostream>
 void AnimationMachine::getSprite(unsigned i, sf::Sprite &sprite) const {
+    //std::cout << i << "\n";
     i = std::min(i, sheet.get().spriteCount - 1);
-    int row = i / sheet.get().textureRow;
-    int col = i - row * sheet.get().textureRow;
+    
+    int col = i / sheet.get().textureRow;
+    int row = i - col * sheet.get().textureRow;
     auto subRect =
             sf::IntRect(col * sheet.get().spriteSize.x, row * sheet.get().spriteSize.y, sheet.get().spriteSize.x,
                         sheet.get().spriteSize.y);
+    sf::Drawable& tmp = sprite;
 
     sprite.setTexture(*sheet.get().texture, true);
     sprite.setTextureRect(subRect);

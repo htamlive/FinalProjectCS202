@@ -7,7 +7,15 @@ namespace Texture {
         StandingSprites,
         JumpingSprites,
         RedLightSprite,
-        GreenLightSprite
+        GreenLightSprite,
+
+        Null,
+
+        PlayerStanding,
+        PlayerGoLeft,
+        PlayerGoRight,
+        PlayerGoUp,
+        PlayerGoDown,
     };
 }
 

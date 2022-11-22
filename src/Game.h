@@ -37,6 +37,15 @@ private:
 		this->supportedKeys.emplace("S", sf::Keyboard::Key::S);
 	}
 
+	void initTexture() {
+		TextureHolder::instance().load(Texture::PlayerStanding, "resources/spritesheet/main/idle.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerGoLeft, "resources/spritesheet/main/goLeft.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerGoRight, "resources/spritesheet/main/goRight.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerGoUp, "resources/spritesheet/main/goUp.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerGoDown, "resources/spritesheet/main/goDown.png", { 32, 32 }, 4);
+		TextureHolder::instance().load(Texture::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
+	};
+
 	void updateEvents();
 	void updateDt();
 

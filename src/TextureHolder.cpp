@@ -13,7 +13,7 @@ TextureHolder &TextureHolder::instance() {
 void
 TextureHolder::load(Texture::ID type, const std::string &filename, sf::Vector2u spriteSize, unsigned int spriteCount,
                     unsigned int textureRow) {
-    std::unique_ptr<sf::Texture> texture{};
+    std::unique_ptr<sf::Texture> texture = std::unique_ptr<sf::Texture>(new sf::Texture());
     if (texture->loadFromFile(filename)) {
         if (!spriteSize.x || !spriteSize.y)
             spriteSize = texture->getSize();
@@ -29,6 +29,10 @@ sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
 }
 
 SpriteSheet const &TextureHolder::get(Texture::ID id) const {
+    
     auto found = textures.find(id);
+    if (found == textures.end()) {
+        found = textures.find(Texture::ID::Null);
+    }
     return found->second;
 }
