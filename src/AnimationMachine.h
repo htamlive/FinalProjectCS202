@@ -10,9 +10,8 @@
 
 
 /**
- * This Class is mainly to keep track of the animation of a sprite. The Class
- * is short-lived and lightweight so that it can be switched out quickly and
- * replace with other animation.
+ * @brief Component of Entity that holds the animation data, can be used to
+ * replace the sprite of the entity.
  */
 class AnimationMachine {
     Texture::ID id;
