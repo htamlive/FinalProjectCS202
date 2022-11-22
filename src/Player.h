@@ -14,8 +14,6 @@ public:
     void onKeyPressed(sf::Event::KeyEvent);
 
 private:
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const override;
-
     void updateCurrent(sf::Time dt) override;
 
     bool isJumping() const;
@@ -24,21 +22,13 @@ private:
 
     void onJumpAnimationFinished();
 
-    void jump(sf::Vector2f dest);
-
-    sf::Vector2f destination;
+    sf::Vector2f static_pos;
 
     sf::Time time_jumped;
+
+    Texture::ID jump_texture, idle_texture;
 };
 
-//enum class DIRECTION
-//{
-//	UP = 0,
-//	RIGHT = 1,
-//	DOWN = 2,
-//	LEFT = 3,
-//	IDLE = 4,
-//};
 //class Player : public Entity
 //{
 //private:

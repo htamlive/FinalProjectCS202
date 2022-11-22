@@ -5,18 +5,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
 
-void Player::drawCurrent(sf::RenderTarget &target,
-                         sf::RenderStates state) const {
-    // Downcast Vehicle back to sf::Transformable then upcast to sf::Sprite to
-    // preserve properties i.e., position, scale, origin, rotation.
-    sf::Sprite sprite = animation.toSprite();
-
-    target.draw(sprite, state);
-}
-
 void Player::updateCurrent(sf::Time dt) {
-    if (animation.getID() == Texture::ID::JumpingSprites &&
-        animation.isFinished()) {
+    if (animation.isFinished()) {
         onJumpAnimationFinished();
     }
     calVelocity(dt);
@@ -24,49 +14,61 @@ void Player::updateCurrent(sf::Time dt) {
     Entity::updateCurrent(dt);
 }
 
-Player::Player() {
-    destination = getPosition();
-    animation =
-        AnimationMachine(Texture::ID::StandingSprites, sf::seconds(5), true);
+Player::Player() : jump_texture(Texture::ID::PlayerJumpUp), idle_texture(Texture::ID::PlayerIdleUp) {
+    static_pos = getPosition();
+    animation = AnimationMachine(idle_texture, sf::seconds(5), true);
 }
 
 Player::Player(float x, float y, float w, float h)
-    : Entity({0, 0}, x, y, w, h, Texture::ID::StandingSprites, JUMP_DURATION,
-             false) {
-    destination = getPosition();
-    animation =
-        AnimationMachine(Texture::ID::StandingSprites, sf::seconds(5), true);
+        : Entity({0, 0}, x, y, w, h, Texture::ID::PlayerIdleUp),
+          jump_texture(Texture::ID::PlayerJumpUp),
+          idle_texture(Texture::ID::PlayerIdleUp) {
+    static_pos = getPosition();
 }
 
 void Player::onKeyPressed(sf::Event::KeyEvent event) {
+    auto new_pos = static_pos;
     if (!isJumping()) {
         switch (event.code) {
-        case sf::Keyboard::W:
-        case sf::Keyboard::Up:
-            jump({destination.x, destination.y - GRID_SIZE.y});
-            break;
-        case sf::Keyboard::S:
-        case sf::Keyboard::Down:
-            jump({destination.x, destination.y + GRID_SIZE.y});
-            break;
-        case sf::Keyboard::A:
-        case sf::Keyboard::Left:
-            jump({destination.x - GRID_SIZE.x, destination.y});
-            break;
-        case sf::Keyboard::D:
-        case sf::Keyboard::Right:
-            jump({destination.x + GRID_SIZE.x, destination.y});
-            break;
-        default:
-            break;
+            case sf::Keyboard::W:
+            case sf::Keyboard::Up:
+                new_pos = {static_pos.x, static_pos.y - GRID_SIZE.y};
+                jump_texture = Texture::ID::PlayerJumpUp;
+                idle_texture = Texture::ID::PlayerIdleUp;
+                break;
+            case sf::Keyboard::S:
+            case sf::Keyboard::Down:
+                new_pos = {static_pos.x, static_pos.y + GRID_SIZE.y};
+                jump_texture = Texture::ID::PlayerJumpDown;
+                idle_texture = Texture::ID::PlayerIdleDown;
+                break;
+            case sf::Keyboard::A:
+            case sf::Keyboard::Left:
+                new_pos = {static_pos.x - GRID_SIZE.x, static_pos.y};
+                jump_texture = Texture::ID::PlayerJumpLeft;
+                idle_texture = Texture::ID::PlayerIdleLeft;
+                break;
+            case sf::Keyboard::D:
+            case sf::Keyboard::Right:
+                new_pos = {static_pos.x + GRID_SIZE.x, static_pos.y};
+                jump_texture = Texture::ID::PlayerJumpRight;
+                idle_texture = Texture::ID::PlayerIdleRight;
+                break;
+            default:
+                break;
         }
+    }
+
+    if (static_pos != new_pos) {
+        animation = AnimationMachine(jump_texture, JUMP_DURATION, false);
+        time_jumped = sf::Time::Zero;
     }
 }
 
 bool Player::isJumping() const { return time_jumped < JUMP_DURATION; }
 
 void Player::calVelocity(sf::Time dt) {
-    auto length = destination - getPosition();
+    auto length = static_pos - getPosition();
     if (time_jumped < JUMP_DURATION) {
         auto time_left = JUMP_DURATION - time_jumped;
         time_jumped += dt;
@@ -78,15 +80,5 @@ void Player::calVelocity(sf::Time dt) {
 }
 
 void Player::onJumpAnimationFinished() {
-    animation = AnimationMachine(Texture::ID::StandingSprites,
-                                 DEF_ANIMATION_DURATION, true);
-}
-
-void Player::jump(sf::Vector2f dest) {
-    destination = dest;
-    animation =
-        AnimationMachine(Texture::ID::JumpingSprites, JUMP_DURATION, false);
-    time_jumped = sf::Time::Zero;
-
-    // AudioController::instance().playSound(SoundEffect::ID::Jump);
+    animation = AnimationMachine(idle_texture, DEF_ANIMATION_DURATION, true);
 }
