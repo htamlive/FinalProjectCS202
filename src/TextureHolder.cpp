@@ -38,6 +38,7 @@ sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
 }
 
 SpriteSheet const &TextureHolder::get(Texture::ID id) const {
+    
     auto found = textures.find(id);
     if (found == textures.end()) {
         std::cerr << "TextureHolder::get: Texture not found.\n";

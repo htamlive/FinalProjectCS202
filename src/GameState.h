@@ -14,18 +14,23 @@ private:
 	float height, width;
 	bool lastPlay;
 
-	Player player;
+	Player* player;
 
 	//std::string getMode();
 
 public:
 
 	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKey, std::vector<State*>* states) : State(window, supportedKeys,states)  {
+		this->gui = new tgui::Gui(ref(*window));
+		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
+		
 		this->supportedKeys = supportedKey;
 		this->initKeyBinds();
+		
+		player = new Player(0, 0, 96, 96);
 	};
 	virtual ~GameState() {
-
+		delete player;
 	};
 	//void adjustCells(const int totalX, const int totalY);
 	//Vector2u setCenter(const int totalX, const int totalY);
@@ -36,6 +41,7 @@ public:
 	//	
 	//}
 	void updateEvents() {
+		//this->player->onKeyPressed(this->ev.key);
 
 	};
 	void updateInput(const float& dt) {
@@ -55,11 +61,15 @@ public:
 	void update(const float& dt) {
 		updateInput(dt);
 		//this->player.update(dt);
+		player->update(sf::Time(sf::seconds(dt)));
 	};
 	void render(sf::RenderTarget* target = nullptr) {
 		if (!target) {
 			target = this->window;
 		}
 		//this->player.render(target);
+		this->gui->draw();
+		target->draw(*player);
+		
 	};
 };

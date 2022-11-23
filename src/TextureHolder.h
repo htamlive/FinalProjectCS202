@@ -36,7 +36,6 @@ public:
 
     /**
      * Loads a texture containing multiple sprites (spritesheet) from file as an animation sequence of Texture::ID.
-     *
      * @param spriteSize is {0, 0} by default (takes the whole texture's size as spriteSize)
      * @param spriteCount is 1 by default, in case texture contains a single sprite (not an animation)
      * @param textureRow is 1 by default

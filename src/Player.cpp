@@ -10,6 +10,7 @@ void Player::updateCurrent(sf::Time dt) {
     if (animation.isFinished()) {
         onJumpAnimationFinished();
     }
+
     calVelocity(dt);
 
     Entity::updateCurrent(dt);
@@ -56,6 +57,7 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
                 idle_texture = Texture::ID::PlayerIdleRight;
                 break;
             default:
+                
                 break;
         }
     }

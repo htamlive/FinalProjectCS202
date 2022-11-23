@@ -12,8 +12,7 @@
 #include <vector>
 #include <set>
 
-class SceneNode : public sf::Drawable,
-                  public sf::Transformable,
+class SceneNode : public sf::Sprite,
                   private sf::NonCopyable {
 public:
     typedef std::unique_ptr<SceneNode> Ptr;

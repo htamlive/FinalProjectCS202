@@ -53,6 +53,7 @@ Game::Game() {
 	this->initWindow();
 	this->initState();
 	this->initKeys();
+	this->initTexture();
 }
 
 Game::~Game() {
