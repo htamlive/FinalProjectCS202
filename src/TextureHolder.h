@@ -8,6 +8,9 @@
 #include "Enums.h"
 #include "Consts.h"
 
+/**
+ * @brief A class that store texture's related information.
+ */
 struct SpriteSheet {
     sf::Texture texture;
     unsigned int spriteCount = 0;
@@ -16,7 +19,7 @@ struct SpriteSheet {
 };
 
 /**
- * A singleton that handles textures.
+ * @brief A singleton that handles textures.
  */
 class TextureHolder {
 private:
@@ -43,6 +46,7 @@ public:
 
     /**
      * Gets the texture of a Texture::ID.
+     * Abort if not found.
      *
      * @return <tt>const sf::Texture &</tt> a reference to the texture.
      */
@@ -50,6 +54,7 @@ public:
 
     /**
      * Gets spritesheet information of a Texture::ID.
+     * Abort if not found.
      *
      * @return <tt>const SpriteSheet &</tt>
      */
