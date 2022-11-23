@@ -61,6 +61,7 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
 
     if (static_pos != new_pos) {
         animation = AnimationMachine(jump_texture, JUMP_DURATION, false);
+        static_pos = new_pos;
         time_jumped = sf::Time::Zero;
     }
 }
