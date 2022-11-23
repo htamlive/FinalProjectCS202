@@ -4,6 +4,7 @@
 #include "TextureHolder.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
+#include <iostream>
 
 void Player::updateCurrent(sf::Time dt) {
     if (animation.isFinished()) {
@@ -70,13 +71,17 @@ bool Player::isJumping() const { return time_jumped < JUMP_DURATION; }
 
 void Player::calVelocity(sf::Time dt) {
     auto length = static_pos - getPosition();
-    if (time_jumped < JUMP_DURATION) {
+    if (isJumping()) {
         auto time_left = JUMP_DURATION - time_jumped;
+        setVelocity({length.x / time_left.asSeconds(), length.y / time_left.asSeconds()});
+        // The scale to ease the jumping movement
+        // Derived from the formula: y = 1 - (x - 1)^2
+        float scale = -2*((time_jumped.asSeconds() / JUMP_DURATION.asSeconds()) - 1);
+        setVelocity(getVelocity() * scale);
         time_jumped += dt;
-        getVelocity() = {length.x / time_left.asSeconds(),
-                         length.y / time_left.asSeconds()};
+
     } else {
-        getVelocity() = {length.x / dt.asSeconds(), length.y / dt.asSeconds()};
+        setVelocity({length.x / dt.asSeconds(), length.y / dt.asSeconds()});
     }
 }
 

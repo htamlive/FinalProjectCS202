@@ -3,6 +3,8 @@
 #include "Entity.h"
 
 /**
+ * @brief The Player class
+ *
  * Note: character jumps only once each press. That allows user to control the speed (by pressing faster or slower).
  */
 class Player : public Entity {
