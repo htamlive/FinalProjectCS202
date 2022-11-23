@@ -13,31 +13,7 @@ public:
 
     void onKeyPressed(sf::Event::KeyEvent);
 
-    
-
-    void update(sf::Time dt) {
-        if (!isJumping()) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                animation = AnimationMachine(Texture::PlayerGoUp, sf::seconds(.5f / alpha), true);
-                jump({ destination.x, destination.y - GRID_SIZE.y });
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                animation = AnimationMachine(Texture::PlayerGoDown, sf::seconds(.5f / alpha), true);
-                jump({ destination.x, destination.y + GRID_SIZE.y });
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                animation = AnimationMachine(Texture::PlayerGoLeft, sf::seconds(.5f / alpha), true);
-                jump({ destination.x - GRID_SIZE.x, destination.y });
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                animation = AnimationMachine(Texture::PlayerGoRight, sf::seconds(.5f / alpha), true);
-                jump({ destination.x + GRID_SIZE.x, destination.y });
-            }
-
-        }
-
-        Entity::SceneNode::update(dt);
-    }
+    void update(sf::Time dt);
 
 private:
     void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const override;
@@ -45,10 +21,6 @@ private:
     void updateCurrent(sf::Time dt) override;
 
     bool isJumping() const;
-
-    bool shouldStand() {
-        time_jumped - sf::seconds(0.5f) < JUMP_DURATION;
-    }
 
     void calVelocity(sf::Time dt);
 

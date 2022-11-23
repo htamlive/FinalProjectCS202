@@ -20,7 +20,6 @@ private:
 
 protected:
     AnimationMachine animation;
-    float alpha;
 
 public:
     Entity();
@@ -38,10 +37,6 @@ public:
      * @param velocity New velocity
      */
     void setVelocity(sf::Vector2f velocity);
-
-    void setAlpha(float a) {
-        this->alpha = a;
-    }
 
     /**
      * @return the bounding rectangle of the Entity

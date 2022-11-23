@@ -21,6 +21,9 @@ private:
 public:
 
 	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKey, std::vector<State*>* states) : State(window, supportedKeys,states)  {
+		this->gui = new tgui::Gui(ref(*window));
+		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
+		
 		this->supportedKeys = supportedKey;
 		this->initKeyBinds();
 		
@@ -65,7 +68,8 @@ public:
 			target = this->window;
 		}
 		//this->player.render(target);
-		
+		this->gui->draw();
 		target->draw(*player);
+		
 	};
 };

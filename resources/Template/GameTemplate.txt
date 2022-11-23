@@ -1,0 +1,9 @@
+Picture.Picture1 {
+    Position = (0, 3.28082);
+    Size = (1030, 241.686);
+
+    Renderer {
+        Texture = "../images/gameBackground.png" Smooth;
+        TransparentTexture = false;
+    }
+}

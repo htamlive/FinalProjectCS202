@@ -4,6 +4,28 @@
 #include "AudioController.h"
 #include <iostream>
 
+void Player::update(sf::Time dt)
+{
+    if (!isJumping()) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            animation = AnimationMachine(Texture::PlayerGoUp, sf::seconds(.5f), true);
+            jump({ destination.x, destination.y - GRID_SIZE.y });
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            animation = AnimationMachine(Texture::PlayerGoDown, sf::seconds(.5f), true);
+            jump({ destination.x, destination.y + GRID_SIZE.y });
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            animation = AnimationMachine(Texture::PlayerGoLeft, sf::seconds(.5f), true);
+            jump({ destination.x - GRID_SIZE.x, destination.y });
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            animation = AnimationMachine(Texture::PlayerGoRight, sf::seconds(.5f), true);
+            jump({ destination.x + GRID_SIZE.x, destination.y });
+        }
+
+    }
+
+    Entity::SceneNode::update(dt);
+}
+
 void Player::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const {
     // Downcast Vehicle back to sf::Transformable then upcast to sf::Sprite to preserve properties i.e., position, scale, origin, rotation.
     //std::cout << "Hello\n";
@@ -33,7 +55,6 @@ Player::Player(float x, float y, float w, float h) : Entity({0, 0}, x, y, w, h, 
     destination = getPosition();
     animation = AnimationMachine(Texture::PlayerStanding, sf::seconds(1.f), true);
     this->scale({ 1.5f, 1.5f });
-    alpha = 1;
 }
 
 void Player::onKeyPressed(sf::Event::KeyEvent event) {
@@ -42,22 +63,22 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
         switch (event.code) {
             case sf::Keyboard::W:
             case sf::Keyboard::Up:
-                animation = AnimationMachine(Texture::PlayerGoUp, sf::seconds(.5f/alpha), true);
+                animation = AnimationMachine(Texture::PlayerGoUp, sf::seconds(.5f), true);
                 jump({destination.x, destination.y - GRID_SIZE.y});
                 break;
             case sf::Keyboard::S:
             case sf::Keyboard::Down:
-                animation = AnimationMachine(Texture::PlayerGoDown, sf::seconds(.5f/alpha), true);
+                animation = AnimationMachine(Texture::PlayerGoDown, sf::seconds(.5f), true);
                 jump({destination.x, destination.y + GRID_SIZE.y});
                 break;
             case sf::Keyboard::A:
             case sf::Keyboard::Left:
-                animation = AnimationMachine(Texture::PlayerGoLeft, sf::seconds(.5f/alpha), true);
+                animation = AnimationMachine(Texture::PlayerGoLeft, sf::seconds(.5f), true);
                 jump({destination.x - GRID_SIZE.x, destination.y});
                 break;
             case sf::Keyboard::D:
             case sf::Keyboard::Right:
-                animation = AnimationMachine(Texture::PlayerGoRight, sf::seconds(.5f/alpha), true);
+                animation = AnimationMachine(Texture::PlayerGoRight, sf::seconds(.5f), true);
                 jump({destination.x + GRID_SIZE.x, destination.y});
                 break;
             default:
