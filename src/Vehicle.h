@@ -11,7 +11,5 @@ public:
     void onLightChanged();
 
 private:
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const override;
-
     sf::Vector2f tmp_velocity;
 };

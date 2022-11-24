@@ -14,11 +14,9 @@ public:
 private:
     void updateCurrent(sf::Time dt) override;
 
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const override;
-
     void changeLight();
 
     sf::Time nextTime, currentTime, timer;
 
-    std::pair<Texture::ID, Texture::ID> sprites = {Texture::ID::GreenLightSprite, Texture::ID::RedLightSprite};
+    std::pair<Texture::ID, Texture::ID> sprites = {Texture::ID::GreenLight, Texture::ID::RedLight};
 };

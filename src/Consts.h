@@ -4,7 +4,7 @@
 
 const sf::Time DEF_ANIMATION_DURATION = sf::seconds(6.f);
 
-const sf::Time JUMP_DURATION = sf::seconds(0.6f);
+const sf::Time JUMP_DURATION = sf::milliseconds(300);
 
 /**
  * Or space between jumps

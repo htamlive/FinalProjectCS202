@@ -8,19 +8,22 @@
 #include "Enums.h"
 #include "Consts.h"
 
+/**
+ * @brief A class that store texture's related information.
+ */
 struct SpriteSheet {
-    std::unique_ptr<sf::Texture> texture = nullptr;
+    sf::Texture texture;
     unsigned int spriteCount = 0;
     sf::Vector2u spriteSize = {0, 0};
     unsigned int textureRow = 0;
 };
 
 /**
- * A singleton that handles textures.
+ * @brief A singleton that handles textures.
  */
 class TextureHolder {
 private:
-    std::map<Texture::ID, SpriteSheet> textures;
+    std::map<Texture::ID, std::unique_ptr<SpriteSheet>> textures;
 
     TextureHolder() = default;
 
@@ -42,6 +45,7 @@ public:
 
     /**
      * Gets the texture of a Texture::ID.
+     * Abort if not found.
      *
      * @return <tt>const sf::Texture &</tt> a reference to the texture.
      */
@@ -49,6 +53,7 @@ public:
 
     /**
      * Gets spritesheet information of a Texture::ID.
+     * Abort if not found.
      *
      * @return <tt>const SpriteSheet &</tt>
      */

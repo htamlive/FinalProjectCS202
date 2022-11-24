@@ -28,7 +28,7 @@ public:
 			});
 		this->gui->get<tgui::Button>("btnBack")->onClick([&]() {
 			cout << "oooooo\n";
-			this->gui->loadWidgetsFromFile("FinalProjectCS202/Template/MainMenuTemplateCPY.txt");
+			this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplateCPY.txt");
 			this->quit = true;
 			});
 	};

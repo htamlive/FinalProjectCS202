@@ -52,6 +52,7 @@ sf::Transform SceneNode::getAbsTransform() const {
     sf::Transform transform = sf::Transform::Identity;
     const SceneNode *cur = this;
     while (cur) {
+        assert(cur);
         transform *= cur->getTransform();
         cur = cur->mParent;
     }
@@ -69,14 +70,14 @@ void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisions) 
     }
 
     for (const auto& child: mChildren) {
-        checkNodeCollision(*child, collisions);
+        child->checkNodeCollision(node, collisions);
     }
 }
 
 void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisions) {
     checkNodeCollision(node, collisions);
 
-    for (const auto& child: mChildren) {
+    for (const auto& child: node.mChildren) {
         checkSceneCollision(*child, collisions);
     }
 }
@@ -86,7 +87,7 @@ bool checkCollision(const SceneNode& lnode, const SceneNode& rnode) {
 }
 
 sf::FloatRect SceneNode::getBoundingRect() const {
-    return {};
+    return sf::FloatRect();
 }
 
 void SceneNode::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {

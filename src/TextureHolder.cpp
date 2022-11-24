@@ -1,4 +1,7 @@
+#include <SFML/Graphics/Texture.hpp>
 #include <iostream>
+#include <memory>
+#include <cassert>
 
 #include "TextureHolder.h"
 
@@ -10,29 +13,36 @@ TextureHolder &TextureHolder::instance() {
     return *ins;
 }
 
-void
-TextureHolder::load(Texture::ID type, const std::string &filename, sf::Vector2u spriteSize, unsigned int spriteCount,
-                    unsigned int textureRow) {
-    std::unique_ptr<sf::Texture> texture = std::unique_ptr<sf::Texture>(new sf::Texture());
-    if (texture->loadFromFile(filename)) {
+void TextureHolder::load(Texture::ID type, const std::string &filename,
+                         sf::Vector2u spriteSize, unsigned int spriteCount,
+                         unsigned int textureRow) {
+    sf::Texture texture;
+    if (texture.loadFromFile(filename)) {
         if (!spriteSize.x || !spriteSize.y)
-            spriteSize = texture->getSize();
-        textures[type] = {std::move(texture), spriteCount, spriteSize, textureRow};
+            spriteSize = texture.getSize();
+        textures[type] = std::make_unique<SpriteSheet>(SpriteSheet{
+            std::move(texture), spriteCount, spriteSize, textureRow});
     } else {
         std::cerr << "Loading texture from \"" << filename << "\" failed.\n";
+        assert(0);
     }
 }
 
 sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
     auto found = textures.find(id);
-    return *found->second.texture;
+    if (found == textures.end()) {
+        std::cerr << "TextureHolder::getTexture: Texture not found.\n";
+        assert(0);
+    }
+    return found->second.get()->texture;
 }
 
 SpriteSheet const &TextureHolder::get(Texture::ID id) const {
     
     auto found = textures.find(id);
     if (found == textures.end()) {
-        found = textures.find(Texture::ID::Null);
+        std::cerr << "TextureHolder::get: Texture not found.\n";
+        assert(0);
     }
-    return found->second;
+    return *found->second;
 }

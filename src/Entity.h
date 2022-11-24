@@ -43,6 +43,10 @@ public:
      */
     sf::FloatRect getBoundingRect() const override;
 
+
+    void drawCurrent(sf::RenderTarget &target,
+                             sf::RenderStates state) const override;
+
     /**
      * Update the Entity, can be extended in derived class. Default
      * implementation only update the position according to velocity & animation.

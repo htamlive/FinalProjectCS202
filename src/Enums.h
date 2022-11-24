@@ -2,20 +2,18 @@
 
 namespace Texture {
     enum ID {
-        VehicleSprites,
-        AnimalSprites,
-        StandingSprites,
-        JumpingSprites,
-        RedLightSprite,
-        GreenLightSprite,
-
-        Null,
-
-        PlayerStanding,
-        PlayerGoLeft,
-        PlayerGoRight,
-        PlayerGoUp,
-        PlayerGoDown,
+        Vehicle,
+        Animal,
+        PlayerJumpLeft,
+        PlayerJumpRight,
+        PlayerJumpUp,
+        PlayerJumpDown,
+        PlayerIdleLeft,
+        PlayerIdleRight,
+        PlayerIdleUp,
+        PlayerIdleDown,
+        RedLight,
+        GreenLight
     };
 }
 

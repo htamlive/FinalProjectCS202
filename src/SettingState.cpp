@@ -3,7 +3,7 @@
 SettingState::SettingState(sf::RenderWindow* window, std::vector<State*>* states) : State(window, states)
 {
 	this->gui = new tgui::Gui(ref(*window));
-	this->gui->loadWidgetsFromFile("FinalProjectCS202/Template/MainMenuTemplate.txt");
+	this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplate.txt");
 
 
 	//initBackground();
