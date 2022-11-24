@@ -15,7 +15,8 @@ public:
 
     void onKeyPressed(sf::Event::KeyEvent);
 
-    void update(sf::Time dt);
+    void update(sf::Time dt) {
+    };
 
 private:
     void updateCurrent(sf::Time dt) override;

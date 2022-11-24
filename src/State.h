@@ -8,7 +8,17 @@
 #include <TGUI/TGUI.hpp>
 //#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <map>
-//#include <TGUI/Backend/SFML-Graphics.hpp>
+
+
+#ifdef __linux__ 
+
+#elif _WIN32
+
+	#include <TGUI/Backend/SFML-Graphics.hpp>
+#else
+
+#endif
+
 
 using namespace std;
 
