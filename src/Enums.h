@@ -14,6 +14,8 @@ namespace Texture {
         PlayerIdleDown,
         RedLight,
         GreenLight,
+        RedToGreen,
+        GreenToRed,
         Null,
     };
 }
