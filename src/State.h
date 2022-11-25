@@ -50,7 +50,7 @@ public:
 
 	State(sf::RenderWindow* window, std::vector<State*>* states);
 
-	State(sf::RenderWindow* window, std::map<std::string, int>* supportedKey, std::vector<State*>* states){
+	State(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states) : ev() {
 		this->window = window;
 		this->states = states;
 		this->gui = new tgui::Gui(*window);
@@ -60,7 +60,7 @@ public:
 	virtual ~State();
 	sf::Event ev;
 
-	const bool& getQuit() const;
+	[[nodiscard]] const bool& getQuit() const;
 	void endState();
 	virtual void updateMousePos();
 	virtual void updateInput(const float& dt) = 0;

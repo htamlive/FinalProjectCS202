@@ -20,16 +20,14 @@ private:
 
 public:
 
-	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKey, std::vector<State*>* states) : State(window, supportedKeys,states)  {
+	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states) : State(window, supportedKeys, states)  {
 		this->gui = new tgui::Gui(ref(*window));
 		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
-		
-		this->supportedKeys = supportedKey;
 		this->initKeyBinds();
 		
 		player = new Player(0, 0, 96, 96);
 	};
-	virtual ~GameState() {
+	~GameState() override {
 		delete player;
 	};
 	//void adjustCells(const int totalX, const int totalY);
@@ -40,11 +38,11 @@ public:
 	//void sinkingDown(const float& dt) { // apply to lanes, cars, ... float downward
 	//	
 	//}
-	void updateEvents() {
+	void updateEvents() override {
 		//this->player->onKeyPressed(this->ev.key);
 
 	};
-	void updateInput(const float& dt) {
+	void updateInput(const float& dt) override {
 		//this->player.move(dt, 0, 0.25f);
 		//if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
 		//	this->player.move(dt, -1.f, 0.f);
@@ -58,12 +56,12 @@ public:
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
 		//	this->endState();
 	};
-	void update(const float& dt) {
+	void update(const float& dt) override {
 		updateInput(dt);
 		//this->player.update(dt);
 		player->update(sf::Time(sf::seconds(dt)));
 	};
-	void render(sf::RenderTarget* target = nullptr) {
+	void render(sf::RenderTarget* target = nullptr) override {
 		if (!target) {
 			target = this->window;
 		}

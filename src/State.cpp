@@ -1,7 +1,7 @@
 #include "State.h"
 
 
-State::State(sf::RenderWindow* window, std::vector<State*>* states)
+State::State(sf::RenderWindow* window, std::vector<State*>* states) : ev(), supportedKeys()
 {
 	this->window = window;
 	this->states = states;
@@ -10,9 +10,7 @@ State::State(sf::RenderWindow* window, std::vector<State*>* states)
 }
 
 
-State::~State()
-{
-}
+State::~State() = default;
 
 const bool& State::getQuit() const
 {

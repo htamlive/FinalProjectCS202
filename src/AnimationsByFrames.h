@@ -20,14 +20,13 @@ private:
 		this->curFrame = sf::IntRect(0,0,32,32);
 	}
 public:
-	AnimationsByFrames(sf::String textureSheetPath, float secondPerFrame = 0.1f, int textureWidth = 32) :
+	AnimationsByFrames(const sf::String& textureSheetPath, float secondPerFrame = 0.1f, int textureWidth = 32) :
 				secondPerFrame(secondPerFrame), textureWidth(textureWidth) 
 	{
 		try
 		{
 			if (!this->textureSheet.loadFromFile(textureSheetPath)) {
-				throw sf::String("Error path: " + textureSheetPath);
-				
+                throw std::runtime_error("Error path: " + textureSheetPath);
 			}
 			//std::cout << this->textureSheet.getSize().x << " " << this->textureSheet.getSize().y << "\n";
 			this->initVariables();
@@ -38,9 +37,7 @@ public:
 		}
 	}
 
-	~AnimationsByFrames() {
-
-	}
+	~AnimationsByFrames() = default;
 
 	void updateAnimations() {
 		if (this->animationTimer.getElapsedTime().asSeconds() >= this->secondPerFrame) {

@@ -8,13 +8,6 @@ namespace Texture {
         PlayerJumpRight,
         PlayerJumpUp,
         PlayerJumpDown,
-
-        PlayerGoLeft,
-        PlayerGoRight,
-        PlayerGoUp,
-        PlayerGoDown,
-        PlayerStanding,
-
         PlayerIdleLeft,
         PlayerIdleRight,
         PlayerIdleUp,

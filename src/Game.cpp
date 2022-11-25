@@ -65,7 +65,7 @@ Game::~Game() {
 	}
 }
 
-const bool Game::running() const
+bool Game::running() const
 {
 	return this->window->isOpen();
 }
@@ -82,6 +82,9 @@ void Game::updateEvents()
 		break;
 	case sf::Event::MouseButtonReleased:
 		mouseProc();
+        break;
+    default:
+        break;
 	}
 }
 
@@ -158,9 +161,12 @@ void Game::keyReleasedProc()
 	{
 	case sf::Keyboard::Enter:
 		//field.restart();
-
+        break;
 	case sf::Keyboard::Escape:
 		this->window->close();
+        break;
+    default:
+        break;
 	}
 }
 
@@ -171,11 +177,13 @@ void Game::mouseProc()
 	case sf::Mouse::Left:
 		std::cout << "\nLeft click " << sf::Mouse::getPosition(*this->window).x << " " << sf::Mouse::getPosition(*this->window).y;
 		//field.open_cell(mouse_cell_x, mouse_cell_y);
-
 		break;
 	case sf::Mouse::Right:
 		std::cout << "\nRight click";
 		//field.flag_cell(mouse_cell_x, mouse_cell_y);
-	}
+        break;
+    default:
+        break;
+    }
 }
 

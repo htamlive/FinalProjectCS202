@@ -33,14 +33,13 @@ public:
 			});
 	};
 
-	~SettingState() {
+	~SettingState() override = default;;
+
+	void updateInput(const float& dt) override {
+
 	};
 
-	void updateInput(const float& dt) {
-
-	};
-
-	void updateEvents() {
+	void updateEvents() override {
 		this->gui->handleEvent(this->ev);
 		switch (this->ev.type)
 		{
@@ -56,7 +55,7 @@ public:
 		}
 	};
 
-	void update(const float& dt) {
+	void update(const float& dt) override {
 
 	};
 
@@ -64,5 +63,5 @@ public:
 
 	};
 
-	void render(sf::RenderTarget* target = nullptr);
+	void render(sf::RenderTarget* target = nullptr) override;
 };

@@ -4,10 +4,6 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
 
-#include <cassert>
-#include <iostream>
-#include <sys/types.h>
-
 AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration,
                                    bool loop)
     : id(textureID), duration(duration), loop(loop) {}
@@ -47,7 +43,7 @@ sf::Sprite AnimationMachine::toSprite() const {
 bool AnimationMachine::isFinished() const {
     auto &sheet = getSheet();
     auto frameTime = duration / (float)sheet.spriteCount;
-    return !loop && (elapsedTime / frameTime) >= sheet.spriteCount;
+    return !loop && (int)(elapsedTime / frameTime) >= sheet.spriteCount;
 }
 
 Texture::ID AnimationMachine::getID() const { return id; }

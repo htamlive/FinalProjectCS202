@@ -38,11 +38,15 @@ private:
 	}
 
 	void initTexture() {
-		TextureHolder::instance().load(Texture::PlayerStanding, "resources/spritesheet/main/idle.png", { 32, 32 }, 6);
-		TextureHolder::instance().load(Texture::PlayerGoLeft, "resources/spritesheet/main/goLeft.png", { 32, 32 }, 6);
-		TextureHolder::instance().load(Texture::PlayerGoRight, "resources/spritesheet/main/goRight.png", { 32, 32 }, 6);
-		TextureHolder::instance().load(Texture::PlayerGoUp, "resources/spritesheet/main/goUp.png", { 32, 32 }, 6);
-		TextureHolder::instance().load(Texture::PlayerGoDown, "resources/spritesheet/main/goDown.png", { 32, 32 }, 4);
+        // TODO: make idle sprites for every direction
+		TextureHolder::instance().load(Texture::ID::PlayerIdleUp, "resources/spritesheet/main/idle.png", { 32, 32 }, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleDown, "resources/spritesheet/main/idle.png", { 32, 32 }, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, "resources/spritesheet/main/idle.png", { 32, 32 }, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleRight, "resources/spritesheet/main/idle.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerJumpLeft, "resources/spritesheet/main/goLeft.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerJumpUp, "resources/spritesheet/main/goUp.png", { 32, 32 }, 6);
+		TextureHolder::instance().load(Texture::PlayerJumpDown, "resources/spritesheet/main/goDown.png", { 32, 32 }, 4);
 		TextureHolder::instance().load(Texture::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
 	};
 
@@ -54,7 +58,7 @@ public:
 	Game();
 	virtual ~Game();
 
-	const bool running() const;
+	bool running() const;
 
 	void endApplication();
 

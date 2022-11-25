@@ -4,7 +4,6 @@
 #include "TextureHolder.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
-#include <iostream>
 
 void Player::updateCurrent(sf::Time dt) {
     if (animation.isFinished()) {
