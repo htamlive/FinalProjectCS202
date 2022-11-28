@@ -39,7 +39,7 @@ public:
 	//	
 	//}
 	void updateEvents() override {
-		//this->player->onKeyPressed(this->ev.key);
+		this->player->onKeyPressed(this->ev.key);
 
 	};
 	void updateInput(const float& dt) override {

@@ -21,7 +21,7 @@ Player::Player() : jump_texture(Texture::ID::PlayerJumpUp), idle_texture(Texture
 }
 
 Player::Player(float x, float y, float w, float h)
-        : Entity({0, 0}, x, y, w, h, Texture::ID::PlayerIdleUp),
+        : Entity({100, 100}, x, y, w, h, Texture::ID::PlayerIdleUp),
           jump_texture(Texture::ID::PlayerJumpUp),
           idle_texture(Texture::ID::PlayerIdleUp) {
     static_pos = getPosition();
