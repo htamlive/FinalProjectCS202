@@ -32,6 +32,6 @@ void Entity::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const
 
 bool Entity::isOutOfScreen() const {
     sf::FloatRect rect = getBoundingRect();
-    sf::FloatRect screen = {0, 0, (float) DEF_VIDEO_MODE.width, (float) DEF_VIDEO_MODE.height};
+    sf::FloatRect screen = {0, 0, (float) WINDOW_VIDEO_MODE.width, (float) WINDOW_VIDEO_MODE.height};
     return !screen.intersects(rect);
 }

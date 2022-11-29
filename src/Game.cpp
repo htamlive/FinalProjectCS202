@@ -12,7 +12,7 @@ void Game::initWindow()
 
 	this->videoModes = sf::VideoMode::getFullscreenModes();
 
-	this->videoMode = DEF_VIDEO_MODE;
+	this->videoMode = WINDOW_VIDEO_MODE;
 	//{1300, 800}
 	unsigned antialiasing_level = 0;
 

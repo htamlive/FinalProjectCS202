@@ -39,7 +39,7 @@ private:
 public:
     Lane();
 
-    Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float x, float y, float roadHeight,
+    Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float roadHeight,
          float commuterWidth, float commuterHeight, Direction direction, float speed, Random frequency);
 
     void updateCurrent(sf::Time dt) override;

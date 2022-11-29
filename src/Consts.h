@@ -15,4 +15,4 @@ const sf::Vector2f GRID_SIZE{25, 25};
 
 const sf::Vector2u DEF_SPRITE_SIZE = {128, 128};
 
-const sf::VideoMode DEF_VIDEO_MODE = {1024, 768};
+const sf::VideoMode WINDOW_VIDEO_MODE = {1024, 768};
