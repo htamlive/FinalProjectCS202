@@ -2,59 +2,54 @@
 
 #include <random>
 
+/**
+ * A wrapper to pass on RandomNumberDistribution machines.
+ */
+template<class RandomNumberDistribution>
 class Random {
 public:
-    using value_type = double;
-
     /**
      * Uniform distribution between DOUBLE_MIN and DOUBLE_MAX.
      */
     Random();
 
-    /**
-     * Normal distribution with given mean and standard deviation.
-     *
-     * @param mean
-     * @param stddev
-     */
-    Random(value_type mean, value_type stddev);
+    Random(RandomNumberDistribution distribution);
+
+    template<typename TResult>
+    TResult get();
 
     /**
-     * Normal distribution (kind of) with given mean, standard deviation, min and max.
-     *
-     * @param mean
-     * @param stddev
-     * @param min
-     * @param max
+     * Only accepts value between min and max.
      */
-    Random(value_type mean, value_type stddev, value_type min, value_type max);
-
-    template<typename T>
-    T get() const;
-
-    /**
-     * Temporarily replaces predefined min and max values.
-     */
-    template<typename T>
-    T get(T min, T max) const;
+    template<typename TResult>
+    TResult get(TResult min, TResult max);
 
 private:
-    value_type mean, stddev, min, max;
+    RandomNumberDistribution distribution;
 };
 
-template<typename T>
-T Random::get() const {
-    return get<T>(min, max);
+template<class RandomNumberDistribution>
+Random<RandomNumberDistribution>::Random(RandomNumberDistribution distribution) : distribution(distribution) {}
+
+template<class RandomNumberDistribution>
+Random<RandomNumberDistribution>::Random() {
+    distribution = RandomNumberDistribution();
 }
 
-template<typename T>
-T Random::get(T min, T max) const {
-    T res;
+template<class RandomNumberDistribution>
+template<typename TResult>
+TResult Random<RandomNumberDistribution>::get() {
+    return get(std::numeric_limits<TResult>::lowest(), std::numeric_limits<TResult>::max());
+}
+
+template<class RandomNumberDistribution>
+template<typename TResult>
+TResult Random<RandomNumberDistribution>::get(TResult min, TResult max) {
+    TResult res;
     do {
         std::random_device rd{};
         std::mt19937 gen{rd()};
-        std::normal_distribution<> d{mean, stddev};
-        res = static_cast<T>(d(gen));
+        res = static_cast<TResult>(distribution(gen));
     } while (res < min || max < res);
 
     return res;

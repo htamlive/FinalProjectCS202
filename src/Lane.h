@@ -26,7 +26,7 @@ private:
      * Mean is the average time between two commuters.<br>
      * Higher mean for higher difficulty. Lower mean for higher speed.
      */
-    Random frequency;
+    Random<std::normal_distribution<double>> frequency;
     sf::Time timer;
 
     float height;
@@ -39,8 +39,9 @@ private:
 public:
     Lane();
 
-    Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float roadHeight,
-         float commuterWidth, float commuterHeight, Direction direction, float speed, Random frequency);
+    Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
+         float commuterWidth, float commuterHeight, Direction direction, float speed,
+         Random<std::normal_distribution<double>> frequency);
 
     void updateCurrent(sf::Time dt) override;
 

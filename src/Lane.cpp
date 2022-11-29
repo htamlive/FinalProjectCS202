@@ -5,16 +5,17 @@
 Lane::Lane() : type(Type::Vehicle), commuterTexture(), laneTexture(), height(0), commuterSize(),
                direction(Direction::Right), speed(0), frequency() {}
 
-Lane::Lane(Lane::Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float height,
-           float commuterWidth, float commuterHeight, Lane::Direction direction, float speed, Random frequency) : type(type),
-                                                                                                                  commuterTexture(commuterTexture),
-                                                                                                                  laneTexture(laneTexture),
-                                                                                                                  height(height),
-                                                                                                                  commuterSize({commuterWidth,
-                                                                                                                                commuterHeight}),
-                                                                                                                  direction(direction),
-                                                                                                                  speed(speed),
-                                                                                                                  frequency(frequency) {
+Lane::Lane(Lane::Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
+           float commuterWidth, float commuterHeight, Lane::Direction direction, float speed,
+           Random<std::normal_distribution<double>> frequency) : type(type),
+                                                                 commuterTexture(commuterTexture),
+                                                                 laneTexture(laneTexture),
+                                                                 height(laneHeight),
+                                                                 commuterSize({commuterWidth,
+                                                                               commuterHeight}),
+                                                                 direction(direction),
+                                                                 speed(speed),
+                                                                 frequency(frequency) {
     setPosition(0, y);
 }
 
