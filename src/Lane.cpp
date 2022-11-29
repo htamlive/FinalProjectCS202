@@ -2,21 +2,29 @@
 #include "Vehicle.h"
 #include "Animal.h"
 
-Lane::Lane() : type(Type::Vehicle), commuterTexture(), laneTexture(), height(0), commuterSize(),
-               direction(Direction::Right), speed(0), frequency() {}
+Lane::Lane() : type(Type::Vehicle), laneTexture(), height(0), velocity(0, 0), frequency() {}
 
 Lane::Lane(Lane::Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
            float commuterWidth, float commuterHeight, Lane::Direction direction, float speed,
            Random<std::normal_distribution<double>> frequency) : type(type),
-                                                                 commuterTexture(commuterTexture),
                                                                  laneTexture(laneTexture),
                                                                  height(laneHeight),
-                                                                 commuterSize({commuterWidth,
-                                                                               commuterHeight}),
-                                                                 direction(direction),
-                                                                 speed(speed),
                                                                  frequency(frequency) {
     setPosition(0, y);
+
+    velocity = direction == Direction::Right? sf::Vector2f(speed, 0) : sf::Vector2f(-speed, 0);
+
+    newCommuter = [&]() -> std::unique_ptr<Entity> {
+        auto pos = direction == Direction::Right ? sf::Vector2f(-commuterWidth + 1, getPosition().y) : sf::Vector2f(
+                (float) WINDOW_VIDEO_MODE.width - 1, getPosition().y);
+        if (type == Type::Vehicle) {
+            return std::make_unique<Vehicle>(velocity, pos.x, pos.y,
+                                             commuterWidth, commuterHeight, commuterTexture);
+        } else {
+            return std::make_unique<Animal>(velocity, pos.x, pos.y,
+                                            commuterWidth, commuterHeight, commuterTexture);
+        }
+    };
 }
 
 void Lane::updateCurrent(sf::Time dt) {
@@ -53,25 +61,5 @@ void Lane::onLightChanged() {
         for (auto &vehicle: commuters) {
             dynamic_cast<Vehicle *>(vehicle)->onLightChanged();
         }
-    }
-}
-
-sf::Vector2f Lane::getVelocity() const {
-    if (direction == Direction::Right) {
-        return {speed, 0};
-    } else {
-        return {-speed, 0};
-    }
-}
-
-std::unique_ptr<Entity> Lane::newCommuter() const {
-    auto pos = direction == Direction::Right ? sf::Vector2f(-commuterSize.x + 1, getPosition().y) : sf::Vector2f(
-            (float) WINDOW_VIDEO_MODE.width - 1, getPosition().y);
-    if (type == Type::Vehicle) {
-        return std::make_unique<Vehicle>(getVelocity(), pos.x, pos.y,
-                                         commuterSize.x, commuterSize.y, commuterTexture);
-    } else {
-        return std::make_unique<Animal>(getVelocity(), pos.x, pos.y,
-                                        commuterSize.x, commuterSize.y, commuterTexture);
     }
 }

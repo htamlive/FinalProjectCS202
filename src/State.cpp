@@ -9,7 +9,7 @@ State::State(sf::RenderWindow* window, std::vector<State*>* states) : ev(), supp
 	this->quit = false;
 }
 
-
+// TODO: delete tgui pointer?
 State::~State() = default;
 
 const bool& State::getQuit() const

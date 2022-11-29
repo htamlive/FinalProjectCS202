@@ -16,7 +16,11 @@ namespace Texture {
         GreenLight,
         RedToGreen,
         GreenToRed,
+        Road,
         Null,
+        TopLane,
+        MidLane,
+        BotLane
     };
 }
 

@@ -17,8 +17,7 @@ public:
 
 private:
     Type type;
-    Direction direction;
-    float speed;
+    sf::Vector2f velocity;
     std::deque<Entity *> commuters;
 
     /**
@@ -28,13 +27,10 @@ private:
      */
     Random<std::normal_distribution<double>> frequency;
     sf::Time timer;
-
     float height;
-    sf::Vector2f commuterSize;
-    Texture::ID commuterTexture;
     Texture::ID laneTexture;
 
-    std::unique_ptr<Entity> newCommuter() const;
+    std::function <std::unique_ptr<Entity>()> newCommuter;
 
 public:
     Lane();
@@ -48,6 +44,4 @@ public:
     void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
 
     void onLightChanged();
-
-    sf::Vector2f getVelocity() const;
 };
