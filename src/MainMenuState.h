@@ -90,14 +90,15 @@ public:
 		//Meow.moveXY(300, 300, 3000);
 
 		// at begin timeManage = timeOverall*2
+		static int kind = 0;
 		if (Meow.checkDone()) // timeManage >= timeOverall*2
 		{
 			Meow.resettimeManage();
-
 			// random 1 of 4 edges: up:0, down:1, left:2, right:3
-			//Meow.setEdge(rand() % 4);
-
-			Meow.setXY(90, 100);
+			kind = (rand() % 4);
+			
+			//pass kind to setEdge
+			Meow.setEdge(kind);
 
 			// set ending position and calculate velocity
 			// and timeManaage = 0
@@ -108,7 +109,7 @@ public:
 			//Meow.moveSection()
 		}
 
-		Meow.update(dt); 
+		Meow.update(dt, kind); 
 	};
 
 	void updateBtns() {
