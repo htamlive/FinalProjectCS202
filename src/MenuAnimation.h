@@ -1,6 +1,8 @@
 #include <TGUI/TGUI.hpp>
 #include <stdlib.h>
 #include <time.h>
+#define X first 
+#define Y second
 
 class MenuAnimation {
 private:
@@ -16,6 +18,17 @@ public:
 		timeManage = 11;
 		timeOverall = 5;
 		vX = vY = 0;
+
+		// random 1 of 4 edges: up:0, down:1, left:2, right:3
+		a[0] = { 1, -32 };
+		a[1] = { 1, 768 };
+		a[2] = { -32, 1 };
+		a[3] = { 1024, 1 };
+
+		b[0] = { 1,-32+25 };
+		b[1] = { 1, 768-25 };
+		b[2] = { -32+25, 1 };
+		b[3] = { 1024-25, 1 };
 	}
 	MenuAnimation(tgui::Gui*& gui)
 	{
@@ -47,6 +60,15 @@ public:
 	void moveXY(float x, float y, int time)
 	{
 		this->gui->get<tgui::Picture>("meowPic")->moveWithAnimation(tgui::Vector2f(x, y), tgui::Duration(1000));
+	}
+
+	int randHorizontal()
+	{
+		return rand() % (1024 - 32);
+	}
+	int randVerticle()
+	{
+		return rand() % (768 - 32);
 	}
 	bool check()
 	{
@@ -86,31 +108,40 @@ public:
 	void direction(float x, float y)
 	{
 		timeManage = 0;//set time = 0
-		float x0 = 90, y0 = 100;
+		/*float x0 = 90, y0 = 100;
 		x0 = this->getXY().x;
 		y0 = this->getXY().y;
 		vX = velocityX(x0, x);
-		vY = velocityY(y0, y);
+		vY = velocityY(y0, y);*/
 	}
 
-	int setEdge(int num)
+	void setEdge(int num)
 	{
 		// random 1 of 4 edges: up:0, down:1, left:2, right:3
 		// set beginning position 
-		this -> setXY(90, 100);
 
-
-
+		int temp;
+		if (num == 0 || num == 1)
+		{
+			temp = randHorizontal();
+			a[num].X = b[num].X = temp;
+		}
+		else
+		{
+			temp = randVerticle();
+			a[num].Y = b[num].Y = temp;
+		}
+		this->setXY(a[num].X, a[num].Y);
 	}
 
-	void update(const float & dt) {
+	void update(const float & dt, int kind) {
 		static bool flag = true;
 		timeManage += dt;
 		if (this->check()) //timeManage < timeOverall
 		{
 			if(flag) {
 				flag = false;
-				this->moveXY(300, 300, timeOverall);
+				this->moveXY(b[kind].X, b[kind].Y, timeOverall);
 			}
 
 			
@@ -120,7 +151,7 @@ public:
 		{
 			if (!flag) {
 				flag = true;
-				this->moveXY(90, 100, timeOverall);
+				this->moveXY(a[kind].X, a[kind].Y, timeOverall);
 			}
 			//ve vi tri cu
 			//;
