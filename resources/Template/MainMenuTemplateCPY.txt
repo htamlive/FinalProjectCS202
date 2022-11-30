@@ -100,3 +100,13 @@ Button.btnSetting {
         TextureHover = None;
     }
 }
+
+Picture.meowPic {
+    Position = (90, 100);
+    Size = (82, 82);
+
+    Renderer {
+        Texture = "../spritesheet/main/idleDown.png" Part(0, 0, 32, 32) Smooth;
+        TransparentTexture = false;
+    }
+}
