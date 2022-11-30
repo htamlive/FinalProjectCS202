@@ -24,5 +24,4 @@ private:
                                                                                                     Texture::ID::GreenToRed},
                                                                                                    {Texture::ID::RedLight,
                                                                                                     Texture::ID::RedToGreen}};
-
 };

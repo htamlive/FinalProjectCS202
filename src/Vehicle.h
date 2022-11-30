@@ -6,7 +6,7 @@ class Vehicle : public Entity {
 public:
     Vehicle();
 
-    Vehicle(sf::Vector2f velocity, float x, float y, float w, float h);
+    Vehicle(sf::Vector2f velocity, float x, float y, float w, float h, Texture::ID texture);
 
     void onLightChanged();
 

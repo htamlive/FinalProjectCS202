@@ -2,5 +2,6 @@
 #include "TextureHolder.h"
 #include "Consts.h"
 
-Animal::Animal(sf::Vector2f velocity, float x, float y, float w, float h) : Entity(velocity, x, y, w, h,
-                                                                                   Texture::ID::Animal) {}
+Animal::Animal(sf::Vector2f velocity, float x, float y, float w, float h, Texture::ID texture) : Entity(velocity, x, y,
+                                                                                                        w, h,
+                                                                                                        texture) {}

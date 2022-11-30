@@ -27,6 +27,8 @@ public:
     Entity(sf::Vector2f velocity, float x, float y, float w,
            float h, Texture::ID type, sf::Time animation_duration = DEF_ANIMATION_DURATION, bool loop = true);
 
+    bool isOutOfScreen() const;
+
     sf::Vector2f getVelocity() const;
 
     sf::Vector2f &getVelocity();
@@ -45,7 +47,7 @@ public:
 
 
     void drawCurrent(sf::RenderTarget &target,
-                             sf::RenderStates state) const override;
+                     sf::RenderStates state) const override;
 
     /**
      * Update the Entity, can be extended in derived class. Default

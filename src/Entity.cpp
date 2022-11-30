@@ -29,3 +29,9 @@ void Entity::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const
     sf::Sprite sprite = animation.toSprite();
     target.draw(sprite, state);
 }
+
+bool Entity::isOutOfScreen() const {
+    sf::FloatRect rect = getBoundingRect();
+    sf::FloatRect screen = {0, 0, (float) WINDOW_VIDEO_MODE.width, (float) WINDOW_VIDEO_MODE.height};
+    return !screen.intersects(rect);
+}

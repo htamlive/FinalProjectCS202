@@ -12,7 +12,8 @@
 #include <vector>
 #include <set>
 
-class SceneNode : public sf::Sprite,
+class SceneNode : public sf::Drawable,
+                  public sf::Transformable,
                   private sf::NonCopyable {
 public:
     typedef std::unique_ptr<SceneNode> Ptr;
@@ -96,13 +97,12 @@ private:
 
 protected:
     /**
-     * Implement this to use allow collision detection
+     * Implement this to allow collision detection
      */
     virtual sf::FloatRect getBoundingRect() const;
 
 private:
     std::vector<Ptr> mChildren;
     SceneNode *mParent;
-
 };
 
