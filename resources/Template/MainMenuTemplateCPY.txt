@@ -130,3 +130,13 @@ Picture.Picture2 {
         TransparentTexture = false;
     }
 }
+
+Picture.Picture3 {
+    Position = (410, 60);
+    Size = (82, 82);
+
+    Renderer {
+        Texture = "../spritesheet/main/goDown - Inverse.png" Part(0, 0, 32, 32) Smooth;
+        TransparentTexture = false;
+    }
+}
