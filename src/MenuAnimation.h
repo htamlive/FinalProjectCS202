@@ -12,6 +12,7 @@ private:
 	float vX, vY;
 	bool turnBack;
 	pair<int, int> a[5], b[5];
+	string s[5];
 public:
 	MenuAnimation()
 	{
@@ -29,6 +30,12 @@ public:
 		b[1] = { 1, 768-25 };
 		b[2] = { -32+25, 1 };
 		b[3] = { 1024-25, 1 };
+
+		s[0] = "toDown";
+		s[1] = "toUp";
+		s[2] = "toLeft";
+		s[3] = "toRight";
+
 	}
 	MenuAnimation(tgui::Gui*& gui)
 	{
@@ -43,11 +50,11 @@ public:
 	}
 	void setXY(float x, float y)
 	{
-		this->gui->get<tgui::Picture>("meowPic")->setPosition(tgui::Vector2f(x, y));
+		this->gui->get<tgui::Picture>("toUp")->setPosition(tgui::Vector2f(x, y));
 	}
 	tgui::Vector2f getXY()
 	{
-		return this->gui->get<tgui::Picture>("meowPic")->getPosition();
+		return this->gui->get<tgui::Picture>("toUp")->getPosition();
 	}
 	float velocityX(float x, float x1)
 	{
@@ -59,7 +66,7 @@ public:
 	}
 	void moveXY(float x, float y, int time)
 	{
-		this->gui->get<tgui::Picture>("meowPic")->moveWithAnimation(tgui::Vector2f(x, y), tgui::Duration(1000));
+		this->gui->get<tgui::Picture>("toUp")->moveWithAnimation(tgui::Vector2f(x, y), tgui::Duration(1000));
 	}
 
 	int randHorizontal()
@@ -105,15 +112,6 @@ public:
 	bool inProcess() {
 		return timeManage != 0.f;
 	}
-	void direction(float x, float y)
-	{
-		timeManage = 0;//set time = 0
-		/*float x0 = 90, y0 = 100;
-		x0 = this->getXY().x;
-		y0 = this->getXY().y;
-		vX = velocityX(x0, x);
-		vY = velocityY(y0, y);*/
-	}
 
 	void setEdge(int num)
 	{
@@ -134,10 +132,23 @@ public:
 		this->setXY(a[num].X, a[num].Y);
 	}
 
-	void update(const float & dt, int kind) {
+	void update(const float & dt) {
 		static bool flag = true;
+		static int kind = 0;
+		
 		timeManage += dt;
-		if (this->check()) //timeManage < timeOverall
+		srand(time(0));
+
+		if (this->checkDone()) // timeManage >= timeOverall*2
+		{
+			this->resettimeManage();
+			// random 1 of 4 edges: up:0, down:1, left:2, right:3
+			kind = (rand() % 4);
+
+			//pass kind to setEdge
+			this->setEdge(kind);
+		}
+		else if (this->check()) //timeManage < timeOverall
 		{
 			if(flag) {
 				flag = false;

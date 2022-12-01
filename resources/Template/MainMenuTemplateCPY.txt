@@ -7,9 +7,21 @@ Picture.background {
     }
 }
 
+Picture.toLeft {
+    Position = (210, 60);
+    Size = (82, 82);
+    Visible = false;
+
+    Renderer {
+        Texture = "../spritesheet/main/goLeft.png" Part(0, 0, 32, 32) Smooth;
+        TransparentTexture = false;
+    }
+}
+
 Picture.toUp {
     Position = (90, 100);
     Size = (82, 82);
+    Visible = false;
 
     Renderer {
         Texture = "../spritesheet/main/idleDown.png" Part(0, 0, 32, 32) Smooth;
@@ -111,19 +123,10 @@ Button.btnSetting {
     }
 }
 
-Picture.toLeft {
-    Position = (210, 60);
-    Size = (82, 82);
-
-    Renderer {
-        Texture = "../spritesheet/main/goLeft.png" Part(0, 0, 32, 32) Smooth;
-        TransparentTexture = false;
-    }
-}
-
 Picture.toRight {
     Position = (300, 50);
     Size = (82, 82);
+    Visible = false;
 
     Renderer {
         Texture = "../spritesheet/main/goRight.png" Part(0, 0, 32, 32) Smooth;
@@ -134,6 +137,7 @@ Picture.toRight {
 Picture.toDown {
     Position = (410, 60);
     Size = (82, 82);
+    Visible = false;
 
     Renderer {
         Texture = "../spritesheet/main/goDown - Inverse.png" Part(0, 0, 32, 32) Smooth;

@@ -22,16 +22,6 @@ public:
 		this->supportedKeys = supportedKeys;
 		
 		Meow.SetGui(this->gui);
-		
-		//if (Meow.check())
-		//{
-		//	Meow.moveSection(300, 300, 0.5);
-		//	//cout << dt << endl;
-		//}
-
-		//this->gui->get<tgui::Picture>("meowPic")->moveWithAnimation(tgui::Vector2f(300, 300), tgui::Duration(4000));
-		//this->gui->get<tgui::Picture>("meowPic")->showWithEffect(tgui::ShowEffectType::SlideToRight, tgui::Duration(4000));
-		//this->gui->get<tgui::Button>("btnPlay")->showWithEffect(tgui::ShowEffectType::Fade,tgui::Duration(4000));
 	};
 
 	void initBackground() {
@@ -74,42 +64,7 @@ public:
 	};
 
 	void update(const float& dt) override {
-		srand(time(0));
-		/*if (dt < 5000)
-		{
-			this->gui->get<tgui::Picture>("meowPic")->moveWithAnimation(tgui::Vector2f(300, 300), tgui::Duration(4000));
-		}
-		else if (dt > 5000)
-		{
-			this->gui->get<tgui::Picture>("meowPic")->moveWithAnimation(tgui::Vector2f(0, 0), tgui::Duration(4000));
-		}*/
-		
-		//check if animation is done
-		// 
-		// 
-		//Meow.moveXY(300, 300, 3000);
-
-		// at begin timeManage = timeOverall*2
-		static int kind = 0;
-		if (Meow.checkDone()) // timeManage >= timeOverall*2
-		{
-			Meow.resettimeManage();
-			// random 1 of 4 edges: up:0, down:1, left:2, right:3
-			kind = (rand() % 4);
-			
-			//pass kind to setEdge
-			Meow.setEdge(kind);
-
-			// set ending position and calculate velocity
-			// and timeManaage = 0
-			Meow.direction(300, 300);
-
-			// update will include 2 phases: go and back
-			
-			//Meow.moveSection()
-		}
-
-		Meow.update(dt, kind); 
+		Meow.update(dt); 
 	};
 
 	void updateBtns() {
