@@ -53,7 +53,9 @@ public:
 		//if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
 		//	this->player.move(dt, 0.f, 1.25f);
 
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
+			this->gui->loadWidgetsFromFile("resources/Template/esc_windows.txt");
+
 		//	this->endState();
 	};
 	void update(const float& dt) override {

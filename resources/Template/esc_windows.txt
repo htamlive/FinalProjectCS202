@@ -1,5 +1,5 @@
 ChildWindow.ChildWindow1 {
-    Position = (240, 120);
+    Position = (330, 210);
     Size = (400, 300);
     TitleAlignment = Center;
     TitleButtons = Close;
@@ -52,10 +52,74 @@ ChildWindow.ChildWindow1 {
         }
     }
 
-    Button.Button1 {
-        Position = (140, 181.667);
+    Button.backBtn {
+        Position = (220, 151.667);
         Size = (120, 50.3333);
         Text = Back;
+        TextSize = 13;
+
+        Renderer {
+            BackgroundColor = #F5F5F5;
+            BackgroundColorDisabled = #E6E6E6;
+            BackgroundColorDown = #EBEBEB;
+            BackgroundColorHover = #3EFDFF;
+            BorderColor = #3C3C3C;
+            BorderColorDisabled = #7D7D7D;
+            BorderColorDown = black;
+            BorderColorFocused = #1E1EB4;
+            BorderColorHover = black;
+            Borders = (1, 1, 1, 1);
+            RoundedBorderRadius = 50;
+            TextColor = #3C3C3C;
+            TextColorDisabled = #7D7D7D;
+            TextColorDown = black;
+            TextColorHover = black;
+            Texture = None;
+            TextureDisabled = None;
+            TextureDown = None;
+            TextureDownFocused = None;
+            TextureDownHover = None;
+            TextureFocused = None;
+            TextureHover = None;
+        }
+    }
+
+    Button.saveBtn {
+        Position = (60, 151.667);
+        Size = (120, 50.3333);
+        Text = Save;
+        TextSize = 13;
+
+        Renderer {
+            BackgroundColor = #F5F5F5;
+            BackgroundColorDisabled = #E6E6E6;
+            BackgroundColorDown = #EBEBEB;
+            BackgroundColorHover = #3EFDFF;
+            BorderColor = #3C3C3C;
+            BorderColorDisabled = #7D7D7D;
+            BorderColorDown = black;
+            BorderColorFocused = #1E1EB4;
+            BorderColorHover = black;
+            Borders = (1, 1, 1, 1);
+            RoundedBorderRadius = 50;
+            TextColor = #3C3C3C;
+            TextColorDisabled = #7D7D7D;
+            TextColorDown = black;
+            TextColorHover = black;
+            Texture = None;
+            TextureDisabled = None;
+            TextureDown = None;
+            TextureDownFocused = None;
+            TextureDownHover = None;
+            TextureFocused = None;
+            TextureHover = None;
+        }
+    }
+
+    Button.exitBtn {
+        Position = (150, 211.667);
+        Size = (100, 41.9444);
+        Text = Exit;
         TextSize = 13;
 
         Renderer {
