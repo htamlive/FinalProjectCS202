@@ -7,7 +7,7 @@ Picture.background {
     }
 }
 
-Picture.meowPic {
+Picture.toUp {
     Position = (90, 100);
     Size = (82, 82);
 
@@ -111,7 +111,7 @@ Button.btnSetting {
     }
 }
 
-Picture.Picture1 {
+Picture.toLeft {
     Position = (210, 60);
     Size = (82, 82);
 
@@ -121,7 +121,7 @@ Picture.Picture1 {
     }
 }
 
-Picture.Picture2 {
+Picture.toRight {
     Position = (300, 50);
     Size = (82, 82);
 
@@ -131,7 +131,7 @@ Picture.Picture2 {
     }
 }
 
-Picture.Picture3 {
+Picture.toDown {
     Position = (410, 60);
     Size = (82, 82);
 
