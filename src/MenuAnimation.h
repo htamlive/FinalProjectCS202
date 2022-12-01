@@ -15,8 +15,8 @@ private:
 public:
 	MenuAnimation()
 	{
-		timeManage = 11;
-		timeOverall = 5;
+		timeManage = 110;
+		timeOverall = 6;
 		vX = vY = 0;
 
 		// random 1 of 4 edges: up:0, down:1, left:2, right:3
