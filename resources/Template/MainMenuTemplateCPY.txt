@@ -7,6 +7,16 @@ Picture.background {
     }
 }
 
+Picture.meowPic {
+    Position = (90, 100);
+    Size = (82, 82);
+
+    Renderer {
+        Texture = "../spritesheet/main/idleDown.png" Part(0, 0, 32, 32) Smooth;
+        TransparentTexture = false;
+    }
+}
+
 Button.btnPlay {
     Position = (432, 170);
     Size = (160, 62);
@@ -101,12 +111,22 @@ Button.btnSetting {
     }
 }
 
-Picture.meowPic {
-    Position = (90, 100);
+Picture.Picture1 {
+    Position = (210, 60);
     Size = (82, 82);
 
     Renderer {
-        Texture = "../spritesheet/main/idleDown.png" Part(0, 0, 32, 32) Smooth;
+        Texture = "../spritesheet/main/goLeft.png" Part(0, 0, 32, 32) Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.Picture2 {
+    Position = (300, 50);
+    Size = (82, 82);
+
+    Renderer {
+        Texture = "../spritesheet/main/goRight.png" Part(0, 0, 32, 32) Smooth;
         TransparentTexture = false;
     }
 }
