@@ -33,8 +33,8 @@ public:
 
 		s[0] = "toDown";
 		s[1] = "toUp";
-		s[2] = "toLeft";
-		s[3] = "toRight";
+		s[2] = "toRight";
+		s[3] = "toLeft";
 
 	}
 	MenuAnimation(tgui::Gui*& gui)
@@ -48,14 +48,14 @@ public:
 	{
 		this->gui = gui;
 	}
-	void setXY(float x, float y)
+	void setXY(float x, float y, int kind)
 	{
-		this->gui->get<tgui::Picture>("toUp")->setPosition(tgui::Vector2f(x, y));
+		this->gui->get<tgui::Picture>(s[kind])->setPosition(tgui::Vector2f(x, y));
 	}
-	tgui::Vector2f getXY()
-	{
-		return this->gui->get<tgui::Picture>("toUp")->getPosition();
-	}
+	//tgui::Vector2f getXY()
+	//{
+	//	return this->gui->get<tgui::Picture>(s[kind])->getPosition();
+	//}
 	float velocityX(float x, float x1)
 	{
 		return float((x1 - x) / timeOverall);
@@ -64,9 +64,9 @@ public:
 	{
 		return float((y1 - y) / timeOverall);
 	}
-	void moveXY(float x, float y, int time)
+	void moveXY(float x, float y, int time, int kind)
 	{
-		this->gui->get<tgui::Picture>("toUp")->moveWithAnimation(tgui::Vector2f(x, y), tgui::Duration(1000));
+		this->gui->get<tgui::Picture>(s[kind])->moveWithAnimation(tgui::Vector2f(x, y), tgui::Duration(1000));
 	}
 
 	int randHorizontal()
@@ -84,20 +84,6 @@ public:
 		tgui::Vector2f(x, y) = this->getXY();
 		return x < 300;*/
 	}
-	void moveSection(float x, float y, const float& dt)
-	{
-		//get x0, y0;
-		float x0 = 0, y0 = 0;
-		x0 = this->getXY().x;
-		y0 = this->getXY().y;
-
-		// x = x0 + vt
-		// y = y0 + vt
-				
-		//moveXY(x0 + vX*dt, y0 + vY*dt, dt);
-		moveXY(x, y, dt);
-		//cout << dt << endl;
-	}
 	~MenuAnimation()
 	{
 		
@@ -113,23 +99,23 @@ public:
 		return timeManage != 0.f;
 	}
 
-	void setEdge(int num)
+	void setEdge(int kind)
 	{
 		// random 1 of 4 edges: up:0, down:1, left:2, right:3
 		// set beginning position 
 
 		int temp;
-		if (num == 0 || num == 1)
+		if (kind == 0 || kind == 1)
 		{
 			temp = randHorizontal();
-			a[num].X = b[num].X = temp;
+			a[kind].X = b[kind].X = temp;
 		}
 		else
 		{
 			temp = randVerticle();
-			a[num].Y = b[num].Y = temp;
+			a[kind].Y = b[kind].Y = temp;
 		}
-		this->setXY(a[num].X, a[num].Y);
+		this->setXY(a[kind].X, a[kind].Y, kind);
 	}
 
 	void update(const float & dt) {
@@ -141,6 +127,7 @@ public:
 
 		if (this->checkDone()) // timeManage >= timeOverall*2
 		{
+			this->gui->get<tgui::Picture>(s[kind])->setVisible(false);
 			this->resettimeManage();
 			// random 1 of 4 edges: up:0, down:1, left:2, right:3
 			kind = (rand() % 4);
@@ -152,7 +139,8 @@ public:
 		{
 			if(flag) {
 				flag = false;
-				this->moveXY(b[kind].X, b[kind].Y, timeOverall);
+				this->gui->get<tgui::Picture>(s[kind])->setVisible(true);
+				this->moveXY(b[kind].X, b[kind].Y, timeOverall, kind);
 			}
 
 			
@@ -162,7 +150,7 @@ public:
 		{
 			if (!flag) {
 				flag = true;
-				this->moveXY(a[kind].X, a[kind].Y, timeOverall);
+				this->moveXY(a[kind].X, a[kind].Y, timeOverall, kind);
 			}
 			//ve vi tri cu
 			//;
