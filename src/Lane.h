@@ -6,6 +6,8 @@
 
 #include <deque>
 
+#include <functional>
+
 class Lane : public SceneNode {
 public:
     enum class Direction {

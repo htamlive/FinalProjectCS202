@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Lane.h"
+#include <functional>
 
 class LaneController : public SceneNode {
 public:
