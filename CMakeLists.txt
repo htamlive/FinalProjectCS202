@@ -19,6 +19,3 @@ endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 # Include sub-projects.
 add_subdirectory ("src")
-
-
-
