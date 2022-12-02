@@ -36,6 +36,10 @@ public:
 		s[2] = "toRight";
 		s[3] = "toLeft";
 
+		this->gui->get<tgui::Picture>("toDown")->setRotation(180f);
+		this->gui->get<tgui::Picture>("toRight")->setRotation(-90f);
+		this->gui->get<tgui::Picture>("toLeft")->setRotation(90f);
+
 	}
 	MenuAnimation(tgui::Gui*& gui)
 	{

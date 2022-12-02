@@ -13,7 +13,7 @@ Picture.toLeft {
     Visible = false;
 
     Renderer {
-        Texture = "../spritesheet/main/goLeft.png" Part(0, 0, 32, 32) Smooth;
+        Texture = "../spritesheet/main/idleDown_128_128.png" Part(0, 0, 128, 128) Smooth;
         TransparentTexture = false;
     }
 }
@@ -24,7 +24,7 @@ Picture.toUp {
     Visible = false;
 
     Renderer {
-        Texture = "../spritesheet/main/idleDown.png" Part(0, 0, 32, 32) Smooth;
+        Texture = "../spritesheet/main/idleDown_128_128.png" Part(0, 0, 128, 128) Smooth;
         TransparentTexture = false;
     }
 }
@@ -129,7 +129,7 @@ Picture.toRight {
     Visible = false;
 
     Renderer {
-        Texture = "../spritesheet/main/goRight.png" Part(0, 0, 32, 32) Smooth;
+        Texture = "../spritesheet/main/idleDown_128_128.png" Part(0, 0, 128, 128) Smooth;
         TransparentTexture = false;
     }
 }
@@ -140,7 +140,7 @@ Picture.toDown {
     Visible = false;
 
     Renderer {
-        Texture = "../spritesheet/main/goDown - Inverse.png" Part(0, 0, 32, 32) Smooth;
+        Texture = "../spritesheet/main/idleDown_128_128.png" Part(0, 0, 128, 128) Smooth;
         TransparentTexture = false;
     }
 }
