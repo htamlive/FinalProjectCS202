@@ -15,9 +15,10 @@ void SceneNode::attachChild(Ptr child) {
 }
 
 SceneNode::Ptr SceneNode::detachChild(const SceneNode &childTarget) {
-    auto found = std::find_if(
-        mChildren.begin(), mChildren.end(),
-        [&](const Ptr &node) { return node.get() == &childTarget; });
+    auto found =
+        std::find_if(mChildren.begin(), mChildren.end(), [&](const Ptr &node) {
+            return node.get() == &childTarget;
+        });
 
     assert(found != mChildren.end());
 
@@ -32,7 +33,7 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
     drawCurrent(target, states);
 
-    for (const auto &child: mChildren) {
+    for (const auto &child : mChildren) {
         child->draw(target, states);
     }
 }
@@ -43,7 +44,7 @@ void SceneNode::update(sf::Time dt) {
 }
 
 void SceneNode::updateChildren(sf::Time dt) {
-    for (auto &child: mChildren) {
+    for (auto &child : mChildren) {
         child->update(dt);
     }
 }
@@ -64,34 +65,45 @@ sf::Vector2f SceneNode::getAbsPosition() const {
     return getAbsTransform() * sf::Vector2f();
 }
 
-void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>& collisions) {
+void SceneNode::checkNodeCollision(SceneNode &node,
+                                   std::set<Pair> &collisions) {
     if (this != &node && checkCollision(*this, node)) {
         collisions.insert(std::minmax(this, &node));
     }
 
-    for (const auto& child: mChildren) {
+    for (const auto &child : mChildren) {
         child->checkNodeCollision(node, collisions);
     }
 }
 
-void SceneNode::checkSceneCollision(SceneNode& node, std::set<Pair>& collisions) {
+void SceneNode::checkSceneCollision(SceneNode &node,
+                                    std::set<Pair> &collisions) {
     checkNodeCollision(node, collisions);
 
-    for (const auto& child: node.mChildren) {
+    for (const auto &child : node.mChildren) {
         checkSceneCollision(*child, collisions);
     }
 }
 
-bool checkCollision(const SceneNode& lnode, const SceneNode& rnode) {
+bool checkCollision(const SceneNode &lnode, const SceneNode &rnode) {
     return lnode.getBoundingRect().intersects(rnode.getBoundingRect());
 }
 
-sf::FloatRect SceneNode::getBoundingRect() const {
-    return {};
-}
+sf::FloatRect SceneNode::getBoundingRect() const { return {}; }
 
-void SceneNode::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {
-}
+void SceneNode::drawCurrent(sf::RenderTarget &target,
+                            sf::RenderStates states) const {}
 
-void SceneNode::updateCurrent(sf::Time dt) {
+void SceneNode::updateCurrent(sf::Time dt) {}
+
+void SceneNode::drawBoundingBox(sf::RenderTarget &target,
+                                sf::RenderStates states) const {
+    sf::FloatRect rect = getBoundingRect();
+    sf::RectangleShape shape;
+    shape.setPosition(rect.left, rect.top);
+    shape.setSize(sf::Vector2f(rect.width, rect.height));
+    shape.setFillColor(sf::Color::Transparent);
+    shape.setOutlineColor(sf::Color::Red);
+    shape.setOutlineThickness(1.f);
+    target.draw(shape, states);
 }

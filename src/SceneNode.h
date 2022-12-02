@@ -72,6 +72,8 @@ public:
      */
     void checkSceneCollision(SceneNode& node, std::set<Pair>& collisions);
 
+    void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
+
 private:
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
