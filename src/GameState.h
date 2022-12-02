@@ -39,7 +39,8 @@ public:
 	//	
 	//}
 	void updateEvents() override {
-		this->player->onKeyPressed(this->ev.key);
+        if (this->ev.type == sf::Event::KeyPressed)
+            this->player->onKeyPressed(this->ev.key);
 
 	};
 	void updateInput(const float& dt) override {
