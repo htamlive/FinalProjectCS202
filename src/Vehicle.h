@@ -3,10 +3,8 @@
 #include "Entity.h"
 
 class Vehicle : public Entity {
+    using Entity::Entity;
 public:
-    Vehicle();
-
-    Vehicle(sf::Vector2f velocity, float x, float y, float w, float h, Texture::ID texture);
 
     void onLightChanged();
 
