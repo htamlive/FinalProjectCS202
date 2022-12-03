@@ -3,7 +3,7 @@
 #include <SFML/System/Vector2.hpp>
 
 Entity::Entity()
-    : animation(Texture::ID::Vehicle, DEF_ANIMATION_DURATION, true), width(0),
+    : animation(Texture::ID::LeftVehicle, DEF_ANIMATION_DURATION, true), width(0),
       height(0) {}
 
 Entity::Entity(sf::Vector2f velocity, float x, float y,
@@ -28,6 +28,10 @@ void Entity::updateCurrent(sf::Time dt) {
 void Entity::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates state) const {
     sf::Sprite sprite = animation.toSprite();
+    auto scale = sprite.getScale();
+    scale.x *= width / sprite.getLocalBounds().width;
+    scale.y *= height / sprite.getLocalBounds().height;
+    sprite.setScale(scale);
     target.draw(sprite, state);
 }
 

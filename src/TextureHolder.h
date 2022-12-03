@@ -8,22 +8,81 @@
 #include "Enums.h"
 #include "Consts.h"
 
+class Sheet {
+public:
+    virtual unsigned int getCount() const = 0;
+
+    virtual sf::Texture const &getTexture() const = 0;
+
+    /**
+     * @param i is a 0-based index
+     */
+    virtual sf::Sprite getSprite(unsigned i) const = 0;
+};
+
 /**
- * @brief A class that store texture's related information.
+ * @brief A class that stores texture's related information.
  */
-struct SpriteSheet {
+class TextureSheet : public Sheet {
+private:
     sf::Texture texture;
     unsigned int spriteCount = 0;
     sf::Vector2u spriteSize = {0, 0};
     unsigned int textureRow = 0;
+
+public:
+    TextureSheet(const sf::Texture &texture, unsigned int spriteCount,
+                 sf::Vector2u spriteSize, unsigned int textureRow);
+
+    unsigned int getCount() const override;
+
+    sf::Texture const &getTexture() const override;
+
+    /**
+     * @param i is a 0-based index
+     */
+    sf::Sprite getSprite(unsigned i) const override;
 };
 
 /**
- * @brief A singleton that handles textures.
+ * @brief A class that stores information of a part of a texture, with effects on it.
+ */
+struct SpriteSheet : public Sheet {
+    Texture::ID texture;
+    unsigned int startIdx = 0;
+    unsigned int endIdx = 0;
+    bool mirrorVertical = false;
+    bool mirrorHorizontal = false;
+
+    SpriteSheet() = default;
+
+    SpriteSheet(Texture::ID);
+
+    SpriteSheet(Texture::ID, bool mirrorVertical, bool mirrorHorizontal);
+
+    SpriteSheet(Texture::ID, unsigned int index, bool mirrorVertical, bool mirrorHorizontal);
+
+    SpriteSheet(Texture::ID, unsigned int startIdx, unsigned int endIdx, bool mirrorVertical, bool mirrorHorizontal);
+
+    unsigned int getCount() const override;
+
+    sf::Texture const &getTexture() const override;
+
+    /**
+     * @param i is a 0-based index
+     */
+    sf::Sprite getSprite(unsigned i) const override;
+};
+
+/**
+ * @brief A singleton that handles textures.<br>
+ * TextureSheet stores sf::Texture. SpriteSheet represents the sprite cut from a texture.<br>
+ * Every Texture::ID can be returned as SpriteSheet. Not all Texture::ID can be returned as TextureSheet.<br>
  */
 class TextureHolder {
 private:
-    std::map<Texture::ID, std::unique_ptr<SpriteSheet>> textures;
+    std::map<Texture::ID, std::unique_ptr<TextureSheet>> textures;
+    std::map<Texture::ID, SpriteSheet> sprites;
 
     TextureHolder() = default;
 
@@ -44,6 +103,11 @@ public:
               unsigned int spriteCount = 1, unsigned int textureRow = 1);
 
     /**
+     * Adds a SpriteSheet.
+     */
+    void addSprite(Texture::ID, SpriteSheet const &);
+
+    /**
      * Gets the texture of a Texture::ID.
      * Abort if not found.
      *
@@ -52,10 +116,18 @@ public:
     sf::Texture const &getTexture(Texture::ID) const;
 
     /**
-     * Gets spritesheet information of a Texture::ID.
+     * Gets SpriteSheet information of a Texture::ID.
      * Abort if not found.
      *
      * @return <tt>const SpriteSheet &</tt>
      */
-    SpriteSheet const &get(Texture::ID) const;
+    SpriteSheet const &getSpriteSheet(Texture::ID) const;
+
+    /**
+     * Gets TextureSheet information of a Texture::ID.
+     * Abort if not found.
+     *
+     * @return <tt>const TextureSheet &</tt>
+     */
+    TextureSheet const &getTextureSheet(Texture::ID) const;
 };

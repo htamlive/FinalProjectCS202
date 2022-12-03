@@ -10,37 +10,33 @@
 #include <random>
 
 int main() {
-    TextureHolder::instance().load(Texture::ID::Vehicle,
-                                   "../resources/images/greenCar.png");
-    TextureHolder::instance().load(Texture::ID::Animal,
-                                   "../resources/images/greenCar.png");
-    TextureHolder::instance().load(Texture::ID::Road,
-                                   "../resources/images/VehicleRoad.png",
-                                   {32, 32}, 9, 3);
-    TextureHolder::instance().load(Texture::ID::BotLane,
-                                   "../resources/images/VehicleRoad.png",
-                                   {32, 32}, 9, 3);
-    TextureHolder::instance().load(Texture::ID::TopLane,
-                                   "../resources/images/VehicleRoad.png",
-                                   {32, 32}, 9, 3);
-    std::function<Random<std::normal_distribution<double>>(double)>
-        randomFunction = [](double i) {
-            return Random(std::normal_distribution<double>(1, 0.5));
-        };
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
-    auto laneController = std::make_unique<LaneController>(
-        Lane::Type::Vehicle, 1, 400, 40, 40, 40,
-        Random(std::normal_distribution<double>(1, 0.5)), randomFunction);
-    SceneNode root;
-    // auto lane = std::make_unique<Lane>(
-    //     Lane::Type::Vehicle, Texture::ID::Vehicle, Texture::ID::Road, 200,
-    //     60, 40, 40, Lane::Direction::Right, 60,
-    //     Random(std::normal_distribution<double>(3.0, 1.0)));
+    TextureHolder::instance().load(Texture::ID::LeftVehicle,"./resources/images/greenCar.png");
+    TextureHolder::instance().addSprite(Texture::ID::RightVehicle, {Texture::ID::LeftVehicle, true, false});
+    TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
+    TextureHolder::instance().addSprite(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
+    TextureHolder::instance().load(Texture::ID::Road,"./resources/images/VehicleRoad.png", {32, 32}, 9, 3);
+    TextureHolder::instance().addSprite(Texture::ID::TopVehicleLane, {Texture::ID::Road, 1, false, false});
+    TextureHolder::instance().addSprite(Texture::ID::MidVehicleLane, {Texture::ID::Road, 4, false, false});
+    TextureHolder::instance().addSprite(Texture::ID::BotVehicleLane, {Texture::ID::Road, 7, false, false});
+    TextureHolder::instance().addSprite(Texture::ID::MonoVehicleLane, {Texture::ID::Road, 8, false, false});
 
+//    std::function<Random<std::normal_distribution<double>>(double)>
+//            randomFunction = [](double i) {
+//        return Random(std::normal_distribution<double>(3.0, 1.0));
+//    };
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+
+    SceneNode root;
+    auto laneController = std::make_unique<LaneController>(
+            Lane::Type::Vehicle, 3, 300, 60, 120, 120,
+            Random(std::normal_distribution<double>(100, 10.0)), [](double i) {
+                return Random(std::normal_distribution<double>(3.0, 1.0));
+            });
     root.attachChild(std::move(laneController));
+
     sf::Clock clock;
     while (window.isOpen()) {
-        sf::Event event;
+        sf::Event event{};
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();

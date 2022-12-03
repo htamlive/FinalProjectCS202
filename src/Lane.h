@@ -11,7 +11,7 @@
 class Lane : public SceneNode {
 public:
     enum class Direction {
-        Right, Left
+        Left = 0, Right = 1
     };
     enum class Type {
         Vehicle, Animal
@@ -40,6 +40,20 @@ public:
     Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
          float commuterWidth, float commuterHeight, Direction direction, float speed,
          Random<std::normal_distribution<double>> frequency);
+
+//    void setCommuterTexture(Texture::ID);
+//
+//    void setLaneTexture(Texture::ID);
+//
+//    void setLaneHeight(float);
+//
+//    void setCommuterHeight(float);
+//
+//    void setDirection(Direction);
+//
+//    void setSpeed(float);
+//
+//    void setFrequency(Random<std::normal_distribution<double>> const &);
 
     void updateCurrent(sf::Time dt) override;
 

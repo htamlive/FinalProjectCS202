@@ -2,8 +2,10 @@
 
 namespace Texture {
     enum ID {
-        Vehicle,
-        Animal,
+        LeftVehicle,
+        RightVehicle,
+        LeftAnimal,
+        RightAnimal,
         PlayerJumpLeft,
         PlayerJumpRight,
         PlayerJumpUp,
@@ -18,9 +20,10 @@ namespace Texture {
         GreenToRed,
         Road,
         Null,
-        TopLane,
-        MidLane,
-        BotLane
+        TopVehicleLane,
+        MidVehicleLane,
+        BotVehicleLane,
+        MonoVehicleLane
     };
 }
 

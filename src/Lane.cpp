@@ -21,10 +21,9 @@ Lane::Lane(Lane::Type type, Texture::ID commuterTexture,
     newCommuter = [this, direction, commuterWidth, type, commuterHeight,
             commuterTexture]() -> std::unique_ptr<Entity> {
         auto pos =
-            direction == Direction::Right
-                ? sf::Vector2f(0, getPosition().y)
-                : sf::Vector2f((float)WINDOW_VIDEO_MODE.width - commuterWidth,
-                               getPosition().y);
+                direction == Direction::Right
+                ? sf::Vector2f(-commuterWidth + 1, 0)
+                : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
         if (type == Type::Vehicle) {
             return std::make_unique<Vehicle>(velocity, pos.x, pos.y,
                                              commuterWidth, commuterHeight,
@@ -38,8 +37,18 @@ Lane::Lane(Lane::Type type, Texture::ID commuterTexture,
 }
 
 void Lane::updateCurrent(sf::Time dt) {
+    auto isLastCommuterFarEnough = [&]() {
+        if (!commuters.empty()) {
+            auto startX = velocity.x > 0 ? 0 : WINDOW_VIDEO_MODE.width;
+            auto &last = commuters.back();
+            return std::abs((float)startX - last->getPosition().x) >= MINIMUM_WIDTH_BETWEEN_VEHICLES;
+        }
+        else
+            return true;
+    };
+
     timer -= dt;
-    if (timer <= sf::Time::Zero) {
+    if (timer <= sf::Time::Zero && isLastCommuterFarEnough()) {
         // Add a new vehicle
         std::cout << "New commuter" << std::endl;
         auto commuter = newCommuter();
@@ -58,14 +67,14 @@ void Lane::updateCurrent(sf::Time dt) {
 
 void Lane::drawCurrent(sf::RenderTarget &target,
                        sf::RenderStates states) const {
-    sf::Sprite sprite(TextureHolder::instance().get(laneTexture).texture);
+    auto sprite = TextureHolder::instance().getSpriteSheet(laneTexture).getSprite(0);
     // Set scale to match the height of the road
-    auto scaleFactor = height / (float)sprite.getTexture()->getSize().y;
-    sprite.setScale(scaleFactor, scaleFactor);
+    auto scaleFactor = height / (float) sprite.getGlobalBounds().height;
+    sprite.setScale(sprite.getScale().x * scaleFactor, sprite.getScale().y * scaleFactor);
 
-    for (float i = 0; i < (float)WINDOW_VIDEO_MODE.width;
+    for (float i = 0; i < (float) WINDOW_VIDEO_MODE.width;
          i += sprite.getLocalBounds().width) {
-        sprite.setPosition(i, getPosition().y);
+        sprite.setPosition(i, 0);
         target.draw(sprite, states);
     }
 }
