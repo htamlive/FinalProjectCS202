@@ -81,7 +81,7 @@ void Player::calVelocity(sf::Time dt) {
         setVelocity(getVelocity() * scale);
         time_jumped += dt;
 
-    } else {
+    } else if(dt != sf::seconds(0)) {
         setVelocity({length.x / dt.asSeconds(), length.y / dt.asSeconds()});
     }
 }
