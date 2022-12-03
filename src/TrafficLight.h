@@ -9,7 +9,7 @@ class TrafficLight : public Entity {
 public:
     TrafficLight() = default;
 
-    TrafficLight(float x, float y, float w, float h, sf::Time greenTimer, sf::Time redTimer);
+    TrafficLight(sf::Vector2f position, sf::Vector2f size, sf::Time greenTimer, sf::Time redTimer);
 
 private:
     void updateCurrent(sf::Time dt) override;

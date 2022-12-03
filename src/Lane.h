@@ -19,7 +19,7 @@ public:
 
 private:
     Type type;
-    sf::Vector2f velocity;
+    float velocityX;
     std::deque<Entity *> commuters;
 
     /**
@@ -32,28 +32,35 @@ private:
     float height;
     Texture::ID laneTexture;
 
-    std::function<std::unique_ptr<Entity>()> newCommuter;
+    Texture::ID commuterTexture;
+    sf::Vector2f commuterSize;
+
+    std::unique_ptr<Entity> newCommuter() const;
 
 public:
     Lane();
+
+    Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float speed, Random<std::normal_distribution<double>> frequency);
 
     Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
          float commuterWidth, float commuterHeight, Direction direction, float speed,
          Random<std::normal_distribution<double>> frequency);
 
-//    void setCommuterTexture(Texture::ID);
-//
-//    void setLaneTexture(Texture::ID);
-//
-//    void setLaneHeight(float);
-//
-//    void setCommuterHeight(float);
-//
-//    void setDirection(Direction);
-//
-//    void setSpeed(float);
-//
-//    void setFrequency(Random<std::normal_distribution<double>> const &);
+    void setPosY(float);
+
+    void setCommuterTexture(Texture::ID);
+
+    void setLaneTexture(Texture::ID);
+
+    void setLaneHeight(float);
+
+    void setCommuterSize(sf::Vector2f);
+
+    void setDirection(Direction);
+
+    void setSpeed(float);
+
+    void setFrequency(Random<std::normal_distribution<double>> const &);
 
     void updateCurrent(sf::Time dt) override;
 

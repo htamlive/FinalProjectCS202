@@ -3,21 +3,21 @@
 #include <SFML/System/Vector2.hpp>
 
 Entity::Entity()
-    : animation(Texture::ID::LeftVehicle, DEF_ANIMATION_DURATION, true), width(0),
-      height(0) {}
+    : animation(Texture::ID::LeftVehicle, DEF_ANIMATION_DURATION, true), size(0, 0) {}
 
-Entity::Entity(sf::Vector2f velocity, float x, float y,
-               float w, float h, Texture::ID type, sf::Time animationDuration, bool loop)
-        : animation(type, animationDuration, loop), velocity(velocity), width(w), height(h) {
-    setPosition({x, y});
+Entity::Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf::Vector2f velocity,
+               sf::Time animationDuration, bool loop)
+        : animation(texture, animationDuration, loop), velocity(velocity), size(size) {
+    setPosition(position);
 }
+
 
 sf::Vector2f Entity::getVelocity() const { return velocity; }
 
 void Entity::setVelocity(sf::Vector2f _velocity) { velocity = _velocity; }
 
 sf::FloatRect Entity::getBoundingRect() const {
-    return {getAbsPosition().x, getAbsPosition().y, width, height};
+    return {getAbsPosition().x, getAbsPosition().y, size.x, size.y};
 }
 
 void Entity::updateCurrent(sf::Time dt) {
@@ -29,8 +29,8 @@ void Entity::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates state) const {
     sf::Sprite sprite = animation.toSprite();
     auto scale = sprite.getScale();
-    scale.x *= width / sprite.getLocalBounds().width;
-    scale.y *= height / sprite.getLocalBounds().height;
+    scale.x *= size.x / sprite.getLocalBounds().width;
+    scale.y *= size.y / sprite.getLocalBounds().height;
     sprite.setScale(scale);
     target.draw(sprite, state);
 }

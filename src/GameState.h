@@ -25,7 +25,7 @@ public:
 		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
 		this->initKeyBinds();
 		
-		player = new Player(0, 0, 96, 96);
+		player = new Player({0, 0}, {96, 96});
 	};
 	~GameState() override {
 		delete player;

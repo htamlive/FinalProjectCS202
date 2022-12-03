@@ -28,8 +28,9 @@ int main() {
 
     SceneNode root;
     auto laneController = std::make_unique<LaneController>(
-            Lane::Type::Vehicle, 3, 300, 60, 120, 120,
-            Random(std::normal_distribution<double>(100, 10.0)), [](double i) {
+            Lane::Type::Vehicle, 3, 300,
+            Random(std::normal_distribution<double>(100, 10.0)),
+            [](double i) {
                 return Random(std::normal_distribution<double>(3.0, 1.0));
             });
     root.attachChild(std::move(laneController));

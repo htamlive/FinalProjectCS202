@@ -48,7 +48,7 @@ public:
  * @brief A class that stores information of a part of a texture, with effects on it.
  */
 struct SpriteSheet : public Sheet {
-    Texture::ID texture;
+    Texture::ID texture{};
     unsigned int startIdx = 0;
     unsigned int endIdx = 0;
     bool mirrorVertical = false;
@@ -71,7 +71,7 @@ struct SpriteSheet : public Sheet {
     /**
      * @param i is a 0-based index
      */
-    sf::Sprite getSprite(unsigned i) const override;
+    sf::Sprite getSprite(unsigned i = 0) const override;
 };
 
 /**

@@ -20,8 +20,8 @@ Player::Player() : jumpTexture(Texture::ID::PlayerJumpUp), idleTexture(Texture::
     animation = AnimationMachine(idleTexture, sf::seconds(5), true);
 }
 
-Player::Player(float x, float y, float w, float h)
-        : Entity({100, 100}, x, y, w, h, Texture::ID::PlayerIdleUp),
+Player::Player(sf::Vector2f position, sf::Vector2f size)
+        : Entity(Texture::ID::PlayerIdleUp, position, size, DEF_PLAYER_VELOCITY),
           jumpTexture(Texture::ID::PlayerJumpUp),
           idleTexture(Texture::ID::PlayerIdleUp) {
     staticPos = getPosition();

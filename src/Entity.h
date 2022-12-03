@@ -15,28 +15,21 @@
 
 class Entity : public SceneNode {
 private:
-    sf::Vector2f velocity;
-    float width, height;
+    sf::Vector2f velocity, size;
 
 protected:
     AnimationMachine animation;
 
 public:
     Entity();
-    Entity(Texture::ID type, sf::Vector2f vel,
-           sf::Time animation_duration = DEF_ANIMATION_DURATION,
+    Entity(Texture::ID texture, sf::Vector2f velocity,
+           sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
-    Entity(sf::Vector2f velocity, float x, float y, float w, float h,
-           Texture::ID type,
-           sf::Time animation_duration = DEF_ANIMATION_DURATION,
+    Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf::Vector2f velocity,
+           sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
-    Entity(sf::Vector2f velocity, sf::Vector2f pos, sf::Vector2f size,
-           Texture::ID type,
-           sf::Time animation_duration = DEF_ANIMATION_DURATION,
-           bool loop = true);
-    Entity(sf::Vector2f velocity, sf::FloatRect boundRect,
-           Texture::ID type,
-           sf::Time animation_duration = DEF_ANIMATION_DURATION,
+    Entity(Texture::ID texture, sf::FloatRect boundRect, sf::Vector2f velocity,
+           sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
 
     /**
