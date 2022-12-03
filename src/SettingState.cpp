@@ -20,5 +20,6 @@ void SettingState::render(sf::RenderTarget* target)
 	}
 	target->draw(this->background);
 	this->gui->draw();
+	
 }
 

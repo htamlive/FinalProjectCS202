@@ -10,7 +10,9 @@ State::State(sf::RenderWindow* window, std::vector<State*>* states) : ev(), supp
 }
 
 
-State::~State() = default;
+State::~State() {
+	delete gui;
+};
 
 const bool& State::getQuit() const
 {

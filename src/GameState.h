@@ -1,6 +1,7 @@
 #pragma once
 #include "State.h"
 #include "Player.h"
+#include "PauseMenu.h"
 
 class GameState : public State
 {
@@ -15,54 +16,74 @@ private:
 	bool lastPlay;
 
 	Player* player;
-
+	PauseMenu* pauseMenu;
 	//std::string getMode();
+
+	void updateEventsPauseMenu() {
+		pauseMenu->ev = this->ev;
+		pauseMenu->updateEvents();
+	}
 
 public:
 
-	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states) : State(window, supportedKeys, states)  {
-		this->gui = new tgui::Gui(ref(*window));
+	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states) : State(window, supportedKeys, states) {
 		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
 		this->initKeyBinds();
-		
+
 		player = new Player(0, 0, 96, 96);
+		pauseMenu = new PauseMenu(window, states);
 	};
 	~GameState() override {
 		delete player;
+		delete pauseMenu;
 	};
 	//void adjustCells(const int totalX, const int totalY);
 	//Vector2u setCenter(const int totalX, const int totalY);
 
 	//bool checkLastPlay();
-	
+
 	//void sinkingDown(const float& dt) { // apply to lanes, cars, ... float downward
 	//	
 	//}
 	void updateEvents() override {
-		this->player->onKeyPressed(this->ev.key);
+		this->gui->handleEvent(this->ev);
+
+		switch (this->ev.type)
+		{
+		case sf::Event::Closed:
+			this->endState();
+			break;
+		case sf::Event::TextEntered:
+
+			//update
+			break;
+		default:
+			break;
+		}
+
+		updateEventsPauseMenu();
+
+		if (pauseMenu->getQuit()) {
+			this->endState();
+		}
 
 	};
+
 	void updateInput(const float& dt) override {
-		//this->player.move(dt, 0, 0.25f);
-		//if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_LEFT"))))
-		//	this->player.move(dt, -1.f, 0.f);
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_UP"))))
-		//	this->player.move(dt, 0.f, -1.f);
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_RIGHT"))))
-		//	this->player.move(dt, 1.f, 0.f);
-		//if (Keyboard::isKeyPressed(Keyboard::Key(this->keybinds.at("MOVE_DOWN"))))
-		//	this->player.move(dt, 0.f, 1.25f);
+		this->pauseMenu->updateInput();
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))))
-			this->gui->loadWidgetsFromFile("resources/Template/esc_windows.txt");
-
-		//	this->endState();
+		if (sf::Keyboard::isKeyPressed(this->ev.key.code))
+			this->player->onKeyPressed(this->ev.key);
 	};
+
 	void update(const float& dt) override {
-		updateInput(dt);
+		float transDt = dt;
+		if (pauseMenu->isPausing()) transDt = 0;
+		updateInput(transDt);
 		//this->player.update(dt);
-		player->update(sf::Time(sf::seconds(dt)));
+		player->update(sf::Time(sf::seconds(transDt)));
 	};
+
 	void render(sf::RenderTarget* target = nullptr) override {
 		if (!target) {
 			target = this->window;
@@ -70,6 +91,7 @@ public:
 		//this->player.render(target);
 		this->gui->draw();
 		target->draw(*player);
+		pauseMenu->render(target);
 		
 	};
 };
