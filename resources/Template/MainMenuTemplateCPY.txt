@@ -30,9 +30,8 @@ Picture.toUp {
 }
 
 Button.btnPlay {
-    Position = (432, 170);
-    Size = (160, 62);
-    Text = "New Game";
+    Position = (408, 156.125);
+    Size = (208, 208);
     TextSize = 13;
 
     Renderer {
@@ -46,12 +45,12 @@ Button.btnPlay {
         BorderColorDown = black;
         BorderColorFocused = #1E1EB4;
         BorderColorHover = black;
-        Borders = (1, 1, 1, 1);
+        Borders = (0, 0, 0, 0);
         TextColor = #3C3C3C;
         TextColorDisabled = #7D7D7D;
         TextColorDown = black;
         TextColorHover = black;
-        Texture = None;
+        Texture = "../buttons/playButtonIdle.png" Smooth;
         TextureDisabled = None;
         TextureDown = None;
         TextureDownFocused = None;
@@ -62,7 +61,7 @@ Button.btnPlay {
 }
 
 Button.btnLoad {
-    Position = (432, 270);
+    Position = (432, 340);
     Size = (160, 62);
     Text = "Load Game";
     TextSize = 13;
@@ -93,7 +92,7 @@ Button.btnLoad {
 }
 
 Button.btnSetting {
-    Position = (432, 370);
+    Position = (422, 460);
     Size = (160, 62);
     Text = Control;
     TextSize = 13;
