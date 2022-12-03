@@ -1,103 +1,118 @@
 #include <TGUI/TGUI.hpp>
 #include <stdlib.h>
 #include <time.h>
-#define X first 
-#define Y second
 
 class MenuAnimation {
 private:
 	tgui::Gui* gui;
-	float timeManage;
-	float timeOverall;
-	float vX, vY;
-	bool turnBack;
-	pair<int, int> a[5], b[5];
-	string s[5];
+	float timeManage, timeOverall, timeMoving, m_size, realSize, showBound;
+	
+	sf::Vector2f a[5], b[5], velocity;
+	sf::Sprite sprite;
+	sf::Texture texture;
+	std::vector<float> rotations;
+
+	void initVariables() {
+		timeManage = 11;
+		timeOverall = 6;
+		timeMoving = 2;
+		m_size = 82;
+		realSize = 128;
+		showBound = 55;
+	}
+
+	enum class _DIRECTION
+	{
+		TO_DOWN = 0,
+		TO_UP = 1,
+		TO_RIGHT = 2,
+		TO_LEFT = 3,
+	};
 public:
 	MenuAnimation()
 	{
-		timeManage = 110;
-		timeOverall = 6;
-		vX = vY = 0;
+
+		initVariables();
 
 		// random 1 of 4 edges: up:0, down:1, left:2, right:3
-		a[0] = { 1, -32 };
-		a[1] = { 1, 768 };
-		a[2] = { -32, 1 };
-		a[3] = { 1024, 1 };
+		a[(int)_DIRECTION::TO_DOWN] = { 0, -82 };
+		a[(int)_DIRECTION::TO_UP] = { 0, 768 };
+		a[(int)_DIRECTION::TO_RIGHT] = { -82, 0 };
+		a[(int)_DIRECTION::TO_LEFT] = { 1024, 0 };
 
-		b[0] = { 1,-32+25 };
-		b[1] = { 1, 768-25 };
-		b[2] = { -32+25, 1 };
-		b[3] = { 1024-25, 1 };
+		b[(int)_DIRECTION::TO_DOWN] = { 0, showBound };
+		b[(int)_DIRECTION::TO_UP] = { 0, 768 - showBound };
+		b[(int)_DIRECTION::TO_RIGHT] = { showBound, 0 };
+		b[(int)_DIRECTION::TO_LEFT] = { 1024 - showBound, 0};
 
-		s[0] = "toDown";
-		s[1] = "toUp";
-		s[2] = "toRight";
-		s[3] = "toLeft";
+		rotations.resize(4);
+		rotations[(int)_DIRECTION::TO_DOWN] = 180.f;
+		rotations[(int)_DIRECTION::TO_UP] = 0.f;
+		rotations[(int)_DIRECTION::TO_RIGHT] = 90.f;
+		rotations[(int)_DIRECTION::TO_LEFT] = 270.f;
 
-		this->gui->get<tgui::Picture>("toDown")->setRotation(180f);
-		this->gui->get<tgui::Picture>("toRight")->setRotation(-90f);
-		this->gui->get<tgui::Picture>("toLeft")->setRotation(90f);
+		this->texture.loadFromFile("resources\\spritesheet\\\main\\idleDown_128_128.png", sf::IntRect(0, 0, 128, 128));
+		this->sprite.setTexture(texture);
+		this->sprite.setScale({ m_size / realSize, m_size / realSize });
+		this->sprite.setOrigin({ 0.5f, 0.5f });
 
 	}
 	MenuAnimation(tgui::Gui*& gui)
 	{
 		this->gui = gui;
-		timeManage = 0;
-		timeOverall = 5;
-		vX = vY = 0;
 	}
 	void SetGui(tgui::Gui*& gui)
 	{
 		this->gui = gui;
+
 	}
-	void setXY(float x, float y, int kind)
+	void setXY(tgui::Vector2f pos, int kind)
 	{
-		this->gui->get<tgui::Picture>(s[kind])->setPosition(tgui::Vector2f(x, y));
+		//this->gui->get<tgui::Picture>(s[kind])->setPosition(pos);
+		this->sprite.setPosition(pos);
+		this->sprite.setRotation(rotations[kind]);
+		
 	}
 	//tgui::Vector2f getXY()
 	//{
 	//	return this->gui->get<tgui::Picture>(s[kind])->getPosition();
 	//}
-	float velocityX(float x, float x1)
+	void moveXY(tgui::Vector2f pos, int time, int kind)
 	{
-		return float((x1 - x) / timeOverall);
-	}
-	float velocityY(float y, float y1)
-	{
-		return float((y1 - y) / timeOverall);
-	}
-	void moveXY(float x, float y, int time, int kind)
-	{
-		this->gui->get<tgui::Picture>(s[kind])->moveWithAnimation(tgui::Vector2f(x, y), tgui::Duration(1000));
+		//this->gui->get<tgui::Picture>(s[kind])->moveWithAnimation(pos, tgui::Duration(sf::seconds(1)));
 	}
 
-	int randHorizontal()
-	{
-		return rand() % (1024 - 32);
-	}
-	int randVerticle()
-	{
-		return rand() % (768 - 32);
-	}
-	bool check()
-	{
-		return (timeManage < timeOverall);
-		/*float x = 0, y = 0;
-		tgui::Vector2f(x, y) = this->getXY();
-		return x < 300;*/
-	}
-	~MenuAnimation()
-	{
-		
+	void moveCharacter(int kind, const float& dt) {
+		tgui::Vector2f nwPos = tgui::Vector2f(this->sprite.getPosition() + velocity * dt);
+		this->sprite.setPosition(nwPos);
 	}
 
+	tgui::Vector2f calcVelocity(tgui::Vector2f pos, int time, int kind) {
+		return (pos - tgui::Vector2f(this->sprite.getPosition()))/time;
+	}
+
+	int randHorizontal(){
+		srand(time(NULL));
+		return rand()*rand()%1000000007 % (1024 - (int)m_size*3/2);
+	}
+	int randVerticle(){
+		srand(time(NULL));
+		return rand()*rand()%1000000007 % (768 - (int)m_size*3/2);
+	}
 	void resettimeManage() {
 		timeManage = 0;
 	}
 	bool checkDone() {
-		return timeManage >= timeOverall*2;
+		return timeManage >= timeOverall;
+	}
+	bool checkMoveTo(){
+		return (timeManage < timeMoving);
+	}
+	bool checkMoveBack() {
+		return (timeManage > timeOverall - timeMoving);
+	}
+	bool checkResting() {
+		return !checkMoveBack() && !checkMoveTo();
 	}
 	bool inProcess() {
 		return timeManage != 0.f;
@@ -112,14 +127,15 @@ public:
 		if (kind == 0 || kind == 1)
 		{
 			temp = randHorizontal();
-			a[kind].X = b[kind].X = temp;
+			a[kind].x = b[kind].x = temp;
 		}
 		else
 		{
 			temp = randVerticle();
-			a[kind].Y = b[kind].Y = temp;
+			a[kind].y = b[kind].y = temp;
 		}
-		this->setXY(a[kind].X, a[kind].Y, kind);
+		//cout << "set " << a[kind].X << " " << a[kind].Y << "\n";
+		this->setXY(a[kind], kind);
 	}
 
 	void update(const float & dt) {
@@ -127,37 +143,45 @@ public:
 		static int kind = 0;
 		
 		timeManage += dt;
-		srand(time(0));
+		
 
-		if (this->checkDone()) // timeManage >= timeOverall*2
+		if (checkDone())
 		{
-			this->gui->get<tgui::Picture>(s[kind])->setVisible(false);
+			//cout << "invisible\n";
+			//this->gui->get<tgui::Picture>(s[kind])->setVisible(false);
 			this->resettimeManage();
 			// random 1 of 4 edges: up:0, down:1, left:2, right:3
-			kind = (rand() % 4);
-
+			srand(time(NULL));
+			kind = ((1ll*rand()*rand()%1000000007 + rand()*rand()) % 4);
+			//kind = 1;
 			//pass kind to setEdge
 			this->setEdge(kind);
+
+			flag = true;
 		}
-		else if (this->check()) //timeManage < timeOverall
+		if (checkMoveTo())
 		{
 			if(flag) {
 				flag = false;
-				this->gui->get<tgui::Picture>(s[kind])->setVisible(true);
-				this->moveXY(b[kind].X, b[kind].Y, timeOverall, kind);
-			}
-
-			
+				//this->gui->get<tgui::Picture>(s[kind])->setVisible(true);
+				velocity = this->calcVelocity(b[kind], timeMoving, kind);
+			} else moveCharacter(kind, dt);
 			//cout << dt << endl;
 		}
-		else
+		if (checkMoveBack())
 		{
 			if (!flag) {
 				flag = true;
-				this->moveXY(a[kind].X, a[kind].Y, timeOverall, kind);
-			}
-			//ve vi tri cu
-			//;
+				velocity = this->calcVelocity(a[kind], timeMoving, kind);
+			} else moveCharacter(kind, dt);
 		}
+		if (checkResting()) {
+			velocity = { 0, 0 };
+		}
+
+	}
+	
+	void render(sf::RenderTarget* target) {
+		target->draw(this->sprite);
 	}
 };

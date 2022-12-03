@@ -17,6 +17,10 @@ void MainMenuState::render(sf::RenderTarget* target)
 	if (!target) {
 		target = this->window;
 	}
+
 	target->draw(this->background);
 	this->gui->draw();
+	Meow.render(target);
+
+
 }
