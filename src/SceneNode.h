@@ -72,9 +72,16 @@ public:
      */
     void checkSceneCollision(SceneNode& node, std::set<Pair>& collisions);
 
-    void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
+    /**
+     * Turn on/off the visible of the node's bounding box
+     * @param show: true to show, false to hide
+     * @param recursive: true to show all children's bounding box
+     */
+    void setDebug(bool show, bool recursive = false);
 
 private:
+    void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
+    bool boundingBoxVisible = false;
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
     /**

@@ -32,6 +32,9 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform *= this->getTransform();
 
     drawCurrent(target, states);
+    if (boundingBoxVisible) {
+        drawBoundingBox(target, states);
+    }
 
     for (const auto &child : mChildren) {
         child->draw(target, states);
@@ -106,4 +109,13 @@ void SceneNode::drawBoundingBox(sf::RenderTarget &target,
     shape.setOutlineColor(sf::Color::Red);
     shape.setOutlineThickness(1.f);
     target.draw(shape, states);
+}
+
+void SceneNode::setDebug(bool show, bool recursive) {
+    boundingBoxVisible = show;
+    if (recursive) {
+        for (auto &child : mChildren) {
+            child->setDebug(show, recursive);
+        }
+    }
 }
