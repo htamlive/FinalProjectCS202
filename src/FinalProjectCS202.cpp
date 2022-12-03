@@ -5,9 +5,6 @@
 //#include "Entity.h"
 //#include "TextureHolder.h"
 //#include "AudioController.h"
-#include <SFML/Graphics.hpp>
-#include <TGUI/TGUI.hpp>
-#include "AnimationsByFrames.h"
 
 int main()
 {
