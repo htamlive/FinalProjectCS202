@@ -72,7 +72,16 @@ public:
      */
     void checkSceneCollision(SceneNode& node, std::set<Pair>& collisions);
 
+    /**
+     * Set the debug mode of the node
+     * @param on: on/off
+     * @param recursive: apply to all children
+     */
+    void setDebug(bool on, bool recursive = false);
+
 private:
+    void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
+    bool boundingBoxVisible = false;
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
     /**
