@@ -19,7 +19,7 @@ Lane::Lane(Lane::Type type, Texture::ID commuterTexture,
                                              : sf::Vector2f(-speed, 0);
 
     newCommuter = [this, direction, commuterWidth, type, commuterHeight,
-                   commuterTexture]() -> std::unique_ptr<Entity> {
+            commuterTexture]() -> std::unique_ptr<Entity> {
         auto pos =
             direction == Direction::Right
                 ? sf::Vector2f(0, getPosition().y)
@@ -72,7 +72,7 @@ void Lane::drawCurrent(sf::RenderTarget &target,
 
 void Lane::onLightChanged() {
     if (type == Type::Vehicle) {
-        for (auto &vehicle : commuters) {
+        for (auto &vehicle: commuters) {
             dynamic_cast<Vehicle *>(vehicle)->onLightChanged();
         }
     }

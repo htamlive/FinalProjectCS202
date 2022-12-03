@@ -41,7 +41,7 @@ LaneController::LaneController(
 }
 
 void LaneController::onLightChanged() {
-    for (auto &lane : lanes) {
+    for (auto &lane: lanes) {
         lane->onLightChanged();
     }
 }

@@ -9,10 +9,10 @@ public:
 
     LaneController(Lane::Type type, unsigned int laneCount, float y, float laneHeight, float commuterWidth,
                    float commuterHeight, Random<std::normal_distribution<double>> speed,
-                   std::function<Random<std::normal_distribution<double>>(double speed)> frequencyFunction);
+                   const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction);
 
 private:
     void onLightChanged();
 
-    std::vector <Lane *> lanes;
+    std::vector<Lane *> lanes;
 };

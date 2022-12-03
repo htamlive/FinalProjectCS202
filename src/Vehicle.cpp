@@ -4,6 +4,13 @@
 
 void Vehicle::onLightChanged() {
     auto oldVelocity = getVelocity();
-    setVelocity(tmp_velocity);
-    tmp_velocity = oldVelocity;
+    setVelocity(tmpVelocity);
+    tmpVelocity = oldVelocity;
 }
+
+Vehicle::Vehicle() : tmpVelocity(0, 0) {}
+
+Vehicle::Vehicle(sf::Vector2f velocity, float x, float y, float w, float h, Texture::ID texture) : Entity(velocity, x,
+                                                                                                          y, w, h,
+                                                                                                          texture),
+                                                                                                   tmpVelocity(0, 0) {}

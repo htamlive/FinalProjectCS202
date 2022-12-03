@@ -9,5 +9,5 @@ public:
     void onLightChanged();
 
 private:
-    sf::Vector2f tmp_velocity;
+    sf::Vector2f tmpVelocity;
 };

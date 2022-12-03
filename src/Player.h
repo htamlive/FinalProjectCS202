@@ -24,11 +24,11 @@ private:
 
     void onJumpAnimationFinished();
 
-    sf::Vector2f static_pos;
+    sf::Vector2f staticPos;
 
-    sf::Time time_jumped;
+    sf::Time timeJumped;
 
-    Texture::ID jump_texture, idle_texture;
+    Texture::ID jumpTexture, idleTexture;
 };
 
 //class Player : public Entity

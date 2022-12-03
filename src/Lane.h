@@ -32,7 +32,7 @@ private:
     float height;
     Texture::ID laneTexture;
 
-    std::function <std::unique_ptr<Entity>()> newCommuter;
+    std::function<std::unique_ptr<Entity>()> newCommuter;
 
 public:
     Lane();

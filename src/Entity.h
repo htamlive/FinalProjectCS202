@@ -14,14 +14,14 @@
  */
 
 class Entity : public SceneNode {
-  private:
+private:
     sf::Vector2f velocity;
     float width, height;
 
-  protected:
+protected:
     AnimationMachine animation;
 
-  public:
+public:
     Entity();
     Entity(Texture::ID type, sf::Vector2f vel,
            sf::Time animation_duration = DEF_ANIMATION_DURATION,
@@ -64,7 +64,7 @@ class Entity : public SceneNode {
 
     /**
      * Update the Entity, can be extended in derived class. Default
-     * implementation only update the position according to velocity &
+     * implementation only updates the position according to velocity &
      * animation.
      *
      * @param dt time since last frame

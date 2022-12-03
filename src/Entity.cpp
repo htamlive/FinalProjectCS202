@@ -6,10 +6,9 @@ Entity::Entity()
     : animation(Texture::ID::Vehicle, DEF_ANIMATION_DURATION, true), width(0),
       height(0) {}
 
-Entity::Entity(sf::Vector2f velocity, float x, float y, float w, float h,
-               Texture::ID type, sf::Time animation_duration, bool loop)
-    : animation(type, animation_duration, loop), velocity(velocity), width(w),
-      height(h) {
+Entity::Entity(sf::Vector2f velocity, float x, float y,
+               float w, float h, Texture::ID type, sf::Time animationDuration, bool loop)
+        : animation(type, animationDuration, loop), velocity(velocity), width(w), height(h) {
     setPosition({x, y});
 }
 
