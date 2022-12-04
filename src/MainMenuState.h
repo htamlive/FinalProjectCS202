@@ -46,7 +46,28 @@ public:
 	void updateInput(const float& dt) override {
 
 	};
-
+	void zoomBig(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f });
+	}
+	void zoomSmall(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f/1.1f, 1.0f/1.1f });
+	}
+	void updateBtns_1() {
+		this->gui->get<tgui::Button>("btnPlay")->onMouseLeave([&, this]() {
+			zoomSmall("btnPlay");
+			});
+		this->gui->get<tgui::Button>("btnSetting")->onMouseLeave([&, this]() {
+			zoomSmall("btnSetting");
+			});
+	};
+	void updateBtns() {
+		this->gui->get<tgui::Button>("btnPlay")->onMouseEnter([&, this]() {
+			zoomBig("btnPlay");
+			});
+		this->gui->get<tgui::Button>("btnSetting")->onMouseEnter([&, this]() {
+			zoomBig("btnSetting");
+			});
+	};
 	void updateEvents() override {
 		this->gui->handleEvent(this->ev);
 		switch (this->ev.type)
@@ -65,10 +86,8 @@ public:
 
 	void update(const float& dt) override {
 		Meow.update(dt); 
-	};
-
-	void updateBtns() {
-
+		updateBtns();
+		updateBtns_1();
 	};
 
 	void render(sf::RenderTarget* target = nullptr) override;
