@@ -54,9 +54,9 @@ Button.btnPlay {
         TextureDisabled = None;
         TextureDown = "../buttons/playButtonIdle.png" Smooth;
         TextureDownFocused = None;
-        TextureDownHover = None;
+        TextureDownHover = "../buttons/playButtonHover.png" Smooth;
         TextureFocused = None;
-        TextureHover = "../buttons/playButtonHover.png" Smooth;
+        TextureHover = None;
     }
 }
 
@@ -91,9 +91,8 @@ Button.btnLoad {
 }
 
 Button.btnSetting {
-    Position = (432, 520);
+    Position = (432, 470);
     Size = (160, 62);
-    Text = Control;
     TextSize = 13;
 
     Renderer {
@@ -106,16 +105,17 @@ Button.btnSetting {
         BorderColorDown = black;
         BorderColorFocused = #1E1EB4;
         BorderColorHover = black;
-        Borders = (1, 1, 1, 1);
+        Borders = (0, 0, 0, 0);
         TextColor = #3C3C3C;
         TextColorDisabled = #7D7D7D;
         TextColorDown = black;
         TextColorHover = black;
-        Texture = None;
+        TextStyleDownFocused = Regular;
+        Texture = "../buttons/controlButtonPressed.png" Smooth;
         TextureDisabled = None;
-        TextureDown = None;
+        TextureDown = "../buttons/controlButtonPressed.png" Smooth;
         TextureDownFocused = None;
-        TextureDownHover = None;
+        TextureDownHover = "../buttons/controlButtonIdle.png" Smooth;
         TextureFocused = None;
         TextureHover = None;
     }
