@@ -56,6 +56,9 @@ public:
 		this->gui->get<tgui::Button>("btnPlay")->onMouseLeave([&, this]() {
 			zoomSmall("btnPlay");
 			});
+		this->gui->get<tgui::Button>("btnLoad")->onMouseLeave([&, this]() {
+			zoomSmall("btnLoad");
+			});
 		this->gui->get<tgui::Button>("btnSetting")->onMouseLeave([&, this]() {
 			zoomSmall("btnSetting");
 			});
@@ -63,6 +66,9 @@ public:
 	void updateBtns() {
 		this->gui->get<tgui::Button>("btnPlay")->onMouseEnter([&, this]() {
 			zoomBig("btnPlay");
+			});
+		this->gui->get<tgui::Button>("btnLoad")->onMouseEnter([&, this]() {
+			zoomBig("btnLoad");
 			});
 		this->gui->get<tgui::Button>("btnSetting")->onMouseEnter([&, this]() {
 			zoomBig("btnSetting");
