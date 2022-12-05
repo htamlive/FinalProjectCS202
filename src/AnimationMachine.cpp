@@ -34,5 +34,5 @@ bool AnimationMachine::isFinished() const {
 Texture::ID AnimationMachine::getID() const { return id; }
 
 Sheet const &AnimationMachine::getSheet() const {
-    return TextureHolder::instance().getSpriteSheet(id);
+    return TextureHolder::instance().getSheet(id);
 }

@@ -20,44 +20,28 @@ void TextureHolder::load(Texture::ID id, const std::string &filename,
     if (texture.loadFromFile(filename)) {
         if (!spriteSize.x || !spriteSize.y)
             spriteSize = texture.getSize();
-        textures[id] = std::make_unique<TextureSheet>(
-                texture, spriteCount, spriteSize, textureRow);
-        sprites[id] = {id};
+        sheets[id] = std::make_unique<TextureSheet>(std::move(texture), spriteCount, spriteSize, textureRow);
     } else {
         std::cerr << "Loading texture from \"" << filename << "\" failed.\n";
         assert(0);
     }
 }
 
-sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
-    auto found = textures.find(id);
-    if (found == textures.end()) {
-        std::cerr << "TextureHolder::getTexture: Texture not found.\n";
-        assert(0);
-    }
-    return found->second->getTexture();
+void TextureHolder::addSpriteSheet(Texture::ID id, const SpriteSheet& sheet) {
+    sheets[id] = std::make_unique<SpriteSheet>(sheet);
 }
 
-void TextureHolder::addSprite(Texture::ID id, const SpriteSheet &info) {
-    sprites[id] = info;
-}
-
-SpriteSheet const &TextureHolder::getSpriteSheet(Texture::ID id) const {
-    auto found = sprites.find(id);
-    if (found == sprites.end()) {
-        std::cerr << "TextureHolder::getSpriteSheet: Sheet not found.\n";
-        assert(0);
-    }
-    return found->second;
-}
-
-TextureSheet const &TextureHolder::getTextureSheet(Texture::ID id) const {
-    auto found = textures.find(id);
-    if (found == textures.end()) {
-        std::cerr << "TextureHolder::getTextureSheet: Sheet not found.\n";
+Sheet const &TextureHolder::getSheet(Texture::ID id) const {
+    auto found = sheets.find(id);
+    if (found == sheets.end()) {
+        std::cerr << "TextureHolder::getSheet: Sheet not found.\n";
         assert(0);
     }
     return *found->second;
+}
+
+sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
+    return getSheet(id).getTexture();
 }
 
 sf::Sprite TextureSheet::getSprite(unsigned int i) const {
@@ -82,7 +66,7 @@ sf::Texture const &TextureSheet::getTexture() const {
     return texture;
 }
 
-TextureSheet::TextureSheet(const sf::Texture &texture, unsigned int spriteCount, sf::Vector2u spriteSize,
+TextureSheet::TextureSheet(const sf::Texture& texture, unsigned int spriteCount, sf::Vector2u spriteSize,
                            unsigned int textureRow) : texture(texture), spriteCount(spriteCount),
                                                       spriteSize(spriteSize), textureRow(textureRow) {}
 
@@ -95,7 +79,7 @@ sf::Texture const &SpriteSheet::getTexture() const {
 }
 
 sf::Sprite SpriteSheet::getSprite(unsigned int i) const {
-    auto &textureSheet = TextureHolder::instance().getTextureSheet(texture);
+    auto &textureSheet = TextureHolder::instance().getSheet(texture);
     auto sprite = textureSheet.getSprite(startIdx + i);
     sf::Vector2f scale = {1, 1};
     if (mirrorVertical) scale.x *= -1;

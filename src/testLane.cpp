@@ -11,14 +11,14 @@
 
 int main() {
     TextureHolder::instance().load(Texture::ID::LeftVehicle,"./resources/images/greenCar.png");
-    TextureHolder::instance().addSprite(Texture::ID::RightVehicle, {Texture::ID::LeftVehicle, true, false});
+    TextureHolder::instance().addSpriteSheet(Texture::ID::RightVehicle, {Texture::ID::LeftVehicle, true, false});
     TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
-    TextureHolder::instance().addSprite(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
+    TextureHolder::instance().addSpriteSheet(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
     TextureHolder::instance().load(Texture::ID::Road,"./resources/images/VehicleRoad.png", {32, 32}, 9, 3);
-    TextureHolder::instance().addSprite(Texture::ID::TopVehicleLane, {Texture::ID::Road, 1, false, false});
-    TextureHolder::instance().addSprite(Texture::ID::MidVehicleLane, {Texture::ID::Road, 4, false, false});
-    TextureHolder::instance().addSprite(Texture::ID::BotVehicleLane, {Texture::ID::Road, 7, false, false});
-    TextureHolder::instance().addSprite(Texture::ID::MonoVehicleLane, {Texture::ID::Road, 8, false, false});
+    TextureHolder::instance().addSpriteSheet(Texture::ID::TopVehicleLane, {Texture::ID::Road, 1, false, false});
+    TextureHolder::instance().addSpriteSheet(Texture::ID::MidVehicleLane, {Texture::ID::Road, 4, false, false});
+    TextureHolder::instance().addSpriteSheet(Texture::ID::BotVehicleLane, {Texture::ID::Road, 7, false, false});
+    TextureHolder::instance().addSpriteSheet(Texture::ID::MonoVehicleLane, {Texture::ID::Road, 8, false, false});
 
 //    std::function<Random<std::normal_distribution<double>>(double)>
 //            randomFunction = [](double i) {

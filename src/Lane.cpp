@@ -68,7 +68,7 @@ void Lane::updateCurrent(sf::Time dt) {
 
 void Lane::drawCurrent(sf::RenderTarget &target,
                        sf::RenderStates states) const {
-    auto sprite = TextureHolder::instance().getSpriteSheet(laneTexture).getSprite(0);
+    auto sprite = TextureHolder::instance().getSheet(laneTexture).getSprite(0);
     // Set scale to match the height of the road
     auto scaleFactor = height / (float) sprite.getGlobalBounds().height;
     sprite.setScale(sprite.getScale().x * scaleFactor, sprite.getScale().y * scaleFactor);

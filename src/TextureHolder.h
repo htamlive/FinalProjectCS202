@@ -18,6 +18,8 @@ public:
      * @param i is a 0-based index
      */
     virtual sf::Sprite getSprite(unsigned i) const = 0;
+
+    virtual ~Sheet() = default;
 };
 
 /**
@@ -31,7 +33,7 @@ private:
     unsigned int textureRow = 0;
 
 public:
-    TextureSheet(const sf::Texture &texture, unsigned int spriteCount,
+    TextureSheet(const sf::Texture& texture, unsigned int spriteCount,
                  sf::Vector2u spriteSize, unsigned int textureRow);
 
     unsigned int getCount() const override;
@@ -81,8 +83,7 @@ struct SpriteSheet : public Sheet {
  */
 class TextureHolder {
 private:
-    std::map<Texture::ID, std::unique_ptr<TextureSheet>> textures;
-    std::map<Texture::ID, SpriteSheet> sprites;
+    std::map<Texture::ID, std::unique_ptr<Sheet>> sheets;
 
     TextureHolder() = default;
 
@@ -105,7 +106,7 @@ public:
     /**
      * Adds a SpriteSheet.
      */
-    void addSprite(Texture::ID, SpriteSheet const &);
+    void addSpriteSheet(Texture::ID, const SpriteSheet &);
 
     /**
      * Gets the texture of a Texture::ID.
@@ -116,18 +117,10 @@ public:
     sf::Texture const &getTexture(Texture::ID) const;
 
     /**
-     * Gets SpriteSheet information of a Texture::ID.
+     * Gets a Sheet information of a Texture::ID.
      * Abort if not found.
      *
      * @return <tt>const SpriteSheet &</tt>
      */
-    SpriteSheet const &getSpriteSheet(Texture::ID) const;
-
-    /**
-     * Gets TextureSheet information of a Texture::ID.
-     * Abort if not found.
-     *
-     * @return <tt>const TextureSheet &</tt>
-     */
-    TextureSheet const &getTextureSheet(Texture::ID) const;
+    Sheet const &getSheet(Texture::ID) const;
 };
