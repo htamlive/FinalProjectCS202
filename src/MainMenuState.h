@@ -47,10 +47,10 @@ public:
 
 	};
 	void zoomBig(string Button) {
-		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f });
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
 	}
 	void zoomSmall(string Button) {
-		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f/1.1f, 1.0f/1.1f });
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
 	}
 	void updateBtns_1() {
 		this->gui->get<tgui::Button>("btnPlay")->onMouseLeave([&, this]() {
