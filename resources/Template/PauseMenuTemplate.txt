@@ -25,9 +25,8 @@ Group.PauseMenu {
     }
 
     Button.backBtn {
-        Position = (340, 330.056);
-        Size = (270, 113.25);
-        Text = Resume;
+        Position = (330, 342.594);
+        Size = (327, 82.9949);
         TextSize = 13;
 
         Renderer {
@@ -40,24 +39,24 @@ Group.PauseMenu {
             BorderColorDown = black;
             BorderColorFocused = #1E1EB4;
             BorderColorHover = black;
-            Borders = (1, 1, 1, 1);
+            Borders = (0, 0, 0, 0);
             RoundedBorderRadius = 50;
             TextColor = #3C3C3C;
             TextColorDisabled = #7D7D7D;
             TextColorDown = black;
             TextColorHover = black;
-            Texture = None;
+            Texture = "../buttons/resumeButtonIdle.png" Smooth;
             TextureDisabled = None;
-            TextureDown = None;
+            TextureDown = "../buttons/resumeButtonPressed.png" Smooth;
             TextureDownFocused = None;
-            TextureDownHover = None;
+            TextureDownHover = "../buttons/resumeButtonPressed.png" Smooth;
             TextureFocused = None;
             TextureHover = None;
         }
     }
 
     Button.saveBtn {
-        Position = (340, 484.889);
+        Position = (350, 484.889);
         Size = (270, 113.25);
         Text = Save;
         TextSize = 13;
@@ -72,7 +71,7 @@ Group.PauseMenu {
             BorderColorDown = black;
             BorderColorFocused = #1E1EB4;
             BorderColorHover = black;
-            Borders = (1, 1, 1, 1);
+            Borders = (0, 0, 0, 0);
             RoundedBorderRadius = 50;
             TextColor = #3C3C3C;
             TextColorDisabled = #7D7D7D;
@@ -89,7 +88,7 @@ Group.PauseMenu {
     }
 
     Button.exitBtn {
-        Position = (340, 636.5);
+        Position = (350, 636.5);
         Size = (270, 113.25);
         Text = Exit;
         TextSize = 13;
@@ -104,7 +103,7 @@ Group.PauseMenu {
             BorderColorDown = black;
             BorderColorFocused = #1E1EB4;
             BorderColorHover = black;
-            Borders = (1, 1, 1, 1);
+            Borders = (0, 0, 0, 0);
             RoundedBorderRadius = 50;
             TextColor = #3C3C3C;
             TextColorDisabled = #7D7D7D;

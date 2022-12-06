@@ -61,7 +61,7 @@ Button.btnPlay {
 }
 
 Button.btnLoad {
-    Position = (442, 400);
+    Position = (442, 410);
     Size = (135, 58.6955);
     TextSize = 13;
 
@@ -91,8 +91,8 @@ Button.btnLoad {
 }
 
 Button.btnSetting {
-    Position = (412, 490);
-    Size = (197, 50);
+    Position = (402, 510);
+    Size = (227, 57.6142);
     TextSize = 13;
 
     Renderer {
