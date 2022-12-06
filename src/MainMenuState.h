@@ -33,26 +33,13 @@ public:
 			this->states->push_back(new GameState(this->window, this->supportedKeys, this->states));
 			});
 		this->gui->get<tgui::Button>("btnLoad")->onClick([&]() {
-			cout << "123\n";
+			cout << "load button pressed\n";
 			});
 		this->gui->get<tgui::Button>("btnSetting")->onClick([&, this]() {
-			cout << "oooooo\n";
+			cout << "setting button pressed\n";
 			this->states->push_back(new SettingState(this->window, this->states));
 			});
-	};
 
-	~MainMenuState() override = default;;
-
-	void updateInput(const float& dt) override {
-
-	};
-	void zoomBig(string Button) {
-		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
-	}
-	void zoomSmall(string Button) {
-		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
-	}
-	void updateBtns_1() {
 		this->gui->get<tgui::Button>("btnPlay")->onMouseLeave([&, this]() {
 			zoomSmall("btnPlay");
 			});
@@ -62,8 +49,7 @@ public:
 		this->gui->get<tgui::Button>("btnSetting")->onMouseLeave([&, this]() {
 			zoomSmall("btnSetting");
 			});
-	};
-	void updateBtns() {
+
 		this->gui->get<tgui::Button>("btnPlay")->onMouseEnter([&, this]() {
 			zoomBig("btnPlay");
 			});
@@ -74,6 +60,16 @@ public:
 			zoomBig("btnSetting");
 			});
 	};
+
+	void updateInput(const float& dt) override {
+
+	};
+	void zoomBig(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
+	}
+	void zoomSmall(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
+	}
 	void updateEvents() override {
 		this->gui->handleEvent(this->ev);
 		switch (this->ev.type)
@@ -92,8 +88,6 @@ public:
 
 	void update(const float& dt) override {
 		Meow.update(dt); 
-		updateBtns();
-		updateBtns_1();
 	};
 
 	void render(sf::RenderTarget* target = nullptr) override;
