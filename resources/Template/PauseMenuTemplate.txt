@@ -5,19 +5,29 @@ Group.PauseMenu {
     }
 
     Picture.PauseMenuBackground {
-        Position = (140, 155.65);
-        Size = (677, 507.87);
+        Position = (0, 3.39081);
+        Size = (1030, 241.686);
 
         Renderer {
-            Texture = "../images/exampleBackground.png" Smooth;
+            Texture = "../images/gameBackground.png" Smooth;
+            TransparentTexture = false;
+        }
+    }
+
+    Picture.Picture1 {
+        Position = (0, 244.974);
+        Size = (1027, 537.69);
+
+        Renderer {
+            Texture = "../images/subBackgroundPauseMenu.png" Smooth;
             TransparentTexture = false;
         }
     }
 
     Button.backBtn {
-        Position = (420, 510.056);
-        Size = (100, 41.9444);
-        Text = Back;
+        Position = (340, 330.056);
+        Size = (270, 113.25);
+        Text = Resume;
         TextSize = 13;
 
         Renderer {
@@ -47,8 +57,8 @@ Group.PauseMenu {
     }
 
     Button.saveBtn {
-        Position = (230, 394.889);
-        Size = (150, 62.9166);
+        Position = (340, 484.889);
+        Size = (270, 113.25);
         Text = Save;
         TextSize = 13;
 
@@ -79,8 +89,8 @@ Group.PauseMenu {
     }
 
     Button.exitBtn {
-        Position = (570, 396.5);
-        Size = (150, 62.9166);
+        Position = (340, 636.5);
+        Size = (270, 113.25);
         Text = Exit;
         TextSize = 13;
 
