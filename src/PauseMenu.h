@@ -4,7 +4,7 @@ class PauseMenu : public State {
 private:
 	tgui::Group::Ptr myGroup;
 	void initButtons() {
-		myGroup->get<tgui::Button>("backBtn")->onClick([&]() {
+		myGroup->get<tgui::Button>("resumeBtn")->onClick([&]() {
 			myGroup->setVisible(false);
 			});
 		myGroup->get<tgui::Button>("exitBtn")->onClick([&]() {
@@ -28,6 +28,26 @@ public:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(sf::Keyboard::Escape))) {
 			myGroup->setVisible(true);
 		}
+
+		this->gui->get<tgui::Button>("resumeBtn")->onMouseLeave([&, this]() {
+			zoomSmall("resumeBtn");
+			});
+		this->gui->get<tgui::Button>("saveBtn")->onMouseLeave([&, this]() {
+			zoomSmall("saveBtn");
+			});
+		this->gui->get<tgui::Button>("exitBtn")->onMouseLeave([&, this]() {
+			zoomSmall("exitBtn");
+			});
+
+		this->gui->get<tgui::Button>("resumeBtn")->onMouseEnter([&, this]() {
+			zoomBig("resumeBtn");
+			});
+		this->gui->get<tgui::Button>("saveBtn")->onMouseEnter([&, this]() {
+			zoomBig("saveBtn");
+			});
+		this->gui->get<tgui::Button>("exitBtn")->onMouseEnter([&, this]() {
+			zoomBig("exitBtn");
+			});
 	}
 
 	bool isPausing() {
@@ -37,9 +57,14 @@ public:
 	void render(sf::RenderTarget* target) override {
 		this->gui->draw();
 	}
-
+	void zoomBig(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
+	}
+	void zoomSmall(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
+	}
 	void update(const float& dt) override {
-
+		
 	}
 
 	void updateInput(const float& dt) {
