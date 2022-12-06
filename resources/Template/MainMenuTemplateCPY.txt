@@ -82,9 +82,9 @@ Button.btnLoad {
         TextColorHover = black;
         Texture = "../buttons/loadButtonIdle.png" Smooth;
         TextureDisabled = None;
-        TextureDown = "../buttons/loadButtonPressed.png" Smooth;
+        TextureDown = "../buttons/loadButtonIdle.png" Smooth;
         TextureDownFocused = None;
-        TextureDownHover = "../buttons/loadButtonIdle.png" Smooth;
+        TextureDownHover = "../buttons/loadButtonPressed.png" Smooth;
         TextureFocused = None;
         TextureHover = None;
     }
