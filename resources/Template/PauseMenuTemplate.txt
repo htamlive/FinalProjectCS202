@@ -24,9 +24,19 @@ Group.PauseMenu {
         }
     }
 
+    Picture.Picture2 {
+        Position = (270, 280);
+        Size = (453.478, 462);
+
+        Renderer {
+            Texture = "../images/pauseMenuBox.png" Smooth;
+            TransparentTexture = false;
+        }
+    }
+
     Button.resumeBtn {
-        Position = (330, 342.594);
-        Size = (327, 82.9949);
+        Position = (400, 362.594);
+        Size = (197, 50);
         TextSize = 13;
 
         Renderer {
@@ -56,8 +66,8 @@ Group.PauseMenu {
     }
 
     Button.saveBtn {
-        Position = (350, 484.889);
-        Size = (270, 82.9949);
+        Position = (440, 474.889);
+        Size = (122, 50);
         TextSize = 13;
 
         Renderer {
@@ -76,19 +86,19 @@ Group.PauseMenu {
             TextColorDisabled = #7D7D7D;
             TextColorDown = black;
             TextColorHover = black;
-            Texture = "C:\Users\nghia\Documents\GitHub\FinalProjectCS202\resources\buttons\saveButtonIdle.png" Smooth;
+            Texture = "..\buttons\saveButtonIdle.png" Smooth;
             TextureDisabled = None;
-            TextureDown = "C:\Users\nghia\Documents\GitHub\FinalProjectCS202\resources\buttons\saveButtonPressed.png" Smooth;
+            TextureDown = "..\buttons\saveButtonPressed.png" Smooth;
             TextureDownFocused = None;
-            TextureDownHover = "C:\Users\nghia\Documents\GitHub\FinalProjectCS202\resources\buttons\saveButtonPressed.png" Smooth;
+            TextureDownHover = "..\buttons\saveButtonPressed.png" Smooth;
             TextureFocused = None;
             TextureHover = None;
         }
     }
 
     Button.exitBtn {
-        Position = (350, 636.5);
-        Size = (270, 82.9949);
+        Position = (440, 586.5);
+        Size = (121, 50);
         TextSize = 13;
 
         Renderer {
@@ -108,11 +118,11 @@ Group.PauseMenu {
             TextColorDown = black;
             TextColorHover = black;
             TextStyleHover = Regular;
-            Texture = "C:\Users\nghia\Documents\GitHub\FinalProjectCS202\resources\buttons\exitButtonIdle.png" Smooth;
+            Texture = "..\buttons\exitButtonIdle.png" Smooth;
             TextureDisabled = None;
-            TextureDown = "C:\Users\nghia\Documents\GitHub\FinalProjectCS202\resources\buttons\exitButtonIdle.png" Smooth;
+            TextureDown = "..\buttons\exitButtonIdle.png" Smooth;
             TextureDownFocused = None;
-            TextureDownHover = "C:\Users\nghia\Documents\GitHub\FinalProjectCS202\resources\buttons\exitButtonPressed.png" Smooth;
+            TextureDownHover = "..\buttons\exitButtonPressed.png" Smooth;
             TextureFocused = None;
             TextureHover = None;
         }

@@ -121,8 +121,8 @@ void Game::update()
 			this->states.back()->endState();
 			delete this->states.back();
 			this->states.pop_back();
-
 		}
+
 	}
 	else {
 		this->endApplication();
