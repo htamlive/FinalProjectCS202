@@ -20,10 +20,11 @@ namespace Texture {
         GreenToRed,
         Road,
         Null,
-        TopVehicleLane,
-        MidVehicleLane,
-        BotVehicleLane,
-        MonoVehicleLane
+        TopRoadLane,
+        MidRoadLane,
+        BotRoadLane,
+        MonoRoadLane,
+        SafeLane,
     };
 }
 
