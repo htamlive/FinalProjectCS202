@@ -1,8 +1,8 @@
 Picture.background {
-    Size = (1024, 768);
+    Size = (1920, 1080);
 
     Renderer {
-        Texture = "../images/exampleBackground.png" Smooth;
+        Texture = "../images/SettingBG.jpg" Smooth;
         TransparentTexture = false;
     }
 }
@@ -179,7 +179,7 @@ TextArea.TextArea1 {
     Position = (370, 190);
     Size = (48, 35.8333);
     Text = Music;
-    TextSize = 13;
+    TextSize = 15;
 
     Renderer {
         BackgroundColor = None;
@@ -191,7 +191,7 @@ TextArea.TextArea1 {
         Padding = (0, 0, 0, 0);
         SelectedTextBackgroundColor = #006EFF;
         SelectedTextColor = white;
-        TextColor = #3C3C3C;
+        TextColor = #FFFA00;
         TextureBackground = None;
 
         Scrollbar {
@@ -218,9 +218,9 @@ TextArea.TextArea2 {
     HorizontalScrollbarPolicy = Never;
     MaximumCharacters = 0;
     Position = (370, 280);
-    Size = (68, 35.8333);
-    Text = "Sound Fx";
-    TextSize = 13;
+    Size = (78, 35.8333);
+    Text = "Sound FX";
+    TextSize = 15;
 
     Renderer {
         BackgroundColor = None;
@@ -232,7 +232,7 @@ TextArea.TextArea2 {
         Padding = (0, 0, 0, 0);
         SelectedTextBackgroundColor = #006EFF;
         SelectedTextColor = white;
-        TextColor = #3C3C3C;
+        TextColor = #FFFA00;
         TextureBackground = None;
 
         Scrollbar {
