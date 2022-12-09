@@ -23,16 +23,16 @@ void TextureHolder::load(Texture::ID type, const std::string &filename,
         textures[type] = std::make_unique<SpriteSheet>(SpriteSheet{
             texture, spriteCount, spriteSize, textureRow});
     } else {
-        std::cerr << "Loading texture from \"" << filename << "\" failed.\n";
-        assert(0);
+        throw std::runtime_error("TextureHolder::load - Failed to load " +
+                                 filename);
     }
 }
 
 sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
     auto found = textures.find(id);
     if (found == textures.end()) {
-        std::cerr << "TextureHolder::getTexture: Texture not found.\n";
-        assert(0);
+        throw std::runtime_error("TextureHolder::getTexture - Failed to find " +
+                                 std::to_string(id));
     }
     return found->second->texture;
 }
@@ -41,8 +41,8 @@ SpriteSheet const &TextureHolder::get(Texture::ID id) const {
     
     auto found = textures.find(id);
     if (found == textures.end()) {
-        std::cerr << "TextureHolder::get: Texture not found.\n";
-        assert(0);
+        throw std::runtime_error("TextureHolder::get - Failed to find " +
+                                 std::to_string(id));
     }
     return *found->second;
 }
