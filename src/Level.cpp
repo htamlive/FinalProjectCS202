@@ -1,3 +1,4 @@
+#include <numeric>
 #include "Level.h"
 
 void incProb(vector<float>& prob, int index, float amount) {
@@ -44,3 +45,12 @@ void Level::DifficultyMetrics::increaseLevel() {
     int toInc = level / 5 < laneSpawnProb.size() ? level / 5 : laneSpawnProb.size() - 1;
 };
 
+Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
+    DifficultyMetrics difficultyMetrics(level);
+    auto scene = sceneBuilder
+        .addBackground(Texture::ID::Null)
+        .addRoad(2, 64*5)
+        .build();
+
+    attachChild(std::move(scene));
+}

@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -7,6 +8,7 @@
 using namespace std;
 
 class SceneBuilder {
+    sf::Vector2f sceneSize;
     SceneNode::Ptr scene;
     SceneNode* roadLayer;
     SceneNode* backgroundLayer;

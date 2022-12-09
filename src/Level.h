@@ -35,12 +35,5 @@ class Level : public SceneNode {
     SceneBuilder sceneBuilder;
 
 public:
-    Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
-        DifficultyMetrics difficultyMetrics(level);
-        auto scene = sceneBuilder
-            .addBackground(Texture::ID::Null)
-            .build();
-
-        attachChild(std::move(scene));
-    }
+    Level(int level, sf::Vector2f sceneSize);
 };
