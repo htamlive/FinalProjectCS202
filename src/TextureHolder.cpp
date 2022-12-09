@@ -27,8 +27,8 @@ void TextureHolder::load(Texture::ID id, const std::string &filename,
         }
         sheets[id] = std::make_unique<TextureSheet>(std::move(texture), spriteCount, spriteSize, textureRow);
     } else {
-        std::cerr << "Loading texture from \"" << filename << "\" failed.\n";
-        assert(0);
+        throw std::runtime_error("TextureHolder::load - Failed to load " +
+                                 filename);
     }
 }
 
