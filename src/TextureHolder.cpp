@@ -18,8 +18,13 @@ void TextureHolder::load(Texture::ID id, const std::string &filename,
                          unsigned int textureRow) {
     sf::Texture texture;
     if (texture.loadFromFile(filename)) {
-        if (!spriteSize.x || !spriteSize.y)
+        if (!spriteSize.x || !spriteSize.y) {
             spriteSize = texture.getSize();
+            spriteCount = 1;
+        }
+        if (textureRow == 0) {
+            textureRow = texture.getSize().x / spriteSize.x;
+        }
         sheets[id] = std::make_unique<TextureSheet>(std::move(texture), spriteCount, spriteSize, textureRow);
     } else {
         std::cerr << "Loading texture from \"" << filename << "\" failed.\n";
@@ -27,7 +32,7 @@ void TextureHolder::load(Texture::ID id, const std::string &filename,
     }
 }
 
-void TextureHolder::addSpriteSheet(Texture::ID id, const SpriteSheet& sheet) {
+void TextureHolder::add(Texture::ID id, const SpriteSheet& sheet) {
     sheets[id] = std::make_unique<SpriteSheet>(sheet);
 }
 

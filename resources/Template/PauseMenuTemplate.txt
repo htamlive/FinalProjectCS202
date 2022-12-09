@@ -86,11 +86,11 @@ Group.PauseMenu {
             TextColorDisabled = #7D7D7D;
             TextColorDown = black;
             TextColorHover = black;
-            Texture = "..\buttons\saveButtonIdle.png" Smooth;
+            Texture = "../buttons/saveButtonIdle.png" Smooth;
             TextureDisabled = None;
-            TextureDown = "..\buttons\saveButtonPressed.png" Smooth;
+            TextureDown = "../buttons/saveButtonPressed.png" Smooth;
             TextureDownFocused = None;
-            TextureDownHover = "..\buttons\saveButtonPressed.png" Smooth;
+            TextureDownHover = "../buttons/saveButtonPressed.png" Smooth;
             TextureFocused = None;
             TextureHover = None;
         }
@@ -118,11 +118,11 @@ Group.PauseMenu {
             TextColorDown = black;
             TextColorHover = black;
             TextStyleHover = Regular;
-            Texture = "..\buttons\exitButtonIdle.png" Smooth;
+            Texture = "../buttons/exitButtonIdle.png" Smooth;
             TextureDisabled = None;
-            TextureDown = "..\buttons\exitButtonIdle.png" Smooth;
+            TextureDown = "../buttons/exitButtonIdle.png" Smooth;
             TextureDownFocused = None;
-            TextureDownHover = "..\buttons\exitButtonPressed.png" Smooth;
+            TextureDownHover = "../buttons/exitButtonPressed.png" Smooth;
             TextureFocused = None;
             TextureHover = None;
         }

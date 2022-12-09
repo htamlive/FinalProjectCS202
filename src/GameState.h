@@ -30,7 +30,7 @@ public:
 		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
 		this->initKeyBinds();
 
-        player = new Player({0, 0}, {96, 96});
+        player = new Player({0, 0}, GRID_SIZE);
 		pauseMenu = new PauseMenu(window, states);
 	};
 
@@ -74,8 +74,9 @@ public:
 	void updateInput(const float& dt) override {
 		this->pauseMenu->updateInput();
 
-		if (sf::Keyboard::isKeyPressed(this->ev.key.code))
-			this->player->onKeyPressed(this->ev.key);
+		if (this->ev.type == sf::Event::KeyPressed) {
+            this->player->onKeyPressed(this->ev.key);
+        }
 	};
 
 	void update(const float& dt) override {
