@@ -8,9 +8,8 @@ Picture.background {
 }
 
 Button.btnMusic {
-    Position = (382, 170);
+    Position = (452, 170);
     Size = (110, 58.6667);
-    Text = Music;
     TextSize = 13;
 
     Renderer {
@@ -24,13 +23,14 @@ Button.btnMusic {
         BorderColorDown = black;
         BorderColorFocused = #1E1EB4;
         BorderColorHover = black;
-        Borders = (1, 1, 1, 1);
+        Borders = (0, 0, 0, 0);
         RoundedBorderRadius = 100;
         TextColor = #3C3C3C;
         TextColorDisabled = #7D7D7D;
         TextColorDown = black;
         TextColorHover = black;
-        Texture = None;
+        TextOutlineThickness = 0;
+        Texture = "../buttons/offBtn.png" Smooth;
         TextureDisabled = None;
         TextureDown = None;
         TextureDownFocused = None;
@@ -41,7 +41,7 @@ Button.btnMusic {
 }
 
 Button.btnBack {
-    Position = (432, 270);
+    Position = (432, 360);
     Size = (160, 58.6667);
     Text = Back;
     TextSize = 13;
@@ -76,9 +76,8 @@ Button.btnBack {
 }
 
 Button.btnSound {
-    Position = (532, 170);
+    Position = (452, 260);
     Size = (110, 58.6667);
-    Text = Sound;
     TextSize = 13;
 
     Renderer {
@@ -92,18 +91,186 @@ Button.btnSound {
         BorderColorDown = black;
         BorderColorFocused = #1E1EB4;
         BorderColorHover = black;
-        Borders = (1, 1, 1, 1);
+        Borders = (0, 0, 0, 0);
         RoundedBorderRadius = 100;
         TextColor = #3C3C3C;
         TextColorDisabled = #7D7D7D;
         TextColorDown = black;
         TextColorHover = black;
-        Texture = None;
+        Texture = "../buttons/offBtn.png" Smooth;
         TextureDisabled = None;
         TextureDown = None;
         TextureDownFocused = None;
         TextureDownHover = None;
         TextureFocused = None;
         TextureHover = None;
+    }
+}
+
+Button.MusicOn {
+    Position = (452, 170);
+    Size = (110, 58.6667);
+    TextSize = 13;
+    Visible = false;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #FF5742;
+        BackgroundColorDownHover = #71FFE500;
+        BackgroundColorHover = #48FFF4;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        RoundedBorderRadius = 100;
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = "../buttons/onBtn.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
+
+Button.SoundOn {
+    Position = (452, 260);
+    Size = (110, 58.6667);
+    TextSize = 13;
+    Visible = false;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #FF5742;
+        BackgroundColorDownHover = #71FFE500;
+        BackgroundColorHover = #48FFF4;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        RoundedBorderRadius = 100;
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = "../buttons/onBtn.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
+
+TextArea.TextArea1 {
+    HorizontalScrollbarPolicy = Never;
+    MaximumCharacters = 0;
+    Position = (370, 190);
+    Size = (48, 35.8333);
+    Text = Music;
+    TextSize = 13;
+
+    Renderer {
+        BackgroundColor = None;
+        BorderColor = black;
+        Borders = (0, 0, 0, 0);
+        CaretColor = black;
+        CaretWidth = 1;
+        DefaultTextColor = #A0A0A0;
+        Padding = (0, 0, 0, 0);
+        SelectedTextBackgroundColor = #006EFF;
+        SelectedTextColor = white;
+        TextColor = #3C3C3C;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+TextArea.TextArea2 {
+    HorizontalScrollbarPolicy = Never;
+    MaximumCharacters = 0;
+    Position = (370, 280);
+    Size = (68, 35.8333);
+    Text = "Sound Fx";
+    TextSize = 13;
+
+    Renderer {
+        BackgroundColor = None;
+        BorderColor = black;
+        Borders = (0, 0, 0, 0);
+        CaretColor = black;
+        CaretWidth = 1;
+        DefaultTextColor = #A0A0A0;
+        Padding = (0, 0, 0, 0);
+        SelectedTextBackgroundColor = #006EFF;
+        SelectedTextColor = white;
+        TextColor = #3C3C3C;
+        TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
+    }
+}
+
+Picture.Picture1 {
+    Position = (290, 173.945);
+    Size = (90, 48.437);
+
+    Renderer {
+        Texture = "../images/music.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.Picture2 {
+    Position = (300, 270);
+    Size = (68, 38.2988);
+
+    Renderer {
+        Texture = "../images/soundFX.png" Smooth;
+        TransparentTexture = false;
     }
 }
