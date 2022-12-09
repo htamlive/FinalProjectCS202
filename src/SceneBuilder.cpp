@@ -1,7 +1,7 @@
 #include "SceneBuilder.h"
 #include "Entity.h"
-#include "SceneNode.h"
 #include "RoadLanes.h"
+#include "SceneNode.h"
 #include "SpriteNode.h"
 #include "TextureHolder.h"
 #include <SFML/Graphics/Sprite.hpp>
@@ -17,22 +17,25 @@ SceneBuilder::SceneBuilder(sf::Vector2f size) : sceneSize(size) {
     scene->attachChild(std::move(road));
 }
 
-SceneNode::Ptr SceneBuilder::build() {
-    return std::move(scene);
-}
+SceneNode::Ptr SceneBuilder::build() { return std::move(scene); }
 
 SceneBuilder &SceneBuilder::addBackground(Texture::ID id) {
-    backgroundLayer->attachChild(
-        SceneNode::Ptr(new SpriteNode(id, sceneSize)));
+    backgroundLayer->attachChild(SceneNode::Ptr(new SpriteNode(id, sceneSize)));
     return *this;
 }
-SceneBuilder &SceneBuilder::addRoad(int lanes, float pos) {
+
+SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
+                                    float maxSpeed, float minSpawnRate,
+                                    float maxSpawnRate) {
+    auto meanSpeed = (minSpeed + maxSpeed) / 2;
+    auto speed =
+        std::normal_distribution<double>(meanSpeed, meanSpeed - meanSpeed / 2);
+    // TODO: Handle random spawn rate
     auto roads = std::make_unique<RoadLanes>(
-           RoadLane::Type::Vehicle, lanes, pos,
-           Random(std::normal_distribution<double>(100, 10.0)),
-           [](double i) {
-               return Random(std::normal_distribution<double>(3.0, 1.0));
-           });
+        RoadLane::Type::Vehicle, lanes, pos,
+        speed, [](double i) {
+            return Random(std::normal_distribution<double>(3.0, 1.0));
+        });
 
     roadLayer->attachChild(std::move(roads));
     return *this;
