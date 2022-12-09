@@ -1,7 +1,7 @@
 #include "SpriteNode.h"
 
 SpriteNode::SpriteNode(Texture::ID id, sf::Vector2f size) {
-    sprite.setTexture(TextureHolder::instance().get(id).texture);
+    sprite.setTexture(TextureHolder::instance().getTexture(id));
     sprite.setScale(size.x / sprite.getLocalBounds().width, size.y / sprite.getLocalBounds().height);
 }
 
