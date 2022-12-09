@@ -15,7 +15,7 @@ const sf::VideoMode WINDOW_VIDEO_MODE = {1024, 768};
 /**
  * Or space between jumps
  */
-const sf::Vector2f GRID_SIZE{25, 25};
+const sf::Vector2f GRID_SIZE{64, 64};
 
 const sf::Vector2u DEF_SPRITE_SIZE = {128, 128};
 
