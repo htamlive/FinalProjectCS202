@@ -48,11 +48,11 @@ void Game::initState()
 
 
 Game::Game() {
+    this->initTexture();
 	this->initVariables();
 	this->initWindow();
 	this->initState();
 	this->initKeys();
-	this->initTexture();
 }
 
 Game::~Game() {

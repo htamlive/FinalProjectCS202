@@ -42,7 +42,7 @@ endif (WIN32)
 if(UNIX)
     find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
     include_directories(${SFML_INCLUDE_DIRS})
-    target_link_libraries(FinalProjectCS202 sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+    target_link_libraries(FinalProjectCS202 sfml-system sfml-window sfml-graphics sfml-audio sfml-network)# tgui)
 
     include_directories(${CMAKE_SOURCE_DIR}/TGUI-0.9.5/include)
     file(GLOB LIBRARIES "${CMAKE_SOURCE_DIR}/TGUI-0.9.5/lib/*.dylib")

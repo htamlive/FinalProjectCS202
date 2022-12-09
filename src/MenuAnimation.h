@@ -31,7 +31,6 @@ private:
 public:
 	MenuAnimation()
 	{
-
 		initVariables();
 
 		// random 1 of 4 edges: up:0, down:1, left:2, right:3
@@ -51,8 +50,7 @@ public:
 		rotations[(int)_DIRECTION::TO_RIGHT] = 90.f;
 		rotations[(int)_DIRECTION::TO_LEFT] = 270.f;
 
-		this->texture.loadFromFile("resources\\spritesheet\\\main\\idleDown_128_128.png", sf::IntRect(0, 0, 128, 128));
-		this->sprite.setTexture(texture);
+		this->sprite = TextureHolder::instance().getSheet(Texture::ID::PlayerIdleDown).getSprite(0);
 		this->sprite.setScale({ m_size / realSize, m_size / realSize });
 		this->sprite.setOrigin({ 0.5f, 0.5f });
 
@@ -93,13 +91,15 @@ public:
 
 	int randHorizontal(){
 		srand(time(NULL));
-		return rand()*rand()%1000000007 % (1024 - (int)m_size*3/2);
+        auto mod = 1024 - (int)m_size*3/2;
+		return ((rand()*rand()%1000000007 % mod) + mod) % mod;
 	}
-	int randVerticle(){
+	int randVertical(){
 		srand(time(NULL));
-		return rand()*rand()%1000000007 % (768 - (int)m_size*3/2);
+        auto mod = 768 - (int)m_size*3/2;
+		return ((rand()*rand()%1000000007 % mod) + mod) % mod;
 	}
-	void resettimeManage() {
+	void resetTimeManage() {
 		timeManage = 0;
 	}
 	bool checkDone() {
@@ -131,7 +131,7 @@ public:
 		}
 		else
 		{
-			temp = randVerticle();
+			temp = randVertical();
 			a[kind].y = b[kind].y = temp;
 		}
 		//cout << "set " << a[kind].X << " " << a[kind].Y << "\n";
@@ -149,10 +149,11 @@ public:
 		{
 			//cout << "invisible\n";
 			//this->gui->get<tgui::Picture>(s[kind])->setVisible(false);
-			this->resettimeManage();
+            this->resetTimeManage();
 			// random 1 of 4 edges: up:0, down:1, left:2, right:3
 			srand(time(NULL));
-			kind = ((1ll*rand()*rand()%1000000007 + rand()*rand()) % 4);
+            // TODO: rand() * rand() risks overflow, resulting in negative value.
+			kind = (((1ll*rand()*rand()%1000000007 + rand()*rand()) % 4) + 4) % 4;
 			//kind = 1;
 			//pass kind to setEdge
 			this->setEdge(kind);

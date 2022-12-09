@@ -30,13 +30,15 @@ public:
 		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
 		this->initKeyBinds();
 
-		player = new Player(0, 0, 96, 96);
+        player = new Player({0, 0}, GRID_SIZE);
 		pauseMenu = new PauseMenu(window, states);
 	};
+
 	~GameState() override {
 		delete player;
 		delete pauseMenu;
 	};
+
 	//void adjustCells(const int totalX, const int totalY);
 	//Vector2u setCenter(const int totalX, const int totalY);
 
@@ -45,6 +47,7 @@ public:
 	//void sinkingDown(const float& dt) { // apply to lanes, cars, ... float downward
 	//	
 	//}
+
 	void updateEvents() override {
 		this->gui->handleEvent(this->ev);
 
@@ -66,14 +69,14 @@ public:
 		if (pauseMenu->getQuit()) {
 			this->endState();
 		}
-
 	};
 
 	void updateInput(const float& dt) override {
 		this->pauseMenu->updateInput();
 
-		if (sf::Keyboard::isKeyPressed(this->ev.key.code))
-			this->player->onKeyPressed(this->ev.key);
+		if (this->ev.type == sf::Event::KeyPressed) {
+            this->player->onKeyPressed(this->ev.key);
+        }
 	};
 
 	void update(const float& dt) override {
@@ -92,6 +95,5 @@ public:
 		this->gui->draw();
 		target->draw(*player);
 		pauseMenu->render(target);
-		
 	};
 };

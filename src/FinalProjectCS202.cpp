@@ -1,4 +1,4 @@
-﻿// FinalProjectCS202.cpp : Defines the entry point for the application.
+// FinalProjectCS202.cpp : Defines the entry point for the application.
 #include "Game.h"
 
 #include "FinalProjectCS202.h"

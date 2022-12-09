@@ -36,7 +36,7 @@ private:
 	}
 public:
 	PauseMenu(sf::RenderWindow* window, vector<State*>* states) : State(window, states) {
-		this->gui->loadWidgetsFromFile("resources\\Template\\PauseMenuTemplate.txt", false);
+		this->gui->loadWidgetsFromFile("resources/Template/PauseMenuTemplate.txt", false);
 		myGroup = this->gui->get<tgui::Group>("PauseMenu");
 		myGroup->setVisible(false);
 		this->initVariables();

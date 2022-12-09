@@ -15,71 +15,71 @@ void Player::updateCurrent(sf::Time dt) {
     Entity::updateCurrent(dt);
 }
 
-Player::Player() : jump_texture(Texture::ID::PlayerJumpUp), idle_texture(Texture::ID::PlayerIdleUp) {
-    static_pos = getPosition();
-    animation = AnimationMachine(idle_texture, sf::seconds(5), true);
+Player::Player() : jumpTexture(Texture::ID::PlayerJumpUp), idleTexture(Texture::ID::PlayerIdleUp) {
+    staticPos = getPosition();
+    animation = AnimationMachine(idleTexture, sf::seconds(5), true);
 }
 
-Player::Player(float x, float y, float w, float h)
-        : Entity({100, 100}, x, y, w, h, Texture::ID::PlayerIdleUp),
-          jump_texture(Texture::ID::PlayerJumpUp),
-          idle_texture(Texture::ID::PlayerIdleUp) {
-    static_pos = getPosition();
+Player::Player(sf::Vector2f position, sf::Vector2f size)
+        : Entity(Texture::ID::PlayerIdleUp, position, size, DEF_PLAYER_VELOCITY),
+          jumpTexture(Texture::ID::PlayerJumpUp),
+          idleTexture(Texture::ID::PlayerIdleUp) {
+    staticPos = getPosition();
 }
 
 void Player::onKeyPressed(sf::Event::KeyEvent event) {
-    auto new_pos = static_pos;
+    auto newPos = staticPos;
     if (!isJumping()) {
         switch (event.code) {
             case sf::Keyboard::W:
             case sf::Keyboard::Up:
-                new_pos = {static_pos.x, static_pos.y - GRID_SIZE.y};
-                jump_texture = Texture::ID::PlayerJumpUp;
-                idle_texture = Texture::ID::PlayerIdleUp;
+                newPos = {staticPos.x, staticPos.y - GRID_SIZE.y};
+                jumpTexture = Texture::ID::PlayerJumpUp;
+                idleTexture = Texture::ID::PlayerIdleUp;
                 break;
             case sf::Keyboard::S:
             case sf::Keyboard::Down:
-                new_pos = {static_pos.x, static_pos.y + GRID_SIZE.y};
-                jump_texture = Texture::ID::PlayerJumpDown;
-                idle_texture = Texture::ID::PlayerIdleDown;
+                newPos = {staticPos.x, staticPos.y + GRID_SIZE.y};
+                jumpTexture = Texture::ID::PlayerJumpDown;
+                idleTexture = Texture::ID::PlayerIdleDown;
                 break;
             case sf::Keyboard::A:
             case sf::Keyboard::Left:
-                new_pos = {static_pos.x - GRID_SIZE.x, static_pos.y};
-                jump_texture = Texture::ID::PlayerJumpLeft;
-                idle_texture = Texture::ID::PlayerIdleLeft;
+                newPos = {staticPos.x - GRID_SIZE.x, staticPos.y};
+                jumpTexture = Texture::ID::PlayerJumpLeft;
+                idleTexture = Texture::ID::PlayerIdleLeft;
                 break;
             case sf::Keyboard::D:
             case sf::Keyboard::Right:
-                new_pos = {static_pos.x + GRID_SIZE.x, static_pos.y};
-                jump_texture = Texture::ID::PlayerJumpRight;
-                idle_texture = Texture::ID::PlayerIdleRight;
+                newPos = {staticPos.x + GRID_SIZE.x, staticPos.y};
+                jumpTexture = Texture::ID::PlayerJumpRight;
+                idleTexture = Texture::ID::PlayerIdleRight;
                 break;
             default:
-                
+
                 break;
         }
     }
 
-    if (static_pos != new_pos) {
-        animation = AnimationMachine(jump_texture, JUMP_DURATION, false);
-        static_pos = new_pos;
-        time_jumped = sf::Time::Zero;
+    if (staticPos != newPos) {
+        animation = AnimationMachine(jumpTexture, JUMP_DURATION, false);
+        staticPos = newPos;
+        timeJumped = sf::Time::Zero;
     }
 }
 
-bool Player::isJumping() const { return time_jumped < JUMP_DURATION; }
+bool Player::isJumping() const { return timeJumped < JUMP_DURATION; }
 
 void Player::calVelocity(sf::Time dt) {
-    auto length = static_pos - getPosition();
+    auto length = staticPos - getPosition();
     if (isJumping()) {
-        auto time_left = JUMP_DURATION - time_jumped;
-        setVelocity({length.x / time_left.asSeconds(), length.y / time_left.asSeconds()});
+        auto timeLeft = JUMP_DURATION - timeJumped;
+        setVelocity({length.x / timeLeft.asSeconds(), length.y / timeLeft.asSeconds()});
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
-        float scale = -2*((time_jumped.asSeconds() / JUMP_DURATION.asSeconds()) - 1);
+        float scale = -2 * ((timeJumped.asSeconds() / JUMP_DURATION.asSeconds()) - 1);
         setVelocity(getVelocity() * scale);
-        time_jumped += dt;
+        timeJumped += dt;
 
     } else if(dt != sf::seconds(0)) {
         setVelocity({length.x / dt.asSeconds(), length.y / dt.asSeconds()});
@@ -87,5 +87,5 @@ void Player::calVelocity(sf::Time dt) {
 }
 
 void Player::onJumpAnimationFinished() {
-    animation = AnimationMachine(idle_texture, DEF_ANIMATION_DURATION, true);
+    animation = AnimationMachine(idleTexture, DEF_ANIMATION_DURATION, true);
 }
