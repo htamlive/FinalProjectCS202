@@ -12,6 +12,9 @@
 #include <vector>
 #include <set>
 
+/**
+ * @brief A node in the scene graph.
+ */
 class SceneNode : public sf::Drawable,
                   public sf::Transformable,
                   private sf::NonCopyable {

@@ -19,11 +19,7 @@ class AnimationMachine {
     sf::Time duration;
     bool loop;
 
-    /**
-     * @param i is a 0-based index
-     */
-    sf::Sprite getSprite(unsigned i) const;
-    SpriteSheet const &getSheet() const;
+    Sheet const &getSheet() const;
 
 public:
     /**

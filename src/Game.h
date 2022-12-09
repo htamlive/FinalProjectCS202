@@ -47,6 +47,7 @@ private:
 		TextureHolder::instance().load(Texture::PlayerJumpUp, "resources/spritesheet/main/goUp.png", { 32, 32 }, 6);
 		TextureHolder::instance().load(Texture::PlayerJumpDown, "resources/spritesheet/main/goDown.png", { 32, 32 }, 4);
 		TextureHolder::instance().load(Texture::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
+        TextureHolder::instance().load(Texture::ID::Road, "resources/spritesheet/vehicles/VehicleRoad.png", { 32, 32 }, 1);
 	};
 
 	void updateEvents();

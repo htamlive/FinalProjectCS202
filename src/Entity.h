@@ -1,8 +1,8 @@
 #pragma once
 
+#include "AnimationMachine.h"
 #include "Enums.h"
 #include "SceneNode.h"
-#include "AnimationMachine.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
@@ -15,23 +15,30 @@
 
 class Entity : public SceneNode {
 private:
-    sf::Vector2f velocity;
-    float width, height;
+    sf::Vector2f velocity, size;
 
 protected:
     AnimationMachine animation;
 
 public:
     Entity();
+    Entity(Texture::ID texture, sf::Vector2f velocity,
+           sf::Time animationDuration = DEF_ANIMATION_DURATION,
+           bool loop = true);
+    Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf::Vector2f velocity,
+           sf::Time animationDuration = DEF_ANIMATION_DURATION,
+           bool loop = true);
+    Entity(Texture::ID texture, sf::FloatRect boundRect, sf::Vector2f velocity,
+           sf::Time animationDuration = DEF_ANIMATION_DURATION,
+           bool loop = true);
 
-    Entity(sf::Vector2f velocity, float x, float y, float w,
-           float h, Texture::ID type, sf::Time animation_duration = DEF_ANIMATION_DURATION, bool loop = true);
-
+    /**
+     * Check if this entity is out of screen
+     * @return true if out of screen, false otherwise
+     */
     bool isOutOfScreen() const;
 
     sf::Vector2f getVelocity() const;
-
-    sf::Vector2f &getVelocity();
 
     /**
      * Set the velocity
@@ -45,13 +52,13 @@ public:
      */
     sf::FloatRect getBoundingRect() const override;
 
-
     void drawCurrent(sf::RenderTarget &target,
                      sf::RenderStates state) const override;
 
     /**
      * Update the Entity, can be extended in derived class. Default
-     * implementation only update the position according to velocity & animation.
+     * implementation only updates the position according to velocity &
+     * animation.
      *
      * @param dt time since last frame
      */

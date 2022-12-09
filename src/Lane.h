@@ -1,52 +1,16 @@
 #pragma once
 
 #include "SceneNode.h"
-#include "Random.h"
-#include "Entity.h"
-
-#include <deque>
+#include "Enums.h"
 
 class Lane : public SceneNode {
 public:
-    enum class Direction {
-        Right, Left
-    };
-    enum class Type {
-        Vehicle, Animal
-    };
+    virtual float getTopY() const = 0;
 
-private:
-    Type type;
-    Direction direction;
-    float speed;
-    std::deque<Entity *> commuters;
+    virtual float getBottomY() const = 0;
 
-    /**
-     * Normal distribution. Determines when will another commuter appear.<br>
-     * Mean is the average time between two commuters.<br>
-     * Higher mean for higher difficulty. Lower mean for higher speed.
-     */
-    Random frequency;
-    sf::Time timer;
+    virtual void setPosY(float) = 0;
 
-    float height;
-    sf::Vector2f commuterSize;
-    Texture::ID commuterTexture;
-    Texture::ID laneTexture;
-
-    std::unique_ptr<Entity> newCommuter() const;
-
-public:
-    Lane();
-
-    Lane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float roadHeight,
-         float commuterWidth, float commuterHeight, Direction direction, float speed, Random frequency);
-
-    void updateCurrent(sf::Time dt) override;
-
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
-
-    void onLightChanged();
-
-    sf::Vector2f getVelocity() const;
+    virtual void setLaneHeight(float) = 0;
 };
+

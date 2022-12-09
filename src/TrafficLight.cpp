@@ -28,9 +28,10 @@ void TrafficLight::changingPhase() {
     animation = AnimationMachine(sprites.first.second, duration, false);
 }
 
-TrafficLight::TrafficLight(float x, float y, float w, float h, sf::Time greenTimer, sf::Time redTimer) : Entity({0, 0}, x, y, w, h,
-                                                                                                                Texture::ID::GreenLight,
-                                                                                                                {},
-                                                                                                                false),
-                                                                                                         nextTime(redTimer),
-                                                                                                         currentTime(greenTimer) {}
+TrafficLight::TrafficLight(sf::Vector2f position, sf::Vector2f size, sf::Time greenTimer, sf::Time redTimer) : Entity(Texture::ID::GreenLight,
+                                                                                                                      position, size,
+                                                                                                                      {0, 0},
+                                                                                                                      {},
+                                                                                                                      false),
+                                                                                                               nextTime(redTimer),
+                                                                                                               currentTime(greenTimer) {}

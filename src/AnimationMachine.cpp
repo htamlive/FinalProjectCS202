@@ -17,37 +17,22 @@ void AnimationMachine::update(sf::Time dt) {
     }
 }
 
-sf::Sprite AnimationMachine::getSprite(unsigned i) const {
-    auto &sheet = getSheet();
-    sf::Sprite sprite;
-    i = std::min(i, sheet.spriteCount - 1);
-    int col = i / sheet.textureRow;
-    int row = i - col * sheet.textureRow;
-    auto subRect =
-        sf::IntRect(col * sheet.spriteSize.x, row * sheet.spriteSize.y,
-                    sheet.spriteSize.x, sheet.spriteSize.y);
-
-    sprite.setTexture(sheet.texture, true);
-    sprite.setTextureRect(subRect);
-
-    return sprite;
-}
-
 sf::Sprite AnimationMachine::toSprite() const {
     auto &sheet = getSheet();
-    auto frameTime = duration / (float)sheet.spriteCount;
-    sf::Sprite sprite = getSprite(elapsedTime / frameTime);
+    auto frameTime = duration / (float)sheet.getCount();
+    auto index = std::min((unsigned int)(elapsedTime / frameTime), sheet.getCount() - 1);
+    sf::Sprite sprite = sheet.getSprite(index);
     return sprite;
 }
 
 bool AnimationMachine::isFinished() const {
     auto &sheet = getSheet();
-    auto frameTime = duration / (float)sheet.spriteCount;
-    return !loop && (int)(elapsedTime / frameTime) >= sheet.spriteCount;
+    auto frameTime = duration / (float)sheet.getCount();
+    return !loop && (int)(elapsedTime / frameTime) >= sheet.getCount();
 }
 
 Texture::ID AnimationMachine::getID() const { return id; }
 
-SpriteSheet const &AnimationMachine::getSheet() const {
-    return TextureHolder::instance().get(id);
+Sheet const &AnimationMachine::getSheet() const {
+    return TextureHolder::instance().getSheet(id);
 }

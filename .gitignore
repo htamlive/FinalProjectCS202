@@ -32,3 +32,6 @@ External
 
 .clang-format
 test_*
+
+html
+latex
