@@ -84,7 +84,6 @@ public:
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
-    bool boundingBoxVisible = false;
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
     /**
@@ -112,8 +111,11 @@ protected:
      * Implement this to allow collision detection
      */
     virtual sf::FloatRect getBoundingRect() const;
+    virtual sf::FloatRect getLocalBounds() const;
 
 private:
+    bool debug = false;
+    bool applyDebugToChildren = false;
     std::vector<Ptr> mChildren;
     SceneNode *mParent;
 };

@@ -2,6 +2,8 @@
 #include "State.h"
 #include "Player.h"
 #include "PauseMenu.h"
+#include "Camera.h"
+#include "World.h"
 
 class GameState : public State
 {
@@ -15,29 +17,19 @@ private:
 	float height, width;
 	bool lastPlay;
 
-	Player* player;
+	class Player* player;
 	PauseMenu* pauseMenu;
+    World* world;
+    Camera* camera;
 	//std::string getMode();
 
-	void updateEventsPauseMenu() {
-		pauseMenu->ev = this->ev;
-		pauseMenu->updateEvents();
-	}
+	void updateEventsPauseMenu();
 
 public:
 
-	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states) : State(window, supportedKeys, states) {
-		this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
-		this->initKeyBinds();
+	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states);
 
-        player = new Player({0, 0}, GRID_SIZE);
-		pauseMenu = new PauseMenu(window, states);
-	};
-
-	~GameState() override {
-		delete player;
-		delete pauseMenu;
-	};
+	~GameState() override;
 
 	//void adjustCells(const int totalX, const int totalY);
 	//Vector2u setCenter(const int totalX, const int totalY);
@@ -48,52 +40,9 @@ public:
 	//	
 	//}
 
-	void updateEvents() override {
-		this->gui->handleEvent(this->ev);
+	void updateEvents() override;
 
-		switch (this->ev.type)
-		{
-		case sf::Event::Closed:
-			this->endState();
-			break;
-		case sf::Event::TextEntered:
-
-			//update
-			break;
-		default:
-			break;
-		}
-
-		updateEventsPauseMenu();
-
-		if (pauseMenu->getQuit()) {
-			this->endState();
-		}
-	};
-
-	void updateInput(const float& dt) override {
-		this->pauseMenu->updateInput();
-
-		if (this->ev.type == sf::Event::KeyPressed) {
-            this->player->onKeyPressed(this->ev.key);
-        }
-	};
-
-	void update(const float& dt) override {
-		float transDt = dt;
-		if (pauseMenu->isPausing()) transDt = 0;
-		updateInput(transDt);
-		//this->player.update(dt);
-		player->update(sf::Time(sf::seconds(transDt)));
-	};
-
-	void render(sf::RenderTarget* target = nullptr) override {
-		if (!target) {
-			target = this->window;
-		}
-		//this->player.render(target);
-		this->gui->draw();
-		target->draw(*player);
-		pauseMenu->render(target);
-	};
+	void updateInput(const float& dt) override;
+	void update(const float& dt) override;
+	void render(sf::RenderTarget* target = nullptr) override;
 };
