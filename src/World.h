@@ -5,15 +5,16 @@
 #include "Consts.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <list>
 
 /*
  * Represent the root node of the scene graph.
  */
 class World : public SceneNode {
+    list<Level*> maintainedLevels;
     Level *oldLevel;
     Level *currentLevel;
     int currentLevelNumber = 0;
-    Player &player;
     sf::Vector2f sceneSize;
     bool levelTransitioning = false;
     bool outOfView = false;
@@ -31,7 +32,7 @@ class World : public SceneNode {
 
     void makeLevelTransition();
 public:
-    World(Player &player, sf::Vector2f sceneSize);
+    World(sf::Vector2f sceneSize);
     void addNewLevel();
     void updateCurrent(sf::Time dt) override;
 };
