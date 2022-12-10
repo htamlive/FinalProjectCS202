@@ -86,10 +86,14 @@ sf::Texture const &SpriteSheet::getTexture() const {
 sf::Sprite SpriteSheet::getSprite(unsigned int i) const {
     auto &textureSheet = TextureHolder::instance().getSheet(texture);
     auto sprite = textureSheet.getSprite(startIdx + i);
-    sf::Vector2f scale = {1, 1};
+    sf::Vector2f scale = sprite.getScale();
     if (mirrorVertical) scale.x *= -1;
     if (mirrorHorizontal) scale.y *= -1;
-    sprite.setScale(sprite.getScale().x * scale.x, sprite.getScale().y * scale.y);
+    sprite.setScale(scale);
+    auto offset = sf::Vector2f(
+            mirrorVertical ? sprite.getGlobalBounds().width : 0,
+            mirrorHorizontal ? sprite.getGlobalBounds().height : 0);
+    sprite.setOrigin(offset);
     return sprite;
 }
 

@@ -52,7 +52,7 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
         difficultyMetrics.laneSpawnProb.begin(),
         difficultyMetrics.laneSpawnProb.end());
     auto builder = SceneBuilder(sceneSize);
-    builder.addBackground(Texture::ID::Null);
+    builder.addBackground(Texture::ID::Background);
     float gridHeight = sceneSize.y / GRID_SIZE.y;
     for (int i = 1; i < gridHeight - 2; i++) {
         if (i == gridHeight - 1) {
