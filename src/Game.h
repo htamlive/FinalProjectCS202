@@ -38,10 +38,11 @@ private:
 	}
 
 	void initTexture() {
-        TextureHolder::instance().load(Texture::ID::LeftVehicle,"./resources/images/greenCar.png");
-        TextureHolder::instance().add(Texture::ID::RightVehicle, {Texture::ID::LeftVehicle, true, false});
+        TextureHolder::instance().load(Texture::ID::RightVehicle,"./resources/images/truck_1.png", {128, 128}, 4);
+        TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, true, false});
         TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
         TextureHolder::instance().add(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
+        TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
         TextureHolder::instance().load(Texture::ID::Road,"./resources/images/VehicleRoad.png", {32, 32}, 9);
         TextureHolder::instance().add(Texture::ID::TopRoadLane, {Texture::ID::Road, 1, false, false});
         TextureHolder::instance().add(Texture::ID::MidRoadLane, {Texture::ID::Road, 4, false, false});
