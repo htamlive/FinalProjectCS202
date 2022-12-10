@@ -30,7 +30,7 @@ public:
 			});
 		this->gui->get<tgui::Button>("btnBack")->onClick([&]() {
 			cout << "oooooo\n";
-			this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplateCPY.txt");
+			//this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplateCPY.txt");
 			this->quit = true;
 			});
 		this->gui->get<tgui::Button>("MusicOn")->onClick([&]() {
