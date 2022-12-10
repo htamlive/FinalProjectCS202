@@ -10,6 +10,9 @@
 SceneNode::SceneNode() { mParent = nullptr; }
 
 void SceneNode::attachChild(Ptr child) {
+    if (debug && applyDebugToChildren) {
+        child->setDebug(true, true);
+    }
     child->mParent = this;
     mChildren.push_back(std::move(child));
 }
@@ -32,7 +35,7 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform *= this->getTransform();
 
     drawCurrent(target, states);
-    if (boundingBoxVisible) {
+    if (debug) {
         drawBoundingBox(target, states);
     }
 
@@ -92,7 +95,13 @@ bool checkCollision(const SceneNode &lnode, const SceneNode &rnode) {
     return lnode.getBoundingRect().intersects(rnode.getBoundingRect());
 }
 
-sf::FloatRect SceneNode::getBoundingRect() const { return {}; }
+sf::FloatRect SceneNode::getBoundingRect() const {
+    return getAbsTransform().transformRect(getLocalBounds());
+}
+
+sf::FloatRect SceneNode::getLocalBounds() const {
+    return sf::FloatRect();
+}
 
 void SceneNode::drawCurrent(sf::RenderTarget &target,
                             sf::RenderStates states) const {}
@@ -101,7 +110,7 @@ void SceneNode::updateCurrent(sf::Time dt) {}
 
 void SceneNode::drawBoundingBox(sf::RenderTarget &target,
                                 sf::RenderStates states) const {
-    sf::FloatRect rect = getBoundingRect();
+    sf::FloatRect rect = getLocalBounds();
     sf::RectangleShape shape;
     shape.setPosition(rect.left, rect.top);
     shape.setSize(sf::Vector2f(rect.width, rect.height));
@@ -111,11 +120,12 @@ void SceneNode::drawBoundingBox(sf::RenderTarget &target,
     target.draw(shape, states);
 }
 
-void SceneNode::setDebug(bool show, bool recursive) {
-    boundingBoxVisible = show;
+void SceneNode::setDebug(bool on, bool recursive) {
+    debug = on;
+    applyDebugToChildren = recursive;
     if (recursive) {
         for (auto &child : mChildren) {
-            child->setDebug(show, recursive);
+            child->setDebug(on, recursive);
         }
     }
 }
