@@ -15,7 +15,9 @@
 
 class Entity : public SceneNode {
 private:
-    sf::Vector2f velocity, size;
+    sf::Vector2f velocity;
+    sf::FloatRect localBounds;
+    sf::FloatRect spriteBounds;
 
 protected:
     AnimationMachine animation;
@@ -50,7 +52,7 @@ public:
     /**
      * @return the bounding rectangle of the Entity
      */
-    sf::FloatRect getBoundingRect() const override;
+    sf::FloatRect getLocalBounds() const override;
 
     void drawCurrent(sf::RenderTarget &target,
                      sf::RenderStates state) const override;
@@ -63,4 +65,7 @@ public:
      * @param dt time since last frame
      */
     void updateCurrent(sf::Time dt) override;
+    
+    void adjustSpriteBounds(float offX, float offY);
+    void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
 };
