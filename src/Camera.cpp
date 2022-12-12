@@ -9,6 +9,10 @@ Camera::Camera(SceneNode &follower, sf::RenderWindow &window, World &world)
     futurePos = window.getView().getCenter();
     velocity = {0, 0};
 }
+
+Camera::~Camera() {
+    window.setView(window.getDefaultView());
+}
 bool Camera::needReposition() {
     sf::View view = window.getView();
     sf::Vector2f playerPos = follower.getPosition();

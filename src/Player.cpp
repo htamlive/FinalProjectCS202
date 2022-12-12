@@ -25,6 +25,7 @@ Player::Player(sf::Vector2f position, sf::Vector2f size)
           jumpTexture(Texture::ID::PlayerJumpUp),
           idleTexture(Texture::ID::PlayerIdleUp) {
     staticPos = getPosition();
+    adjustBounds(20, 20, 40, 40);
 }
 
 void Player::onKeyPressed(sf::Event::KeyEvent event) {

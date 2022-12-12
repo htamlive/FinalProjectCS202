@@ -22,5 +22,6 @@ class Camera {
     void updateVelocity(sf::Time dt);
 public:
     Camera(SceneNode &follower, sf::RenderWindow &window, World &world);
+    ~Camera();
     void update(sf::Time dt);
 };

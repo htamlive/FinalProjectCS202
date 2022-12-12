@@ -29,7 +29,7 @@ SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
                                     float maxSpawnRate) {
     auto meanSpeed = (minSpeed + maxSpeed) / 2;
     auto speed =
-        std::normal_distribution<double>(meanSpeed, meanSpeed - meanSpeed / 2);
+        std::normal_distribution<double>(meanSpeed, meanSpeed / 2);
     // TODO: Handle random spawn rate
     auto roads = std::make_unique<RoadLanes>(
         RoadLane::Type::Vehicle, lanes, pos,

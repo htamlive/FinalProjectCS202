@@ -31,7 +31,10 @@ std::unique_ptr<Entity> RoadLane::newCommuter() const {
             ? sf::Vector2f(-commuterSize.x + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
     if (type == Type::Vehicle) {
-        return std::make_unique<Vehicle>(commuterTexture, pos, commuterSize, sf::Vector2f(velocityX, 0));
+        auto v = std::make_unique<Vehicle>(commuterTexture, pos, commuterSize, sf::Vector2f(velocityX, 0));
+        v->adjustBounds(0, 0, 0, 40);
+        v->adjustSpriteBounds(0, -30);
+        return v;
     } else {
         return std::make_unique<Animal>(commuterTexture, pos, commuterSize, sf::Vector2f(velocityX, 0));
     }

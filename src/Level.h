@@ -12,8 +12,9 @@ const float BASE_SPAWN_RATE_DECREASE = 0.01;
 
 const float BASE_MIN_SPEED = 70.f;
 const float BASE_MAX_SPEED = 100.f;
-const float BASE_SPEED_INCREASE = 20.f;
+const float BASE_SPEED_INCREASE = 40.f;
 const int   MAX_LANE_COUNT = 8;
+
 class Level : public SceneNode {
     Random<std::discrete_distribution<unsigned>> random;
 
