@@ -11,6 +11,7 @@ Button.btnMusic {
     Position = (362, 30);
     Size = (110, 58.6667);
     TextSize = 13;
+    Visible = false;
 
     Renderer {
         BackgroundColor = #F5F5F5;
@@ -79,6 +80,7 @@ Button.btnSound {
     Position = (502, 30);
     Size = (110, 58.6667);
     TextSize = 13;
+    Visible = false;
 
     Renderer {
         BackgroundColor = #F5F5F5;
@@ -244,16 +246,18 @@ Slider.sliderSound {
 }
 
 EditBox.eBoxMusic {
-    Position = (800, 177.12);
+    Alignment = Right;
+    Enabled = false;
+    Position = (700, 177.12);
     ReadOnly = true;
-    Size = (80, 49.28);
+    Size = (100, 49.28);
     Suffix = %;
     Text = 50;
     TextSize = 24;
 
     Renderer {
         BackgroundColor = transparent;
-        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDisabled = transparent;
         BackgroundColorHover = white;
         BorderColor = #3C3C3C;
         BorderColorDisabled = #7D7D7D;
@@ -262,11 +266,12 @@ EditBox.eBoxMusic {
         CaretColor = black;
         CaretWidth = 1;
         DefaultTextColor = #A0A0A0;
+        Font = "../fonts/04B_30__.TTF";
         Padding = (0, 0, 0, 0);
         SelectedTextBackgroundColor = #006EFF;
         SelectedTextColor = white;
         TextColor = #3C3C3C;
-        TextColorDisabled = #7D7D7D;
+        TextColorDisabled = white;
         Texture = None;
         TextureDisabled = None;
         TextureFocused = None;
@@ -274,16 +279,18 @@ EditBox.eBoxMusic {
     }
 }
 
-EditBox.eBox2 {
-    Position = (800, 260);
-    Size = (80, 49.28);
+EditBox.eBoxSound {
+    Alignment = Right;
+    Enabled = false;
+    Position = (700, 260);
+    Size = (100, 49.28);
     Suffix = %;
     Text = 50;
     TextSize = 24;
 
     Renderer {
         BackgroundColor = transparent;
-        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDisabled = transparent;
         BackgroundColorHover = white;
         BorderColor = #3C3C3C;
         BorderColorDisabled = #7D7D7D;
@@ -292,11 +299,12 @@ EditBox.eBox2 {
         CaretColor = black;
         CaretWidth = 1;
         DefaultTextColor = #A0A0A0;
+        Font = "../fonts/04B_30__.TTF";
         Padding = (0, 0, 0, 0);
         SelectedTextBackgroundColor = #006EFF;
         SelectedTextColor = white;
         TextColor = #3C3C3C;
-        TextColorDisabled = #7D7D7D;
+        TextColorDisabled = white;
         Texture = None;
         TextureDisabled = None;
         TextureFocused = None;
