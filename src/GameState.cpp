@@ -13,7 +13,7 @@ GameState::GameState(sf::RenderWindow *window,
     this->initKeyBinds();
 
     auto pPlayer = std::unique_ptr<class Player>(
-        new class Player({window->getSize().x / 2 - GRID_SIZE.x / 2,
+        new class Player({window->getSize().x / 2 - GRID_SIZE.x,
                           (float)window->getSize().y - GRID_SIZE.y},
                          GRID_SIZE));
     player = pPlayer.get();

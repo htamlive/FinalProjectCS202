@@ -49,13 +49,16 @@ void Camera::update(sf::Time dt) {
         isTransitioning = true;
     }
     if (transitionTime.asSeconds() >= TRANSITION_TIME.asSeconds()) {
-        for (auto wall : walls) {
-            wall->setVelocity(sf::Vector2f(0, 0));
-        }
         isTransitioning = false;
         transitionTime = sf::Time::Zero;
         auto view = window.getView();
-        view.setCenter({round(futurePos.x), round(futurePos.y)});
+        view.setCenter({futurePos.x, futurePos.y});
+        for (auto wall : walls) {
+            wall->setPosition({
+                0,
+                view.getCenter().y - view.getSize().y / 2,
+                });
+        }
         window.setView(view);
     }
 }
