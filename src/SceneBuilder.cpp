@@ -1,9 +1,7 @@
 #include "SceneBuilder.h"
-#include "Entity.h"
 #include "RoadLanes.h"
 #include "SceneNode.h"
 #include "SpriteNode.h"
-#include "TextureHolder.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <memory>
 
