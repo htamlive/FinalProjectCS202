@@ -1,7 +1,6 @@
 #include "Player.h"
-#include "AudioController.h"
 #include "Consts.h"
-#include "TextureHolder.h"
+#include <iostream>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
 
@@ -10,7 +9,16 @@ void Player::updateCurrent(sf::Time dt) {
         onJumpAnimationFinished();
     }
 
-    calVelocity(dt);
+    switch (state) {
+    case Idle:
+        break;
+    case Jumping:
+        updateJump(dt);
+        break;
+    case Colliding:
+        updateCollision(dt);
+        break;
+    }
 
     Entity::updateCurrent(dt);
 }
@@ -25,12 +33,17 @@ Player::Player(sf::Vector2f position, sf::Vector2f size)
           jumpTexture(Texture::ID::PlayerJumpUp),
           idleTexture(Texture::ID::PlayerIdleUp) {
     staticPos = getPosition();
+    setVelocity({0, 0});
     adjustBounds(20, 20, 40, 40);
 }
 
 void Player::onKeyPressed(sf::Event::KeyEvent event) {
+    if (state != Idle) {
+        return;
+    }
     auto newPos = staticPos;
-    if (!isJumping()) {
+    if (state == Idle) {
+        preJumpPos = getPosition();
         switch (event.code) {
             case sf::Keyboard::W:
             case sf::Keyboard::Up:
@@ -60,18 +73,16 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
 
                 break;
         }
-    }
-
-    if (staticPos != newPos) {
         animation = AnimationMachine(jumpTexture, JUMP_DURATION, false);
         staticPos = newPos;
         timeJumped = sf::Time::Zero;
+        state = Jumping;
     }
 }
 
 bool Player::isJumping() const { return timeJumped < JUMP_DURATION; }
 
-void Player::calVelocity(sf::Time dt) {
+void Player::updateJump(sf::Time dt) {
     auto length = staticPos - getPosition();
     if (isJumping()) {
         auto timeLeft = JUMP_DURATION - timeJumped;
@@ -81,12 +92,42 @@ void Player::calVelocity(sf::Time dt) {
         float scale = -2 * ((timeJumped.asSeconds() / JUMP_DURATION.asSeconds()) - 1);
         setVelocity(getVelocity() * scale);
         timeJumped += dt;
-
-    } else if(dt != sf::seconds(0)) {
-        setVelocity({length.x / dt.asSeconds(), length.y / dt.asSeconds()});
+    } else {
+        setPosition(staticPos);
+        setVelocity({0, 0});
+        state = Idle;
     }
 }
 
 void Player::onJumpAnimationFinished() {
     animation = AnimationMachine(idleTexture, DEF_ANIMATION_DURATION, true);
+}
+
+void Player::onCollision(Entity *other) {
+    if (state == Idle) {
+        return;
+    }
+    if (state == Jumping) {
+        state = Colliding;
+        collisionTime = sf::Time::Zero;
+        setVelocity({0, 0});
+        staticPos = preJumpPos;
+    }
+}
+
+void Player::updateCollision(sf::Time dt) {
+    auto dist = staticPos - getPosition();
+    if (collisionTime < sf::seconds(0.3)) {
+        auto timeLeft = JUMP_DURATION - collisionTime;
+        setVelocity({dist.x / timeLeft.asSeconds(), dist.y / timeLeft.asSeconds()});
+        // The scale to ease the jumping movement
+        // Derived from the formula: y = 1 - (x - 1)^2
+        float scale = -2 * ((timeJumped.asSeconds() / JUMP_DURATION.asSeconds()) - 1);
+        setVelocity(getVelocity() * scale);
+        collisionTime += dt;
+    } else {
+        setPosition(preJumpPos);
+        setVelocity({0, 0});
+        state = Idle;
+    }
 }
