@@ -11,6 +11,13 @@ private:
 	sf::Font font;
 
 	int curOpt = 1;
+
+	void zoomBig(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
+	}
+	void zoomSmall(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
+	}
 public:
 	bool isWordMode = true;
 	SettingState(sf::RenderWindow* window, std::vector<State*>* states);
@@ -40,6 +47,17 @@ public:
 		//	this->gui->get<tgui::Button>("SoundOn")->setVisible(false);
 		//	});
 
+		this->gui->get<tgui::Button>("btnBack")->onMouseEnter([&]() {
+			zoomBig("btnBack");
+			});
+
+		this->gui->get<tgui::Button>("btnBack")->onMouseLeave([&]() {
+			zoomSmall("btnBack");
+			});
+
+		this->gui->get<tgui::Button>("btnBack")->onClick([&]() {
+			endState();
+			});
 	};
 
 	~SettingState() override = default;;

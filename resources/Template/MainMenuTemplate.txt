@@ -43,8 +43,7 @@ Button.btnMusic {
 
 Button.btnBack {
     Position = (442, 460);
-    Size = (160, 58.6667);
-    Text = Back;
+    Size = (140, 58.6667);
     TextSize = 13;
 
     Renderer {
@@ -57,7 +56,7 @@ Button.btnBack {
         BorderColorDown = black;
         BorderColorFocused = #1E1EB4;
         BorderColorHover = black;
-        Borders = (1, 1, 1, 1);
+        Borders = (0, 0, 0, 0);
         RoundedBorderRadius = 40;
         TextColor = #3C3C3C;
         TextColorDisabled = #7D7D7D;
@@ -66,13 +65,13 @@ Button.btnBack {
         TextStyle = Regular;
         TextStyleDown = Regular;
         TextStyleDownFocused = Bold;
-        Texture = None;
+        Texture = "../buttons/backButtonIdle.png" Smooth;
         TextureDisabled = None;
-        TextureDown = None;
+        TextureDown = "../buttons/backButtonPressed.png" Smooth;
         TextureDownFocused = None;
         TextureDownHover = None;
         TextureFocused = None;
-        TextureHover = None;
+        TextureHover = "../buttons/backButtonIdle.png" Smooth;
     }
 }
 
