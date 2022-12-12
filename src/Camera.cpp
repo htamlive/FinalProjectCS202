@@ -25,16 +25,11 @@ Camera::~Camera() {
 }
 bool Camera::needReposition() {
     sf::View view = window.getView();
-    sf::Vector2f playerPos = follower.getPosition();
+    sf::Vector2f playerPos = follower.getAbsPosition();
     sf::Vector2f viewPos = view.getCenter();
     sf::Vector2f viewSize = view.getSize();
-    if (playerPos.x < viewPos.x - viewSize.x / 2)
-        return true;
-    if (playerPos.x > viewPos.x + viewSize.x / 2)
-        return true;
-    if (playerPos.y < viewPos.y - viewSize.y / 2)
-        return true;
-    if (playerPos.y > viewPos.y + viewSize.y / 2)
+    // Add a little bit of offset to the view size to make sure the player is always in the view
+    if (playerPos.y + 10 < viewPos.y - viewSize.y / 2)
         return true;
     return false;
 }
