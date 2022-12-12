@@ -79,7 +79,8 @@ void GameState::update(const float &dt) {
     using namespace Identifier;
     for (auto pair : collisionPairs) {
         if (pair.first == player || pair.second == player) {
-            endState();
+            // endState();
+            player->onCollision(nullptr);
         }
     }
 };
