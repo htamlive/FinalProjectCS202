@@ -1,14 +1,14 @@
 Picture.background {
-    Size = (1920, 1080);
+    Size = (1024, 768);
 
     Renderer {
-        Texture = "../images/SettingBG.jpg" Smooth;
+        Texture = "../images/background.png" Smooth;
         TransparentTexture = false;
     }
 }
 
 Button.btnMusic {
-    Position = (452, 170);
+    Position = (362, 30);
     Size = (110, 58.6667);
     TextSize = 13;
 
@@ -41,7 +41,7 @@ Button.btnMusic {
 }
 
 Button.btnBack {
-    Position = (432, 360);
+    Position = (442, 460);
     Size = (160, 58.6667);
     Text = Back;
     TextSize = 13;
@@ -76,7 +76,7 @@ Button.btnBack {
 }
 
 Button.btnSound {
-    Position = (452, 260);
+    Position = (502, 30);
     Size = (110, 58.6667);
     TextSize = 13;
 
@@ -173,104 +173,153 @@ Button.SoundOn {
     }
 }
 
-TextArea.TextArea1 {
-    HorizontalScrollbarPolicy = Never;
-    MaximumCharacters = 0;
-    Position = (370, 190);
-    Size = (48, 35.8333);
-    Text = Music;
-    TextSize = 15;
-
-    Renderer {
-        BackgroundColor = None;
-        BorderColor = black;
-        Borders = (0, 0, 0, 0);
-        CaretColor = black;
-        CaretWidth = 1;
-        DefaultTextColor = #A0A0A0;
-        Padding = (0, 0, 0, 0);
-        SelectedTextBackgroundColor = #006EFF;
-        SelectedTextColor = white;
-        TextColor = #FFFA00;
-        TextureBackground = None;
-
-        Scrollbar {
-            ArrowBackgroundColor = #F5F5F5;
-            ArrowBackgroundColorHover = white;
-            ArrowColor = #3C3C3C;
-            ArrowColorHover = black;
-            TextureArrowDown = None;
-            TextureArrowDownHover = None;
-            TextureArrowUp = None;
-            TextureArrowUpHover = None;
-            TextureThumb = None;
-            TextureThumbHover = None;
-            TextureTrack = None;
-            TextureTrackHover = None;
-            ThumbColor = #DCDCDC;
-            ThumbColorHover = #E6E6E6;
-            TrackColor = #F5F5F5;
-        }
-    }
-}
-
-TextArea.TextArea2 {
-    HorizontalScrollbarPolicy = Never;
-    MaximumCharacters = 0;
-    Position = (370, 280);
-    Size = (78, 35.8333);
-    Text = "Sound FX";
-    TextSize = 15;
-
-    Renderer {
-        BackgroundColor = None;
-        BorderColor = black;
-        Borders = (0, 0, 0, 0);
-        CaretColor = black;
-        CaretWidth = 1;
-        DefaultTextColor = #A0A0A0;
-        Padding = (0, 0, 0, 0);
-        SelectedTextBackgroundColor = #006EFF;
-        SelectedTextColor = white;
-        TextColor = #FFFA00;
-        TextureBackground = None;
-
-        Scrollbar {
-            ArrowBackgroundColor = #F5F5F5;
-            ArrowBackgroundColorHover = white;
-            ArrowColor = #3C3C3C;
-            ArrowColorHover = black;
-            TextureArrowDown = None;
-            TextureArrowDownHover = None;
-            TextureArrowUp = None;
-            TextureArrowUpHover = None;
-            TextureThumb = None;
-            TextureThumbHover = None;
-            TextureTrack = None;
-            TextureTrackHover = None;
-            ThumbColor = #DCDCDC;
-            ThumbColorHover = #E6E6E6;
-            TrackColor = #F5F5F5;
-        }
-    }
-}
-
 Picture.Picture1 {
-    Position = (290, 173.945);
-    Size = (90, 48.437);
+    Position = (140, 260);
+    Size = (48, 48);
 
     Renderer {
-        Texture = "../images/music.png" Smooth;
+        Texture = "../images/melody.png" Smooth;
         TransparentTexture = false;
     }
 }
 
 Picture.Picture2 {
-    Position = (300, 270);
-    Size = (68, 38.2988);
+    Position = (140, 180);
+    Size = (48, 48);
 
     Renderer {
-        Texture = "../images/soundFX.png" Smooth;
+        Texture = "../images/sound.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Slider.sliderMusic {
+    ChangeValueOnScroll = true;
+    InvertedDirection = false;
+    Maximum = 100;
+    Minimum = 0;
+    Position = (380, 200);
+    Size = (300, 16);
+    Step = 1;
+    Value = 50;
+
+    Renderer {
+        BorderColor = #3C3C3C;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        TextureThumb = None;
+        TextureThumbHover = None;
+        TextureTrack = None;
+        TextureTrackHover = None;
+        ThumbColor = #F5F5F5;
+        ThumbColorHover = white;
+        TrackColor = #F5F5F5;
+        TrackColorHover = white;
+    }
+}
+
+Slider.sliderSound {
+    ChangeValueOnScroll = true;
+    InvertedDirection = false;
+    Maximum = 100;
+    Minimum = 0;
+    Position = (380, 280);
+    Size = (300, 16);
+    Step = 1;
+    Value = 50;
+
+    Renderer {
+        BorderColor = #3C3C3C;
+        BorderColorHover = black;
+        Borders = (1, 1, 1, 1);
+        TextureThumb = None;
+        TextureThumbHover = None;
+        TextureTrack = None;
+        TextureTrackHover = None;
+        ThumbColor = #F5F5F5;
+        ThumbColorHover = white;
+        TrackColor = #F5F5F5;
+        TrackColorHover = white;
+    }
+}
+
+EditBox.eBoxMusic {
+    Position = (800, 177.12);
+    ReadOnly = true;
+    Size = (80, 49.28);
+    Suffix = %;
+    Text = 50;
+    TextSize = 24;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        CaretColor = black;
+        CaretWidth = 1;
+        DefaultTextColor = #A0A0A0;
+        Padding = (0, 0, 0, 0);
+        SelectedTextBackgroundColor = #006EFF;
+        SelectedTextColor = white;
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        Texture = None;
+        TextureDisabled = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
+
+EditBox.eBox2 {
+    Position = (800, 260);
+    Size = (80, 49.28);
+    Suffix = %;
+    Text = 50;
+    TextSize = 24;
+
+    Renderer {
+        BackgroundColor = transparent;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        CaretColor = black;
+        CaretWidth = 1;
+        DefaultTextColor = #A0A0A0;
+        Padding = (0, 0, 0, 0);
+        SelectedTextBackgroundColor = #006EFF;
+        SelectedTextColor = white;
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        Texture = None;
+        TextureDisabled = None;
+        TextureFocused = None;
+        TextureHover = None;
+    }
+}
+
+Picture.Picture3 {
+    Position = (220, 180);
+    Size = (127, 43.1973);
+
+    Renderer {
+        Texture = "../text/music.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.Picture4 {
+    Position = (220, 260);
+    Size = (127, 43.1973);
+
+    Renderer {
+        Texture = "../text/sound.png" Smooth;
         TransparentTexture = false;
     }
 }
