@@ -1,15 +1,12 @@
 #pragma once
 
-namespace Identifier {
-    enum Catergory {
-        None       = 0,
-        Scene      = 1 << 0,
-        Player     = 1 << 1,
-        Vehicle    = 1 << 2,
-        Projectile = 1 << 3,
-        Pickup     = 1 << 4,
-    };
-}
+enum Category {
+    None       = 0,
+    Scene      = 1 << 0,
+    Player     = 1 << 1,
+    Enemy      = 1 << 2,
+    Obstacle   = 1 << 3,
+};
 
 namespace Texture {
     enum ID {

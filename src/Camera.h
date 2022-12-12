@@ -22,6 +22,9 @@ public:
     void setVelocity(sf::Vector2f velocity) {
         this->velocity = velocity;
     }
+    Category getCategory() const override {
+        return Category::Obstacle;
+    }
 };
 
 

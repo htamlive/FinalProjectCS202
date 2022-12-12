@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "Consts.h"
+#include "Enums.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
@@ -53,3 +54,5 @@ void Entity::adjustBounds(float offX, float offY, float cropWidth, float cropHei
     localBounds.width -= cropWidth;
     localBounds.height -= cropHeight;
 }
+
+Category Entity::getCategory() const { return Category::Enemy; }

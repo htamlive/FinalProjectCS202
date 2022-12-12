@@ -21,6 +21,7 @@ public:
 
     void onKeyPressed(sf::Event::KeyEvent);
     void onCollision(Entity *other);
+    Category getCategory() const override;
 
 private:
     void updateCurrent(sf::Time dt) override;

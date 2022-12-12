@@ -12,10 +12,10 @@ GameState::GameState(sf::RenderWindow *window,
     this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
     this->initKeyBinds();
 
-    auto pPlayer =
-        std::unique_ptr<class Player>(new class Player(
-                    {window->getSize().x / 2 - GRID_SIZE.x / 2, (float) window->getSize().y - GRID_SIZE.y},
-                    GRID_SIZE));
+    auto pPlayer = std::unique_ptr<class Player>(
+        new class Player({window->getSize().x / 2 - GRID_SIZE.x / 2,
+                          (float)window->getSize().y - GRID_SIZE.y},
+                         GRID_SIZE));
     player = pPlayer.get();
     pauseMenu = new PauseMenu(window, states);
     world = new World(sf::Vector2f(window->getSize()));
@@ -76,11 +76,17 @@ void GameState::update(const float &dt) {
 
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
-    using namespace Identifier;
     for (auto pair : collisionPairs) {
-        if (pair.first == player || pair.second == player) {
-            // endState();
-            player->onCollision(nullptr);
+        if (pair.first->getCategory() == Category::Player ||
+            pair.second->getCategory() == Category::Player) {
+            if (pair.first->getCategory() == Category::Enemy ||
+                pair.second->getCategory() == Category::Enemy) {
+                player->onCollision(nullptr);
+                endState();
+            } else if (pair.first->getCategory() == Category::Obstacle ||
+                       pair.second->getCategory() == Category::Obstacle) {
+                player->onCollision(nullptr);
+            }
         }
     }
 };

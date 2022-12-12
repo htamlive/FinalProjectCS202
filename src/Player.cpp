@@ -131,3 +131,7 @@ void Player::updateCollision(sf::Time dt) {
         state = Idle;
     }
 }
+
+Category Player::getCategory() const {
+    return Category::Player;
+}

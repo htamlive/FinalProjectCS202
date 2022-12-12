@@ -1,4 +1,5 @@
 #pragma once
+#include "Enums.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -81,6 +82,8 @@ public:
      * @param recursive: apply to all children
      */
     void setDebug(bool on, bool recursive = false);
+    
+    virtual Category getCategory() const;
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
