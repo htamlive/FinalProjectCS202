@@ -13,6 +13,14 @@ private:
 	sf::Font font;
 	MenuAnimation Meow;
 	int curOpt = 1;
+
+	void zoomBig(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
+	}
+	void zoomSmall(string Button) {
+		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
+	}
+
 public:
 	bool isWordMode = true;
 	MainMenuState(sf::RenderWindow* window, std::vector<State*>* states);
@@ -64,12 +72,7 @@ public:
 	void updateInput(const float& dt) override {
 
 	};
-	void zoomBig(string Button) {
-		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
-	}
-	void zoomSmall(string Button) {
-		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
-	}
+
 	void updateEvents() override {
 		this->gui->handleEvent(this->ev);
 		switch (this->ev.type)
