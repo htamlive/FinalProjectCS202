@@ -22,14 +22,29 @@ private:
 protected:
     AnimationMachine animation;
 
+    void drawCurrent(sf::RenderTarget &target,
+                     sf::RenderStates state) const override;
+
+    /**
+     * Update the Entity, can be extended in derived class. Default
+     * implementation only updates the position according to velocity &
+     * animation.
+     *
+     * @param dt time since last frame
+     */
+    void updateCurrent(sf::Time dt) override;
+
 public:
     Entity();
+
     Entity(Texture::ID texture, sf::Vector2f velocity,
            sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
+
     Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf::Vector2f velocity,
            sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
+
     Entity(Texture::ID texture, sf::FloatRect boundRect, sf::Vector2f velocity,
            sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
@@ -49,23 +64,9 @@ public:
      */
     void setVelocity(sf::Vector2f velocity);
 
-    /**
-     * @return the bounding rectangle of the Entity
-     */
     sf::FloatRect getLocalBounds() const override;
 
-    void drawCurrent(sf::RenderTarget &target,
-                     sf::RenderStates state) const override;
-
-    /**
-     * Update the Entity, can be extended in derived class. Default
-     * implementation only updates the position according to velocity &
-     * animation.
-     *
-     * @param dt time since last frame
-     */
-    void updateCurrent(sf::Time dt) override;
-    
     void adjustSpriteBounds(float offX, float offY);
+
     void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
 };

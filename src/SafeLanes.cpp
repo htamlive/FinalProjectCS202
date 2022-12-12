@@ -15,7 +15,7 @@ SafeLanes::SafeLanes(unsigned int laneCount, float y, float laneHeight) {
 
 void SafeLanes::generateLanes(unsigned int laneCount, float laneHeight) {
     for (auto i = 0; i < laneCount; i++) {
-        auto lane = std::make_unique<SafeLane>(laneHeight * (float)i, Texture::ID::SafeLane);
+        auto lane = std::make_unique<SafeLane>(laneHeight * (float) i, Texture::ID::SafeLane);
         lane->setLaneHeight(laneHeight);
 
         lanes.push_back(lane.get());
@@ -24,22 +24,10 @@ void SafeLanes::generateLanes(unsigned int laneCount, float laneHeight) {
 }
 
 void SafeLanes::setLaneHeight(float newHeight) {
-    for (auto lane : lanes)
+    for (auto lane: lanes)
         lane->setLaneHeight(newHeight);
 }
 
 void SafeLanes::setPosY(float y) {
     setPosition(0, y);
-}
-
-float SafeLanes::getTopY() const {
-    return getPosition().y;
-}
-
-float SafeLanes::getBottomY() const {
-    auto y = getTopY();
-    for (auto &lane: lanes) {
-        y = std::min(y, lane->getBottomY());
-    }
-    return y;
 }

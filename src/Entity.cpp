@@ -5,7 +5,7 @@
 #include <iostream>
 
 Entity::Entity()
-    : animation(Texture::ID::LeftVehicle, DEF_ANIMATION_DURATION, true), localBounds(0, 0, 0, 0) {}
+        : animation(Texture::ID::LeftVehicle, DEF_ANIMATION_DURATION, true), localBounds(0, 0, 0, 0) {}
 
 Entity::Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf::Vector2f velocity,
                sf::Time animationDuration, bool loop)
@@ -38,6 +38,7 @@ void Entity::drawCurrent(sf::RenderTarget &target,
     target.draw(sprite, state);
 }
 
+// TODO: this function is ugly
 bool Entity::isOutOfScreen() const {
     return getAbsPosition().x + localBounds.width < 0 || getAbsPosition().x > WINDOW_VIDEO_MODE.width;
 }

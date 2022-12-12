@@ -1,27 +1,32 @@
 #pragma once
 
 #include "Random.h"
-#include "Entity.h"
 #include "Lane.h"
+#include "Entity.h"
+#include "Vehicle.h"
+#include "Animal.h"
+#include "Light.h"
 
 #include <deque>
-
 #include <functional>
 
 class RoadLane : public Lane {
 public:
     enum class Type {
-        Vehicle, Animal
+        Vehicle, Animal, Unknown
     };
     enum class Direction {
         Left = 0, Right = 1
     };
 
 private:
-    Type type;
-    float velocityX;
-    std::deque<Entity *> commuters;
+    void updateCurrent(sf::Time dt) override;
 
+    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
+
+protected:
+    float speedX;
+    Direction direction;
     /**
      * Normal distribution. Determines when will another commuter appear.<br>
      * Mean is the average time between two commuters.<br>
@@ -31,24 +36,29 @@ private:
     sf::Time timer;
     Texture::ID laneTexture;
     float height;
-
     Texture::ID commuterTexture;
     sf::Vector2f commuterSize;
+    std::deque<Entity *> commuters;
 
-    std::unique_ptr<Entity> newCommuter() const;
+    virtual std::unique_ptr<Entity> newCommuter() const = 0;
+
+    virtual void updateCommuters(sf::Time dt);
+
+    sf::Vector2f getVelocity() const;
 
 public:
     RoadLane();
 
-    RoadLane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float speed, Random<std::normal_distribution<double>> frequency);
+    RoadLane(Texture::ID commuterTexture, Texture::ID laneTexture, float y, float speed,
+             Random<std::normal_distribution<double>> frequency);
 
-    RoadLane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
+    RoadLane(Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
              float commuterWidth, float commuterHeight, Direction direction, float speed,
              Random<std::normal_distribution<double>> frequency);
 
-    float getTopY() const override;
+    virtual Type getType() const;
 
-    float getBottomY() const override;
+    Direction getDirection() const;
 
     void setPosY(float) override;
 
@@ -65,10 +75,31 @@ public:
     void setSpeed(float);
 
     void setFrequency(Random<std::normal_distribution<double>> const &);
+};
 
-    void updateCurrent(sf::Time dt) override;
+class VehicleLane : public RoadLane, public LightObserver {
+public:
+    using RoadLane::RoadLane;
 
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
+    Type getType() const override;
 
-    void onLightChanged();
+    void onLightChanged() override;
+
+protected:
+    void updateCommuters(sf::Time dt) override;
+
+private:
+    bool stopSpawning = false;
+
+    std::unique_ptr<Entity> newCommuter() const override;
+};
+
+class AnimalLane : public RoadLane {
+public:
+    using RoadLane::RoadLane;
+
+    Type getType() const override;
+
+private:
+    std::unique_ptr<Entity> newCommuter() const override;
 };

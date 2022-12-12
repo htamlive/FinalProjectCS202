@@ -4,47 +4,34 @@
 #include <iostream>
 
 RoadLane::RoadLane()
-        : type(Type::Vehicle), velocityX(0), height(0),
-          frequency(), laneTexture(), commuterTexture(), commuterSize(0, 0) {
+        : speedX(0), height(0),
+          frequency(), laneTexture(), commuterTexture(), commuterSize(0, 0), direction(Direction::Left) {
     setPosition(0, 0);
 }
 
-RoadLane::RoadLane(Type type, Texture::ID commuterTexture, Texture::ID laneTexture, float y, float speed,
-                   Random<std::normal_distribution<double>> frequency) : laneTexture(laneTexture), type(type), frequency(frequency),
-                                                                 velocityX(-speed), height(DEF_LANE_HEIGHT), commuterTexture(commuterTexture), commuterSize(DEF_COMMUTER_SIZE) {
+RoadLane::RoadLane(Texture::ID commuterTexture, Texture::ID laneTexture, float y, float speed,
+                   Random<std::normal_distribution<double>> frequency) : laneTexture(laneTexture), frequency(frequency),
+                                                                         speedX(-speed), height(DEF_LANE_HEIGHT),
+                                                                         commuterTexture(commuterTexture),
+                                                                         commuterSize(DEF_COMMUTER_SIZE),
+                                                                         direction(Direction::Left) {
     setPosition(0, y);
 }
 
-RoadLane::RoadLane(Type type, Texture::ID commuterTexture,
+RoadLane::RoadLane(Texture::ID commuterTexture,
                    Texture::ID laneTexture, float y, float laneHeight,
                    float commuterWidth, float commuterHeight, RoadLane::Direction direction,
                    float speed, Random<std::normal_distribution<double>> frequency)
-        : laneTexture(laneTexture), type(type),
-          frequency(frequency), height(laneHeight), commuterTexture(commuterTexture), commuterSize(commuterWidth, commuterHeight) {
+        : laneTexture(laneTexture),
+          frequency(frequency), height(laneHeight), commuterTexture(commuterTexture),
+          commuterSize(commuterWidth, commuterHeight), direction(direction), speedX(speed) {
     setPosition(0, y);
-    velocityX = direction == Direction::Right ? speed : -speed;
 }
 
-std::unique_ptr<Entity> RoadLane::newCommuter() const {
-    auto pos =
-            velocityX > 0
-            ? sf::Vector2f(-commuterSize.x + 1, 0)
-            : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
-    if (type == Type::Vehicle) {
-        auto v = std::make_unique<Vehicle>(commuterTexture, pos, commuterSize, sf::Vector2f(velocityX, 0));
-        v->adjustBounds(0, 0, 0, 40);
-        v->adjustSpriteBounds(0, -30);
-        return v;
-    } else {
-        return std::make_unique<Animal>(commuterTexture, pos, commuterSize, sf::Vector2f(velocityX, 0));
-    }
-}
-
-
-void RoadLane::updateCurrent(sf::Time dt) {
+void RoadLane::updateCommuters(sf::Time dt) {
     auto isLastCommuterFarEnough = [&]() {
         if (!commuters.empty()) {
-            auto startX = velocityX > 0 ? 0 : WINDOW_VIDEO_MODE.width;
+            auto startX = getDirection() == Direction::Right ? 0 : WINDOW_VIDEO_MODE.width;
             auto &last = commuters.back();
             return std::abs((float) startX - last->getPosition().x) >= MINIMUM_WIDTH_BETWEEN_VEHICLES;
         } else
@@ -69,12 +56,8 @@ void RoadLane::updateCurrent(sf::Time dt) {
     }
 }
 
-void RoadLane::onLightChanged() {
-    if (type == Type::Vehicle) {
-        for (auto &vehicle: commuters) {
-            dynamic_cast<Vehicle *>(vehicle)->onLightChanged();
-        }
-    }
+void RoadLane::updateCurrent(sf::Time dt) {
+    updateCommuters(dt);
 }
 
 void RoadLane::setLaneTexture(Texture::ID texture) {
@@ -89,17 +72,12 @@ void RoadLane::setCommuterSize(sf::Vector2f size) {
     commuterSize = size;
 }
 
-void RoadLane::setDirection(RoadLane::Direction direction) {
-    if (direction == Direction::Right) {
-        velocityX = std::abs(velocityX);
-    } else {
-        velocityX = -std::abs(velocityX);
-    }
+void RoadLane::setDirection(RoadLane::Direction newDirection) {
+    direction = newDirection;
 }
 
 void RoadLane::setSpeed(float speed) {
-    velocityX /= std::abs(velocityX);
-    velocityX *= speed;
+    speedX = speed;
 }
 
 void RoadLane::setFrequency(const Random<std::normal_distribution<double>> &newFrequency) {
@@ -112,18 +90,10 @@ void RoadLane::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) co
     auto scaleFactor = height / (float) sprite.getGlobalBounds().height;
     sprite.setScale(sprite.getScale().x * scaleFactor, sprite.getScale().y * scaleFactor);
 
-    for (float i = 0; i < (float) WINDOW_VIDEO_MODE.width; i += sprite.getLocalBounds().width) {
+    for (float i = 0; i < (float) WINDOW_VIDEO_MODE.width; i += sprite.getGlobalBounds().width) {
         sprite.setPosition(i, 0);
         target.draw(sprite, states);
     }
-}
-
-float RoadLane::getTopY() const {
-    return getPosition().y;
-}
-
-float RoadLane::getBottomY() const {
-    return getPosition().y + height;
 }
 
 void RoadLane::setPosY(float y) {
@@ -132,4 +102,57 @@ void RoadLane::setPosY(float y) {
 
 void RoadLane::setLaneHeight(float newHeight) {
     height = newHeight;
+}
+
+RoadLane::Type RoadLane::getType() const {
+    return RoadLane::Type::Unknown;
+}
+
+RoadLane::Direction RoadLane::getDirection() const {
+    return direction;
+}
+
+sf::Vector2f RoadLane::getVelocity() const {
+    if (direction == Direction::Right)
+        return {speedX, 0};
+    else
+        return {-speedX, 0};
+}
+
+RoadLane::Type VehicleLane::getType() const {
+    return RoadLane::Type::Vehicle;
+}
+
+void VehicleLane::onLightChanged() {
+    stopSpawning = !stopSpawning;
+    for (auto &commuter: commuters)
+        dynamic_cast<Vehicle *>(commuter)->onLightChanged();
+}
+
+std::unique_ptr<Entity> VehicleLane::newCommuter() const {
+    auto pos =
+            getDirection() == Direction::Right
+            ? sf::Vector2f(-commuterSize.x + 1, 0)
+            : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
+    auto vehicle = std::make_unique<Vehicle>(commuterTexture, pos, commuterSize, getVelocity());
+    vehicle->adjustBounds(0, 0, 0, 40);
+    vehicle->adjustSpriteBounds(0, -30);
+    return vehicle;
+}
+
+void VehicleLane::updateCommuters(sf::Time dt) {
+    if (!stopSpawning)
+        RoadLane::updateCommuters(dt);
+}
+
+RoadLane::Type AnimalLane::getType() const {
+    return RoadLane::Type::Animal;
+}
+
+std::unique_ptr<Entity> AnimalLane::newCommuter() const {
+    auto pos =
+            getDirection() == Direction::Right
+            ? sf::Vector2f(-commuterSize.x + 1, 0)
+            : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
+    return std::make_unique<Animal>(commuterTexture, pos, commuterSize, getVelocity());
 }

@@ -7,6 +7,9 @@ private:
     float height;
     Texture::ID texture;
 
+protected:
+    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
+
 public:
     SafeLane();
 
@@ -17,10 +20,4 @@ public:
     void setLaneHeight(float) override;
 
     void setPosY(float) override;
-
-    float getTopY() const override;
-
-    float getBottomY() const override;
-
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
 };

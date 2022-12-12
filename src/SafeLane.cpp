@@ -22,14 +22,6 @@ void SafeLane::setPosY(float y) {
     setPosition(0, y);
 }
 
-float SafeLane::getTopY() const {
-    return getPosition().y;
-}
-
-float SafeLane::getBottomY() const {
-    return getPosition().y + height;
-}
-
 void SafeLane::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {
     auto sprite = TextureHolder::instance().getSheet(texture).getSprite(0);
     // Set scale to match the height of the road

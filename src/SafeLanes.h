@@ -15,10 +15,6 @@ public:
 
     void setPosY(float) override;
 
-    float getTopY() const override;
-
-    float getBottomY() const override;
-
 private:
     std::vector<SafeLane *> lanes;
 
