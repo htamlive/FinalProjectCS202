@@ -48,11 +48,17 @@ public:
 		//	this->gui->get<tgui::Button>("SoundOn")->setVisible(false);
 		//	});
 		this->gui->get<tgui::Slider>("sliderMusic")->onValueChange([&]() {
-			float temp = this->gui->get<tgui::Slider>("sliderMusic")->getValue();
-			std::cout << temp << std::endl;
-			AudioController::instance().playMusic(Music::Game);
-			AudioController::instance().setMusicVolume(temp);
+			int val = this->gui->get<tgui::Slider>("sliderMusic")->getValue();
+			std::cout << val << std::endl;
+			this->gui->get<tgui::EditBox>("eBoxMusic")->setText(to_string(val));
+			//AudioController::instance().playMusic(Music::Game);
+			AudioController::instance().setMusicVolume(val);
 		});
+
+		this->gui->get<tgui::Slider>("sliderSound")->onValueChange([&]() {
+				int val = this->gui->get<tgui::Slider>("sliderSound")->getValue();
+				this->gui->get<tgui::EditBox>("eBoxSound")->setText(to_string(val));
+			});
 
 		
 		this->gui->get<tgui::Button>("btnBack")->onMouseEnter([&]() {
