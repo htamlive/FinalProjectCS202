@@ -8,8 +8,8 @@
 AudioController *AudioController::_instance = nullptr;
 
 AudioController::AudioController() : isMuted(false), musicVolume(0) {
-    loadSoundFromFile(SoundEffect::Hit, "./SmallHit.wav");
-    loadMusicFromFile(Music::Game, "./MainTheme.wav");
+    loadSoundFromFile(SoundEffect::Hit, "resources//SmallHit.wav");
+    loadMusicFromFile(Music::Game, "resources//MainTheme.wav");
 }
 
 AudioController &AudioController::instance() {
@@ -36,7 +36,7 @@ sf::SoundBuffer &AudioController::getSoundBuffer(SoundEffect::ID id) {
 void AudioController::playMusic(Music::ID id) {
     auto filename = musicPlaylist.find(id)->second;
 
-    if (!music.openFromFile(filename)) {
+    if (music.openFromFile(filename)) {
         music.play();
     } else {
         std::cerr << "Loading music from \"" + filename + "\" failed.\n";
@@ -69,6 +69,7 @@ void AudioController::updateSettings() {
     } else {
         music.setVolume(musicVolume);
     }
+
 }
 
 void AudioController::loadMusicFromFile(Music::ID id, const std::string &path) {
