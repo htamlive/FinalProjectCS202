@@ -7,6 +7,16 @@ Picture.background {
     }
 }
 
+Picture.title {
+    Position = (30, -74.7451);
+    Size = (920, 472.671);
+
+    Renderer {
+        Texture = "../text/GameName.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
 Picture.toLeft {
     Position = (210, 60);
     Size = (82, 82);
@@ -30,7 +40,7 @@ Picture.toUp {
 }
 
 Button.btnPlay {
-    Position = (443, 306.125);
+    Position = (443, 336.125);
     Size = (135, 58.6955);
     TextSize = 13;
 
@@ -61,7 +71,7 @@ Button.btnPlay {
 }
 
 Button.btnLoad {
-    Position = (442, 410);
+    Position = (442, 440);
     Size = (135, 58.6955);
     TextSize = 13;
 
@@ -91,7 +101,7 @@ Button.btnLoad {
 }
 
 Button.btnSetting {
-    Position = (402, 510);
+    Position = (402, 540);
     Size = (227, 57.6142);
     TextSize = 13;
 
@@ -139,6 +149,16 @@ Picture.toDown {
 
     Renderer {
         Texture = "../spritesheet/main/idleDown.png" Part(0, 0, 128, 128) Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.Picture1 {
+    Position = (560, 203.385);
+    Size = (125, 16.2088);
+
+    Renderer {
+        Texture = "../text/homecoming.png" Smooth;
         TransparentTexture = false;
     }
 }
