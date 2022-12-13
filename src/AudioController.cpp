@@ -8,8 +8,7 @@
 AudioController *AudioController::_instance = nullptr;
 
 AudioController::AudioController() : isMuted(false), musicVolume(0) {
-    loadSoundFromFile(SoundEffect::Hit, "resources//SmallHit.wav");
-    loadMusicFromFile(Music::Game, "resources//music//mixkit-games-worldbeat-466.wav");
+    
 }
 
 AudioController &AudioController::instance() {
