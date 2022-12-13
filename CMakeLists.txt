@@ -4,7 +4,6 @@
 cmake_minimum_required (VERSION 3.13)
 
 project ("src")
-#add_executable(FinalProjectCS202 "FinalProjectCS202.cpp" "FinalProjectCS202.h")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

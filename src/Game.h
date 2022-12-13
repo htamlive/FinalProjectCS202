@@ -43,11 +43,15 @@ private:
         TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
         TextureHolder::instance().add(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
         TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
-        TextureHolder::instance().load(Texture::ID::Road,"./resources/images/VehicleRoad.png", {32, 32}, 9);
+        TextureHolder::instance().load(Texture::ID::Road,"./resources/images/VehicleRoad.png", {128, 128}, 9);
         TextureHolder::instance().add(Texture::ID::TopRoadLane, {Texture::ID::Road, 1, false, false});
         TextureHolder::instance().add(Texture::ID::MidRoadLane, {Texture::ID::Road, 4, false, false});
         TextureHolder::instance().add(Texture::ID::BotRoadLane, {Texture::ID::Road, 7, false, false});
         TextureHolder::instance().add(Texture::ID::MonoRoadLane, {Texture::ID::Road, 8, false, false});
+        TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
+        TextureHolder::instance().load(Texture::ID::RedLight, "./resources/images/redLight.png");
+        TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/main/redToGreen.png", {128, 128}, 5);
+        TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/main/greenToRed.png", {128, 128}, 5);
 		TextureHolder::instance().load(Texture::ID::PlayerIdleUp, "resources/spritesheet/main/idleUp.png", { 128, 128 }, 6);
         TextureHolder::instance().load(Texture::ID::PlayerIdleDown, "resources/spritesheet/main/idleDown.png", { 128, 128 }, 6);
         TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, "resources/spritesheet/main/idleLeft.png", { 128, 128 }, 6);
@@ -56,7 +60,7 @@ private:
         TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 128, 128 }, 6);
 		TextureHolder::instance().load(Texture::ID::PlayerJumpUp, "resources/spritesheet/main/goUp.png", { 128, 128 }, 6);
 		TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/main/goDown.png", { 128, 128 }, 4);
-		TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
+		TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);//    TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
 	};
 
 	void updateEvents();

@@ -1,7 +1,6 @@
 // FinalProjectCS202.cpp : Defines the entry point for the application.
 #include "Game.h"
 
-#include "FinalProjectCS202.h"
 //#include "Entity.h"
 //#include "TextureHolder.h"
 //#include "AudioController.h"
@@ -10,7 +9,7 @@ int main()
 {
     //AnimationsByFrames animations("FinalProjectCS202/spritesheet/main/goDown.png");
 
-    
+
     Game game;
     game.run();
 

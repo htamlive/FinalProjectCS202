@@ -15,9 +15,10 @@ public:
 
     void onKeyPressed(sf::Event::KeyEvent);
 
-private:
+protected:
     void updateCurrent(sf::Time dt) override;
 
+private:
     bool isJumping() const;
 
     void calVelocity(sf::Time dt);

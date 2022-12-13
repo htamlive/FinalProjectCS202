@@ -1,6 +1,6 @@
 #include "SceneBuilder.h"
 #include "Entity.h"
-#include "RoadLanes.h"
+#include "VehicleLanes.h"
 #include "SceneNode.h"
 #include "SpriteNode.h"
 #include "TextureHolder.h"
@@ -31,11 +31,14 @@ SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
     auto speed =
         std::normal_distribution<double>(meanSpeed, meanSpeed / 2);
     // TODO: Handle random spawn rate
-    auto roads = std::make_unique<RoadLanes>(
-        RoadLane::Type::Vehicle, lanes, pos,
+    // TODO: Handle traffic light durations
+    auto roads = std::make_unique<VehicleLanes>(
+        lanes, pos,
         speed, [](double i) {
             return Random(std::normal_distribution<double>(3.0, 1.0));
-        });
+        },
+        sf::seconds(10), sf::seconds(3));
+    roads->build();
 
     roadLayer->attachChild(std::move(roads));
     return *this;
