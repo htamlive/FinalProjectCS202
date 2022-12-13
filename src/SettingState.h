@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "State.h"
+#include "AudioController.h"
 
 class SettingState : public State {
 private:
@@ -46,7 +47,14 @@ public:
 		//this->gui->get<tgui::Button>("SoundOn")->onClick([&]() {
 		//	this->gui->get<tgui::Button>("SoundOn")->setVisible(false);
 		//	});
+		this->gui->get<tgui::Slider>("sliderMusic")->onValueChange([&]() {
+			float temp = this->gui->get<tgui::Slider>("sliderMusic")->getValue();
+			std::cout << temp << std::endl;
+			AudioController::instance().playMusic(Music::Game);
+			AudioController::instance().setMusicVolume(temp);
+		});
 
+		
 		this->gui->get<tgui::Button>("btnBack")->onMouseEnter([&]() {
 			zoomBig("btnBack");
 			});
