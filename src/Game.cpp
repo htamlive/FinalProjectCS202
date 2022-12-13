@@ -52,6 +52,7 @@ Game::Game() {
 	this->initVariables();
 	this->initWindow();
 	this->initState();
+	this->initMusic();
 	this->initKeys();
 }
 

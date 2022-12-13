@@ -28,6 +28,12 @@ private:
 	void initWindow();
 	void initState();
 
+	void initMusic() {
+		AudioController::instance().loadSoundFromFile(SoundEffect::Hit, "resources/mallHit.wav");
+		AudioController::instance().loadMusicFromFile(Music::Game, "resources/music/mixkit-games-worldbeat-466.wav");
+		AudioController::instance().playMusic(Music::Game);
+	}
+
 	void initKeys()
 	{
 		this->supportedKeys.emplace("Escape", sf::Keyboard::Key::Escape);
@@ -37,29 +43,41 @@ private:
 		this->supportedKeys.emplace("S", sf::Keyboard::Key::S);
 	}
 
+	void initMainCharacterTextures() {
+		TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/main/redToGreen.png", { 128, 128 }, 5);
+		TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/main/greenToRed.png", { 128, 128 }, 5);
+		TextureHolder::instance().load(Texture::ID::PlayerIdleUp, "resources/spritesheet/main/idleUp.png", { 128, 128 }, 6);
+		TextureHolder::instance().load(Texture::ID::PlayerIdleDown, "resources/spritesheet/main/idleDown.png", { 128, 128 }, 6);
+		TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, "resources/spritesheet/main/idleLeft.png", { 128, 128 }, 6);
+		TextureHolder::instance().load(Texture::ID::PlayerIdleRight, "resources/spritesheet/main/idleRight.png", { 128, 128 }, 6);
+		TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/main/goLeft.png", { 128, 128 }, 6);
+		TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 128, 128 }, 6);
+		TextureHolder::instance().load(Texture::ID::PlayerJumpUp, "resources/spritesheet/main/goUp.png", { 128, 128 }, 6);
+		TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/main/goDown.png", { 128, 128 }, 4);
+	}
+
+	void initTrafficLightTextures() {
+		TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
+		TextureHolder::instance().load(Texture::ID::RedLight, "./resources/images/redLight.png");
+	}
+
+	void initLanesTextures() {
+		TextureHolder::instance().load(Texture::ID::Road, "./resources/images/VehicleRoad.png", { 128, 128 }, 9);
+		TextureHolder::instance().add(Texture::ID::TopRoadLane, { Texture::ID::Road, 1, false, false });
+		TextureHolder::instance().add(Texture::ID::MidRoadLane, { Texture::ID::Road, 4, false, false });
+		TextureHolder::instance().add(Texture::ID::BotRoadLane, { Texture::ID::Road, 7, false, false });
+		TextureHolder::instance().add(Texture::ID::MonoRoadLane, { Texture::ID::Road, 8, false, false });
+	}
+
 	void initTexture() {
         TextureHolder::instance().load(Texture::ID::RightVehicle,"./resources/images/truck_1.png", {128, 128}, 4);
         TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, true, false});
         TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
         TextureHolder::instance().add(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
         TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
-        TextureHolder::instance().load(Texture::ID::Road,"./resources/images/VehicleRoad.png", {128, 128}, 9);
-        TextureHolder::instance().add(Texture::ID::TopRoadLane, {Texture::ID::Road, 1, false, false});
-        TextureHolder::instance().add(Texture::ID::MidRoadLane, {Texture::ID::Road, 4, false, false});
-        TextureHolder::instance().add(Texture::ID::BotRoadLane, {Texture::ID::Road, 7, false, false});
-        TextureHolder::instance().add(Texture::ID::MonoRoadLane, {Texture::ID::Road, 8, false, false});
-        TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
-        TextureHolder::instance().load(Texture::ID::RedLight, "./resources/images/redLight.png");
-        TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/main/redToGreen.png", {128, 128}, 5);
-        TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/main/greenToRed.png", {128, 128}, 5);
-		TextureHolder::instance().load(Texture::ID::PlayerIdleUp, "resources/spritesheet/main/idleUp.png", { 128, 128 }, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleDown, "resources/spritesheet/main/idleDown.png", { 128, 128 }, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, "resources/spritesheet/main/idleLeft.png", { 128, 128 }, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleRight, "resources/spritesheet/main/idleRight.png", { 128, 128 }, 6);
-		TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/main/goLeft.png", { 128, 128 }, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 128, 128 }, 6);
-		TextureHolder::instance().load(Texture::ID::PlayerJumpUp, "resources/spritesheet/main/goUp.png", { 128, 128 }, 6);
-		TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/main/goDown.png", { 128, 128 }, 4);
+		initLanesTextures();
+		initTrafficLightTextures();
+		initMainCharacterTextures();
 		TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);//    TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
 	};
 
