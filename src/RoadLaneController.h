@@ -3,17 +3,17 @@
 #include "RoadLane.h"
 #include <functional>
 
-class RoadLanes : public Lane {
+class RoadLaneController : public Lane {
 public:
-    RoadLanes();
+    RoadLaneController();
 
-    RoadLanes(unsigned int laneCount, float y,
-              Random<std::normal_distribution<double>> speedDistribution,
-              const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction);
+    RoadLaneController(unsigned int laneCount, float y,
+                       Random<std::normal_distribution<double>> speedDistribution,
+                       const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction);
 
-    RoadLanes(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
-              Random<std::normal_distribution<double>> speed,
-              const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction);
+    RoadLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
+                       Random<std::normal_distribution<double>> speed,
+                       const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction);
 
     virtual RoadLane::Type getType() const = 0;
 

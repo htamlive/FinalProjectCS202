@@ -3,13 +3,13 @@
 #include "Lane.h"
 #include "SafeLane.h"
 
-class SafeLanes : public Lane {
+class SafeLaneController : public Lane {
 public:
-    SafeLanes();
+    SafeLaneController();
 
-    SafeLanes(unsigned int laneCount, float y);
+    SafeLaneController(unsigned int laneCount, float y);
 
-    SafeLanes(unsigned int laneCount, float y, float laneHeight);
+    SafeLaneController(unsigned int laneCount, float y, float laneHeight);
 
     void setLaneHeight(float) override;
 

@@ -1,19 +1,19 @@
-#include "SafeLanes.h"
+#include "SafeLaneController.h"
 #include "Consts.h"
 
-SafeLanes::SafeLanes() = default;
+SafeLaneController::SafeLaneController() = default;
 
-SafeLanes::SafeLanes(unsigned int laneCount, float y) {
+SafeLaneController::SafeLaneController(unsigned int laneCount, float y) {
     setPosition(0, y);
     generateLanes(laneCount, DEF_LANE_HEIGHT);
 }
 
-SafeLanes::SafeLanes(unsigned int laneCount, float y, float laneHeight) {
+SafeLaneController::SafeLaneController(unsigned int laneCount, float y, float laneHeight) {
     setPosition(0, y);
     generateLanes(laneCount, laneHeight);
 }
 
-void SafeLanes::generateLanes(unsigned int laneCount, float laneHeight) {
+void SafeLaneController::generateLanes(unsigned int laneCount, float laneHeight) {
     for (auto i = 0; i < laneCount; i++) {
         auto lane = std::make_unique<SafeLane>(laneHeight * (float) i, Texture::ID::SafeLane);
         lane->setLaneHeight(laneHeight);
@@ -23,11 +23,11 @@ void SafeLanes::generateLanes(unsigned int laneCount, float laneHeight) {
     }
 }
 
-void SafeLanes::setLaneHeight(float newHeight) {
+void SafeLaneController::setLaneHeight(float newHeight) {
     for (auto lane: lanes)
         lane->setLaneHeight(newHeight);
 }
 
-void SafeLanes::setPosY(float y) {
+void SafeLaneController::setPosY(float y) {
     setPosition(0, y);
 }

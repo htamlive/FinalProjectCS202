@@ -1,4 +1,4 @@
-#include "RoadLanes.h"
+#include "RoadLaneController.h"
 #include "Random.h"
 
 // 0 is left, 1 is right
@@ -7,26 +7,26 @@ static std::vector<Texture::ID> vehicleTextures[2] = {{Texture::ID::LeftVehicle}
 static std::vector<Texture::ID> animalTextures[2] = {{Texture::ID::LeftAnimal},
                                                      {Texture::ID::RightAnimal}};
 
-RoadLanes::RoadLanes() = default;
+RoadLaneController::RoadLaneController() = default;
 
-RoadLanes::RoadLanes(unsigned int laneCount, float y,
-                     Random<std::normal_distribution<double>> speedDistribution,
-                     const std::function<Random<std::normal_distribution<double>>(
+RoadLaneController::RoadLaneController(unsigned int laneCount, float y,
+                                       Random<std::normal_distribution<double>> speedDistribution,
+                                       const std::function<Random<std::normal_distribution<double>>(
                              double)> &frequencyFunction) : laneCount(laneCount),
                                                             speedDistribution(speedDistribution),
                                                             frequencyFunction(frequencyFunction) {
     setPosition(0, y);
 }
 
-RoadLanes::RoadLanes(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
-                     Random<std::normal_distribution<double>> speedDistribution,
-                     const std::function<Random<std::normal_distribution<double>>(double speed)> &
+RoadLaneController::RoadLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
+                                       Random<std::normal_distribution<double>> speedDistribution,
+                                       const std::function<Random<std::normal_distribution<double>>(double speed)> &
                      frequencyFunction) : laneCount(laneCount), laneHeight(laneHeight), commuterSize(commuterSize),
                                           speedDistribution(speedDistribution), frequencyFunction(frequencyFunction) {
     setPosition(0, y);
 }
 
-void RoadLanes::build() {
+void RoadLaneController::build() {
     auto rand = Random(std::uniform_int_distribution<>(0, std::numeric_limits<int>::max()));
 
     for (auto i = 0; i < laneCount; i++) {
@@ -41,17 +41,17 @@ void RoadLanes::build() {
     }
 }
 
-void RoadLanes::setLaneHeight(float height) {
+void RoadLaneController::setLaneHeight(float height) {
     for (auto &lane: lanes) {
         lane->setLaneHeight(height);
     }
 }
 
-void RoadLanes::setPosY(float y) {
+void RoadLaneController::setPosY(float y) {
     setPosition(0, y);
 }
 
-void RoadLanes::setCommuterSize(sf::Vector2f size) {
+void RoadLaneController::setCommuterSize(sf::Vector2f size) {
     for (auto &lane: lanes) {
         lane->setCommuterSize(size);
     }
