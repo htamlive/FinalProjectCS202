@@ -1,3 +1,4 @@
+#pragma once
 #include "SceneNode.h"
 #include "AnimationMachine.h"
 
