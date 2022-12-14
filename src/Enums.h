@@ -1,11 +1,14 @@
 #pragma once
 
-enum Category {
-    None       = 0,
-    Scene      = 1 << 0,
-    Player     = 1 << 1,
-    Enemy      = 1 << 2,
-    Obstacle   = 1 << 3,
+namespace Category {
+    enum Type {
+        None       = 0,
+        Scene      = 1 << 0,
+        Player     = 1 << 1,
+        Enemy      = 1 << 2,
+        Obstacle   = 1 << 3,
+        Reward     = 1 << 4,
+    };
 };
 
 namespace Texture {
@@ -34,6 +37,8 @@ namespace Texture {
         MonoRoadLane,
         SafeLane,
         Background,
+        Obstacle,
+        Object,
     };
 }
 
