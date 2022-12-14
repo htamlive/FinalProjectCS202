@@ -129,3 +129,7 @@ void SceneNode::setDebug(bool on, bool recursive) {
         }
     }
 }
+
+Category::Type SceneNode::getCategory() const {
+    return Category::Type::None;
+}

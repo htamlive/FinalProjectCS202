@@ -54,6 +54,9 @@ private:
 		TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 128, 128 }, 6);
 		TextureHolder::instance().load(Texture::ID::PlayerJumpUp, "resources/spritesheet/main/goUp.png", { 128, 128 }, 6);
 		TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/main/goDown.png", { 128, 128 }, 4);
+		TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
+		TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle1.png", { 28, 19 });
+		TextureHolder::instance().load(Texture::ID::Object, "resources/spritesheet/objects.png", { 16, 16 }, 45, 5);
 	}
 
 	void initTrafficLightTextures() {

@@ -8,6 +8,16 @@ Camera::Camera(SceneNode &follower, sf::RenderWindow &window, World &world)
 {
     futurePos = window.getView().getCenter();
     velocity = {0, 0};
+    auto size = window.getView().getSize();
+    auto wall1 = std::unique_ptr<Wall>(new Wall(sf::FloatRect(-10, 0, 10, size.y)));
+    auto wall2 = std::unique_ptr<Wall>(new Wall(sf::FloatRect(size.x, 0, 10, size.y)));
+    auto wall3 = std::unique_ptr<Wall>(new Wall(sf::FloatRect(0, size.y, size.x, 10)));
+    walls.push_back(wall1.get());
+    walls.push_back(wall2.get());
+    walls.push_back(wall3.get());
+    world.attachChild(std::move(wall1));
+    world.attachChild(std::move(wall2));
+    world.attachChild(std::move(wall3));
 }
 
 Camera::~Camera() {
@@ -15,22 +25,18 @@ Camera::~Camera() {
 }
 bool Camera::needReposition() {
     sf::View view = window.getView();
-    sf::Vector2f playerPos = follower.getPosition();
+    sf::Vector2f playerPos = follower.getAbsPosition();
     sf::Vector2f viewPos = view.getCenter();
     sf::Vector2f viewSize = view.getSize();
-    if (playerPos.x < viewPos.x - viewSize.x / 2)
-        return true;
-    if (playerPos.x > viewPos.x + viewSize.x / 2)
-        return true;
-    if (playerPos.y < viewPos.y - viewSize.y / 2)
-        return true;
-    if (playerPos.y > viewPos.y + viewSize.y / 2)
+    // Add a little bit of offset to the view size to make sure the player is always in the view
+    if (playerPos.y + 10 < viewPos.y - viewSize.y / 2)
         return true;
     return false;
 }
 
 void Camera::update(sf::Time dt) {
     auto view = window.getView();
+    auto size = view.getSize();
     view.move(velocity * dt.asSeconds());
     window.setView(view);
     updateVelocity(dt);
@@ -46,7 +52,13 @@ void Camera::update(sf::Time dt) {
         isTransitioning = false;
         transitionTime = sf::Time::Zero;
         auto view = window.getView();
-        view.setCenter({round(futurePos.x), round(futurePos.y)});
+        view.setCenter({futurePos.x, futurePos.y});
+        for (auto wall : walls) {
+            wall->setPosition({
+                0,
+                view.getCenter().y - view.getSize().y / 2,
+                });
+        }
         window.setView(view);
     }
 }
@@ -56,6 +68,9 @@ void Camera::updateVelocity(sf::Time dt) {
     if (isTransitioning) {
         auto time_left = TRANSITION_TIME - transitionTime;
         velocity = {length.x / time_left.asSeconds(), length.y / time_left.asSeconds()};
+        for (auto wall : walls) {
+            wall->setVelocity(velocity);
+        }
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale = 1;
@@ -64,6 +79,9 @@ void Camera::updateVelocity(sf::Time dt) {
 
     } else if(dt != sf::seconds(0)) {
         velocity = {length.x / dt.asSeconds(), length.y / dt.asSeconds()};
+        for (auto wall : walls) {
+            wall->setVelocity(velocity);
+        }
     }
 
     // if (isTransitioning) {

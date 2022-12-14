@@ -1,3 +1,4 @@
+#include "Enums.h"
 #include "SceneNode.h"
 #include "World.h"
 #include <SFML/Graphics.hpp>
@@ -6,6 +7,27 @@
 #include <SFML/System/Vector2.hpp>
 
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
+
+class Wall : public SceneNode {
+    sf::FloatRect bounds;
+    sf::Vector2f velocity;
+public:
+    Wall(sf::FloatRect bounds) : bounds(bounds) {
+    }
+    sf::FloatRect getLocalBounds() const override {
+        return bounds;
+    }
+    void updateCurrent(sf::Time dt) override {
+        move(velocity * dt.asSeconds());
+    }
+    void setVelocity(sf::Vector2f velocity) {
+        this->velocity = velocity;
+    }
+    Category::Type getCategory() const override {
+        return Category::Obstacle;
+    }
+};
+
 
 class Camera {
     sf::Vector2f velocity;
@@ -20,6 +42,7 @@ class Camera {
     bool needReposition();
     void reposition();
     void updateVelocity(sf::Time dt);
+    vector<Wall*> walls;
 public:
     Camera(SceneNode &follower, sf::RenderWindow &window, World &world);
     ~Camera();
