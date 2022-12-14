@@ -59,4 +59,6 @@ public:
     void playSound(SoundEffect::ID id);
 
     void removeStoppedSounds();
+
+    ~AudioController();
 };

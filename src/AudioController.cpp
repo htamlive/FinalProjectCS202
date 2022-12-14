@@ -89,3 +89,7 @@ void AudioController::removeStoppedSounds() {
         return sound.getStatus() == sf::Sound::Stopped;
     });
 }
+
+AudioController::~AudioController() {
+    delete _instance;
+}

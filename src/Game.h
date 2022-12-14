@@ -29,7 +29,7 @@ private:
 	void initState();
 
 	void initMusic() {
-		AudioController::instance().loadSoundFromFile(SoundEffect::Hit, "resources/mallHit.wav");
+		AudioController::instance().loadSoundFromFile(SoundEffect::Hit, "resources/smallHit.wav");
 		AudioController::instance().loadMusicFromFile(Music::Game, "resources/music/mixkit-games-worldbeat-466.wav");
 		AudioController::instance().playMusic(Music::Game);
 	}

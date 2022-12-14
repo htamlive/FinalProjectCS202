@@ -29,6 +29,7 @@ RoadLane::RoadLane(Texture::ID commuterTexture,
 }
 
 void RoadLane::updateCommuters(sf::Time dt) {
+    // TODO: doesnt rly work
     auto isLastCommuterFarEnough = [&]() {
         if (!commuters.empty()) {
             auto startX = getDirection() == Direction::Right ? 0 : WINDOW_VIDEO_MODE.width;
