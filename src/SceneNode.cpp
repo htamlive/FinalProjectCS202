@@ -130,6 +130,6 @@ void SceneNode::setDebug(bool on, bool recursive) {
     }
 }
 
-Category SceneNode::getCategory() const {
-    return Category::None;
+Category::Type SceneNode::getCategory() const {
+    return Category::Type::None;
 }

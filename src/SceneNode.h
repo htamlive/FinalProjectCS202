@@ -83,7 +83,7 @@ public:
      */
     void setDebug(bool on, bool recursive = false);
     
-    virtual Category getCategory() const;
+    virtual Category::Type getCategory() const;
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;

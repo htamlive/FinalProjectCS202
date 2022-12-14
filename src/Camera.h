@@ -1,3 +1,4 @@
+#include "Enums.h"
 #include "SceneNode.h"
 #include "World.h"
 #include <SFML/Graphics.hpp>
@@ -22,7 +23,7 @@ public:
     void setVelocity(sf::Vector2f velocity) {
         this->velocity = velocity;
     }
-    Category getCategory() const override {
+    Category::Type getCategory() const override {
         return Category::Obstacle;
     }
 };
