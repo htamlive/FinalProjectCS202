@@ -7,6 +7,9 @@
 #include "SceneNode.h"
 using namespace std;
 
+/**
+ * @breif Provide basic tools to add elements to the scene
+ */
 class SceneBuilder {
     sf::Vector2f sceneSize;
     SceneNode::Ptr scene;
@@ -19,5 +22,8 @@ class SceneBuilder {
     SceneBuilder &addRoad(int lanes, float pos, float minSpeed,
                                         float maxSpeed, float minSpawnRate,
                                         float maxSpawnRate);
+    SceneBuilder &addObstacle(sf::Vector2f pos);
+    SceneBuilder &addReward(sf::Vector2f pos);
+    SceneBuilder &addBoost(sf::Vector2f pos);
     SceneNode::Ptr build();
 };
