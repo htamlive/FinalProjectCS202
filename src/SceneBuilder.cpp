@@ -7,11 +7,11 @@
 #include <memory>
 
 SceneBuilder::SceneBuilder(sf::Vector2f size) : sceneSize(size) {
-    scene = SceneNode::Ptr(new SceneNode());
-    auto bg = SceneNode::Ptr(new SceneNode());
-    auto road = SceneNode::Ptr(new SceneNode());
+    scene           = SceneNode::Ptr(new SceneNode());
+    auto bg         = SceneNode::Ptr(new SceneNode());
+    auto road       = SceneNode::Ptr(new SceneNode());
     backgroundLayer = bg.get();
-    roadLayer = road.get();
+    roadLayer       = road.get();
     scene->attachChild(std::move(bg));
     scene->attachChild(std::move(road));
 }
@@ -27,11 +27,13 @@ SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
                                     float maxSpeed, float minSpawnRate,
                                     float maxSpawnRate) {
     auto meanSpeed = (minSpeed + maxSpeed) / 2;
-    auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 2);
+    auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
+    auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
     // TODO: Handle random spawn rate
     auto roads = std::make_unique<RoadLanes>(
-        RoadLane::Type::Vehicle, lanes, pos, speed, [](double i) {
-            return Random(std::normal_distribution<double>(3.0, 1.0));
+        RoadLane::Type::Vehicle, lanes, pos, speed, [](double speed) {
+            auto spawnRate = 400 / speed;
+            return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
         });
 
     roadLayer->attachChild(std::move(roads));
