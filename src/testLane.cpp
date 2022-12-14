@@ -1,10 +1,11 @@
 //#include "Enums.h"
 //#include "RoadLane.h"
-//#include "RoadLanes.h"
+//#include "RoadLaneController.h"
 //#include "Random.h"
 //#include "SceneNode.h"
 //#include "TextureHolder.h"
-//#include "VehicleLanes.h"
+//#include "VehicleLaneController.h"
+//#include "AnimalLaneController.h"
 //#include <SFML/Graphics.hpp>
 //#include <functional>
 //#include <memory>
@@ -26,26 +27,26 @@
 //                                   5);
 //    TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/main/greenToRed.png", {128, 128},
 //                                   5);
+//    TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/main/goLeft.png", { 128, 128 }, 6);
+//    TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 128, 128 }, 6);
 //
 //    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 //
 //    SceneNode root;
-//    auto laneController = std::make_unique<VehicleLanes>(
+//    auto laneController = std::make_unique<AnimalLaneController>(
 //            3, 300,
 //            Random(std::normal_distribution<double>(100, 10.0)),
 //            [](double i) {
 //                return Random(std::normal_distribution<double>(3.0, 1.0));
-//            },
-//            sf::seconds(10), sf::seconds(10));
+//            });
 //    laneController->build();
 //    root.attachChild(std::move(laneController));
-//    auto laneController2 = std::make_unique<VehicleLanes>(
+//    auto laneController2 = std::make_unique<AnimalLaneControllerController>(
 //            3, 100,
 //            Random(std::normal_distribution<double>(100, 10.0)),
 //            [](double i) {
 //                return Random(std::normal_distribution<double>(3.0, 1.0));
-//            },
-//            sf::seconds(3), sf::seconds(3));
+//            });
 //    laneController2->build();
 //    root.attachChild(std::move(laneController2));
 //
