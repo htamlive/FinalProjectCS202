@@ -3,8 +3,10 @@
 #include <SFML/Graphics.hpp>
 
 class SpriteNode : public SceneNode {
+protected:
     sf::Sprite sprite;
 public:
+    SpriteNode(Texture::ID id);
     SpriteNode(Texture::ID id, sf::Vector2f size);
     void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
     void updateCurrent(sf::Time dt) override;

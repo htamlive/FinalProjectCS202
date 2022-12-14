@@ -19,6 +19,7 @@ GameState::GameState(sf::RenderWindow *window,
     player = pPlayer.get();
     pauseMenu = new PauseMenu(window, states);
     world = new World(sf::Vector2f(window->getSize()));
+    world->setDebug(true, true);
     camera = new Camera(*player, *window, *world);
     world->attachChild(std::move(pPlayer));
 };
