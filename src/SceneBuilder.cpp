@@ -39,19 +39,19 @@ SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
         sf::seconds(10), sf::seconds(3));
     roads->build();
 
-    roadLayer->attachChild(std::move(roads));
+    scene->attachChild(std::move(roads));
     return *this;
 }
 
 SceneBuilder &SceneBuilder::addObstacle(sf::Vector2f pos) {
     auto obstacle = std::unique_ptr<Obstacle>(new Obstacle(pos));
-    roadLayer->attachChild(std::move(obstacle));
+    scene->attachChild(std::move(obstacle));
     return *this;
 }
 
 SceneBuilder &SceneBuilder::addReward(sf::Vector2f pos) {
     auto reward = std::unique_ptr<Reward>(new Reward(pos));
-    roadLayer->attachChild(std::move(reward));
+    scene->attachChild(std::move(reward));
     return *this;
 }
 

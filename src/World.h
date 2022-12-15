@@ -1,8 +1,8 @@
 #pragma once
-#include "SceneNode.h"
-#include "Player.h"
-#include "Level.h"
 #include "Consts.h"
+#include "Level.h"
+#include "Player.h"
+#include "SceneNode.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <list>
@@ -11,7 +11,9 @@
  * Represent the root node of the scene graph.
  */
 class World : public SceneNode {
-    list<Level*> maintainedLevels;
+    SceneNode *levelLayer;
+    SceneNode *gridLayer;
+    list<Level *> maintainedLevels;
     Level *oldLevel;
     Level *currentLevel;
     int currentLevelNumber = 0;
@@ -31,8 +33,12 @@ class World : public SceneNode {
     sf::Vector2i realCoordToWorldCoord(sf::Vector2f realCoord);
 
     void makeLevelTransition();
-public:
+
+  public:
     World(sf::Vector2f sceneSize);
     void addNewLevel();
     void updateCurrent(sf::Time dt) override;
+    Level* getCurrentLevel() const;
+    void drawCurrent(sf::RenderTarget &target,
+                     sf::RenderStates states) const override;
 };

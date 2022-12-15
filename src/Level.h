@@ -2,6 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <assert.h>
 #include <random>
+#include "Enums.h"
 #include "SceneBuilder.h"
 #include "SceneNode.h"
 #include "Random.h"
@@ -37,7 +38,9 @@ class Level : public SceneNode {
     };
 
     SceneBuilder sceneBuilder;
+    SceneNode *scene;
 
 public:
     Level(int level, sf::Vector2f sceneSize);
+    void removeObject(const SceneNode &object);
 };
