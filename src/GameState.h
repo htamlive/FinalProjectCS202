@@ -4,6 +4,7 @@
 #include "PauseMenu.h"
 #include "Camera.h"
 #include "World.h"
+#include "SummaryMenu.h"
 
 class GameState : public State
 {
@@ -19,11 +20,20 @@ private:
 
 	class Player* player;
 	PauseMenu* pauseMenu;
+	SummaryMenu* summaryMenu;
     World* world;
     Camera* camera;
 	//std::string getMode();
 
 	void updateEventsPauseMenu();
+
+	void updateEventsSummaryMenu() {
+		if (summaryMenu) {
+			summaryMenu->ev = this->ev;
+			summaryMenu->updateEvents();
+		}
+		
+	};
 
 public:
 
