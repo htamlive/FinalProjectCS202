@@ -47,26 +47,44 @@ void Level::DifficultyMetrics::increaseLevel() {
 };
 
 Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
+    float mapWidth = sceneSize.x / GRID_SIZE.x;
+    float mapHeight = sceneSize.y / GRID_SIZE.y;
     DifficultyMetrics difficultyMetrics(level);
     random = std::discrete_distribution<unsigned>(
         difficultyMetrics.laneSpawnProb.begin(),
         difficultyMetrics.laneSpawnProb.end());
     auto builder = SceneBuilder(sceneSize);
     builder.addBackground(Texture::ID::Background);
-    float gridHeight = sceneSize.y / GRID_SIZE.y;
-    for (int i = 1; i < gridHeight - 2; i++) {
-        if (i == gridHeight - 1) {
-            continue;
-        }
+    for (int i = 1; i < mapHeight - 2; i++) {
         float laneType = random.get<float>() + 1;
-        while (i + laneType >= gridHeight) {
+        while (i + laneType >= mapHeight) {
             laneType = random.get<float>() + 1;
         }
         builder.addRoad(laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
                         difficultyMetrics.maxSpeed,
                         difficultyMetrics.minSpawnRate,
                         difficultyMetrics.maxSpawnRate);
+        auto shouldPlaceObstacle = Random<std::bernoulli_distribution>(
+            std::bernoulli_distribution(0.2));
+        auto shouldPlaceReward = Random<std::bernoulli_distribution>(
+            std::bernoulli_distribution(0.05));
+        for (int j = 0; j < laneType; j++) {
+            for (int k = 0; k < mapWidth; k++) {
+                if (shouldPlaceReward.get<bool>()) {
+                    builder.addReward({k * GRID_SIZE.x,
+                                      (i + j) * GRID_SIZE.y});
+                }
+            }
+        }
         i += laneType;
+        if (i >= mapHeight - 2) {
+            break;
+        }
+        for (int j = 0; j < mapWidth; j++) {
+            if (shouldPlaceObstacle.get<bool>())
+                builder.addObstacle(
+                    sf::Vector2f(j * GRID_SIZE.x, i * GRID_SIZE.y));
+        }
     }
 
     auto scene = builder.build();

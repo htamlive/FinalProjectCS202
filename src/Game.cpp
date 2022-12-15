@@ -48,7 +48,7 @@ void Game::initState()
 
 
 Game::Game() {
-    this->initTexture();
+    this->initTextures();
 	this->initVariables();
 	this->initWindow();
 	this->initState();

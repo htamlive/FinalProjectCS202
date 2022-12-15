@@ -5,7 +5,7 @@
 
 const sf::Time DEF_ANIMATION_DURATION = sf::seconds(.9f);
 
-const sf::Time JUMP_DURATION = sf::milliseconds(600);
+const sf::Time JUMP_DURATION = sf::milliseconds(400);
 
 const sf::Time LIGHT_CHANGING_DURATION = sf::seconds(1.f);
 
