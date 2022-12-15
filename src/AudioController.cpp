@@ -32,11 +32,12 @@ sf::SoundBuffer &AudioController::getSoundBuffer(SoundEffect::ID id) {
     return *found->second;
 }
 
-void AudioController::playMusic(Music::ID id) {
+void AudioController::playMusic(Music::ID id, bool loop) {
     auto filename = musicPlaylist.find(id)->second;
 
     if (music.openFromFile(filename)) {
         music.play();
+        music.setLoop(loop);
     } else {
         std::cerr << "Loading music from \"" + filename + "\" failed.\n";
     }

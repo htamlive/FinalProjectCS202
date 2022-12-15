@@ -49,7 +49,7 @@ public:
     void operator=(const AudioController&) = delete;
     static AudioController &instance();
 
-    void playMusic(Music::ID id);
+    void playMusic(Music::ID id, bool loop = false);
     void resumeMusic();
     void pauseMusic();
     void setMuted(bool);

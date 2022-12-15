@@ -29,9 +29,9 @@ private:
 	void initState();
 
 	void initMusic() {
-		AudioController::instance().loadSoundFromFile(SoundEffect::Hit, "resources/mallHit.wav");
-		AudioController::instance().loadMusicFromFile(Music::Game, "resources/music/mixkit-games-worldbeat-466.wav");
-		AudioController::instance().playMusic(Music::Game);
+		//AudioController::instance().loadSoundFromFile(SoundEffect::Hit, "resources/mallHit.wav");
+		AudioController::instance().loadMusicFromFile(Music::Game, "resources/music/music_zapsplat_easy_cheesy.wav");
+		AudioController::instance().playMusic(Music::Game,true);
 	}
 
 	void initKeys()
