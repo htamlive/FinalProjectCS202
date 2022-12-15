@@ -42,6 +42,7 @@ enum ID {
     Background,
     Obstacle,
     Object,
+    RIP,
 };
 }
 

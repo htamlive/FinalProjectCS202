@@ -13,12 +13,12 @@ JumpingState::JumpingState(Player *player, sf::Vector2f jumpPos)
 }
 
 void JumpingState::update(sf::Time dt) {
-    auto p = player;
+    auto p      = player;
     auto length = jumpPos - p->getPosition();
     if (isJumping()) {
-        auto timeLeft = jumpDuration - jumpTime;
-        sf::Vector2f vel = {length.x / timeLeft.asSeconds(),
-                            length.y / timeLeft.asSeconds()};
+        auto         timeLeft = jumpDuration - jumpTime;
+        sf::Vector2f vel      = {length.x / timeLeft.asSeconds(),
+                                 length.y / timeLeft.asSeconds()};
         if (p->onSpeedBoost) {
             vel = vel * 2.f;
         }
@@ -44,15 +44,16 @@ CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos)
 
 void CollidingState::update(sf::Time dt) {
     auto playerPos = player->getPosition();
-    auto dist = collisionPos - playerPos;
+    auto dist      = collisionPos - playerPos;
     if (collisionTime < collisionDuration) {
-        auto timeLeft = collisionDuration - collisionTime;
-        sf::Vector2f vel = {dist.x / timeLeft.asSeconds(),
-                            dist.y / timeLeft.asSeconds()};
+        auto         timeLeft = collisionDuration - collisionTime;
+        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds(),
+                                 dist.y / timeLeft.asSeconds()};
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =
-            -2 * ((collisionTime.asSeconds() / collisionDuration.asSeconds()) - 1);
+            -2 *
+            ((collisionTime.asSeconds() / collisionDuration.asSeconds()) - 1);
         player->setVelocity(vel * scale);
         collisionTime += dt;
     } else {
@@ -76,7 +77,7 @@ void StunnedState::update(sf::Time dt) {
     }
 }
 
-ObstacleCollidingState::ObstacleCollidingState(Player *player,
+ObstacleCollidingState::ObstacleCollidingState(Player      *player,
                                                sf::Vector2f collisionPos)
     : PlayerState(player), collisionPos(collisionPos) {
     player->animation =
@@ -85,15 +86,16 @@ ObstacleCollidingState::ObstacleCollidingState(Player *player,
 
 void ObstacleCollidingState::update(sf::Time dt) {
     auto playerPos = player->getPosition();
-    auto dist = collisionPos - playerPos;
+    auto dist      = collisionPos - playerPos;
     if (collisionTime < collisionDuration) {
-        auto timeLeft = collisionDuration - collisionTime;
-        sf::Vector2f vel = {dist.x / timeLeft.asSeconds(),
-                            dist.y / timeLeft.asSeconds()};
+        auto         timeLeft = collisionDuration - collisionTime;
+        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds(),
+                                 dist.y / timeLeft.asSeconds()};
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =
-            -2 * ((collisionTime.asSeconds() / collisionDuration.asSeconds()) - 1);
+            -2 *
+            ((collisionTime.asSeconds() / collisionDuration.asSeconds()) - 1);
         player->setVelocity(vel * scale);
         collisionTime += dt;
     } else {
@@ -120,7 +122,7 @@ void InvincibleState::update(sf::Time dt) {
 
 DyingState::DyingState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+        AnimationMachine(player->ripTexture, sf::seconds(0.f), false);
     player->setVelocity({0, 0});
     player->localBounds = sf::FloatRect(0, 0, 0, 0);
 }
@@ -134,9 +136,10 @@ void DyingState::update(sf::Time dt) {
 
 DeadState::DeadState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+        AnimationMachine(player->ripTexture, DEF_ANIMATION_DURATION, false);
     player->setVelocity({0, 0});
     player->localBounds = sf::FloatRect(0, 0, 0, 0);
+    player->deadFlag    = true;
 }
 
 void DeadState::update(sf::Time dt) {}
