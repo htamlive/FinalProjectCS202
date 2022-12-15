@@ -1,8 +1,10 @@
 #include "GameState.h"
 #include "Consts.h"
 #include "Enums.h"
+#include "Level.h"
 #include "SceneNode.h"
 #include <SFML/System/Vector2.hpp>
+#include <iostream>
 #include <memory>
 
 GameState::GameState(sf::RenderWindow *window,
@@ -78,18 +80,47 @@ void GameState::update(const float &dt) {
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
     for (auto pair : collisionPairs) {
-        if (pair.first->getCategory() == Category::Player ||
-            pair.second->getCategory() == Category::Player) {
-            if (pair.first->getCategory() == Category::Enemy ||
-                pair.second->getCategory() == Category::Enemy) {
-                player->onCollision(nullptr);
-                endState();
-            } else if (pair.first->getCategory() == Category::Obstacle ||
-                       pair.second->getCategory() == Category::Obstacle) {
-                player->onCollision(nullptr);
-            }
+        SceneNode *nodeA;
+        SceneNode *nodeB;
+        if (pair.first->getCategory() == Category::Player) {
+            nodeA = pair.first;
+            nodeB = pair.second;
+        } else if (pair.second->getCategory() == Category::Player) {
+            nodeA = pair.second;
+            nodeB = pair.first;
+        } else {
+            continue;
+        }
+        switch (nodeB->getCategory()) {
+        case Category::Obstacle:
+            player->onCollision(nodeB);
+            break;
+        case Category::Enemy:
+            player->takeDamage(40);
+            player->onCollision(nodeB);
+            break;
+        case Category::Reward:
+            std::cout << "Reward" << std::endl;
+            world->getCurrentLevel()->removeObject(*nodeB);
+            break;
+        case Category::SmallSizeBoost:
+            player->takeSmallSizeBoost();
+            world->getCurrentLevel()->removeObject(*nodeB);
+            break;
+        case Category::SpeedBoost:
+            player->takeSpeedBoost();
+            world->getCurrentLevel()->removeObject(*nodeB);
+            break;
+        case Category::Health:
+            player->takeFood();
+            world->getCurrentLevel()->removeObject(*nodeB);
+            break;
+        default:
+            break;
         }
     }
+    if (player->isDead())
+        this->endState();
 };
 
 void GameState::render(sf::RenderTarget *target) {
