@@ -87,17 +87,11 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
         }
     }
 
-    auto scene = builder.build();
-    attachChild(std::move(scene));
+    auto pScene = builder.build();
+    scene = pScene.get();
+    attachChild(std::move(pScene));
 }
-//
-// int main() {
-//     Level level(1, sf::Vector2f(800, 600));
-//     Level level1(2, sf::Vector2f(800, 600));
-//     Level level2(3, sf::Vector2f(800, 600));
-//     Level level3(4, sf::Vector2f(800, 600));
-//     Level level4(6, sf::Vector2f(800, 600));
-//     Level level5(13, sf::Vector2f(800, 600));
-//     Level level6(30, sf::Vector2f(800, 600));
-//     return 0;
-// }
+
+void Level::removeObject(const SceneNode &object) {
+    scene->detachChild(object);
+}
