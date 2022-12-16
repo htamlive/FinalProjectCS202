@@ -14,8 +14,8 @@ GameState::GameState(sf::RenderWindow *window,
     this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
     this->initKeyBinds();
 
-    auto pPlayer = std::unique_ptr<class Player>(
-        new class Player({window->getSize().x / 2 - GRID_SIZE.x,
+    auto pPlayer = std::unique_ptr<Player>(
+        new Player({window->getSize().x / 2 - GRID_SIZE.x,
                           (float)window->getSize().y - GRID_SIZE.y},
                          GRID_SIZE));
     player = pPlayer.get();
@@ -74,14 +74,16 @@ void GameState::update(const float &dt) {
     updateInput(transDt);
     world->update(sf::seconds(transDt));
     camera->update(sf::seconds(transDt));
-    // this->player.update(dt);
-    player->update(sf::Time(sf::seconds(transDt)));
 
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
+    // Queue to remove all colliding nodes
+    // Prevent segmenation fault
+    // Reason: The deleted node still exists in the collisionPairs
+    vector<SceneNode*> removeQueue;
     for (auto pair : collisionPairs) {
-        SceneNode *nodeA;
-        SceneNode *nodeB;
+        SceneNode *nodeA = nullptr;
+        SceneNode *nodeB = nullptr;
         if (pair.first->getCategory() == Category::Player) {
             nodeA = pair.first;
             nodeB = pair.second;
@@ -100,24 +102,27 @@ void GameState::update(const float &dt) {
             player->onCollision(nodeB);
             break;
         case Category::Reward:
-            std::cout << "Reward" << std::endl;
-            world->getCurrentLevel()->removeObject(*nodeB);
+            player->takeFood();
+            removeQueue.push_back(nodeB);
             break;
         case Category::SmallSizeBoost:
             player->takeSmallSizeBoost();
-            world->getCurrentLevel()->removeObject(*nodeB);
+            removeQueue.push_back(nodeB);
             break;
         case Category::SpeedBoost:
             player->takeSpeedBoost();
-            world->getCurrentLevel()->removeObject(*nodeB);
+            removeQueue.push_back(nodeB);
             break;
         case Category::Health:
             player->takeFood();
-            world->getCurrentLevel()->removeObject(*nodeB);
+            removeQueue.push_back(nodeB);
             break;
         default:
             break;
         }
+    }
+    for (auto *item : removeQueue) {
+        world->getCurrentLevel()->removeObject(*item);
     }
     if (player->isDead())
         this->endState();
@@ -130,6 +135,5 @@ void GameState::render(sf::RenderTarget *target) {
     // this->player.render(target);
     this->gui->draw();
     target->draw(*world);
-    target->draw(*player);
     pauseMenu->render(target);
 };
