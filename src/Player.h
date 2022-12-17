@@ -7,14 +7,17 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
-// [ ] Boost tăng tốc
-// [ ] Boost small size
+// [x] Boost tăng tốc
+// [x] Boost small size
+// [ ] Vỏ chuối
 // [ ] Mud
+// [ ] Hiệu ứng mù (bãi nước đen)
 // [ ] Rocket
 // [ ] Bomb
-// [ ] Cave // Chuột chũi -> Subway -> cá sấu dưới cống, Thang máy
+// [ ] Cave // Chuột chũi -> Subway -> cá sấu dưới cống, Thang máy (Che tầm nhìn)
 // [ ] Cổng điện
 // [ ] Cây cầu
+// [ ] Zombie giữa mộ trên đường
 // [ ] Trộm chó (trúng là chết luôn)
 // [ ] Akshan
 // [ ] Dải caro kết thúc màn
@@ -102,4 +105,6 @@ private:
 
     bool deadFlag = false;
 
-    sf::Vector2f woodVelocity = {0, 0};};
+    SceneNode *collidingObstacle = nullptr;
+    sf::Vector2f woodVelocity = {0, 0};
+};

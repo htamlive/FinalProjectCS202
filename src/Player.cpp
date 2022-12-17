@@ -116,8 +116,10 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
 }
 
 void Player::onCollision(SceneNode *other) {
-    if (!other)
+    if (other == collidingObstacle && other != nullptr) {
         return;
+    }
+    collidingObstacle = other;
 
     auto getDirection = [](sf::Vector2f v) {
         if (v.y == 0) {
@@ -133,13 +135,6 @@ void Player::onCollision(SceneNode *other) {
         return v;
     };
 
-    auto normalize = [](sf::Vector2f v) {
-        auto length = std::sqrt(v.x * v.x + v.y * v.y);
-        if (length != 0) {
-            return sf::Vector2f(v.x / length, v.y / length);
-        }
-        return sf::Vector2f(0, 0);
-    };
     if (other->getCategory() == Category::Obstacle) {
         sf::Vector2f direction = -getDirection(getVelocity());
         auto         newPos    = getPosition() + direction * (GRID_SIZE.x / 2);
@@ -149,6 +144,11 @@ void Player::onCollision(SceneNode *other) {
     if (other->getCategory() == Category::Enemy && !isInvincible) {
         auto enemy = dynamic_cast<Entity *>(other);
         if (enemy) {
+            // A standing vehicle will not deal damage to the player, hence its
+            // category is not Enemy
+            if (enemy->getCategory() == Category::Enemy) {
+                takeDamage(40);
+            }
             sf::Vector2f direction =
                 (enemy->getAbsPosition() - getAbsPosition());
             if (abs(direction.x) > abs(direction.y)) {
