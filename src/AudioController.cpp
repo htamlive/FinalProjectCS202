@@ -5,18 +5,9 @@
 #include <iostream>
 #include <stdexcept>
 
-AudioController *AudioController::_instance = nullptr;
-
-AudioController::AudioController() : isMuted(false), musicVolume(0) {
-    
-}
-
 AudioController &AudioController::instance() {
-    if (_instance == nullptr) {
-        _instance = new AudioController;
-    }
-
-    return *_instance;
+    static AudioController _instance;
+    return _instance;
 }
 
 void AudioController::playSound(SoundEffect::ID id) {
@@ -89,8 +80,4 @@ void AudioController::removeStoppedSounds() {
     sounds.remove_if([](const auto &sound) {
         return sound.getStatus() == sf::Sound::Stopped;
     });
-}
-
-AudioController::~AudioController() {
-    delete _instance;
 }
