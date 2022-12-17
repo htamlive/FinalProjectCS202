@@ -30,7 +30,7 @@ bool Camera::needReposition() {
     sf::Vector2f viewPos = view.getCenter();
     sf::Vector2f viewSize = view.getSize();
     // Add a little bit of offset to the view size to make sure the player is always in the view
-    if (playerPos.y + 10 < viewPos.y - viewSize.y / 2)
+    if (playerPos.y + 15 < viewPos.y - viewSize.y / 2)
         return true;
     return false;
 }

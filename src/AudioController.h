@@ -30,8 +30,8 @@ namespace Music {
  * Only classes that inherit SoundPlayable will be able to access audio play interface
 */
 class AudioController {
-    AudioController();
-    static AudioController* _instance;
+    AudioController() = default;
+    static AudioController _instance;
 
     std::map<Music::ID, std::string> musicPlaylist;
     std::map<SoundEffect::ID, std::unique_ptr<sf::SoundBuffer>> soundBar;
@@ -59,6 +59,4 @@ public:
     void playSound(SoundEffect::ID id);
 
     void removeStoppedSounds();
-
-    ~AudioController();
 };
