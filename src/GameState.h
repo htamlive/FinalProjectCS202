@@ -32,7 +32,6 @@ private:
 			summaryMenu->ev = this->ev;
 			summaryMenu->updateEvents();
 		}
-		
 	};
 
 public:

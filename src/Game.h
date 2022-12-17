@@ -75,7 +75,8 @@ private:
         TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, true, false});
         TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
         TextureHolder::instance().add(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
-        TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
+		//TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
+		TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_1.png");
         initLaneTextures();
 		initTrafficLightTextures();
 		initMainCharacterTextures();
