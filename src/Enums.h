@@ -45,5 +45,7 @@ enum ID {
     Object,
     RIP,
     HealthBoost,
+    Water,
+    Wood
 };
 }

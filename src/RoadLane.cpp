@@ -162,5 +162,5 @@ std::unique_ptr<Entity> River::newCommuter() const {
             getDirection() == Direction::Right
             ? sf::Vector2f(-commuterSize.x + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
-    return std::make_unique<Entity>(commuterTexture, pos, commuterSize, getVelocity());
+    return std::make_unique<Wood>(commuterTexture, pos, commuterSize, getVelocity());
 }

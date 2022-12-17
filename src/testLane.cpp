@@ -6,6 +6,7 @@
 //#include "TextureHolder.h"
 //#include "VehicleLaneController.h"
 //#include "AnimalLaneController.h"
+//#include "RiverController.h"
 //#include <SFML/Graphics.hpp>
 //#include <functional>
 //#include <memory>
@@ -29,6 +30,8 @@
 //                                   5);
 //    TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/main/goLeft.png", { 128, 128 }, 6);
 //    TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 128, 128 }, 6);
+//    TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water.png");
+//    TextureHolder::instance().load(Texture::ID::Wood, "./resources/images/wood.png");
 //
 //    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
 //
@@ -41,7 +44,7 @@
 //            });
 //    laneController->build();
 //    root.attachChild(std::move(laneController));
-//    auto laneController2 = std::make_unique<AnimalLaneControllerController>(
+//    auto laneController2 = std::make_unique<RiverController>(
 //            3, 100,
 //            Random(std::normal_distribution<double>(100, 10.0)),
 //            [](double i) {

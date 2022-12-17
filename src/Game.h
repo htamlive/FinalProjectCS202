@@ -69,6 +69,7 @@ private:
 		TextureHolder::instance().add(Texture::ID::MidRoadLane, { Texture::ID::Road, 4, false, false });
 		TextureHolder::instance().add(Texture::ID::BotRoadLane, { Texture::ID::Road, 7, false, false });
 		TextureHolder::instance().add(Texture::ID::MonoRoadLane, { Texture::ID::Road, 8, false, false });
+        TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water.png");
 	}
 
 	void initTextures() {
@@ -76,6 +77,7 @@ private:
         TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, true, false});
         TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
         TextureHolder::instance().add(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
+        TextureHolder::instance().load(Texture::ID::Wood, "./resources/images/wood.png");
 		//TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
 		TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_1.png");
         initLaneTextures();
