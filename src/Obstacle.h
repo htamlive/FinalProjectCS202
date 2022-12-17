@@ -1,45 +1,28 @@
 #include "Consts.h"
 #include "Enums.h"
 #include "SceneNode.h"
-#include "SpriteNode.h"
+#include "Entity.h"
 #include "TextureHolder.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-class Obstacle : public SpriteNode {
+class Obstacle : public Entity {
 public:
-    Obstacle(sf::Vector2f pos) : SpriteNode(Texture::Obstacle) {
-        sprite.setScale(GRID_SIZE.x / sprite.getLocalBounds().width,
-                GRID_SIZE.x / sprite.getLocalBounds().width);
-        move(pos);
+    Obstacle(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::Obstacle, pos, size, {0, 0}, {}, false) {
         // Offset the sprite to the center of the grid
-        move(0, 10);
-    }
-    sf::FloatRect getLocalBounds() const override {
-        return sprite.getGlobalBounds();
+        // TODO: ?
+        //move(0, 10);
     }
     Category::Type getCategory() const override {
         return Category::Obstacle;
     }
 };
 
-class Reward : public SceneNode {
-    sf::Sprite sprite;
+class HealthBoost : public Entity {
 public:
-    Reward(sf::Vector2f pos) {
-        sprite.setTexture(TextureHolder::instance().getTexture(Texture::Object));
-        sprite.setTextureRect(sf::IntRect(1*16, 2*16, 16, 16));
-        sprite.setScale(GRID_SIZE.x / sprite.getLocalBounds().width,
-                GRID_SIZE.x / sprite.getLocalBounds().width);
-        move(pos);
-    }
-    sf::FloatRect getLocalBounds() const override {
-        return sprite.getGlobalBounds();
-    }
+    HealthBoost(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::HealthBoost, pos, size, {0, 0}, {}, false) {}
+
     Category::Type getCategory() const override {
-        return Category::Reward;
-    }
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override {
-        target.draw(sprite, states);
+        return Category::HealthBoost;
     }
 };

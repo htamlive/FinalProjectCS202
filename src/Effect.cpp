@@ -1,5 +1,4 @@
 #include "Effect.h"
-#include "Entity.h"
 #include "Player.h"
 
 Effect::Effect(Entity *entity, Texture::ID textureID, sf::Vector2f position,

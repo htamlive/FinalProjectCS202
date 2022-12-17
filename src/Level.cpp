@@ -72,7 +72,7 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
             for (int k = 0; k < mapWidth; k++) {
                 if (shouldPlaceReward.get<bool>()) {
                     builder.addReward({k * GRID_SIZE.x,
-                                      (i + j) * GRID_SIZE.y});
+                                       (i + j) * GRID_SIZE.y}, GRID_SIZE);
                 }
             }
         }
@@ -83,7 +83,7 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
         for (int j = 0; j < mapWidth; j++) {
             if (shouldPlaceObstacle.get<bool>())
                 builder.addObstacle(
-                    sf::Vector2f(j * GRID_SIZE.x, i * GRID_SIZE.y));
+                        sf::Vector2f(j * GRID_SIZE.x, i * GRID_SIZE.y), GRID_SIZE);
         }
     }
 

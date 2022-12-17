@@ -6,6 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <memory>
+#include "AudioController.h"
 
 GameState::GameState(sf::RenderWindow *window,
                      std::map<std::string, int> *supportedKeys,
@@ -14,8 +15,8 @@ GameState::GameState(sf::RenderWindow *window,
     this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
     this->initKeyBinds();
 
-    auto pPlayer = std::unique_ptr<class Player>(
-        new class Player({window->getSize().x / 2 - GRID_SIZE.x,
+    auto pPlayer = std::unique_ptr<Player>(
+        new Player({window->getSize().x / 2 - GRID_SIZE.x,
                           (float)window->getSize().y - GRID_SIZE.y},
                          GRID_SIZE));
     player = pPlayer.get();
@@ -26,7 +27,13 @@ GameState::GameState(sf::RenderWindow *window,
     world->setDebug(true, true);
     camera = new Camera(*player, *window, *world);
     world->attachChild(std::move(pPlayer));
+    initMusic();
 };
+
+void GameState::initMusic() {
+    AudioController::instance().loadSoundFromFile(SoundEffect::GreenLight, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
+    AudioController::instance().playSound(SoundEffect::GreenLight);
+}
 
 GameState::~GameState() {
     delete pauseMenu;
@@ -85,51 +92,59 @@ void GameState::update(const float &dt) {
     updateInput(transDt);
     world->update(sf::seconds(transDt));
     camera->update(sf::seconds(transDt));
-    // this->player.update(dt);
-    player->update(sf::Time(sf::seconds(transDt)));
 
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
+    // Queue to remove all colliding nodes
+    // Prevent segmenation fault
+    // Reason: The deleted node still exists in the collisionPairs
+    vector<SceneNode*> removeQueue;
     for (auto pair : collisionPairs) {
-        SceneNode *nodeA;
-        SceneNode *nodeB;
-        if (pair.first->getCategory() == Category::Player) {
-            nodeA = pair.first;
-            nodeB = pair.second;
-        } else if (pair.second->getCategory() == Category::Player) {
-            nodeA = pair.second;
-            nodeB = pair.first;
-        } else {
-            continue;
+        Entity *nodeA = nullptr, *nodeB = nullptr;
+        if (pair.second->getCategory() == Category::Player) {
+            std::swap(pair.first, pair.second);
         }
-        switch (nodeB->getCategory()) {
-        case Category::Obstacle:
-            player->onCollision(nodeB);
-            break;
-        case Category::Enemy:
-            player->takeDamage(40);
-            player->onCollision(nodeB);
-            break;
-        case Category::Reward:
-            std::cout << "Reward" << std::endl;
-            world->getCurrentLevel()->removeObject(*nodeB);
-            break;
-        case Category::SmallSizeBoost:
-            player->takeSmallSizeBoost();
-            world->getCurrentLevel()->removeObject(*nodeB);
-            break;
-        case Category::SpeedBoost:
-            player->takeSpeedBoost();
-            world->getCurrentLevel()->removeObject(*nodeB);
-            break;
-        case Category::Health:
-            player->takeFood();
-            world->getCurrentLevel()->removeObject(*nodeB);
-            break;
-        default:
-            break;
+        nodeA = dynamic_cast<Entity *>(pair.first);
+        nodeB = dynamic_cast<Entity *>(pair.second);
+
+        if (nodeA->getCategory() == Category::Player) {
+            switch (nodeB->getCategory()) {
+                case Category::Obstacle:
+                    player->onCollision(nodeB);
+                    break;
+                case Category::Enemy:
+                    player->takeDamage(DAMAGE_PER_ENEMY);
+                    player->onCollision(nodeB);
+                    break;
+                case Category::Wood: {
+                    player->onCollideWithWood(nodeB->getVelocity());
+                    break;
+                }
+                case Category::HealthBoost:
+                    player->takeFood();
+                    removeQueue.push_back(nodeB);
+                    break;
+                case Category::SmallSizeBoost:
+                    player->takeSmallSizeBoost();
+                    removeQueue.push_back(nodeB);
+                    break;
+                case Category::SpeedBoost:
+                    player->takeSpeedBoost();
+                    removeQueue.push_back(nodeB);
+                    break;
+                case Category::Health:
+                    player->takeFood();
+                    removeQueue.push_back(nodeB);
+                    break;
+                default:
+                    break;
+            }
         }
     }
+    for (auto *item : removeQueue) {
+        world->getCurrentLevel()->removeObject(*item);
+    }
+
     if (player->isDead() && !summaryMenu)
         summaryMenu = new SummaryMenu(window, states);
 };
@@ -141,7 +156,6 @@ void GameState::render(sf::RenderTarget *target) {
     // this->player.render(target);
     this->gui->draw();
     target->draw(*world);
-    target->draw(*player);
     pauseMenu->render(target);
 
     if (summaryMenu)

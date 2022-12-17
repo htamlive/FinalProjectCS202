@@ -22,8 +22,8 @@ class SceneBuilder {
     SceneBuilder &addRoad         ( int lanes, float pos, float minSpeed,
                                         float maxSpeed, float minSpawnRate,
                                         float maxSpawnRate);
-    SceneBuilder &addObstacle     ( sf::Vector2f pos);
-    SceneBuilder &addReward       ( sf::Vector2f pos);
+    SceneBuilder &addObstacle(sf::Vector2f pos, sf::Vector2f size);
+    SceneBuilder &addReward(sf::Vector2f pos, sf::Vector2f size);
     SceneBuilder &addBoost        ( sf::Vector2f pos);
     SceneBuilder &addBombard      ( sf::Vector2f pos);
     SceneBuilder &addElectricGate ( sf::Vector2f pos, float width);

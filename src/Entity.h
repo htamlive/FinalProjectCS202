@@ -69,6 +69,4 @@ public:
     void adjustSpriteBounds(float offX, float offY);
 
     void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
-
-    Category::Type getCategory() const override;
 };
