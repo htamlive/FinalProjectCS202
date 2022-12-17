@@ -20,6 +20,8 @@ GameState::GameState(sf::RenderWindow *window,
                          GRID_SIZE));
     player = pPlayer.get();
     pauseMenu = new PauseMenu(window, states);
+    //summaryMenu = new SummaryMenu(window, states);
+    summaryMenu = nullptr;
     world = new World(sf::Vector2f(window->getSize()));
     world->setDebug(true, true);
     camera = new Camera(*player, *window, *world);
@@ -28,6 +30,7 @@ GameState::GameState(sf::RenderWindow *window,
 
 GameState::~GameState() {
     delete pauseMenu;
+    delete summaryMenu;
     delete world;
     delete camera;
 };
@@ -53,18 +56,26 @@ void GameState::updateEvents() {
     }
 
     updateEventsPauseMenu();
+    updateEventsSummaryMenu();
 
     if (pauseMenu->getQuit()) {
         this->endState();
     }
+    if (summaryMenu && summaryMenu->getQuit()) {
+        this->endState();
+    }
+    
 };
 
 void GameState::updateInput(const float &dt) {
     this->pauseMenu->updateInput();
 
-    if (this->ev.type == sf::Event::KeyPressed) {
-        this->player->onKeyPressed(this->ev.key);
+    if (!player->isDead()) {
+        if (this->ev.type == sf::Event::KeyPressed) {
+            this->player->onKeyPressed(this->ev.key);
+        }
     }
+
 };
 
 void GameState::update(const float &dt) {
@@ -124,8 +135,9 @@ void GameState::update(const float &dt) {
     for (auto *item : removeQueue) {
         world->getCurrentLevel()->removeObject(*item);
     }
-    if (player->isDead())
-        this->endState();
+
+    if (player->isDead() && !summaryMenu)
+        summaryMenu = new SummaryMenu(window, states);
 };
 
 void GameState::render(sf::RenderTarget *target) {
@@ -136,4 +148,7 @@ void GameState::render(sf::RenderTarget *target) {
     this->gui->draw();
     target->draw(*world);
     pauseMenu->render(target);
+
+    if (summaryMenu)
+        summaryMenu->render(target);
 };

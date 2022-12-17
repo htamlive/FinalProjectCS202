@@ -2,7 +2,7 @@
 #include "Consts.h"
 #include "Entity.h"
 #include "Enums.h"
-#include "PlayerEffect.h"
+//#include "PlayerEffect.h"
 #include "PlayerState.h"
 #include "SceneNode.h"
 #include "World.h"

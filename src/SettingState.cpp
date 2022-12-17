@@ -5,7 +5,7 @@ SettingState::SettingState(sf::RenderWindow* window, std::vector<State*>* states
 	this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplate.txt");
 
 
-	//initBackground();
+	initBackground();
 
 	//initSearchBar();
 	initButtons();

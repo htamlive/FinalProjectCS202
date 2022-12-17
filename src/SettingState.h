@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <fstream>
 #include "State.h"
 #include "AudioController.h"
 
@@ -24,8 +25,35 @@ public:
 	SettingState(sf::RenderWindow* window, std::vector<State*>* states);
 
 	void initBackground() {
+		//For Music Alteration
+		ifstream fin;
+		fin.open("resources/textFile/MusicController.txt");
 
+		int value;
+		fin >> value;
+		this->gui->get<tgui::Slider>("sliderMusic")->setValue(value);
+		this->gui->get<tgui::EditBox>("eBoxMusic")->setText(to_string(value));
+
+		fin.close();
+
+		//To Sound Alteration
+		fin.open("resources/textFile/SoundController.txt");
+
+		fin >> value;
+		this->gui->get<tgui::Slider>("sliderSound")->setValue(value);
+		this->gui->get<tgui::EditBox>("eBoxSound")->setText(to_string(value));
+
+		fin.close();
 	};
+
+	void setValue(string type, int value) {
+		ofstream fout;
+		fout.open("resources/textFile/" + type + "Controller.txt", ios::trunc);
+		
+		fout << value;
+		
+		fout.close();
+	}
 
 	void initButtons() {
 		//this->gui->get<tgui::Button>("btnMusic")->onClick([&,this]() {
@@ -48,8 +76,13 @@ public:
 		//	this->gui->get<tgui::Button>("SoundOn")->setVisible(false);
 		//	});
 		this->gui->get<tgui::Slider>("sliderMusic")->onValueChange([&]() {
+			
 			int val = this->gui->get<tgui::Slider>("sliderMusic")->getValue();
+			
 			std::cout << val << std::endl;
+
+			setValue("Music", val);
+
 			this->gui->get<tgui::EditBox>("eBoxMusic")->setText(to_string(val));
 			//AudioController::instance().playMusic(Music::Game);
 			AudioController::instance().setMusicVolume(val);
@@ -57,7 +90,13 @@ public:
 
 		this->gui->get<tgui::Slider>("sliderSound")->onValueChange([&]() {
 				int val = this->gui->get<tgui::Slider>("sliderSound")->getValue();
+				
+				std::cout << val << std::endl;
+
+				setValue("Sound", val);
+
 				this->gui->get<tgui::EditBox>("eBoxSound")->setText(to_string(val));
+				
 			});
 
 		
