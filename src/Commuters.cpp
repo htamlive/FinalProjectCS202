@@ -13,7 +13,11 @@ void Vehicle::onLightChanged() {
 }
 
 Category::Type Vehicle::getCategory() const {
-    return Category::Enemy;
+    if (getVelocity() == sf::Vector2f(0, 0)) {
+        return Category::Obstacle;
+    }
+    else
+        return Category::Enemy;
 }
 
 Category::Type Wood::getCategory() const {
