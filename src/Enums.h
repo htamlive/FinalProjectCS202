@@ -9,7 +9,7 @@ enum Type {
     Obstacle,
     SmallSizeBoost,
     SpeedBoost,
-    Reward,
+    HealthBoost,
     Health,
     Wood
 };
@@ -44,5 +44,6 @@ enum ID {
     Obstacle,
     Object,
     RIP,
+    HealthBoost,
 };
 }

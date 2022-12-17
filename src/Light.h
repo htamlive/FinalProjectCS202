@@ -12,7 +12,6 @@ public:
  */
 class Light : public Entity {
 public:
-    Category::Type getCategory() const override { return Category::None; }
     Light() = default;
 
     Light(sf::Vector2f position, sf::Vector2f size, sf::Time greenTimer, sf::Time redTimer);

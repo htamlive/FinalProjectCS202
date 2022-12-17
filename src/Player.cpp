@@ -46,7 +46,10 @@ void Player::updateCurrent(sf::Time dt) {
         health = 0;
         setState(new DyingState(this));
     }
+
+    setVelocity(getVelocity() + woodVelocity);
     Entity::updateCurrent(dt);
+    woodVelocity = {0, 0};
 }
 
 Player::Player()
@@ -202,7 +205,7 @@ void Player::drawCurrent(sf::RenderTarget &target,
 void Player::drawHealthBar(sf::RenderTarget &target,
                            sf::RenderStates  states) const {
     auto size_y = GRID_SIZE.x / 6;
-    auto pos = sf::Vector2f(0, -GRID_SIZE.y / 2 - size_y);
+    auto pos = sf::Vector2f(0, -GRID_SIZE.y / 2 - size_y / 2);
 
     sf::RectangleShape healthBar;
     healthBar.setSize(sf::Vector2f(GRID_SIZE.x, size_y));
@@ -238,4 +241,8 @@ void Player::takeDamage(float damage) {
 
 bool Player::isDead() {
     return deadFlag;
+}
+
+void Player::onCollideWithWood(sf::Vector2f velocity) {
+    woodVelocity = velocity;
 }

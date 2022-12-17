@@ -4,12 +4,14 @@
 #include "SceneNode.h"
 #include "Obstacle.h"
 #include <SFML/Graphics/Sprite.hpp>
+#include "SpriteNode.h"
+
 #include <memory>
 
 SceneBuilder::SceneBuilder(sf::Vector2f size) : sceneSize(size) {
-    scene           = SceneNode::Ptr(new SceneNode());
-    auto bg         = SceneNode::Ptr(new SceneNode());
-    auto road       = SceneNode::Ptr(new SceneNode());
+    scene           = std::make_unique<SceneNode>();
+    auto bg         = std::make_unique<SceneNode>();
+    auto road       = std::make_unique<SceneNode>();
     backgroundLayer = bg.get();
     roadLayer       = road.get();
     scene->attachChild(std::move(bg));
@@ -19,7 +21,7 @@ SceneBuilder::SceneBuilder(sf::Vector2f size) : sceneSize(size) {
 SceneNode::Ptr SceneBuilder::build() { return std::move(scene); }
 
 SceneBuilder &SceneBuilder::addBackground(Texture::ID id) {
-    backgroundLayer->attachChild(SceneNode::Ptr(new SpriteNode(id, sceneSize)));
+    backgroundLayer->attachChild(std::make_unique<SpriteNode>(id, sceneSize));
     return *this;
 }
 
@@ -43,14 +45,14 @@ SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
     return *this;
 }
 
-SceneBuilder &SceneBuilder::addObstacle(sf::Vector2f pos) {
-    auto obstacle = std::unique_ptr<Obstacle>(new Obstacle(pos));
+SceneBuilder &SceneBuilder::addObstacle(sf::Vector2f pos, sf::Vector2f size) {
+    auto obstacle = std::make_unique<Obstacle>(pos, size);
     scene->attachChild(std::move(obstacle));
     return *this;
 }
 
-SceneBuilder &SceneBuilder::addReward(sf::Vector2f pos) {
-    auto reward = std::unique_ptr<Reward>(new Reward(pos));
+SceneBuilder &SceneBuilder::addReward(sf::Vector2f pos, sf::Vector2f size) {
+    auto reward = std::make_unique<HealthBoost>(pos, size);
     scene->attachChild(std::move(reward));
     return *this;
 }
