@@ -12,7 +12,7 @@ Entity::Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf
                sf::Time animationDuration, bool loop)
         : animation(texture, animationDuration, loop), velocity(velocity), spriteBounds({0, 0}, size) {
     setPosition(position);
-    localBounds = sf::FloatRect({0, 0}, {size.x, size.y});
+    localBounds = spriteBounds;
 }
 
 
@@ -32,16 +32,16 @@ void Entity::updateCurrent(sf::Time dt) {
 void Entity::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates state) const {
     sf::Sprite sprite = animation.toSprite();
-    auto scale = sprite.getScale();
-    sprite.setScale(scale.x * spriteBounds.width / sprite.getLocalBounds().width,
-                    scale.y * spriteBounds.height / sprite.getLocalBounds().height);
-    sprite.setPosition(spriteBounds.left, spriteBounds.top);
+    auto bounds = getSpriteBounds();
+    sprite.setScale(bounds.width / sprite.getLocalBounds().width,
+                    bounds.height / sprite.getLocalBounds().height);
+    sprite.setPosition(bounds.left, bounds.top);
     target.draw(sprite, state);
 }
 
 // TODO: this function is ugly
 bool Entity::isOutOfScreen() const {
-    return getAbsPosition().x + localBounds.width < 0 || getAbsPosition().x > WINDOW_VIDEO_MODE.width;
+    return getAbsPosition().x + getLocalBounds().width < 0 || getAbsPosition().x > WINDOW_VIDEO_MODE.width;
 }
 
 void Entity::adjustSpriteBounds(float offX, float offY) {
@@ -54,4 +54,8 @@ void Entity::adjustBounds(float offX, float offY, float cropWidth, float cropHei
     localBounds.top += offY;
     localBounds.width -= cropWidth;
     localBounds.height -= cropHeight;
+}
+
+sf::FloatRect Entity::getSpriteBounds() const {
+    return spriteBounds;
 }

@@ -16,23 +16,23 @@ void JumpingState::update(sf::Time dt) {
     auto p      = player;
     auto length = jumpPos - p->getPosition();
     if (isJumping()) {
-        auto         timeLeft = jumpDuration - jumpTime;
-        sf::Vector2f vel      = {length.x / timeLeft.asSeconds(),
-                                 length.y / timeLeft.asSeconds()};
-        if (p->onSpeedBoost) {
-            vel = vel * 2.f;
-        }
+        auto         curJumpDuration = jumpDuration * player->jumpDurationScale;
+        auto         timeLeft = curJumpDuration - jumpTime;
+        sf::Vector2f vel      = {length.x / timeLeft.asSeconds() * player->velocityScale.x,
+                                 length.y / timeLeft.asSeconds() * player->velocityScale.y};
+
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =
-            -2 * ((jumpTime.asSeconds() / jumpDuration.asSeconds()) - 1);
+            -2 * ((jumpTime.asSeconds() / curJumpDuration.asSeconds()) - 1);
         p->setVelocity(vel * scale);
         jumpTime += dt;
-        return;
     }
-    p->setPosition(jumpPos);
-    p->setVelocity({0, 0});
-    p->setState(new IdleState(p));
+    else {
+        p->setPosition(jumpPos);
+        p->setVelocity({0, 0});
+        p->setState(new IdleState(p));
+    }
 }
 
 CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos)
@@ -90,8 +90,8 @@ void ObstacleCollidingState::update(sf::Time dt) {
     auto dist      = collisionPos - playerPos;
     if (collisionTime < collisionDuration) {
         auto         timeLeft = collisionDuration - collisionTime;
-        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds(),
-                                 dist.y / timeLeft.asSeconds()};
+        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds() * player->velocityScale.x,
+                                 dist.y / timeLeft.asSeconds() * player->velocityScale.y};
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =

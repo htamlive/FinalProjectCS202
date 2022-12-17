@@ -86,7 +86,7 @@ void GameState::update(const float &dt) {
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
     // Queue to remove all colliding nodes
-    // Prevent segmenation fault
+    // Prevent segmentation fault
     // Reason: The deleted node still exists in the collisionPairs
     vector<SceneNode*> removeQueue;
     for (auto pair : collisionPairs) {
@@ -110,19 +110,19 @@ void GameState::update(const float &dt) {
                     break;
                 }
                 case Category::HealthBoost:
-                    player->takeFood();
+                    player->addEffect(EffectFactory::create(EffectType::HealthBoost));
                     removeQueue.push_back(nodeB);
                     break;
                 case Category::SmallSizeBoost:
-                    player->takeSmallSizeBoost();
+                    player->addEffect(EffectFactory::create(EffectType::SmallSizeBoost));
                     removeQueue.push_back(nodeB);
                     break;
                 case Category::SpeedBoost:
-                    player->takeSpeedBoost();
+                    player->addEffect(EffectFactory::create(EffectType::SpeedBoost));
                     removeQueue.push_back(nodeB);
                     break;
-                case Category::Health:
-                    player->takeFood();
+                case Category::InvincibleBoost:
+                    player->addEffect(EffectFactory::create(EffectType::InvincibleBoost));
                     removeQueue.push_back(nodeB);
                     break;
                 default:

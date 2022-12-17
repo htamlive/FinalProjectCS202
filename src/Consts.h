@@ -29,7 +29,9 @@ const sf::Vector2f DEF_PLAYER_VELOCITY = {100, 100};
 
 const float HEALTH_PER_FOOD = 20;
 
-const float DAMAGE_PER_ENEMY = 40;
+const float DAMAGE_PER_ENEMY = -40;
+
+const float HEALTH_REDUCTION_RATE = -2;
 
 const float MAX_HEALTH = 100;
 

@@ -2,54 +2,29 @@
 #include "Consts.h"
 #include "Entity.h"
 #include "Enums.h"
-//#include "PlayerEffect.h"
 #include "PlayerState.h"
 #include "SceneNode.h"
-#include "World.h"
+#include "AudioController.h"
+
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+
 #include <cmath>
 #include <iostream>
 #include <memory>
-#include "AudioController.h"
 
 void Player::updateCurrent(sf::Time dt) {
-    if (isInvincible) {
-        invincibleTime += dt;
-        if (invincibleTime > invincibleDuration) {
-            invincibleTime = sf::Time::Zero;
-            isInvincible   = false;
-        }
-    }
-
-    if (onSizeSmallerBoost) {
-        localBounds = sizeBoostBounds;
-        sizeBoostTime += dt;
-        if (sizeBoostTime > sizeBoostDuration) {
-            sizeBoostTime = sf::Time::Zero;
-            onSizeSmallerBoost   = false;
-            localBounds   = defaultBounds;
-        }
-    }
-
-    if (onSpeedBoost) {
-        speedBoostTime += dt;
-        if (speedBoostTime > speedBoostDuration) {
-            speedBoostTime = sf::Time::Zero;
-            onSpeedBoost   = false;
-        }
-    }
+    applyEffects(dt);
     state->update(dt);
-    health -= healthReductionRate * dt.asSeconds();
     if (health <= 0 && state->getStateID() != PlayerState::StateID::Dying) {
         if(!this->deadFlag)
             AudioController::instance().playSound(SoundEffect::GameOver);
 
         health = 0;
         //cout << "I am already dead\n";
-        
+
         setState(new DyingState(this));
     }
 
@@ -72,9 +47,9 @@ Player::Player(sf::Vector2f position, sf::Vector2f size)
       idleTexture(Texture::ID::PlayerIdleUp),
       ripTexture(Texture::ID::RIP), state(new IdleState(this)) {
     setState(new IdleState(this));
-    // TODO: hard coded
     setVelocity({0, 0});
-    localBounds = sf::FloatRect(20, 20, GRID_SIZE.x - 40, GRID_SIZE.y - 40);
+    // TODO: hard coded
+    localBounds = sf::FloatRect(size.x / 64 * 20, size.y / 64 * 20, size.x / 64 * 24, size.y / 64 * 24);
 }
 
 void Player::onKeyPressed(sf::Event::KeyEvent event) {
@@ -153,7 +128,7 @@ void Player::onCollision(SceneNode *other) {
             // A standing vehicle will not deal damage to the player, hence its
             // category is not Enemy
             if (enemy->getCategory() == Category::Enemy) {
-                takeDamage(DAMAGE_PER_ENEMY);
+                takeDamage();
             }
             sf::Vector2f direction =
                 (enemy->getAbsPosition() - getAbsPosition());
@@ -176,8 +151,6 @@ void Player::setState(PlayerState *newState) {
     state = newState;
 }
 
-sf::FloatRect Player::getLocalBounds() const { return localBounds; }
-
 sf::Vector2f Player::getNearestGridPosition(sf::Vector2f pos) const {
     auto absPos  = getAbsTransform() * pos;
     auto gridPos = getAbsTransform().getInverse() * absPos;
@@ -188,23 +161,7 @@ sf::Vector2f Player::getNearestGridPosition(sf::Vector2f pos) const {
 
 void Player::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates  states) const {
-    auto sprite = animation.toSprite();
-    sprite.setPosition(0, 0);
-    if (onSizeSmallerBoost) {
-        // TODO: 10 is hard coded
-        sprite.setPosition(10, 10);
-    }
-    sprite.setScale(GRID_SIZE.x / sprite.getLocalBounds().width,
-                    GRID_SIZE.y / sprite.getLocalBounds().height);
-    sprite.setOrigin(sprite.getLocalBounds().width / 2,
-                     sprite.getLocalBounds().height / 2);
-    auto scale = sprite.getScale();
-    if (onSizeSmallerBoost) {
-        sprite.setScale(scale.x * SIZE_SMALLER_BOOST_SCALE, scale.y * SIZE_SMALLER_BOOST_SCALE);
-    }
-    sprite.setOrigin(0, 0);
-    target.draw(sprite, states);
-
+    Entity::drawCurrent(target, states);
     drawHealthBar(target, states);
 }
 
@@ -226,25 +183,12 @@ void Player::drawHealthBar(sf::RenderTarget &target,
     target.draw(healthBar2, states);
 }
 
-void Player::takeSmallSizeBoost() { onSizeSmallerBoost = true; }
-void Player::takeSpeedBoost() { onSpeedBoost = true; }
-
-void Player::takeFood() {
-    health += HEALTH_PER_FOOD;
-    health = std::min(health, MAX_HEALTH);
-}
-
-void Player::takeDamage(float damage) {
+void Player::takeDamage() {
     if (isInvincible) {
         return;
     }
-    health -= damage;
-    if (health <= 0) {
-        health = 0;
-        if(!this->deadFlag)
-            AudioController::instance().playSound(SoundEffect::GameOver);
-        setState(new DeadState(this));
-    }
+    // TODO: bug: char is not temporarily safe after taking damage
+    addEffect(EffectFactory::create(EffectType::HitEnemy));
 }
 
 bool Player::isDead() {
@@ -253,4 +197,75 @@ bool Player::isDead() {
 
 void Player::onCollideWithWood(sf::Vector2f velocity) {
     woodVelocity = velocity;
+}
+
+void Player::applyEffects(sf::Time dt) {
+    auto apply = [&](Effect const &effect, unsigned int times) {
+        health = std::max((float)-1, std::min(MAX_HEALTH, health + effect.healthDelta() * (float)times));
+
+        sf::Vector2f sizeScale = {std::powf(effect.sizeScale().x, (float)times), std::powf(effect.sizeScale().y, (float)times)};
+        {
+            auto &bounds = localBounds;
+            sf::Vector2f center = {bounds.left + bounds.width / 2, bounds.top + bounds.height / 2};
+            bounds.width *= sizeScale.x;
+            bounds.height *= sizeScale.y;
+            bounds.left = center.x - bounds.width / 2;
+            bounds.top = center.y - bounds.height / 2;
+        }
+        {
+            auto &bounds = spriteBounds;
+            sf::Vector2f center = {bounds.left + bounds.width / 2, bounds.top + bounds.height / 2};
+            bounds.width *= sizeScale.x;
+            bounds.height *= sizeScale.y;
+            bounds.left = center.x - bounds.width / 2;
+            bounds.top = center.y - bounds.height / 2;
+        }
+
+        sf::Vector2f moreVel = {std::powf(effect.velocityScale().x, (float)times), std::powf(effect.velocityScale().y, (float)times)};
+        velocityScale = {velocityScale.x * moreVel.x, velocityScale.y * moreVel.y};
+
+        jumpDurationScale *= std::powf(effect.jumpDurationScale(), (float)times);
+
+        isInvincible = effect.invincible();
+    };
+
+    for(auto &[effect, lasted, times] : effects) {
+        lasted += dt;
+        if (effect->times() > 0 && times == effect->times() && lasted >= effect->durationEach()) {
+            auto end = effect->onEnd();
+            if (end) {
+                apply(*end, 1);
+            }
+            times = -1;
+        }
+        else {
+            int timesApply = 0;
+            if (lasted >= effect->durationEach()) {
+                timesApply = effect->durationEach() > sf::Time::Zero ? (int)(lasted / effect->durationEach()) : 1;
+            } else if (times == 0) {
+                timesApply = 1;
+            }
+            if (effect->times() > 0) {
+                timesApply = std::min(timesApply, effect->times() - (int)times);
+            }
+            if (timesApply > 0) {
+                apply(*effect, timesApply);
+                times += timesApply;
+                lasted = std::max(sf::Time::Zero, lasted - effect->durationEach() * (float)timesApply);
+            }
+        }
+    }
+
+    effects.erase(std::remove_if(effects.begin(), effects.end(),
+                                [](auto &b) {
+        auto &[effect, lasted, times] = b;
+        return times == (unsigned int)-1;
+    }),
+                 effects.end());
+}
+
+void Player::addEffect(std::unique_ptr<Effect> effect) {
+    if (effect) {
+        effects.emplace_back(std::move(effect), sf::Time::Zero, 0);
+    }
 }
