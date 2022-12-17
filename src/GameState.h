@@ -34,6 +34,21 @@ private:
 		}
 	};
 
+	void initVariables() {
+		auto pPlayer = std::unique_ptr<Player>(
+			new Player({ window->getSize().x / 2 - GRID_SIZE.x,
+							  (float)window->getSize().y - GRID_SIZE.y },
+				GRID_SIZE));
+		player = pPlayer.get();
+		pauseMenu = new PauseMenu(window, states);
+		//summaryMenu = new SummaryMenu(window, states);
+		summaryMenu = nullptr;
+		world = new World(sf::Vector2f(window->getSize()));
+		world->setDebug(true, true);
+		camera = new Camera(*player, *window, *world);
+		world->attachChild(std::move(pPlayer));
+	}
+
 public:
 
 	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states);
@@ -49,9 +64,20 @@ public:
 	//	
 	//}
 	void initMusic();
+	void playAgain() {
+		delVariables();
+		initVariables();
+	}
 	void updateEvents() override;
 
 	void updateInput(const float& dt) override;
 	void update(const float& dt) override;
 	void render(sf::RenderTarget* target = nullptr) override;
+	void delVariables() {
+		delete pauseMenu;
+		delete summaryMenu;
+		delete world;
+		delete camera;
+	};
+
 };

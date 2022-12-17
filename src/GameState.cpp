@@ -15,18 +15,7 @@ GameState::GameState(sf::RenderWindow *window,
     this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
     this->initKeyBinds();
 
-    auto pPlayer = std::unique_ptr<Player>(
-        new Player({window->getSize().x / 2 - GRID_SIZE.x,
-                          (float)window->getSize().y - GRID_SIZE.y},
-                         GRID_SIZE));
-    player = pPlayer.get();
-    pauseMenu = new PauseMenu(window, states);
-    //summaryMenu = new SummaryMenu(window, states);
-    summaryMenu = nullptr;
-    world = new World(sf::Vector2f(window->getSize()));
-    world->setDebug(true, true);
-    camera = new Camera(*player, *window, *world);
-    world->attachChild(std::move(pPlayer));
+    initVariables();
     initMusic();
 };
 
@@ -36,10 +25,7 @@ void GameState::initMusic() {
 }
 
 GameState::~GameState() {
-    delete pauseMenu;
-    delete summaryMenu;
-    delete world;
-    delete camera;
+    delVariables();
 };
 
 void GameState::updateEventsPauseMenu() {
@@ -69,7 +55,10 @@ void GameState::updateEvents() {
         this->endState();
     }
     if (summaryMenu && summaryMenu->getQuit()) {
-        this->endState();
+        if (summaryMenu->checkPlayAgain()) {
+            this->playAgain();
+        } else 
+            this->endState();
     }
     
 };
@@ -104,8 +93,8 @@ void GameState::update(const float &dt) {
         if (pair.second->getCategory() == Category::Player) {
             std::swap(pair.first, pair.second);
         }
-        nodeA = dynamic_cast<Entity *>(pair.first);
-        nodeB = dynamic_cast<Entity *>(pair.second);
+        nodeA = reinterpret_cast<Entity *>(pair.first);
+        nodeB = reinterpret_cast<Entity *>(pair.second);
 
         if (nodeA->getCategory() == Category::Player) {
             switch (nodeB->getCategory()) {
