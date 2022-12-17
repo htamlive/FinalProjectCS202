@@ -4,7 +4,7 @@ Group.SummaryBox {
     Renderer {
     }
 
-    Picture.Picture1 {
+    Picture.summaryBox {
         Position = (272.003, 30);
         Size = (454.762, 625);
 
@@ -15,9 +15,8 @@ Group.SummaryBox {
     }
 
     Button.exitBtn {
-        Position = (430, 480);
-        Size = (140, 51.3333);
-        Text = Back;
+        Position = (445, 490);
+        Size = (120, 44);
         TextSize = 13;
 
         Renderer {
@@ -30,16 +29,56 @@ Group.SummaryBox {
             BorderColorDown = black;
             BorderColorFocused = #1E1EB4;
             BorderColorHover = black;
-            Borders = (1, 1, 1, 1);
+            Borders = (0, 0, 0, 0);
             TextColor = #3C3C3C;
             TextColorDisabled = #7D7D7D;
             TextColorDown = black;
             TextColorHover = black;
-            Texture = None;
+            Texture = "../buttons/exitButtonIdle.png" Smooth;
             TextureDisabled = None;
-            TextureDown = None;
+            TextureDown = "../buttons/exitButtonPressed.png" Smooth;
             TextureDownFocused = None;
             TextureDownHover = None;
+            TextureFocused = None;
+            TextureHover = "../buttons/exitButtonIdle.png" Smooth;
+        }
+    }
+
+    Picture.gameOverPic {
+        Position = (325, 291.066);
+        Size = (349, 38.56);
+
+        Renderer {
+            Texture = "../text/gameover.png" Smooth;
+            TransparentTexture = false;
+        }
+    }
+
+    Button.playAgainBtn {
+        Position = (380, 400);
+        Size = (258, 46.403);
+        TextSize = 13;
+
+        Renderer {
+            BackgroundColor = #F5F5F5;
+            BackgroundColorDisabled = #E6E6E6;
+            BackgroundColorDown = #EBEBEB;
+            BackgroundColorHover = white;
+            BorderColor = #3C3C3C;
+            BorderColorDisabled = #7D7D7D;
+            BorderColorDown = black;
+            BorderColorFocused = #1E1EB4;
+            BorderColorHover = black;
+            Borders = (0, 0, 0, 0);
+            TextColor = #3C3C3C;
+            TextColorDisabled = #7D7D7D;
+            TextColorDown = black;
+            TextColorHover = black;
+            Texture = "../buttons/playAgainButtonIdle.png" Smooth;
+            TextureDisabled = None;
+            TextureDown = "../buttons/playAgainButtonPressed.png" Smooth;
+            TextureDownFocused = None;
+            TextureDownHover = "../buttons/playAgainButtonPressed.png" Smooth;
             TextureFocused = None;
             TextureHover = None;
         }
