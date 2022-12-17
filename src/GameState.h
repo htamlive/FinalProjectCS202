@@ -49,7 +49,7 @@ public:
 	//void sinkingDown(const float& dt) { // apply to lanes, cars, ... float downward
 	//	
 	//}
-
+	void initMusic();
 	void updateEvents() override;
 
 	void updateInput(const float& dt) override;

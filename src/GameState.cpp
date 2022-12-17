@@ -6,6 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <memory>
+#include "AudioController.h"
 
 GameState::GameState(sf::RenderWindow *window,
                      std::map<std::string, int> *supportedKeys,
@@ -26,7 +27,13 @@ GameState::GameState(sf::RenderWindow *window,
     world->setDebug(true, true);
     camera = new Camera(*player, *window, *world);
     world->attachChild(std::move(pPlayer));
+    initMusic();
 };
+
+void GameState::initMusic() {
+    AudioController::instance().loadSoundFromFile(SoundEffect::GreenLight, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
+    AudioController::instance().playSound(SoundEffect::GreenLight);
+}
 
 GameState::~GameState() {
     delete pauseMenu;
