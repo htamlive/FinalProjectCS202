@@ -14,12 +14,10 @@
  */
 
 class Entity : public SceneNode {
-private:
+protected:
     sf::Vector2f velocity;
     sf::FloatRect localBounds;
     sf::FloatRect spriteBounds;
-
-protected:
     AnimationMachine animation;
 
     void drawCurrent(sf::RenderTarget &target,
@@ -66,7 +64,15 @@ public:
 
     sf::FloatRect getLocalBounds() const override;
 
+    sf::FloatRect getSpriteBounds() const;
+
+    /**
+     * Does not account for scaling.
+     */
     void adjustSpriteBounds(float offX, float offY);
 
+    /**
+     * Does not account for scaling.
+     */
     void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
 };

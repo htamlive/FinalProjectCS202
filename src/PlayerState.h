@@ -27,7 +27,6 @@ class JumpingState : public PlayerState {
     sf::Time     jumpTime     = sf::Time::Zero;
     sf::Time     jumpDuration = JUMP_DURATION;
     sf::Vector2f jumpPos;
-    bool         onBoost;
 
 public:
     JumpingState(Player *player, sf::Vector2f jumpPos);
@@ -92,7 +91,7 @@ public:
 
 class DyingState : public PlayerState {
     sf::Time dyingTime     = sf::Time::Zero;
-    sf::Time dyingDuration = sf::seconds(2.f);
+    sf::Time dyingDuration = sf::seconds(1.f);
 
 public:
     DyingState(Player *player);

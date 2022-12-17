@@ -69,11 +69,11 @@ public:
 		
 	}
 
-	void updateInput(const float& dt) {
+	void updateInput(const float& dt) override {
 
 	}
 
-	void updateEvents() {
+	void updateEvents() override {
 		this->gui->handleEvent(this->ev);
 	}
 

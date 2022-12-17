@@ -10,10 +10,20 @@ enum Type {
     SmallSizeBoost,
     SpeedBoost,
     HealthBoost,
+    InvincibleBoost,
     Health,
     Wood
 };
 }
+
+enum class EffectType {
+    HealthBoost,
+    SmallSizeBoost,
+    SpeedBoost,
+    InvincibleBoost,
+    Hungry,
+    HitEnemy,
+};
 
 namespace Texture {
 enum ID {

@@ -1,5 +1,7 @@
 #pragma once
 #include "State.h"
+
+#include <memory>
 #include "Player.h"
 #include "PauseMenu.h"
 #include "Camera.h"
@@ -18,7 +20,7 @@ private:
 	float height, width;
 	bool lastPlay;
 
-	class Player* player;
+	Player* player;
 	PauseMenu* pauseMenu;
 	SummaryMenu* summaryMenu;
     World* world;
@@ -35,11 +37,13 @@ private:
 	};
 
 	void initVariables() {
-		auto pPlayer = std::unique_ptr<Player>(
-			new Player({ window->getSize().x / 2 - GRID_SIZE.x,
-							  (float)window->getSize().y - GRID_SIZE.y },
-				GRID_SIZE));
+		auto pPlayer = std::make_unique<Player>(
+			sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
+							  (float)window->getSize().y - GRID_SIZE.y),
+				GRID_SIZE);
 		player = pPlayer.get();
+        player->addEffect(EffectFactory::create(EffectType::Hungry));
+
 		pauseMenu = new PauseMenu(window, states);
 		//summaryMenu = new SummaryMenu(window, states);
 		summaryMenu = nullptr;
