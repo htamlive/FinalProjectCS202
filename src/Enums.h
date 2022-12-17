@@ -9,10 +9,11 @@ enum Type {
     Obstacle,
     SmallSizeBoost,
     SpeedBoost,
-    Reward,
+    HealthBoost,
     Health,
+    Wood
 };
-};
+}
 
 namespace Texture {
 enum ID {
@@ -43,9 +44,6 @@ enum ID {
     Obstacle,
     Object,
     RIP,
+    HealthBoost,
 };
-}
-
-namespace Event {
-enum ID { LightChanged };
 }

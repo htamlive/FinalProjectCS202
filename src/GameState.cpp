@@ -100,43 +100,45 @@ void GameState::update(const float &dt) {
     // Reason: The deleted node still exists in the collisionPairs
     vector<SceneNode*> removeQueue;
     for (auto pair : collisionPairs) {
-        SceneNode *nodeA = nullptr;
-        SceneNode *nodeB = nullptr;
-        if (pair.first->getCategory() == Category::Player) {
-            nodeA = pair.first;
-            nodeB = pair.second;
-        } else if (pair.second->getCategory() == Category::Player) {
-            nodeA = pair.second;
-            nodeB = pair.first;
-        } else {
-            continue;
+        Entity *nodeA = nullptr, *nodeB = nullptr;
+        if (pair.second->getCategory() == Category::Player) {
+            std::swap(pair.first, pair.second);
         }
-        switch (nodeB->getCategory()) {
-        case Category::Obstacle:
-            player->onCollision(nodeB);
-            break;
-        case Category::Enemy:
-            player->takeDamage(40);
-            player->onCollision(nodeB);
-            break;
-        case Category::Reward:
-            player->takeFood();
-            removeQueue.push_back(nodeB);
-            break;
-        case Category::SmallSizeBoost:
-            player->takeSmallSizeBoost();
-            removeQueue.push_back(nodeB);
-            break;
-        case Category::SpeedBoost:
-            player->takeSpeedBoost();
-            removeQueue.push_back(nodeB);
-            break;
-        case Category::Health:
-            player->takeFood();
-            removeQueue.push_back(nodeB);
-            break;
-        default:
-            break;
+        nodeA = dynamic_cast<Entity *>(pair.first);
+        nodeB = dynamic_cast<Entity *>(pair.second);
+
+        if (nodeA->getCategory() == Category::Player) {
+            switch (nodeB->getCategory()) {
+                case Category::Obstacle:
+                    player->onCollision(nodeB);
+                    break;
+                case Category::Enemy:
+                    player->takeDamage(DAMAGE_PER_ENEMY);
+                    player->onCollision(nodeB);
+                    break;
+                case Category::Wood: {
+                    player->onCollideWithWood(nodeB->getVelocity());
+                    break;
+                }
+                case Category::HealthBoost:
+                    player->takeFood();
+                    removeQueue.push_back(nodeB);
+                    break;
+                case Category::SmallSizeBoost:
+                    player->takeSmallSizeBoost();
+                    removeQueue.push_back(nodeB);
+                    break;
+                case Category::SpeedBoost:
+                    player->takeSpeedBoost();
+                    removeQueue.push_back(nodeB);
+                    break;
+                case Category::Health:
+                    player->takeFood();
+                    removeQueue.push_back(nodeB);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     for (auto *item : removeQueue) {

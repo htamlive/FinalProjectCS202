@@ -53,11 +53,12 @@ public:
     void           onCollision(SceneNode *other);
     Category::Type getCategory() const override;
     void           setState(PlayerState *newState);
-    void           takeDamage(int damage);
+    void           takeDamage(float damage);
     void           takeFood();
     void           takeSmallSizeBoost();
     void           takeSpeedBoost();
-    bool           isDead() { return deadFlag; }
+    void           onCollideWithWood(sf::Vector2f velocity);
+    bool           isDead();
 
 protected:
     void updateCurrent(sf::Time dt) override;
@@ -85,12 +86,12 @@ private:
         sf::FloatRect(20, 20, GRID_SIZE.x - 40, GRID_SIZE.y - 40);
     Texture::ID jumpTexture, idleTexture, ripTexture;
 
-    float health              = 100;
+    float health              = MAX_HEALTH;
     float healthReductionRate = 2;
 
     const sf::Time sizeBoostDuration = sf::seconds(5);
     sf::Time       sizeBoostTime     = sf::Time::Zero;
-    bool           onSizeBoost       = true;
+    bool           onSizeSmallerBoost       = true;
     sf::FloatRect  sizeBoostBounds =
         sf::FloatRect(25, 25, GRID_SIZE.x - 50, GRID_SIZE.y - 50);
 
@@ -105,4 +106,5 @@ private:
     bool deadFlag = false;
 
     SceneNode *collidingObstacle = nullptr;
+    sf::Vector2f woodVelocity = {0, 0};
 };

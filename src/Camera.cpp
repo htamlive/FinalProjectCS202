@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <cmath>
 #include <cstdlib>
+#include <memory>
 
 Camera::Camera(SceneNode &follower, sf::RenderWindow &window, World &world)
     : follower(follower), window(window), world(world)
@@ -9,9 +10,9 @@ Camera::Camera(SceneNode &follower, sf::RenderWindow &window, World &world)
     futurePos = window.getView().getCenter();
     velocity = {0, 0};
     auto size = window.getView().getSize();
-    auto wall1 = std::unique_ptr<Wall>(new Wall(sf::FloatRect(-10, 0, 10, size.y)));
-    auto wall2 = std::unique_ptr<Wall>(new Wall(sf::FloatRect(size.x, 0, 10, size.y)));
-    auto wall3 = std::unique_ptr<Wall>(new Wall(sf::FloatRect(0, size.y, size.x, 10)));
+    auto wall1 = std::make_unique<Wall>(sf::FloatRect(-10, 0, 10, size.y));
+    auto wall2 = std::make_unique<Wall>(sf::FloatRect(size.x, 0, 10, size.y));
+    auto wall3 = std::make_unique<Wall>(sf::FloatRect(0, size.y, size.x, 10));
     walls.push_back(wall1.get());
     walls.push_back(wall2.get());
     walls.push_back(wall3.get());

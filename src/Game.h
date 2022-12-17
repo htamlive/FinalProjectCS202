@@ -82,7 +82,8 @@ private:
 		initMainCharacterTextures();
         TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle1.png", { 28, 19 });
         TextureHolder::instance().load(Texture::ID::Object, "resources/spritesheet/objects.png", { 16, 16 }, 45, 5);
-        TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);//    TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
+        TextureHolder::instance().add(Texture::ID::HealthBoost, {Texture::ID::Object, 18, false, false });
+        TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
 	};
 
 	void updateEvents();

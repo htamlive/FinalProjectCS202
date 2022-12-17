@@ -1,8 +1,9 @@
 #pragma once
+
 #include "SceneNode.h"
 #include "AnimationMachine.h"
+#include "Entity.h"
 
-class Entity;
 class Effect : public SceneNode {
     sf::Time duration;
     Entity *entity;
