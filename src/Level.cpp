@@ -47,6 +47,7 @@ void Level::DifficultyMetrics::increaseLevel() {
 };
 
 Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
+    // TODO: spawn animal road, river
     float mapWidth = sceneSize.x / GRID_SIZE.x;
     float mapHeight = sceneSize.y / GRID_SIZE.y;
     DifficultyMetrics difficultyMetrics(level);
@@ -56,14 +57,15 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
     auto builder = SceneBuilder(sceneSize);
     builder.addBackground(Texture::ID::Background);
     for (int i = 1; i < mapHeight - 2; i++) {
-        float laneType = random.get<float>() + 1;
-        while (i + laneType >= mapHeight) {
+        float laneType;
+        do {
             laneType = random.get<float>() + 1;
-        }
-        builder.addRoad(laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
-                        difficultyMetrics.maxSpeed,
-                        difficultyMetrics.minSpawnRate,
-                        difficultyMetrics.maxSpawnRate);
+        } while (i + laneType >= mapHeight);
+
+        builder.addVehicleRoad(laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
+                               difficultyMetrics.maxSpeed,
+                               difficultyMetrics.minSpawnRate,
+                               difficultyMetrics.maxSpawnRate);
         auto shouldPlaceObstacle = Random<std::bernoulli_distribution>(
             std::bernoulli_distribution(0.2));
         auto shouldPlaceReward = Random<std::bernoulli_distribution>(

@@ -1,6 +1,8 @@
 #include "SceneBuilder.h"
 #include "Enums.h"
 #include "VehicleLaneController.h"
+#include "AnimalLaneController.h"
+#include "RiverController.h"
 #include "SceneNode.h"
 #include "Obstacle.h"
 #include <SFML/Graphics/Sprite.hpp>
@@ -25,9 +27,9 @@ SceneBuilder &SceneBuilder::addBackground(Texture::ID id) {
     return *this;
 }
 
-SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
-                                    float maxSpeed, float minSpawnRate,
-                                    float maxSpawnRate) {
+SceneBuilder &SceneBuilder::addVehicleRoad(int lanes, float pos, float minSpeed,
+                                           float maxSpeed, float minSpawnRate,
+                                           float maxSpawnRate) {
     auto meanSpeed = (minSpeed + maxSpeed) / 2;
     auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
     auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
@@ -44,6 +46,41 @@ SceneBuilder &SceneBuilder::addRoad(int lanes, float pos, float minSpeed,
     scene->attachChild(std::move(roads));
     return *this;
 }
+
+SceneBuilder &SceneBuilder::addAnimalRoad(int lanes, float pos, float minSpeed, float maxSpeed, float minSpawnRate,
+                                          float maxSpawnRate) {
+    auto meanSpeed = (minSpeed + maxSpeed) / 2;
+    auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
+    auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
+    auto roads = std::make_unique<AnimalLaneController>(
+            lanes, pos,
+            speed, [](double speed) {
+                auto spawnRate = 400 / speed;
+                return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
+            });
+    roads->build();
+
+    scene->attachChild(std::move(roads));
+    return *this;
+}
+
+SceneBuilder &SceneBuilder::addRiverRoad(int lanes, float pos, float minSpeed, float maxSpeed, float minSpawnRate,
+                                         float maxSpawnRate) {
+    auto meanSpeed = (minSpeed + maxSpeed) / 2;
+    auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
+    auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
+    auto roads = std::make_unique<RiverController>(
+            lanes, pos,
+            speed, [](double speed) {
+                auto spawnRate = 400 / speed;
+                return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
+            });
+    roads->build();
+
+    scene->attachChild(std::move(roads));
+    return *this;
+}
+
 
 SceneBuilder &SceneBuilder::addObstacle(sf::Vector2f pos, sf::Vector2f size) {
     auto obstacle = std::make_unique<Obstacle>(pos, size);

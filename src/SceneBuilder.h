@@ -19,9 +19,16 @@ class SceneBuilder {
   public:
     SceneBuilder(sf::Vector2f size);
     SceneBuilder &addBackground   ( Texture::ID id);
-    SceneBuilder &addRoad         ( int lanes, float pos, float minSpeed,
-                                        float maxSpeed, float minSpawnRate,
-                                        float maxSpawnRate);
+    SceneBuilder &addVehicleRoad         (int lanes, float pos, float minSpeed,
+                                          float maxSpeed, float minSpawnRate,
+                                          float maxSpawnRate);
+    SceneBuilder &addAnimalRoad          (int lanes, float pos, float minSpeed,
+                                          float maxSpeed, float minSpawnRate,
+                                          float maxSpawnRate);
+    SceneBuilder &addRiverRoad           (int lanes, float pos, float minSpeed,
+                                          float maxSpeed, float minSpawnRate,
+                                          float maxSpawnRate);
+
     SceneBuilder &addObstacle(sf::Vector2f pos, sf::Vector2f size);
     SceneBuilder &addReward(sf::Vector2f pos, sf::Vector2f size);
     SceneBuilder &addBoost        ( sf::Vector2f pos);
