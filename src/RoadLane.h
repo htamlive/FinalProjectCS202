@@ -56,7 +56,7 @@ public:
              float commuterWidth, float commuterHeight, Direction direction, float speed,
              Random<std::normal_distribution<double>> frequency);
 
-    virtual Type getType() const;
+    virtual Type getType() const = 0;
 
     Direction getDirection() const;
 

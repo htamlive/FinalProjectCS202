@@ -12,7 +12,7 @@ enum Type {
     Reward,
     Health,
 };
-};
+}
 
 namespace Texture {
 enum ID {
@@ -44,8 +44,4 @@ enum ID {
     Object,
     RIP,
 };
-}
-
-namespace Event {
-enum ID { LightChanged };
 }

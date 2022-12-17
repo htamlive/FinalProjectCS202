@@ -23,12 +23,12 @@ void Player::updateCurrent(sf::Time dt) {
         }
     }
 
-    if (onSizeBoost) {
+    if (onSizeSmallerBoost) {
         localBounds = sizeBoostBounds;
         sizeBoostTime += dt;
         if (sizeBoostTime > sizeBoostDuration) {
             sizeBoostTime = sf::Time::Zero;
-            onSizeBoost   = false;
+            onSizeSmallerBoost   = false;
             localBounds   = defaultBounds;
         }
     }
@@ -63,6 +63,7 @@ Player::Player(sf::Vector2f position, sf::Vector2f size)
       idleTexture(Texture::ID::PlayerIdleUp),
       ripTexture(Texture::ID::RIP), state(new IdleState(this)) {
     setState(new IdleState(this));
+    // TODO: hard coded
     setVelocity({0, 0});
     localBounds = sf::FloatRect(20, 20, GRID_SIZE.x - 40, GRID_SIZE.y - 40);
 }
@@ -180,7 +181,8 @@ void Player::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates  states) const {
     auto sprite = animation.toSprite();
     sprite.setPosition(0, 0);
-    if (onSizeBoost) {
+    if (onSizeSmallerBoost) {
+        // TODO: 10 is hard coded
         sprite.setPosition(10, 10);
     }
     sprite.setScale(GRID_SIZE.x / sprite.getLocalBounds().width,
@@ -188,8 +190,8 @@ void Player::drawCurrent(sf::RenderTarget &target,
     sprite.setOrigin(sprite.getLocalBounds().width / 2,
                      sprite.getLocalBounds().height / 2);
     auto scale = sprite.getScale();
-    if (onSizeBoost) {
-        sprite.setScale(scale.x * 0.75, scale.y * 0.75);
+    if (onSizeSmallerBoost) {
+        sprite.setScale(scale.x * SIZE_SMALLER_BOOST_SCALE, scale.y * SIZE_SMALLER_BOOST_SCALE);
     }
     sprite.setOrigin(0, 0);
     target.draw(sprite, states);
@@ -199,29 +201,31 @@ void Player::drawCurrent(sf::RenderTarget &target,
 
 void Player::drawHealthBar(sf::RenderTarget &target,
                            sf::RenderStates  states) const {
+    auto size_y = GRID_SIZE.x / 6;
+    auto pos = sf::Vector2f(0, -GRID_SIZE.y / 2 - size_y);
+
     sf::RectangleShape healthBar;
-    healthBar.setSize(sf::Vector2f(GRID_SIZE.x, 10));
+    healthBar.setSize(sf::Vector2f(GRID_SIZE.x, size_y));
     healthBar.setFillColor(sf::Color::Red);
-    healthBar.setPosition(0, -20);
+    healthBar.setPosition(pos);
     target.draw(healthBar, states);
+
     sf::RectangleShape healthBar2;
-    healthBar2.setSize(sf::Vector2f((health / 100) * GRID_SIZE.x, 10));
+    healthBar2.setSize(sf::Vector2f((health / MAX_HEALTH) * GRID_SIZE.x, size_y));
     healthBar2.setFillColor(sf::Color::Green);
-    healthBar2.setPosition(0, -20);
+    healthBar2.setPosition(pos);
     target.draw(healthBar2, states);
 }
 
-void Player::takeSmallSizeBoost() { onSizeBoost = true; }
+void Player::takeSmallSizeBoost() { onSizeSmallerBoost = true; }
 void Player::takeSpeedBoost() { onSpeedBoost = true; }
 
 void Player::takeFood() {
-    health += 20;
-    if (health > 100) {
-        health = 100;
-    }
+    health += HEALTH_PER_FOOD;
+    health = std::min(health, MAX_HEALTH);
 }
 
-void Player::takeDamage(int damage) {
+void Player::takeDamage(float damage) {
     if (isInvincible) {
         return;
     }
@@ -230,4 +234,8 @@ void Player::takeDamage(int damage) {
         health = 0;
         setState(new DeadState(this));
     }
+}
+
+bool Player::isDead() {
+    return deadFlag;
 }

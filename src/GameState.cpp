@@ -116,7 +116,7 @@ void GameState::update(const float &dt) {
             player->onCollision(nodeB);
             break;
         case Category::Enemy:
-            player->takeDamage(40);
+            player->takeDamage(DAMAGE_PER_ENEMY);
             player->onCollision(nodeB);
             break;
         case Category::Reward:

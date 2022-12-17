@@ -50,11 +50,11 @@ public:
     void           onCollision(SceneNode *other);
     Category::Type getCategory() const override;
     void           setState(PlayerState *newState);
-    void           takeDamage(int damage);
+    void           takeDamage(float damage);
     void           takeFood();
     void           takeSmallSizeBoost();
     void           takeSpeedBoost();
-    bool           isDead() { return deadFlag; }
+    bool           isDead();
 
 protected:
     void updateCurrent(sf::Time dt) override;
@@ -87,7 +87,7 @@ private:
 
     const sf::Time sizeBoostDuration = sf::seconds(5);
     sf::Time       sizeBoostTime     = sf::Time::Zero;
-    bool           onSizeBoost       = true;
+    bool           onSizeSmallerBoost       = true;
     sf::FloatRect  sizeBoostBounds =
         sf::FloatRect(25, 25, GRID_SIZE.x - 50, GRID_SIZE.y - 50);
 

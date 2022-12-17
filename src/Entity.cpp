@@ -55,5 +55,3 @@ void Entity::adjustBounds(float offX, float offY, float cropWidth, float cropHei
     localBounds.width -= cropWidth;
     localBounds.height -= cropHeight;
 }
-
-Category::Type Entity::getCategory() const { return Category::Enemy; }
