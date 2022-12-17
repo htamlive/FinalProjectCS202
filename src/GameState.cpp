@@ -119,6 +119,9 @@ void GameState::update(const float &dt) {
             player->takeDamage(DAMAGE_PER_ENEMY);
             player->onCollision(nodeB);
             break;
+        case Category::Wood:
+            // TODO: make player move with wood
+            break;
         case Category::Reward:
             player->takeFood();
             removeQueue.push_back(nodeB);

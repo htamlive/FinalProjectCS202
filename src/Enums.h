@@ -11,6 +11,7 @@ enum Type {
     SpeedBoost,
     Reward,
     Health,
+    Wood
 };
 }
 

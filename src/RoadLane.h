@@ -3,8 +3,7 @@
 #include "Random.h"
 #include "Lane.h"
 #include "Entity.h"
-#include "Vehicle.h"
-#include "Animal.h"
+#include "Commuters.h"
 #include "Light.h"
 
 #include <deque>
@@ -13,7 +12,7 @@
 class RoadLane : public Lane {
 public:
     enum class Type {
-        Vehicle, Animal, Unknown
+        Vehicle, Animal, River
     };
     enum class Direction {
         Left = 0, Right = 1
@@ -95,6 +94,16 @@ private:
 };
 
 class AnimalLane : public RoadLane {
+public:
+    using RoadLane::RoadLane;
+
+    Type getType() const override;
+
+private:
+    std::unique_ptr<Entity> newCommuter() const override;
+};
+
+class River : public RoadLane {
 public:
     using RoadLane::RoadLane;
 

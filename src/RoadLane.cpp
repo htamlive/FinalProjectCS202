@@ -1,6 +1,5 @@
 #include "RoadLane.h"
-#include "Animal.h"
-#include "Vehicle.h"
+#include "Commuters.h"
 #include <iostream>
 
 RoadLane::RoadLane()
@@ -105,10 +104,6 @@ void RoadLane::setLaneHeight(float newHeight) {
     height = newHeight;
 }
 
-RoadLane::Type RoadLane::getType() const {
-    return RoadLane::Type::Unknown;
-}
-
 RoadLane::Direction RoadLane::getDirection() const {
     return direction;
 }
@@ -156,4 +151,16 @@ std::unique_ptr<Entity> AnimalLane::newCommuter() const {
             ? sf::Vector2f(-commuterSize.x + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
     return std::make_unique<Animal>(commuterTexture, pos, commuterSize, getVelocity());
+}
+
+RoadLane::Type River::getType() const {
+    return RoadLane::Type::River;
+}
+
+std::unique_ptr<Entity> River::newCommuter() const {
+    auto pos =
+            getDirection() == Direction::Right
+            ? sf::Vector2f(-commuterSize.x + 1, 0)
+            : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
+    return std::make_unique<Entity>(commuterTexture, pos, commuterSize, getVelocity());
 }
