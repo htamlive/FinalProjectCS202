@@ -5,6 +5,7 @@
 #include "SettingState.h"
 #include "GameState.h"
 #include "MenuAnimation.h"
+#include "ScoreState.h"
 
 class MainMenuState : public State {
 private:
@@ -48,6 +49,11 @@ public:
 			this->states->push_back(new SettingState(this->window, this->states));
 			});
 
+		this->gui->get<tgui::Button>("btnScore")->onClick([&, this]() {
+			//cout << "setting button pressed\n";
+			this->states->push_back(new ScoreState(this->window, this->states));
+			});
+
 		this->gui->get<tgui::Button>("btnPlay")->onMouseLeave([&, this]() {
 			zoomSmall("btnPlay");
 			});
@@ -56,6 +62,9 @@ public:
 			});
 		this->gui->get<tgui::Button>("btnSetting")->onMouseLeave([&, this]() {
 			zoomSmall("btnSetting");
+			});
+		this->gui->get<tgui::Button>("btnScore")->onMouseLeave([&, this]() {
+			zoomSmall("btnScore");
 			});
 
 		this->gui->get<tgui::Button>("btnPlay")->onMouseEnter([&, this]() {
@@ -66,6 +75,9 @@ public:
 			});
 		this->gui->get<tgui::Button>("btnSetting")->onMouseEnter([&, this]() {
 			zoomBig("btnSetting");
+			});
+		this->gui->get<tgui::Button>("btnScore")->onMouseEnter([&, this]() {
+			zoomBig("btnScore");
 			});
 	};
 

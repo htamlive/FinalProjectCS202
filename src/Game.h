@@ -33,6 +33,13 @@ private:
 		AudioController::instance().loadMusicFromFile(Music::Game, "resources/music/music_zapsplat_easy_cheesy.wav");
 		AudioController::instance().playMusic(Music::Game,true);
 
+		int value;
+		ifstream fin;
+		fin.open("resources/textFile/MusicController.txt");
+		fin >> value;
+		AudioController::instance().setMusicVolume(value);
+		fin.close();
+
 	}
 
 	void initKeys()

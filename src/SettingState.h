@@ -24,6 +24,8 @@ public:
 	bool isWordMode = true;
 	SettingState(sf::RenderWindow* window, std::vector<State*>* states);
 
+
+
 	void initBackground() {
 		//For Music Alteration
 		ifstream fin;
