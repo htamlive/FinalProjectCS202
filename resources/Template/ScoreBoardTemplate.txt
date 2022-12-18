@@ -125,3 +125,23 @@ Button.btnBack {
         TextureHover = None;
     }
 }
+
+Picture.Picture1 {
+    Position = (770, 30);
+    Size = (78, 63.5556);
+
+    Renderer {
+        Texture = "../spritesheet/main/proPlayer.png" Smooth;
+        TransparentTexture = false;
+    }
+}
+
+Picture.Picture2 {
+    Position = (310, 30);
+    Size = (421, 63.5952);
+
+    Renderer {
+        Texture = "../text/highscores.png" Smooth;
+        TransparentTexture = false;
+    }
+}
