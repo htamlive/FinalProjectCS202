@@ -8,7 +8,7 @@ Picture.background {
 }
 
 Picture.title {
-    Position = (30, -74.7451);
+    Position = (30, -94.7451);
     Size = (920, 472.671);
 
     Renderer {
@@ -40,8 +40,8 @@ Picture.toUp {
 }
 
 Button.btnPlay {
-    Position = (443, 336.125);
-    Size = (135, 58.6955);
+    Position = (453, 286.125);
+    Size = (115, 49.9999);
     TextSize = 13;
 
     Renderer {
@@ -71,8 +71,8 @@ Button.btnPlay {
 }
 
 Button.btnLoad {
-    Position = (442, 440);
-    Size = (135, 58.6955);
+    Position = (452, 370);
+    Size = (115, 49.9999);
     TextSize = 13;
 
     Renderer {
@@ -101,8 +101,8 @@ Button.btnLoad {
 }
 
 Button.btnSetting {
-    Position = (402, 540);
-    Size = (227, 57.6142);
+    Position = (412, 550);
+    Size = (197, 50);
     TextSize = 13;
 
     Renderer {
@@ -154,11 +154,41 @@ Picture.toDown {
 }
 
 Picture.Picture1 {
-    Position = (560, 203.385);
+    Position = (560, 183.385);
     Size = (125, 16.2088);
 
     Renderer {
         Texture = "../text/homecoming.png" Smooth;
         TransparentTexture = false;
+    }
+}
+
+Button.btnScore {
+    Position = (440, 460);
+    Size = (145, 50);
+    TextSize = 13;
+
+    Renderer {
+        BackgroundColor = #F5F5F5;
+        BackgroundColorDisabled = #E6E6E6;
+        BackgroundColorDown = #EBEBEB;
+        BackgroundColorHover = white;
+        BorderColor = #3C3C3C;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = #1E1EB4;
+        BorderColorHover = black;
+        Borders = (0, 0, 0, 0);
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = "../buttons/ScoreButtonIdle.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = "../buttons/ScoreButtonPressed.png" Smooth;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = "../buttons/ScoreButtonIdle.png" Smooth;
     }
 }

@@ -5,8 +5,8 @@ Group.SummaryBox {
     }
 
     Picture.summaryBox {
-        Position = (272.003, 30);
-        Size = (454.762, 625);
+        Position = (250.174, 10);
+        Size = (505.695, 695);
 
         Renderer {
             Texture = "../images/SummaryTable.png" Smooth;
@@ -15,8 +15,8 @@ Group.SummaryBox {
     }
 
     Button.exitBtn {
-        Position = (445, 490);
-        Size = (120, 44);
+        Position = (455, 540);
+        Size = (100, 36.6667);
         TextSize = 13;
 
         Renderer {
@@ -55,8 +55,8 @@ Group.SummaryBox {
     }
 
     Button.playAgainBtn {
-        Position = (380, 400);
-        Size = (258, 46.403);
+        Position = (400, 470);
+        Size = (228, 41.0073);
         TextSize = 13;
 
         Renderer {
