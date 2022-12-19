@@ -147,7 +147,7 @@ void Player::onCollision(SceneNode *other) {
             // A standing vehicle will not deal damage to the player, hence its
             // category is not Enemy
             if (enemy->getCategory() == Category::Enemy) {
-                takeDamage(40);
+                takeDamage(DAMAGE_PER_ENEMY);
             }
             sf::Vector2f direction =
                 (enemy->getAbsPosition() - getAbsPosition());
