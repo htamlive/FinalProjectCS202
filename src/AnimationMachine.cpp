@@ -36,3 +36,19 @@ Texture::ID AnimationMachine::getID() const { return id; }
 Sheet const &AnimationMachine::getSheet() const {
     return TextureHolder::instance().getSheet(id);
 }
+
+void AnimationMachine::save(std::ostream &out) const {
+    std::cout << "Saving AnimationMachine" << std::endl;
+    out << (int)id << " " << duration.asMilliseconds() << " " << loop << " ";
+}
+
+void AnimationMachine::load(std::istream &in) {
+    int id;
+    in >> id;
+    this->id = (Texture::ID)id;
+    int duration;
+    in >> duration;
+    this->duration = sf::milliseconds(duration);
+    in >> loop;
+    std::cout << "Loaded AnimationMachine" << std::endl;
+}

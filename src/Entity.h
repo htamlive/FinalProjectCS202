@@ -69,4 +69,9 @@ public:
     void adjustSpriteBounds(float offX, float offY);
 
     void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
+
+    void saveInternal(std::ostream &out) const override;
+    void saveCurrentNode(std::ostream &out) const override;
+
+    void loadCurrentNode(std::istream &in) override;
 };

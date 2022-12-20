@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include <set>
+#include <iostream>
 
 /**
  * @brief A node in the scene graph.
@@ -22,6 +23,7 @@ class SceneNode : public sf::Drawable,
 public:
     typedef std::unique_ptr<SceneNode> Ptr;
     typedef std::pair<SceneNode*, SceneNode*> Pair;
+    friend std::unique_ptr<SceneNode> loadNode(std::istream &in);
 
     SceneNode();
 
@@ -85,6 +87,8 @@ public:
     
     virtual Category::Type getCategory() const;
 
+    void saveNode(std::ostream& out) const;
+
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
@@ -115,6 +119,10 @@ protected:
      */
     virtual sf::FloatRect getBoundingRect() const;
     virtual sf::FloatRect getLocalBounds() const;
+
+    virtual void saveCurrentNode(std::ostream& out = std::cout) const;
+    virtual void loadCurrentNode(std::istream& in = std::cin);
+    virtual void saveInternal(std::ostream& out = std::cout) const;
 
 private:
     bool debug = false;

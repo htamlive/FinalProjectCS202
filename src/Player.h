@@ -107,4 +107,8 @@ private:
 
     SceneNode *collidingObstacle = nullptr;
     sf::Vector2f woodVelocity = {0, 0};
+
+    void saveCurrentNode(std::ostream &out) const override;
+    void saveInternal(std::ostream &out) const override;
+    void loadCurrentNode(std::istream &in) override;
 };

@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Time.hpp>
 #include <sys/types.h>
+#include <iostream>
 
 #include "Consts.h"
 #include "Enums.h"
@@ -51,4 +52,7 @@ public:
     bool isFinished() const;
 
     Texture::ID getID() const;
+
+    void save(std::ostream &out) const;
+    void load(std::istream &in);
 };

@@ -246,3 +246,26 @@ bool Player::isDead() {
 void Player::onCollideWithWood(sf::Vector2f velocity) {
     woodVelocity = velocity;
 }
+
+void Player::saveCurrentNode(std::ostream &out) const {
+}
+
+void Player::saveInternal(std::ostream &out) const {
+    Entity::saveInternal(out);
+    out << health << " ";
+    out << isInvincible << " ";
+    out << onSizeSmallerBoost << " ";
+    out << onSpeedBoost << " ";
+    out << deadFlag << " ";
+    out << woodVelocity.x << " " << woodVelocity.y << " ";
+}
+
+void Player::loadCurrentNode(std::istream &in) {
+    in >> health;
+    in >> isInvincible;
+    in >> onSizeSmallerBoost;
+    in >> onSpeedBoost;
+    in >> deadFlag;
+    in >> woodVelocity.x;
+    in >> woodVelocity.y;
+}

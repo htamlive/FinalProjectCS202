@@ -133,3 +133,37 @@ void SceneNode::setDebug(bool on, bool recursive) {
 Category::Type SceneNode::getCategory() const {
     return Category::Type::None;
 }
+
+void SceneNode::saveInternal(std::ostream& out) const {
+    out << getPosition().x << " " << getPosition().y << std::endl;
+    out << getScale().x << " " << getScale().y << std::endl;
+    out << getRotation() << std::endl;
+}
+
+void SceneNode::loadCurrentNode(std::istream& in) {
+    float x, y;
+    float scaleX, scaleY;
+    float rotation;
+    // position
+    in >> x >> y;
+    setPosition(x, y);
+    // scale
+    in >> scaleX >> scaleY;
+    setScale(scaleX, scaleY);
+    // rotation
+    in >> rotation;
+    setRotation(rotation);
+}
+
+void SceneNode::saveNode(std::ostream& out) const {
+    saveCurrentNode(out);
+    out << mChildren.size() << std::endl;
+    for (const auto& child : mChildren) {
+        child->saveNode(out);
+    }
+}
+
+void SceneNode::saveCurrentNode(std::ostream& out) const {
+    out << "SceneNode" << std::endl;
+    saveInternal(out);
+}
