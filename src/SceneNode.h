@@ -91,6 +91,7 @@ public:
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
+
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
     /**
@@ -118,9 +119,13 @@ protected:
      * Implement this to allow collision detection
      */
     virtual sf::FloatRect getBoundingRect() const;
+
     virtual sf::FloatRect getLocalBounds() const;
 
+    virtual std::string getClassName() const;
+
     virtual void saveCurrentNode(std::ostream& out = std::cout) const;
+
     virtual void loadCurrentNode(std::istream& in = std::cin);
     virtual void saveInternal(std::ostream& out = std::cout) const;
 

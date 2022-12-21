@@ -12,7 +12,7 @@
 // #include <SFML/Graphics.hpp>
 //
 // int main() {
-//     TextureHolder::instance().load(Texture::LeftVehicle, "../resources/images/greenCar.png");
+//     TextureHolder::instance().load(Texture::LeftVehicle, "./resources/images/greenCar.png");
 //     std::ofstream fout("testSave.txt");
 //     SceneNode root;
 //     std::unique_ptr<Entity> e(new Entity(Texture::LeftVehicle, {100, 100}, {100, 100}, {0, 0}));
