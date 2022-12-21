@@ -27,6 +27,13 @@ sf::SoundBuffer &AudioController::getSoundBuffer(SoundEffect::ID id) {
     return *found->second;
 }
 
+void AudioController::pauseSound() {
+    while(sounds.size())
+    {
+        sounds.pop_front();
+    }
+}
+
 void AudioController::playMusic(Music::ID id, bool loop) {
     auto filename = musicPlaylist.find(id)->second;
 

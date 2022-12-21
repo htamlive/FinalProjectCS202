@@ -20,12 +20,13 @@ GameState::GameState(sf::RenderWindow *window,
 };
 
 void GameState::initMusic() {
-    AudioController::instance().loadSoundFromFile(SoundEffect::GreenLight, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
-    AudioController::instance().playSound(SoundEffect::GreenLight);
+    AudioController::instance().loadSoundFromFile(SoundEffect::CarNoise, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
+    AudioController::instance().playSound(SoundEffect::CarNoise);
 }
 
 GameState::~GameState() {
     delVariables();
+    AudioController::instance().pauseSound();
 };
 
 void GameState::updateEventsPauseMenu() {

@@ -16,6 +16,7 @@ namespace SoundEffect {
         GreenLight,
         RedLight,
         ButtonPressed, 
+        CarNoise,
         GameOver
     };
 }
@@ -53,6 +54,7 @@ public:
     void playMusic(Music::ID id, bool loop = false);
     void resumeMusic();
     void pauseMusic();
+    void pauseSound();
     void setMuted(bool);
     void setMusicVolume(float vol);
     void loadMusicFromFile(Music::ID type, const std::string &path);
