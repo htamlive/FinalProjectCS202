@@ -6,6 +6,10 @@ Category::Type Animal::getCategory() const {
     return Category::Enemy;
 }
 
+std::string Animal::getClassName() const {
+    return "Animal";
+}
+
 void Vehicle::onLightChanged() {
     auto oldVelocity = getVelocity();
     setVelocity(tmpVelocity);
@@ -20,6 +24,14 @@ Category::Type Vehicle::getCategory() const {
         return Category::Enemy;
 }
 
+std::string Vehicle::getClassName() const {
+    return "Vehicle";
+}
+
 Category::Type Wood::getCategory() const {
     return Category::Wood;
+}
+
+std::string Wood::getClassName() const {
+    return "Wood";
 }

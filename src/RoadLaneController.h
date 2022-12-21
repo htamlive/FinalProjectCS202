@@ -25,6 +25,12 @@ public:
 
     void setCommuterSize(sf::Vector2f);
 
+    std::string getClassName() const override;
+
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
+
+    void loadCurrentNode(std::istream& in = std::cin) override;
+
 protected:
     std::vector<RoadLane *> lanes;
     unsigned int laneCount = 1;

@@ -56,17 +56,13 @@ void Entity::adjustBounds(float offX, float offY, float cropWidth, float cropHei
     localBounds.height -= cropHeight;
 }
 
-void Entity::saveInternal(std::ostream &out) const {
-    SceneNode::saveInternal(out);
+
+void Entity::saveCurrentNode(std::ostream &out) const {
+    SceneNode::saveCurrentNode(out);
     out << velocity.x << " " << velocity.y << std::endl;
     out << localBounds.left << " " << localBounds.top << " " << localBounds.width << " " << localBounds.height << std::endl;
     out << spriteBounds.left << " " << spriteBounds.top << " " << spriteBounds.width << " " << spriteBounds.height << std::endl;
     animation.save(out);
-}
-
-void Entity::saveCurrentNode(std::ostream &out) const {
-    out << "Entity" << std::endl;
-    saveInternal(out);
 }
 
 void Entity::loadCurrentNode(std::istream &in) {
@@ -81,5 +77,9 @@ void Entity::loadCurrentNode(std::istream &in) {
     localBounds = {localBoundsLeft, localBoundsTop, localBoundsWidth, localBoundsHeight};
     velocity = {velocityX, velocityY};
     animation.load(in);
+}
+
+std::string Entity::getClassName() const {
+    return "Entity";
 }
 

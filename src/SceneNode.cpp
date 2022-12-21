@@ -134,12 +134,6 @@ Category::Type SceneNode::getCategory() const {
     return Category::Type::None;
 }
 
-void SceneNode::saveInternal(std::ostream& out) const {
-    out << getPosition().x << " " << getPosition().y << std::endl;
-    out << getScale().x << " " << getScale().y << std::endl;
-    out << getRotation() << std::endl;
-}
-
 void SceneNode::loadCurrentNode(std::istream& in) {
     float x, y;
     float scaleX, scaleY;
@@ -156,6 +150,7 @@ void SceneNode::loadCurrentNode(std::istream& in) {
 }
 
 void SceneNode::saveNode(std::ostream& out) const {
+    out << getClassName() << std::endl;
     saveCurrentNode(out);
     out << mChildren.size() << std::endl;
     for (const auto& child : mChildren) {
@@ -164,6 +159,11 @@ void SceneNode::saveNode(std::ostream& out) const {
 }
 
 void SceneNode::saveCurrentNode(std::ostream& out) const {
-    out << "SceneNode" << std::endl;
-    saveInternal(out);
+    out << getPosition().x << " " << getPosition().y << std::endl;
+    out << getScale().x << " " << getScale().y << std::endl;
+    out << getRotation() << std::endl;
+}
+
+std::string SceneNode::getClassName() const {
+    return "SceneNode";
 }

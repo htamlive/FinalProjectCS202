@@ -20,4 +20,6 @@ public:
     using RoadLaneController::RoadLaneController;
 
     RoadLane::Type getType() const override;
+
+    std::string getClassName() const override;
 };

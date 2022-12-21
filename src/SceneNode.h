@@ -127,7 +127,6 @@ protected:
     virtual void saveCurrentNode(std::ostream& out = std::cout) const;
 
     virtual void loadCurrentNode(std::istream& in = std::cin);
-    virtual void saveInternal(std::ostream& out = std::cout) const;
 
 private:
     bool debug = false;

@@ -8,13 +8,14 @@
 
 class Obstacle : public Entity {
 public:
-    Obstacle(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::Obstacle, pos, size, {0, 0}, {}, false) {
-        // Offset the sprite to the center of the grid
-        // TODO: ?
-        //move(0, 10);
-    }
+    Obstacle(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::Obstacle, pos, size, {0, 0}, {}, false) {}
+
     Category::Type getCategory() const override {
         return Category::Obstacle;
+    }
+
+    std::string getClassName() const override {
+        return "Obstacle";
     }
 };
 
@@ -24,5 +25,9 @@ public:
 
     Category::Type getCategory() const override {
         return Category::HealthBoost;
+    }
+
+    std::string getClassName() const override {
+        return "HealthBoost";
     }
 };

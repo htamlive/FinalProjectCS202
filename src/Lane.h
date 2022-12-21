@@ -8,5 +8,8 @@ public:
     virtual void setPosY(float) = 0;
 
     virtual void setLaneHeight(float) = 0;
-};
 
+    std::string getClassName() const override {
+        return "Lane";
+    }
+};

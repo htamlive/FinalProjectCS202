@@ -115,6 +115,29 @@ sf::Vector2f RoadLane::getVelocity() const {
         return {-speedX, 0};
 }
 
+std::string RoadLane::getClassName() const {
+    return "RoadLane";
+}
+
+void RoadLane::saveCurrentNode(std::ostream &out) const {
+    Lane::saveCurrentNode(out);
+    out << speedX << ' ' << (int)direction << ' ' << timer.asMilliseconds() << ' ' << (int)laneTexture << ' ' << commuterTexture << ' ' << commuterSize.x << ' ' << commuterSize.y << std::endl;
+    //TODO: out << frequency
+}
+
+void RoadLane::loadCurrentNode(std::istream &in) {
+    Lane::loadCurrentNode(in);
+    int dir, laneTex, comTex, timerMs;
+    in >> speedX >> dir >> timerMs >> laneTex >> comTex >> commuterSize.x >> commuterSize.y;
+    direction = (Direction)dir;
+    laneTexture = (Texture::ID)laneTex;
+    commuterTexture = (Texture::ID)comTex;
+    timer = sf::milliseconds(timerMs);
+
+    //TODO: in >> frequency
+    //TODO: bind commuters (children)
+}
+
 RoadLane::Type VehicleLane::getType() const {
     return RoadLane::Type::Vehicle;
 }
@@ -141,6 +164,20 @@ void VehicleLane::updateCommuters(sf::Time dt) {
         RoadLane::updateCommuters(dt);
 }
 
+std::string VehicleLane::getClassName() const {
+    return "VehicleLane";
+}
+
+void VehicleLane::saveCurrentNode(std::ostream &out) const {
+    RoadLane::saveCurrentNode(out);
+    out << stopSpawning << std::endl;
+}
+
+void VehicleLane::loadCurrentNode(std::istream &in) {
+    RoadLane::loadCurrentNode(in);
+    in >> stopSpawning;
+}
+
 RoadLane::Type AnimalLane::getType() const {
     return RoadLane::Type::Animal;
 }
@@ -153,6 +190,10 @@ std::unique_ptr<Entity> AnimalLane::newCommuter() const {
     return std::make_unique<Animal>(commuterTexture, pos, commuterSize, getVelocity());
 }
 
+std::string AnimalLane::getClassName() const {
+    return "AnimalLane";
+}
+
 RoadLane::Type River::getType() const {
     return RoadLane::Type::River;
 }
@@ -163,4 +204,8 @@ std::unique_ptr<Entity> River::newCommuter() const {
             ? sf::Vector2f(-commuterSize.x + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
     return std::make_unique<Wood>(commuterTexture, pos, commuterSize, getVelocity());
+}
+
+std::string River::getClassName() const {
+    return "River";
 }

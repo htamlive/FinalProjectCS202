@@ -70,8 +70,9 @@ public:
 
     void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
 
-    void saveInternal(std::ostream &out) const override;
-    void saveCurrentNode(std::ostream &out) const override;
+    std::string getClassName() const override;
 
-    void loadCurrentNode(std::istream &in) override;
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
+
+    void loadCurrentNode(std::istream& in = std::cin) override;
 };

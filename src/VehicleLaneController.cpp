@@ -71,3 +71,22 @@ void VehicleLaneController::build() {
         light->addObserver(dynamic_cast<VehicleLane *>(lane));
     }
 }
+
+std::string VehicleLaneController::getClassName() const {
+    return "VehicleLaneController";
+}
+
+void VehicleLaneController::saveCurrentNode(std::ostream &out) const {
+    RoadLaneController::saveCurrentNode(out);
+    out << greenTimer.asMilliseconds() << " " << redTimer.asMilliseconds() << std::endl;
+}
+
+void VehicleLaneController::loadCurrentNode(std::istream &in) {
+    RoadLaneController::loadCurrentNode(in);
+    int green, red;
+    in >> green >> red;
+    greenTimer = sf::milliseconds(green);
+    redTimer = sf::milliseconds(red);
+
+    //TODO: link light (child)
+}
