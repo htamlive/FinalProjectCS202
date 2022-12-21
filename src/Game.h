@@ -31,6 +31,7 @@ private:
 	void initMusic() {
 		//AudioController::instance().loadSoundFromFile(SoundEffect::Hit, "resources/mallHit.wav");
 		AudioController::instance().loadMusicFromFile(Music::Game, "resources/music/music_zapsplat_easy_cheesy.wav");
+		AudioController::instance().loadSoundFromFile(SoundEffect::GameOver, "resources/music/NegativeBeep.wav");
 		AudioController::instance().playMusic(Music::Game,true);
 
 		int value;

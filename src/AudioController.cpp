@@ -11,10 +11,14 @@ AudioController &AudioController::instance() {
 }
 
 void AudioController::playSound(SoundEffect::ID id) {
+    static int lst = -1;
     if (isMuted)
         return;
 
-    sounds.emplace_back(getSoundBuffer(id));
+    if (lst != id) {
+        sounds.emplace_back(getSoundBuffer(id));
+        lst = id;
+    }
     sounds.back().play();
 }
 

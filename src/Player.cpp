@@ -13,6 +13,7 @@
 #include <cmath>
 #include <iostream>
 #include <memory>
+#include "AudioController.h"
 
 void Player::updateCurrent(sf::Time dt) {
     if (isInvincible) {
@@ -43,7 +44,12 @@ void Player::updateCurrent(sf::Time dt) {
     state->update(dt);
     health -= healthReductionRate * dt.asSeconds();
     if (health <= 0 && state->getStateID() != PlayerState::StateID::Dying) {
+        if(!this->deadFlag)
+            AudioController::instance().playSound(SoundEffect::GameOver);
+
         health = 0;
+        //cout << "I am already dead\n";
+        
         setState(new DyingState(this));
     }
 
@@ -235,6 +241,8 @@ void Player::takeDamage(float damage) {
     health -= damage;
     if (health <= 0) {
         health = 0;
+        if(!this->deadFlag)
+            AudioController::instance().playSound(SoundEffect::GameOver);
         setState(new DeadState(this));
     }
 }

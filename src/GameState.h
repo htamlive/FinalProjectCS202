@@ -45,7 +45,7 @@ private:
 		summaryMenu = nullptr;
 		world = new World(sf::Vector2f(window->getSize()));
 		world->setDebug(true, true);
-        world->setScale(0.8, 0.8);
+        //world->setScale(0.8, 0.8);
 		camera = new Camera(*player, *window, *world);
 		world->attachChild(std::move(pPlayer));
 	}

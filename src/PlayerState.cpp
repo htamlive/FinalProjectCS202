@@ -141,7 +141,9 @@ DeadState::DeadState(Player *player) : PlayerState(player) {
         AnimationMachine(player->ripTexture, DEF_ANIMATION_DURATION, false);
     player->setVelocity({0, 0});
     player->localBounds = sf::FloatRect(0, 0, 0, 0);
+
     player->deadFlag    = true;
+    
 }
 
 void DeadState::update(sf::Time dt) {}
