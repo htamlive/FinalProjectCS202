@@ -15,7 +15,8 @@ namespace SoundEffect {
         Jump,
         GreenLight,
         RedLight,
-        ButtonPressed
+        ButtonPressed, 
+        GameOver
     };
 }
 
