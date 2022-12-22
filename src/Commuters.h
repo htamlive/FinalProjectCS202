@@ -21,6 +21,7 @@ private:
     sf::Vector2f tmpVelocity = {0, 0};
 };
 
+// TODO: make char move with wood
 class Wood : public Entity {
     using Entity::Entity;
 

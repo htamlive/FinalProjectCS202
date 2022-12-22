@@ -150,7 +150,10 @@ std::unique_ptr<Entity> AnimalLane::newCommuter() const {
             getDirection() == Direction::Right
             ? sf::Vector2f(-commuterSize.x + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
-    return std::make_unique<Animal>(commuterTexture, pos, commuterSize, getVelocity());
+    auto animal = std::make_unique<Animal>(commuterTexture, pos, commuterSize, getVelocity());
+    animal->adjustBounds(0, 0, 0, 40);
+    animal->adjustSpriteBounds(0, -30);
+    return animal;
 }
 
 RoadLane::Type River::getType() const {
@@ -162,5 +165,8 @@ std::unique_ptr<Entity> River::newCommuter() const {
             getDirection() == Direction::Right
             ? sf::Vector2f(-commuterSize.x + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
-    return std::make_unique<Wood>(commuterTexture, pos, commuterSize, getVelocity());
+    auto wood = std::make_unique<Wood>(commuterTexture, pos, commuterSize, getVelocity());
+    wood->adjustBounds(0, 0, 0, 40);
+    wood->adjustSpriteBounds(0, -30);
+    return wood;
 }

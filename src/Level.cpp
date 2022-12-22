@@ -15,8 +15,9 @@ Level::DifficultyMetrics::DifficultyMetrics() {
     maxSpawnRate = BASE_MAX_SPAWN_RATE;
     laneSpawnProb = vector<float>(MAX_LANE_COUNT, .0f);
     float testSumProb =
-        std::accumulate(laneSpawnProb.begin(), laneSpawnProb.end(), 0.0f);
+            std::accumulate(laneSpawnProb.begin(), laneSpawnProb.end(), 0.0f);
 }
+
 Level::DifficultyMetrics::DifficultyMetrics(int level) : DifficultyMetrics() {
     if (level <= 0) {
         throw std::invalid_argument("Level must be greater than 0");
@@ -47,29 +48,31 @@ void Level::DifficultyMetrics::increaseLevel() {
 };
 
 Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
-    // TODO: spawn animal road, river
     float mapWidth = sceneSize.x / GRID_SIZE.x;
     float mapHeight = sceneSize.y / GRID_SIZE.y;
     DifficultyMetrics difficultyMetrics(level);
     random = std::discrete_distribution<unsigned>(
-        difficultyMetrics.laneSpawnProb.begin(),
-        difficultyMetrics.laneSpawnProb.end());
+            difficultyMetrics.laneSpawnProb.begin(),
+            difficultyMetrics.laneSpawnProb.end());
     auto builder = SceneBuilder(sceneSize);
     builder.addBackground(Texture::ID::Background);
+
     for (int i = 1; i < mapHeight - 2; i++) {
         float laneType;
         do {
             laneType = random.get<float>() + 1;
         } while (i + laneType >= mapHeight);
 
-        builder.addRoadController(RoadLane::Type::Vehicle, laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
+        auto prob = Random(std::uniform_real_distribution(0.f, 1.f)).get<float>();
+        auto type = prob <= VEHICLE_LANE_PROB ? RoadLane::Type::Vehicle : prob <= VEHICLE_LANE_PROB + ANIMAL_LANE_PROB
+                                                                          ? RoadLane::Type::Animal
+                                                                          : RoadLane::Type::River;
+        builder.addRoadController(type, laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
                                   difficultyMetrics.maxSpeed,
                                   difficultyMetrics.minSpawnRate,
                                   difficultyMetrics.maxSpawnRate);
-        auto shouldPlaceObstacle = Random<std::bernoulli_distribution>(
-            std::bernoulli_distribution(0.2));
-        auto shouldPlaceReward = Random<std::bernoulli_distribution>(
-            std::bernoulli_distribution(0.05));
+        auto shouldPlaceObstacle = Random(std::bernoulli_distribution(0.2));
+        auto shouldPlaceReward = Random(std::bernoulli_distribution(0.05));
         for (int j = 0; j < laneType; j++) {
             for (int k = 0; k < mapWidth; k++) {
                 if (shouldPlaceReward.get<bool>()) {

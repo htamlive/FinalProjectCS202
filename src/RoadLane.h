@@ -103,6 +103,7 @@ private:
     std::unique_ptr<Entity> newCommuter() const override;
 };
 
+// TODO: make river deal damage
 class River : public RoadLane {
 public:
     using RoadLane::RoadLane;

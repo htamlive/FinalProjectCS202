@@ -72,8 +72,7 @@ bool Effect::invincibleCurrent() const {
 }
 
 std::unique_ptr<Effect> Effect::onEndCurrent() const {
-    auto ptr = std::make_unique<Effect>();
-    return std::move(ptr);
+    return std::make_unique<Effect>();
 }
 
 sf::Time Effect::durationEachCurrent() const {
@@ -125,7 +124,7 @@ sf::Vector2i DistanceEffect::distanceScaleCurrent() const {
 
 std::unique_ptr<Effect> DistanceEffect::onEndCurrent() const {
     auto current = distanceScaleCurrent();
-    return std::move(std::make_unique<DistanceEffect>(sf::Vector2i(1 / current.x, 1 / current.y)));
+    return std::make_unique<DistanceEffect>(sf::Vector2i(1 / current.x, 1 / current.y));
 }
 
 bool InvincibleEffect::invincibleCurrent() const {

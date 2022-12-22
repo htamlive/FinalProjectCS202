@@ -3,6 +3,11 @@
 #include <SFML/Graphics.hpp>
 #include "Enums.h"
 
+const float VEHICLE_LANE_PROB = 0.5;
+const float ANIMAL_LANE_PROB = 0.2;
+const float RIVER_LANE_PROB = 1 - VEHICLE_LANE_PROB - ANIMAL_LANE_PROB;
+
+
 const sf::Time DEF_ANIMATION_DURATION = sf::seconds(.9f);
 
 const sf::Time JUMP_DURATION = sf::milliseconds(300);
