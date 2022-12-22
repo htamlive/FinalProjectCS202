@@ -20,7 +20,7 @@ protected:
 
     virtual float jumpDurationScaleCurrent() const;
 
-    virtual bool invincibleCurrent() const;
+    virtual int invincibleCurrent() const;
 
     virtual sf::Time durationEachCurrent() const;
 
@@ -50,7 +50,7 @@ public:
 
     float jumpDurationScale() const;
 
-    bool invincible() const;
+    int invincible() const;
 
     sf::Time durationEach() const;
 
@@ -132,16 +132,16 @@ public:
 
 class InvincibleEffect : public Effect {
 private:
-    bool invincible_ = true;
+    int invincible_ = 1;
 
-    bool invincibleCurrent() const override;
+    int invincibleCurrent() const override;
 
     std::unique_ptr<Effect> onEndCurrent() const override;
 
 public:
     using Effect::Effect;
 
-    InvincibleEffect(bool invincible);
+    InvincibleEffect(int invincible);
 };
 
 class RunMiscEffect : public Effect {

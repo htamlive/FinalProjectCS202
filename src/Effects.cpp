@@ -35,8 +35,8 @@ float Effect::jumpDurationScale() const {
     return (wrapper ? wrapper->jumpDurationScale() : 1) * jumpDurationScaleCurrent();
 }
 
-bool Effect::invincible() const {
-    return wrapper != nullptr && wrapper->invincible() || invincibleCurrent();
+int Effect::invincible() const {
+    return (wrapper ? wrapper->invincible() : 0) + invincibleCurrent();
 }
 
 sf::Time Effect::durationEach() const {
@@ -67,8 +67,8 @@ sf::Vector2i Effect::distanceScaleCurrent() const {
     return {1, 1};
 }
 
-bool Effect::invincibleCurrent() const {
-    return false;
+int Effect::invincibleCurrent() const {
+    return 0;
 }
 
 std::unique_ptr<Effect> Effect::onEndCurrent() const {
@@ -127,15 +127,15 @@ std::unique_ptr<Effect> DistanceEffect::onEndCurrent() const {
     return std::make_unique<DistanceEffect>(sf::Vector2i(1 / current.x, 1 / current.y));
 }
 
-bool InvincibleEffect::invincibleCurrent() const {
-    return true;
+int InvincibleEffect::invincibleCurrent() const {
+    return invincible_;
 }
 
 std::unique_ptr<Effect> InvincibleEffect::onEndCurrent() const {
-    return std::make_unique<InvincibleEffect>(false);
+    return std::make_unique<InvincibleEffect>(-invincible_);
 }
 
-InvincibleEffect::InvincibleEffect(bool invincible) : invincible_(invincible) {}
+InvincibleEffect::InvincibleEffect(int invincible) : invincible_(invincible) {}
 
 DurationEffect::DurationEffect(sf::Time duration, int times) : durationEach_(duration), times_(times) {}
 

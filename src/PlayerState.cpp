@@ -42,10 +42,12 @@ CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos)
     player->animation =
         AnimationMachine(player->jumpTexture, sf::seconds(0.8), false);
 
-    if (!player->isInvincible) {
+    if (!player->isInvincible()) {
         AudioController::instance().playSound(SoundEffect::Hitting);
     }
-    player->isInvincible = true;
+    auto effect = std::make_unique<InvincibleEffect>();
+    effect->concat(std::make_unique<DurationEffect>(INVINCIBLE_AFTER_DAMAGED_DURATION, 1));
+    player->addEffect(std::move(effect));
 }
 
 void CollidingState::update(sf::Time dt) {

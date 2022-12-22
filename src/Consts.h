@@ -14,6 +14,8 @@ const sf::Time JUMP_DURATION = sf::milliseconds(300);
 
 const sf::Time LIGHT_CHANGING_DURATION = sf::seconds(1.f);
 
+const sf::Time INVINCIBLE_AFTER_DAMAGED_DURATION = sf::seconds(3);
+
 
 const sf::VideoMode WINDOW_VIDEO_MODE = {1024, 768};
 

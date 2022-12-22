@@ -59,6 +59,7 @@ public:
     void           onCollideWithWood(sf::Vector2f velocity);
     bool           isDead();
     void           addEffect(std::unique_ptr<Effect> effect);
+    bool           isInvincible() const;
 
 protected:
     void updateCurrent(sf::Time dt) override;
@@ -85,10 +86,10 @@ private:
 
     float jumpDurationScale = 1;
     sf::Vector2i distanceScale = {1, 1};
+    int invincibleBoostCount = 0;
     std::vector <std::tuple<std::unique_ptr<Effect>, sf::Time, unsigned int>> effects;
 
     float health = MAX_HEALTH;
-    bool isInvincible = false;
     bool deadFlag = false;
     SceneNode *collidingObstacle = nullptr;
     sf::Vector2f woodVelocity = {0, 0};

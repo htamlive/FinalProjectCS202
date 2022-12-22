@@ -118,7 +118,7 @@ void Player::onCollision(SceneNode *other) {
         setState(new ObstacleCollidingState(this, newPos));
     }
 
-    if (other->getCategory() == Category::Enemy && !isInvincible) {
+    if (other->getCategory() == Category::Enemy && !isInvincible()) {
         auto enemy = dynamic_cast<Entity *>(other);
         if (enemy) {
             // A standing vehicle will not deal damage to the player, hence its
@@ -180,10 +180,9 @@ void Player::drawHealthBar(sf::RenderTarget &target,
 }
 
 void Player::takeDamage() {
-    if (isInvincible) {
+    if (isInvincible()) {
         return;
     }
-    // TODO: bug: char is not temporarily safe after taking damage
     addEffect(EffectFactory::create(EffectType::HitEnemy));
 }
 
@@ -222,7 +221,7 @@ void Player::applyEffects(sf::Time dt) {
 
         jumpDurationScale *= std::powf(effect.jumpDurationScale(), (float)times);
 
-        isInvincible = effect.invincible();
+        invincibleBoostCount += effect.invincible();
 
         effect.runMisc();
     };
@@ -266,4 +265,8 @@ void Player::addEffect(std::unique_ptr<Effect> effect) {
     if (effect) {
         effects.emplace_back(std::move(effect), sf::Time::Zero, 0);
     }
+}
+
+bool Player::isInvincible() const {
+    return invincibleBoostCount > 0;
 }
