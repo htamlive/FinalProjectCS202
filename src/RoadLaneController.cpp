@@ -56,3 +56,15 @@ void RoadLaneController::setCommuterSize(sf::Vector2f size) {
         lane->setCommuterSize(size);
     }
 }
+
+void RoadLaneController::setLaneCount(unsigned int count) {
+    laneCount = count;
+}
+
+void RoadLaneController::setSpeedDistribution(Random<std::normal_distribution<double>> distribution) {
+    speedDistribution = distribution;
+}
+
+void RoadLaneController::setFrequencyFunction(const std::function<Random<std::normal_distribution<double>>(double)> &function) {
+    frequencyFunction = function;
+}

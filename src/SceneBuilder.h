@@ -5,6 +5,8 @@
 
 #include "Lane.h"
 #include "SceneNode.h"
+#include "RoadLane.h"
+
 using namespace std;
 
 /**
@@ -19,13 +21,7 @@ class SceneBuilder {
   public:
     SceneBuilder(sf::Vector2f size);
     SceneBuilder &addBackground   ( Texture::ID id);
-    SceneBuilder &addVehicleRoad         (int lanes, float pos, float minSpeed,
-                                          float maxSpeed, float minSpawnRate,
-                                          float maxSpawnRate);
-    SceneBuilder &addAnimalRoad          (int lanes, float pos, float minSpeed,
-                                          float maxSpeed, float minSpawnRate,
-                                          float maxSpawnRate);
-    SceneBuilder &addRiverRoad           (int lanes, float pos, float minSpeed,
+    SceneBuilder &addRoadController      (RoadLane::Type type, int lanes, float pos, float minSpeed,
                                           float maxSpeed, float minSpawnRate,
                                           float maxSpawnRate);
 

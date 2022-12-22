@@ -152,7 +152,6 @@ public:
             this->resetTimeManage();
 			// random 1 of 4 edges: up:0, down:1, left:2, right:3
 			srand(time(NULL));
-            // TODO: rand() * rand() risks overflow, resulting in negative value.
 			kind = (((1ll*rand()*rand()%1000000007 + rand()*rand()) % 4) + 4) % 4;
 			//kind = 1;
 			//pass kind to setEdge

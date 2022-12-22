@@ -27,60 +27,44 @@ SceneBuilder &SceneBuilder::addBackground(Texture::ID id) {
     return *this;
 }
 
-SceneBuilder &SceneBuilder::addVehicleRoad(int lanes, float pos, float minSpeed,
-                                           float maxSpeed, float minSpawnRate,
-                                           float maxSpawnRate) {
+SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes, float pos, float minSpeed, float maxSpeed,
+                                              float minSpawnRate, float maxSpawnRate) {
+    std::unique_ptr<RoadLaneController> roads;
+    switch (type) {
+        case RoadLane::Type::Vehicle: {
+            auto vehicles = std::make_unique<VehicleLaneController>();
+            // TODO: Handle traffic light durations
+            vehicles->setGreenDuration(sf::seconds(10));
+            vehicles->setRedDuration(sf::seconds(3));
+            roads = std::move(vehicles);
+            break;
+        }
+        case RoadLane::Type::Animal: {
+            roads = std::make_unique<AnimalLaneController>();
+            break;
+        }
+        case RoadLane::Type::River: {
+            roads = std::make_unique<RiverController>();
+            break;
+        }
+    }
+
     auto meanSpeed = (minSpeed + maxSpeed) / 2;
     auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
     auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
-    // TODO: Handle traffic light durations
-    auto roads = std::make_unique<VehicleLaneController>(
-        lanes, pos,
-        speed, [](double speed) {
-                auto spawnRate = 400 / speed;
-                return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
-            },
-        sf::seconds(10), sf::seconds(3));
+    roads->setLaneCount(lanes);
+    roads->setPosY(pos);
+    roads->setSpeedDistribution(speed);
+    roads->setFrequencyFunction([](double speed) {
+        auto spawnRate = 400 / speed;
+        return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
+    });
     roads->build();
 
     scene->attachChild(std::move(roads));
     return *this;
+
 }
-
-SceneBuilder &SceneBuilder::addAnimalRoad(int lanes, float pos, float minSpeed, float maxSpeed, float minSpawnRate,
-                                          float maxSpawnRate) {
-    auto meanSpeed = (minSpeed + maxSpeed) / 2;
-    auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
-    auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
-    auto roads = std::make_unique<AnimalLaneController>(
-            lanes, pos,
-            speed, [](double speed) {
-                auto spawnRate = 400 / speed;
-                return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
-            });
-    roads->build();
-
-    scene->attachChild(std::move(roads));
-    return *this;
-}
-
-SceneBuilder &SceneBuilder::addRiverRoad(int lanes, float pos, float minSpeed, float maxSpeed, float minSpawnRate,
-                                         float maxSpawnRate) {
-    auto meanSpeed = (minSpeed + maxSpeed) / 2;
-    auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
-    auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
-    auto roads = std::make_unique<RiverController>(
-            lanes, pos,
-            speed, [](double speed) {
-                auto spawnRate = 400 / speed;
-                return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
-            });
-    roads->build();
-
-    scene->attachChild(std::move(roads));
-    return *this;
-}
-
 
 SceneBuilder &SceneBuilder::addObstacle(sf::Vector2f pos, sf::Vector2f size) {
     auto obstacle = std::make_unique<Obstacle>(pos, size);

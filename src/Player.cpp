@@ -43,7 +43,6 @@ Player::Player(sf::Vector2f position, sf::Vector2f size)
       ripTexture(Texture::ID::RIP), state(new IdleState(this)) {
     setState(new IdleState(this));
     setVelocity({0, 0});
-    // TODO: hard coded
     localBounds = sf::FloatRect(size.x / 64 * 20, size.y / 64 * 20, size.x / 64 * 24, size.y / 64 * 24);
 }
 

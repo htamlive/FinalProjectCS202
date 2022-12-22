@@ -62,10 +62,10 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
             laneType = random.get<float>() + 1;
         } while (i + laneType >= mapHeight);
 
-        builder.addVehicleRoad(laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
-                               difficultyMetrics.maxSpeed,
-                               difficultyMetrics.minSpawnRate,
-                               difficultyMetrics.maxSpawnRate);
+        builder.addRoadController(RoadLane::Type::Vehicle, laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
+                                  difficultyMetrics.maxSpeed,
+                                  difficultyMetrics.minSpawnRate,
+                                  difficultyMetrics.maxSpawnRate);
         auto shouldPlaceObstacle = Random<std::bernoulli_distribution>(
             std::bernoulli_distribution(0.2));
         auto shouldPlaceReward = Random<std::bernoulli_distribution>(

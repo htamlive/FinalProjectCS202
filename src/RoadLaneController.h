@@ -25,6 +25,12 @@ public:
 
     void setCommuterSize(sf::Vector2f);
 
+    void setLaneCount(unsigned int);
+
+    void setSpeedDistribution(Random<std::normal_distribution<double>>);
+
+    void setFrequencyFunction(const std::function<Random<std::normal_distribution<double>>(double speed)> &);
+
 protected:
     std::vector<RoadLane *> lanes;
     unsigned int laneCount = 1;
