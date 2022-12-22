@@ -4,7 +4,6 @@
 #include "Enums.h"
 #include "PlayerState.h"
 #include "SceneNode.h"
-#include "AudioController.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
@@ -18,9 +17,8 @@
 void Player::updateCurrent(sf::Time dt) {
     applyEffects(dt);
     state->update(dt);
-    if (health <= 0 && state->getStateID() != PlayerState::StateID::Dying) {
+    if (health <= 0 && state->getStateID() != PlayerState::StateID::Dying && state->getStateID() != PlayerState::StateID::Dead) {
         if(!this->deadFlag)
-            AudioController::instance().playSound(SoundEffect::GameOver);
         health = 0;
         setState(new DyingState(this));
     }
@@ -91,7 +89,6 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
             newPos.y = newPos.y + getLocalBounds().height / 2;
             newPos   = getNearestGridPosition(newPos);
             setState(new JumpingState(this, newPos));
-            AudioController::instance().playSound(SoundEffect::Jump);
         }
     }
 }
@@ -119,7 +116,6 @@ void Player::onCollision(SceneNode *other) {
     if (other->getCategory() == Category::Obstacle) {
         sf::Vector2f direction = -getDirection(getVelocity());
         auto         newPos    = getPosition() + direction * (GRID_SIZE.x / 2);
-        //AudioController::instance().playSound(SoundEffect::Stun);
         setState(new ObstacleCollidingState(this, newPos));
     }
 
@@ -229,7 +225,7 @@ void Player::applyEffects(sf::Time dt) {
 
         isInvincible = effect.invincible();
 
-        AudioController::instance().playSound(SoundEffect::Regen);
+        effect.runMisc();
     };
 
     for(auto &[effect, lasted, times] : effects) {

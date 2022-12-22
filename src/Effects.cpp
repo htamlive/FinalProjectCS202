@@ -1,7 +1,9 @@
 #include <algorithm>
+#include <utility>
 
 #include "Effects.h"
 #include "Consts.h"
+#include "AudioController.h"
 
 Effect::Effect(std::unique_ptr<Effect> wrapper) : wrapper(std::move(wrapper)) {}
 
@@ -86,6 +88,18 @@ float Effect::jumpDurationScaleCurrent() const {
     return 1;
 }
 
+void Effect::runMiscCurrentBefore() const {}
+
+void Effect::runMiscCurrentAfter() const {}
+
+void Effect::runMisc() const {
+    runMiscCurrentBefore();
+    if (wrapper) {
+        wrapper->runMisc();
+    }
+    runMiscCurrentAfter();
+}
+
 HealthEffect::HealthEffect(float healthDelta) : healthDelta_(healthDelta) {}
 
 float HealthEffect::healthDeltaCurrent() const {
@@ -124,8 +138,6 @@ std::unique_ptr<Effect> InvincibleEffect::onEndCurrent() const {
 
 InvincibleEffect::InvincibleEffect(bool invincible) : invincible_(invincible) {}
 
-InvincibleEffect::InvincibleEffect() : InvincibleEffect(true) {}
-
 DurationEffect::DurationEffect(sf::Time duration, int times) : durationEach_(duration), times_(times) {}
 
 sf::Time DurationEffect::durationEachCurrent() const {
@@ -148,12 +160,27 @@ JumpDurationEffect::JumpDurationEffect(float jumpDurationScale) {
     jumpDurationScale_ = jumpDurationScale;
 }
 
+RunMiscEffect::RunMiscEffect(std::function<void()> before, std::function<void()> after) : before_(std::move(before)), after_(std::move(after)) {}
+
+RunMiscEffect::RunMiscEffect(std::function<void()> function) : after_(std::move(function)), before_() {}
+
+void RunMiscEffect::runMiscCurrentBefore() const {
+    if (before_) before_();
+}
+
+void RunMiscEffect::runMiscCurrentAfter() const {
+    if (after_) after_();
+}
+
 std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
     std::unique_ptr<Effect> effect = nullptr;
     switch (type) {
         case EffectType::HealthBoost:
             effect = std::make_unique<HealthEffect>(HEALTH_PER_FOOD);
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1));
+            effect->concat(std::make_unique<RunMiscEffect>([]() {
+                AudioController::instance().playSound(SoundEffect::Regen);
+            }));
             break;
         case EffectType::SmallSizeBoost: {
             effect = std::make_unique<SizeEffect>(sf::Vector2f(0.5, 0.5));

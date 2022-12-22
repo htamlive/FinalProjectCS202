@@ -29,6 +29,10 @@ protected:
      */
     virtual int timesCurrent() const;
 
+    virtual void runMiscCurrentBefore() const;
+
+    virtual void runMiscCurrentAfter() const;
+
     virtual std::unique_ptr<Effect> onEndCurrent() const;
 
 public:
@@ -51,6 +55,8 @@ public:
     sf::Time durationEach() const;
 
     int times() const;
+
+    void runMisc() const;
 
     std::unique_ptr<Effect> onEnd() const;
 
@@ -126,7 +132,7 @@ public:
 
 class InvincibleEffect : public Effect {
 private:
-    bool invincible_;
+    bool invincible_ = true;
 
     bool invincibleCurrent() const override;
 
@@ -135,9 +141,24 @@ private:
 public:
     using Effect::Effect;
 
-    InvincibleEffect();
-
     InvincibleEffect(bool invincible);
+};
+
+class RunMiscEffect : public Effect {
+private:
+    std::function<void()> before_;
+    std::function<void()> after_;
+
+    void runMiscCurrentBefore() const override;
+
+    void runMiscCurrentAfter() const override;
+
+public:
+    using Effect::Effect;
+
+    RunMiscEffect(std::function<void()> before, std::function<void()> after);
+
+    RunMiscEffect(std::function<void()> function);
 };
 
 class EffectFactory {
