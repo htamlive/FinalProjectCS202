@@ -23,6 +23,7 @@ enum class EffectType {
     InvincibleBoost,
     Hungry,
     HitEnemy,
+    Drunk
 };
 
 namespace Texture {

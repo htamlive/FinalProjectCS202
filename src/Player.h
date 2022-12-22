@@ -10,6 +10,7 @@
 
 // [x] Boost tăng tốc
 // [x] Boost small size
+// [x] Bị xỉn xong đi ngược
 // [ ] Vỏ chuối
 // [ ] Mud
 // [ ] Hiệu ứng mù (bãi nước đen)
@@ -81,8 +82,9 @@ private:
     Texture::ID jumpTexture, idleTexture, ripTexture;
 
     PlayerState *state;
-    sf::Vector2f velocityScale = {1, 1};
+
     float jumpDurationScale = 1;
+    sf::Vector2i distanceScale = {1, 1};
     std::vector <std::tuple<std::unique_ptr<Effect>, sf::Time, unsigned int>> effects;
 
     float health = MAX_HEALTH;

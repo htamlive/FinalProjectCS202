@@ -19,8 +19,8 @@ void JumpingState::update(sf::Time dt) {
     if (isJumping()) {
         auto         curJumpDuration = jumpDuration * player->jumpDurationScale;
         auto         timeLeft = curJumpDuration - jumpTime;
-        sf::Vector2f vel      = {length.x / timeLeft.asSeconds() * player->velocityScale.x,
-                                 length.y / timeLeft.asSeconds() * player->velocityScale.y};
+        sf::Vector2f vel      = {length.x / timeLeft.asSeconds(),
+                                 length.y / timeLeft.asSeconds()};
 
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
@@ -96,8 +96,8 @@ void ObstacleCollidingState::update(sf::Time dt) {
     auto dist      = collisionPos - playerPos;
     if (collisionTime < collisionDuration) {
         auto         timeLeft = collisionDuration - collisionTime;
-        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds() * player->velocityScale.x,
-                                 dist.y / timeLeft.asSeconds() * player->velocityScale.y};
+        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds(),
+                                 dist.y / timeLeft.asSeconds()};
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =

@@ -16,7 +16,7 @@ protected:
 
     virtual sf::Vector2f sizeScaleCurrent() const;
 
-    virtual sf::Vector2f velocityScaleCurrent() const;
+    virtual sf::Vector2i distanceScaleCurrent() const;
 
     virtual float jumpDurationScaleCurrent() const;
 
@@ -42,7 +42,7 @@ public:
 
     sf::Vector2f sizeScale() const;
 
-    sf::Vector2f velocityScale() const;
+    sf::Vector2i distanceScale() const;
 
     float jumpDurationScale() const;
 
@@ -96,18 +96,18 @@ public:
     SizeEffect(sf::Vector2f sizeScale);
 };
 
-class VelocityEffect : public Effect {
+class DistanceEffect : public Effect {
 private:
-    sf::Vector2f velocityScale_;
+    sf::Vector2i distanceScale_;
 
-    sf::Vector2f velocityScaleCurrent() const override;
+    sf::Vector2i distanceScaleCurrent() const override;
 
     std::unique_ptr<Effect> onEndCurrent() const override;
 
 public:
     using Effect::Effect;
 
-    VelocityEffect(sf::Vector2f velocityScale);
+    DistanceEffect(sf::Vector2i distanceScale);
 };
 
 class JumpDurationEffect : public Effect {

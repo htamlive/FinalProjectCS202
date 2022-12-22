@@ -95,6 +95,7 @@ void GameState::update(const float &dt) {
         if (pair.second->getCategory() == Category::Player) {
             std::swap(pair.first, pair.second);
         }
+        // TODO: replace reinterpret_cast with sth else
         nodeA = reinterpret_cast<Entity *>(pair.first);
         nodeB = reinterpret_cast<Entity *>(pair.second);
 

@@ -50,39 +50,41 @@ Player::Player(sf::Vector2f position, sf::Vector2f size)
 }
 
 void Player::onKeyPressed(sf::Event::KeyEvent event) {
-    if (state->getStateID() == PlayerState::Jumping) {
-        return;
-    }
-    auto newPos     = getPosition();
-    auto currentPos = getPosition();
     if (state->getStateID() == PlayerState::Idle) {
+        sf::Vector2f distanceVec = {0, 0};
         switch (event.code) {
         case sf::Keyboard::W:
         case sf::Keyboard::Up:
-            newPos      = {currentPos.x, currentPos.y - GRID_SIZE.y};
+            distanceVec = {0, -GRID_SIZE.y};
             jumpTexture = Texture::ID::PlayerJumpUp;
             idleTexture = Texture::ID::PlayerIdleUp;
             break;
         case sf::Keyboard::S:
         case sf::Keyboard::Down:
-            newPos      = {currentPos.x, currentPos.y + GRID_SIZE.y};
+            distanceVec = {0, GRID_SIZE.y};
             jumpTexture = Texture::ID::PlayerJumpDown;
             idleTexture = Texture::ID::PlayerIdleDown;
             break;
         case sf::Keyboard::A:
         case sf::Keyboard::Left:
-            newPos      = {currentPos.x - GRID_SIZE.x, currentPos.y};
+            distanceVec = {-GRID_SIZE.x, 0};
             jumpTexture = Texture::ID::PlayerJumpLeft;
             idleTexture = Texture::ID::PlayerIdleLeft;
             break;
         case sf::Keyboard::D:
         case sf::Keyboard::Right:
-            newPos      = {currentPos.x + GRID_SIZE.x, currentPos.y};
+            distanceVec = {GRID_SIZE.x, 0};
             jumpTexture = Texture::ID::PlayerJumpRight;
             idleTexture = Texture::ID::PlayerIdleRight;
             break;
         default:
             break;
+        }
+
+        auto newPos = getPosition();
+        if (distanceVec != sf::Vector2f(0, 0)) {
+            distanceVec = {distanceVec.x * (float)distanceScale.x, distanceVec.y * (float)distanceScale.y};
+            newPos += distanceVec;
         }
         if (getPosition() != newPos) {
             newPos.x = newPos.x + getLocalBounds().width / 2;
@@ -220,8 +222,8 @@ void Player::applyEffects(sf::Time dt) {
             bounds.top = center.y - bounds.height / 2;
         }
 
-        sf::Vector2f moreVel = {std::powf(effect.velocityScale().x, (float)times), std::powf(effect.velocityScale().y, (float)times)};
-        velocityScale = {velocityScale.x * moreVel.x, velocityScale.y * moreVel.y};
+        sf::Vector2i moreDist = {(int)std::pow(effect.distanceScale().x, times), (int)std::pow(effect.distanceScale().y, times)};
+        distanceScale = {distanceScale.x * moreDist.x, distanceScale.y * moreDist.y};
 
         jumpDurationScale *= std::powf(effect.jumpDurationScale(), (float)times);
 

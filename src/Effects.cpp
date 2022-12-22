@@ -23,9 +23,9 @@ sf::Vector2f Effect::sizeScale() const {
     return {scale.x * current.x, scale.y * current.y};
 }
 
-sf::Vector2f Effect::velocityScale() const {
-    auto scale = wrapper ? wrapper->velocityScale() : sf::Vector2f(1, 1);
-    auto current = velocityScaleCurrent();
+sf::Vector2i Effect::distanceScale() const {
+    auto scale = wrapper ? wrapper->distanceScale() : sf::Vector2i(1, 1);
+    auto current = distanceScaleCurrent();
     return {scale.x * current.x, scale.y * current.y};
 }
 
@@ -61,7 +61,7 @@ sf::Vector2f Effect::sizeScaleCurrent() const {
     return {1, 1};
 }
 
-sf::Vector2f Effect::velocityScaleCurrent() const {
+sf::Vector2i Effect::distanceScaleCurrent() const {
     return {1, 1};
 }
 
@@ -103,15 +103,15 @@ std::unique_ptr<Effect> SizeEffect::onEndCurrent() const {
     return std::make_unique<SizeEffect>(sf::Vector2f(1 / current.x, 1 / current.y));
 }
 
-VelocityEffect::VelocityEffect(sf::Vector2f velocityScale) : velocityScale_(velocityScale) {}
+DistanceEffect::DistanceEffect(sf::Vector2i distanceScale) : distanceScale_(distanceScale) {}
 
-sf::Vector2f VelocityEffect::velocityScaleCurrent() const {
-    return velocityScale_;
+sf::Vector2i DistanceEffect::distanceScaleCurrent() const {
+    return distanceScale_;
 }
 
-std::unique_ptr<Effect> VelocityEffect::onEndCurrent() const {
-    auto current = velocityScaleCurrent();
-    return std::move(std::make_unique<VelocityEffect>(sf::Vector2f(1 / current.x, 1 / current.y)));
+std::unique_ptr<Effect> DistanceEffect::onEndCurrent() const {
+    auto current = distanceScaleCurrent();
+    return std::move(std::make_unique<DistanceEffect>(sf::Vector2i(1 / current.x, 1 / current.y)));
 }
 
 bool InvincibleEffect::invincibleCurrent() const {
@@ -178,6 +178,11 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
         case EffectType::HitEnemy: {
             effect = std::make_unique<HealthEffect>(DAMAGE_PER_ENEMY);
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1));
+            break;
+        }
+        case EffectType::Drunk: {
+            effect = std::make_unique<DistanceEffect>(sf::Vector2i(-1, -1));
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1));
             break;
         }
         default:
