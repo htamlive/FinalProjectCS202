@@ -33,8 +33,9 @@ void Entity::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates state) const {
     sf::Sprite sprite = animation.toSprite();
     auto bounds = getSpriteBounds();
-    sprite.setScale(bounds.width / sprite.getLocalBounds().width,
-                    bounds.height / sprite.getLocalBounds().height);
+    auto preScale = sprite.getScale();
+    sprite.setScale(bounds.width / sprite.getLocalBounds().width * preScale.x,
+                    bounds.height / sprite.getLocalBounds().height * preScale.y);
     sprite.setPosition(bounds.left, bounds.top);
     target.draw(sprite, state);
 }

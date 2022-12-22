@@ -85,6 +85,8 @@ private:
 	}
 
 	void initTextures() {
+        // TODO: redraw vehicles in other direction
+        // TODO: add stunned animation
         TextureHolder::instance().load(Texture::ID::RightVehicle,"./resources/images/truck_1.png", {128, 128}, 4);
         TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, true, false});
         TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
