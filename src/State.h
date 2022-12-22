@@ -8,6 +8,7 @@
 #include <TGUI/TGUI.hpp>
 //#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <map>
+#include "AudioController.h"
 
 
 #ifdef __linux__ 
