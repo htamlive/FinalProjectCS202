@@ -81,6 +81,7 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
     if (state->getStateID() == PlayerState::Jumping) {
         return;
     }
+    //AudioController::instance().playSound(SoundEffect::Jump);
     auto newPos     = getPosition();
     auto currentPos = getPosition();
     if (state->getStateID() == PlayerState::Idle) {
@@ -117,6 +118,7 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
             newPos.y = newPos.y + getLocalBounds().height / 2;
             newPos   = getNearestGridPosition(newPos);
             setState(new JumpingState(this, newPos));
+            AudioController::instance().playSound(SoundEffect::Jump);
         }
     }
 }
@@ -144,6 +146,7 @@ void Player::onCollision(SceneNode *other) {
     if (other->getCategory() == Category::Obstacle) {
         sf::Vector2f direction = -getDirection(getVelocity());
         auto         newPos    = getPosition() + direction * (GRID_SIZE.x / 2);
+        //AudioController::instance().playSound(SoundEffect::Stun);
         setState(new ObstacleCollidingState(this, newPos));
     }
 
@@ -230,6 +233,7 @@ void Player::takeSmallSizeBoost() { onSizeSmallerBoost = true; }
 void Player::takeSpeedBoost() { onSpeedBoost = true; }
 
 void Player::takeFood() {
+    AudioController::instance().playSound(SoundEffect::Regen);
     health += HEALTH_PER_FOOD;
     health = std::min(health, MAX_HEALTH);
 }

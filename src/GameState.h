@@ -75,6 +75,7 @@ public:
 	void update(const float& dt) override;
 	void render(sf::RenderTarget* target = nullptr) override;
 	void delVariables() {
+		AudioController::instance().removeStoppedSounds();
 		delete pauseMenu;
 		delete summaryMenu;
 		delete world;

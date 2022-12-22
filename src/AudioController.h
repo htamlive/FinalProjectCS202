@@ -17,7 +17,10 @@ namespace SoundEffect {
         RedLight,
         ButtonPressed, 
         CarNoise,
-        GameOver
+        GameOver,
+        Stun,
+        Hitting,
+        Regen
     };
 }
 

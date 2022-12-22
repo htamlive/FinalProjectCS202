@@ -69,6 +69,7 @@ void GameState::updateInput(const float &dt) {
 
     if (!player->isDead()) {
         if (this->ev.type == sf::Event::KeyPressed) {
+            
             this->player->onKeyPressed(this->ev.key);
         }
     }

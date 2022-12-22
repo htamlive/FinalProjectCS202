@@ -2,6 +2,7 @@
 #include "Consts.h"
 #include "Player.h"
 #include <SFML/System/Time.hpp>
+#include "AudioController.h"
 
 PlayerState::PlayerState(Player *player) : player(player) {}
 PlayerState::~PlayerState() = default;
@@ -39,6 +40,10 @@ CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos)
     : PlayerState(player), collisionPos(collisionPos) {
     player->animation =
         AnimationMachine(player->jumpTexture, sf::seconds(0.8), false);
+
+    if (!player->isInvincible) {
+        AudioController::instance().playSound(SoundEffect::Hitting);
+    }
     player->isInvincible = true;
 }
 
@@ -69,6 +74,7 @@ void IdleState::update(sf::Time dt) {}
 StunnedState::StunnedState(Player *player) : PlayerState(player) {
     player->animation =
         AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+    
 }
 
 void StunnedState::update(sf::Time dt) {
