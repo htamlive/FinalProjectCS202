@@ -38,6 +38,15 @@ void RoadLane::updateCommuters(sf::Time dt) {
             return true;
     };
 
+    auto isOutOfScreen = [&](Entity const &commuter) {
+        if (getDirection() == Direction::Right) {
+            return commuter.getPosition().x > (float)WINDOW_VIDEO_MODE.width;
+        }
+        else {
+            return commuter.getPosition().x + commuter.getSpriteBounds().width < 0;
+        }
+    };
+
     timer -= dt;
     if (timer <= sf::Time::Zero && isLastCommuterFarEnough()) {
         // Add a new vehicle
@@ -49,7 +58,7 @@ void RoadLane::updateCommuters(sf::Time dt) {
     }
 
     // Remove vehicles out of screen
-    while (!commuters.empty() && commuters.front()->isOutOfScreen()) {
+    while (!commuters.empty() && isOutOfScreen(*commuters.front())) {
         std::cout << "Remove commuter" << std::endl;
         detachChild(*commuters.front());
         commuters.pop_front();
@@ -151,8 +160,15 @@ std::unique_ptr<Entity> AnimalLane::newCommuter() const {
             ? sf::Vector2f(-commuterSize.x + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
     auto animal = std::make_unique<Animal>(commuterTexture, pos, commuterSize, getVelocity());
-    animal->adjustBounds(0, 0, 0, 40);
-    animal->adjustSpriteBounds(0, -30);
+
+    if (commuterTexture == Texture::ID::RightCucumber || commuterTexture == Texture::ID::LeftCucumber) {
+        animal->adjustBounds(30, 0, 60, 40);
+        animal->adjustSpriteBounds(0, -55);
+    }
+    else {
+        animal->adjustBounds(0, 0, 0, 40);
+        animal->adjustSpriteBounds(0, -30);
+    }
     return animal;
 }
 

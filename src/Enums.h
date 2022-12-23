@@ -30,8 +30,10 @@ namespace Texture {
 enum ID {
     LeftVehicle,
     RightVehicle,
-    LeftAnimal,
-    RightAnimal,
+    LeftCucumber,
+    RightCucumber,
+    LeftPlane,
+    RightPlane,
     PlayerJumpLeft,
     PlayerJumpRight,
     PlayerJumpUp,
