@@ -13,7 +13,7 @@
  * Override `drawCurrent` and `updateCurrent` if need to.
  */
 
-class Entity : public SceneNode {
+class Entity : public virtual SceneNode {
 protected:
     sf::Vector2f velocity;
     sf::FloatRect localBounds;

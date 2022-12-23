@@ -87,7 +87,7 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
         }
         for (int j = 0; j < mapWidth; j++) {
             if (shouldPlaceObstacle.get<bool>())
-                builder.addObstacle(
+                builder.addRock(
                         sf::Vector2f(j * GRID_SIZE.x, i * GRID_SIZE.y), GRID_SIZE);
         }
     }

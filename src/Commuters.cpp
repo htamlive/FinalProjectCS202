@@ -11,17 +11,24 @@ void Vehicle::onLightChanged() {
 Category::Type Vehicle::getCategory() const {
     if (getVelocity() != sf::Vector2f(0, 0)) {
         return Enemy::getCategory();
-    }
-    else
+    } else
         return Obstacle::getCategory();
 }
 
 void Vehicle::onStartPlayerCollision() {
     if (getCategory() == Enemy::getCategory()) {
         Enemy::onStartPlayerCollision();
-    }
-    else if (getCategory() == Obstacle::getCategory()) {
+    } else {
         Obstacle::onStartPlayerCollision();
+    }
+}
+
+void Vehicle::updateCurrent(sf::Time dt) {
+    Entity::updateCurrent(dt);
+    if (getCategory() == Enemy::getCategory()) {
+        Enemy::updateCurrent(dt);
+    } else {
+        Obstacle::updateCurrent(dt);
     }
 }
 
@@ -35,6 +42,11 @@ void Wood::onStartPlayerCollision() {
 
 void Wood::onEndPlayerCollision() {
     player->addPlatformVelocity(-getVelocity());
+}
+
+void Wood::updateCurrent(sf::Time dt) {
+    Entity::updateCurrent(dt);
+    PlayerCollidable::updateCurrent(dt);
 }
 
 Category::Type Enemy::getCategory() const {
@@ -64,4 +76,9 @@ void Enemy::onStartPlayerCollision() {
         sf::Vector2f newPos = player->getPosition() + direction * (GRID_SIZE.x / 2);
         player->setState(new CollidingState(player, newPos));
     }
+}
+
+void Animal::updateCurrent(sf::Time dt) {
+    Entity::updateCurrent(dt);
+    PlayerCollidable::updateCurrent(dt);
 }

@@ -9,10 +9,21 @@
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
 
 class Wall : public Obstacle {
+private:
+    sf::Vector2f velocity;
+    sf::FloatRect bounds;
+
 public:
-    Wall(sf::FloatRect bounds) {
-        localBounds = bounds;
+    Wall(sf::FloatRect bounds) : bounds(bounds) {}
+
+    sf::FloatRect getLocalBounds() const override {
+        return bounds;
     }
+
+    void setVelocity(sf::Vector2f velocity) {
+        this->velocity = velocity;
+    }
+
     void updateCurrent(sf::Time dt) override {
         move(velocity * dt.asSeconds());
         Obstacle::updateCurrent(dt);

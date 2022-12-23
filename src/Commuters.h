@@ -15,17 +15,21 @@ public:
     Category::Type getCategory() const override;
 };
 
-class Animal : public Enemy {
+class Animal : public virtual Enemy, public virtual Entity {
+private:
+    void updateCurrent(sf::Time dt) override;
+
 public:
-    using Enemy::Enemy;
+    using Entity::Entity;
 };
 
-class Vehicle : public Enemy, public Obstacle, public LightObserver {
+class Vehicle : public virtual Enemy, public virtual Obstacle, public virtual Entity, public LightObserver {
 private:
     void onStartPlayerCollision() override;
 
+    void updateCurrent(sf::Time dt) override;
 public:
-    using Enemy::Enemy;
+    using Entity::Entity;
 
     void onLightChanged() override;
 
@@ -35,14 +39,16 @@ private:
     sf::Vector2f tmpVelocity = {0, 0};
 };
 
-class Wood : public PlayerCollidable {
+class Wood : public virtual PlayerCollidable, public virtual Entity {
 private:
     void onStartPlayerCollision() override;
 
     void onEndPlayerCollision() override;
 
+    void updateCurrent(sf::Time dt) override;
+
 public:
-    using PlayerCollidable::PlayerCollidable;
+    using Entity::Entity;
 
     Category::Type getCategory() const override;
 };

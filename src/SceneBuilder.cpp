@@ -66,9 +66,9 @@ SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes, fl
 
 }
 
-SceneBuilder &SceneBuilder::addObstacle(sf::Vector2f pos, sf::Vector2f size) {
-    auto obstacle = std::make_unique<Obstacle>(pos, size);
-    scene->attachChild(std::move(obstacle));
+SceneBuilder &SceneBuilder::addRock(sf::Vector2f pos, sf::Vector2f size) {
+    auto rock = std::make_unique<Rock>(pos, size);
+    scene->attachChild(std::move(rock));
     return *this;
 }
 

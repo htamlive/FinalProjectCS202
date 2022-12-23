@@ -89,7 +89,7 @@ private:
     bool deadFlag = false;
 };
 
-class PlayerCollidable : public Entity {
+class PlayerCollidable : public virtual SceneNode {
 private:
     virtual void onStartPlayerCollision();
 
@@ -102,7 +102,7 @@ protected:
     Player *player = nullptr;
 
 public:
-    using Entity::Entity;
+    using SceneNode::SceneNode;
 
     void onPlayerCollision(Player &player);
 

@@ -259,8 +259,6 @@ void PlayerCollidable::onRepeatPlayerCollision() {}
 void PlayerCollidable::onEndPlayerCollision() {}
 
 void PlayerCollidable::updateCurrent(sf::Time dt) {
-    Entity::updateCurrent(dt);
-
     if (!isCollidingWithPlayer && this->player) {
         onEndPlayerCollision();
         this->player = nullptr;

@@ -14,23 +14,42 @@ class Obstacle : public virtual PlayerCollidable {
 protected:
     void onStartPlayerCollision() override {
         sf::Vector2f direction = -player->getDirectionVec();
-        auto         newPos    = player->getPosition() + direction * (GRID_SIZE.x / 2);
+        auto newPos = player->getPosition() + direction * (GRID_SIZE.x / 2);
         player->setState(new ObstacleCollidingState(player, newPos));
     }
 
 public:
-    Obstacle() = default;
-
-    Obstacle(sf::Vector2f pos, sf::Vector2f size) : PlayerCollidable(Texture::ID::Obstacle, pos, size, {0, 0}, {}, false) {}
+    using PlayerCollidable::PlayerCollidable;
 
     Category::Type getCategory() const override {
         return Category::Obstacle;
     }
 };
 
-class HealthBoost : public PlayerCollidable {
+class Rock : public virtual Obstacle, public virtual Entity {
+private:
+    void updateCurrent(sf::Time dt) override {
+        Entity::updateCurrent(dt);
+        PlayerCollidable::updateCurrent(dt);
+    }
+
 public:
-    HealthBoost(sf::Vector2f pos, sf::Vector2f size) : PlayerCollidable(Texture::ID::HealthBoost, pos, size, {0, 0}, {}, false) {}
+    Rock(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::Obstacle, pos, size, {0, 0}, {}, false) {}
+
+    Category::Type getCategory() const override {
+        return Obstacle::getCategory();
+    }
+};
+
+class HealthBoost : public virtual PlayerCollidable, public virtual Entity {
+private:
+    void updateCurrent(sf::Time dt) override {
+        Entity::updateCurrent(dt);
+        PlayerCollidable::updateCurrent(dt);
+    }
+
+public:
+    HealthBoost(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::HealthBoost, pos, size, {0, 0}, {}, false) {}
 
     Category::Type getCategory() const override {
         return Category::HealthBoost;
