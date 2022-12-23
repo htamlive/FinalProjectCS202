@@ -6,6 +6,7 @@
 #include "Entity.h"
 #include "TextureHolder.h"
 #include "PlayerState.h"
+#include "PlayerCollidable.h"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
