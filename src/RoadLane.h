@@ -45,6 +45,8 @@ protected:
 
     sf::Vector2f getVelocity() const;
 
+    sf::FloatRect getLocalBounds() const override;
+
 public:
     RoadLane();
 
@@ -109,6 +111,8 @@ public:
     using RoadLane::RoadLane;
 
     Type getType() const override;
+
+    Category::Type getCategory() const override;
 
 private:
     std::unique_ptr<Entity> newCommuter() const override;

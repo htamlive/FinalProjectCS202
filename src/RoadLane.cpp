@@ -89,6 +89,10 @@ void RoadLane::setSpeed(float speed) {
     speedX = speed;
 }
 
+sf::FloatRect RoadLane::getLocalBounds() const {
+    return {0, 0, (float)WINDOW_VIDEO_MODE.width, height};
+}
+
 void RoadLane::setFrequency(const Random<std::normal_distribution<double>> &newFrequency) {
     frequency = newFrequency;
 }
@@ -185,4 +189,8 @@ std::unique_ptr<Entity> River::newCommuter() const {
     wood->adjustBounds(0, 0, 0, 40);
     wood->adjustSpriteBounds(0, -30);
     return wood;
+}
+
+Category::Type River::getCategory() const {
+    return Category::Type::River;
 }

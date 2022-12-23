@@ -12,7 +12,8 @@ enum Type {
     HealthBoost,
     InvincibleBoost,
     Health,
-    Wood
+    Wood,
+    River
 };
 }
 
