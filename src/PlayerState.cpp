@@ -77,7 +77,7 @@ IdleState::IdleState(Player *player) : PlayerState(player) {
 }
 
 void IdleState::update(sf::Time dt) {
-    player->setVelocity(player->idleVelocity);
+    player->setVelocity(player->platformVelocity);
 }
 
 StunnedState::StunnedState(Player *player) : PlayerState(player) {

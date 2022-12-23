@@ -85,6 +85,7 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
 
         auto newPos = getPosition();
         if (distanceVec != sf::Vector2f(0, 0)) {
+            distanceVec += {platformVelocity.x * JUMP_DURATION.asSeconds(), platformVelocity.y * JUMP_DURATION.asSeconds()};
             distanceVec = {distanceVec.x * (float)distanceScale.x, distanceVec.y * (float)distanceScale.y};
             newPos += distanceVec;
         }
@@ -103,6 +104,7 @@ void Player::onCollision(const SceneNode *other) {
 }
 
 void Player::processCollisions() {
+    // TODO: Handle exception where the pointer has been destroyed.
     erase_if(lastCollided, [&](auto &other) {
         if (!colliding.contains(other)) {
             onEndCollision(other);
@@ -163,7 +165,7 @@ void Player::onNewCollision(const SceneNode &other) {
     }
     else if (other.getCategory() == Category::Wood) {
         auto &wood = dynamic_cast<Entity const &>(other);
-        idleVelocity += wood.getVelocity();
+        platformVelocity += wood.getVelocity();
     }
 }
 
@@ -172,7 +174,7 @@ void Player::onRepeatCollision(const SceneNode &other) {}
 void Player::onEndCollision(const SceneNode &other) {
     if (other.getCategory() == Category::Wood) {
         auto &wood = dynamic_cast<Entity const &>(other);
-        idleVelocity -= wood.getVelocity();
+        platformVelocity -= wood.getVelocity();
     }
 }
 

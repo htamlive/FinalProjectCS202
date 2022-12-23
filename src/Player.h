@@ -93,7 +93,7 @@ private:
     int invincibleBoostCount = 0;
     std::vector <std::tuple<std::unique_ptr<Effect>, sf::Time, unsigned int>> effects;
 
-    sf::Vector2f idleVelocity = {0, 0};
+    sf::Vector2f platformVelocity = {0, 0};
     float health = MAX_HEALTH;
     bool deadFlag = false;
     std::set<std::reference_wrapper<SceneNode const>> colliding, lastCollided;
