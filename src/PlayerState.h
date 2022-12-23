@@ -37,10 +37,7 @@ public:
 
 class IdleState : public PlayerState {
 public:
-    IdleState(Player *player) : PlayerState(player) {
-        player->animation =
-            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, true);
-    }
+    IdleState(Player *player);
     void    update(sf::Time dt) override;
     StateID getStateID() const override { return StateID::Idle; }
 };

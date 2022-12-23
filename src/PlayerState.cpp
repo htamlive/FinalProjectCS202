@@ -71,7 +71,14 @@ void CollidingState::update(sf::Time dt) {
     }
 }
 
-void IdleState::update(sf::Time dt) {}
+IdleState::IdleState(Player *player) : PlayerState(player) {
+    player->animation =
+            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, true);
+}
+
+void IdleState::update(sf::Time dt) {
+    player->setVelocity(player->idleVelocity);
+}
 
 StunnedState::StunnedState(Player *player) : PlayerState(player) {
     player->animation =
