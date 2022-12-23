@@ -19,8 +19,6 @@ static bool operator <(std::reference_wrapper<SceneNode const> lhs, std::referen
 }
 
 void Player::updateCurrent(sf::Time dt) {
-    processCollisions();
-
     applyEffects(dt);
     state->update(dt);
 
@@ -95,86 +93,6 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
             newPos   = getNearestGridPosition(newPos);
             setState(new JumpingState(this, newPos));
         }
-    }
-}
-
-void Player::onCollision(const SceneNode *other) {
-    if (other == nullptr) return;
-    colliding.insert(*other);
-}
-
-void Player::processCollisions() {
-    // TODO: Handle exception where the pointer has been destroyed.
-    erase_if(lastCollided, [&](auto &other) {
-        if (!colliding.contains(other)) {
-            onEndCollision(other);
-            return true;
-        }
-        return false;
-    });
-
-    for(auto &other : colliding) {
-        if (lastCollided.contains(other)) {
-            onRepeatCollision(other);
-        }
-        else {
-            onNewCollision(other);
-            lastCollided.insert(other);
-        }
-    }
-
-    colliding.clear();
-}
-
-void Player::onNewCollision(const SceneNode &other) {
-    auto getDirection = [](sf::Vector2f v) {
-        if (v.y == 0) {
-            v.y = 0;
-        } else {
-            v.y = v.y / std::abs(v.y);
-        }
-        if (v.x == 0) {
-            v.x = 0;
-        } else {
-            v.x = v.x / std::abs(v.x);
-        }
-        return v;
-    };
-
-    if (other.getCategory() == Category::Obstacle) {
-        sf::Vector2f direction = -getDirection(getVelocity());
-        auto         newPos    = getPosition() + direction * (GRID_SIZE.x / 2);
-        setState(new ObstacleCollidingState(this, newPos));
-    }
-    else if (other.getCategory() == Category::Enemy && !isInvincible()) {
-        auto &enemy = dynamic_cast<Entity const &>(other);
-        // A standing vehicle will not deal damage to the player, hence its
-        // category is not Enemy
-        if (enemy.getCategory() == Category::Enemy) {
-            takeDamage();
-        }
-        sf::Vector2f direction = enemy.getAbsPosition() - getAbsPosition();
-        if (abs(direction.x) > abs(direction.y)) {
-            direction.y = 0;
-        } else {
-            direction.x = 0;
-        }
-        direction           = -getDirection(direction);
-        sf::Vector2f newPos = getPosition() + direction * (GRID_SIZE.x / 2);
-        setState(new CollidingState(this, newPos));
-    }
-    else if (other.getCategory() == Category::Wood) {
-        auto &wood = dynamic_cast<Entity const &>(other);
-        platformVelocity += wood.getVelocity();
-    }
-}
-
-void Player::onRepeatCollision(const SceneNode &other) {}
-
-void Player::onEndCollision(const SceneNode &other) {
-    if (other.getCategory() == Category::Wood) {
-        auto &wood = dynamic_cast<Entity const &>(other);
-        platformVelocity -= wood.getVelocity();
     }
 }
 
@@ -303,4 +221,49 @@ void Player::addEffect(std::unique_ptr<Effect> effect) {
 
 bool Player::isInvincible() const {
     return invincibleBoostCount > 0;
+}
+
+sf::Vector2f Player::getDirectionVec() const {
+    auto v = getVelocity();
+    if (v.y == 0) {
+        v.y = 0;
+    } else {
+        v.y = v.y / std::abs(v.y);
+    }
+    if (v.x == 0) {
+        v.x = 0;
+    } else {
+        v.x = v.x / std::abs(v.x);
+    }
+    return v;
+}
+
+void Player::addPlatformVelocity(sf::Vector2f velocity) {
+    platformVelocity += velocity;
+}
+
+void PlayerCollidable::onPlayerCollision(Player &player) {
+    if (this->player == &player) {
+        onRepeatPlayerCollision();
+    } else {
+        this->player = &player;
+        onStartPlayerCollision();
+    }
+    isCollidingWithPlayer = true;
+}
+
+void PlayerCollidable::onStartPlayerCollision() {}
+
+void PlayerCollidable::onRepeatPlayerCollision() {}
+
+void PlayerCollidable::onEndPlayerCollision() {}
+
+void PlayerCollidable::updateCurrent(sf::Time dt) {
+    Entity::updateCurrent(dt);
+
+    if (!isCollidingWithPlayer && this->player) {
+        onEndPlayerCollision();
+        this->player = nullptr;
+    }
+    isCollidingWithPlayer = false;
 }

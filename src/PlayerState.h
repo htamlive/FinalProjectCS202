@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Consts.h"
 #include "Player.h"
 #include <SFML/Graphics.hpp>

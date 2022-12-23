@@ -52,7 +52,6 @@ public:
     Player(sf::Vector2f position, sf::Vector2f size);
 
     void           onKeyPressed(sf::Event::KeyEvent);
-    void           onCollision(const SceneNode *other);
     Category::Type getCategory() const override;
     void           setState(PlayerState *newState);
     void           takeDamage();
@@ -60,23 +59,15 @@ public:
     void           addEffect(std::unique_ptr<Effect> effect);
     bool           isInvincible() const;
 
+    sf::Vector2f   getDirectionVec() const;
+    void           addPlatformVelocity(sf::Vector2f velocity);
+
 protected:
     void updateCurrent(sf::Time dt) override;
     void drawCurrent(sf::RenderTarget &target,
                      sf::RenderStates  states) const override;
 
 private:
-    void processCollisions();
-    void onNewCollision(SceneNode const &other);
-    void onRepeatCollision(SceneNode const &other);
-    void onEndCollision(SceneNode const &other);
-
-    bool isJumping() const;
-
-    void updateJump(sf::Time dt);
-
-    void onJumpAnimationFinished();
-
     void drawHealthBar(sf::RenderTarget &target, sf::RenderStates states) const;
 
     sf::Vector2f getNearestGridPosition(sf::Vector2f pos) const;
@@ -96,5 +87,24 @@ private:
     sf::Vector2f platformVelocity = {0, 0};
     float health = MAX_HEALTH;
     bool deadFlag = false;
-    std::set<std::reference_wrapper<SceneNode const>> colliding, lastCollided;
+};
+
+class PlayerCollidable : public Entity {
+private:
+    virtual void onStartPlayerCollision();
+
+    virtual void onRepeatPlayerCollision();
+
+    virtual void onEndPlayerCollision();
+
+protected:
+    bool isCollidingWithPlayer = false;
+    Player *player = nullptr;
+
+public:
+    using Entity::Entity;
+
+    void onPlayerCollision(Player &player);
+
+    void updateCurrent(sf::Time dt) override;
 };

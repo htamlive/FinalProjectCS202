@@ -2,16 +2,30 @@
 
 #include "Entity.h"
 #include "Light.h"
+#include "Obstacle.h"
+#include "PlayerState.h"
 
-class Animal : public Entity {
-    using Entity::Entity;
+class Enemy : public virtual PlayerCollidable {
+protected:
+    void onStartPlayerCollision() override;
+
+public:
+    using PlayerCollidable::PlayerCollidable;
 
     Category::Type getCategory() const override;
 };
 
-class Vehicle : public Entity, public LightObserver {
+class Animal : public Enemy {
 public:
-    using Entity::Entity;
+    using Enemy::Enemy;
+};
+
+class Vehicle : public Enemy, public Obstacle, public LightObserver {
+private:
+    void onStartPlayerCollision() override;
+
+public:
+    using Enemy::Enemy;
 
     void onLightChanged() override;
 
@@ -21,9 +35,14 @@ private:
     sf::Vector2f tmpVelocity = {0, 0};
 };
 
-// TODO: make char move with wood
-class Wood : public Entity {
-    using Entity::Entity;
+class Wood : public PlayerCollidable {
+private:
+    void onStartPlayerCollision() override;
+
+    void onEndPlayerCollision() override;
+
+public:
+    using PlayerCollidable::PlayerCollidable;
 
     Category::Type getCategory() const override;
 };

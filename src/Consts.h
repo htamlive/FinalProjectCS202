@@ -40,12 +40,12 @@ const sf::FloatRect DESTROY_BORDER = {-DESTROY_PADDING, -DESTROY_PADDING, (float
 
 const sf::Vector2f DEF_PLAYER_VELOCITY = {100, 100};
 
-const float HEALTH_PER_FOOD = 20;
-
-const float DAMAGE_PER_ENEMY = -40;
-
-const float HEALTH_REDUCTION_RATE = -2;
-
 const float MAX_HEALTH = 100;
+
+const float HEALTH_PER_FOOD = MAX_HEALTH / 5;
+
+const float DAMAGE_PER_ENEMY = -MAX_HEALTH / 100 * 40;
+
+const float HEALTH_REDUCTION_RATE = -MAX_HEALTH / 50;
 
 const float SIZE_SMALLER_BOOST_SCALE = 0.75;

@@ -69,7 +69,6 @@ void GameState::updateInput(const float &dt) {
 
     if (!player->isDead()) {
         if (this->ev.type == sf::Event::KeyPressed) {
-            
             this->player->onKeyPressed(this->ev.key);
         }
     }
@@ -94,20 +93,19 @@ void GameState::update(const float &dt) {
         if (pair.second->getCategory() == Category::Player) {
             std::swap(pair.first, pair.second);
         }
-        // TODO: replace reinterpret_cast with sth else
+
         auto nodeA = pair.first;
         auto nodeB = pair.second;
 
         if (nodeA->getCategory() == Category::Player) {
+            auto collidable = dynamic_cast<PlayerCollidable *>(nodeB);
+            if (collidable) {
+                collidable->onPlayerCollision(*player);
+            }
+
             switch (nodeB->getCategory()) {
-                case Category::Obstacle:
-                case Category::Enemy:
-                case Category::Wood: {
-                    player->onCollision(nodeB);
-                    break;
-                }
                 case Category::HealthBoost:
-                    player->addEffect(EffectFactory::create(EffectType::HealthBoost));
+//                    player->addEffect(EffectFactory::create(EffectType::HealthBoost));
                     removeQueue.push_back(nodeB);
                     break;
                 case Category::SmallSizeBoost:

@@ -8,23 +8,14 @@
 
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
 
-class Wall : public SceneNode {
-    sf::FloatRect bounds;
-    sf::Vector2f velocity;
+class Wall : public Obstacle {
 public:
-    Wall(sf::FloatRect bounds) : bounds(bounds) {
-    }
-    sf::FloatRect getLocalBounds() const override {
-        return bounds;
+    Wall(sf::FloatRect bounds) {
+        localBounds = bounds;
     }
     void updateCurrent(sf::Time dt) override {
         move(velocity * dt.asSeconds());
-    }
-    void setVelocity(sf::Vector2f velocity) {
-        this->velocity = velocity;
-    }
-    Category::Type getCategory() const override {
-        return Category::Obstacle;
+        Obstacle::updateCurrent(dt);
     }
 };
 
