@@ -10,8 +10,6 @@ ScoreState::ScoreState(sf::RenderWindow* window, std::vector<State*>* states) : 
 	//initSearchBar();
 	initButtons();
 
-	
-
 
 }
 

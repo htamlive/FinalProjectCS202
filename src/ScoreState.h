@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
+#include <chrono>
 #include "State.h"
 #include "AudioController.h"
 
@@ -68,7 +69,19 @@ public:
 	};
 
 	void update(const float& dt) override {
-
+		cout << dt << endl;
+		static int countt = 6, beginn = 0, angle = 0;
+		beginn += dt;
+		if (angle < 360 && beginn < countt)
+		{
+			angle += 2;
+			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle);
+		}
+		else if (beginn >= countt)
+		{
+			angle = 0;
+			beginn = 0;
+		}
 	};
 
 	void updateBtns() {
