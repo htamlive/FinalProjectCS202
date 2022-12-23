@@ -81,7 +81,7 @@ private:
 		TextureHolder::instance().add(Texture::ID::MidRoadLane, { Texture::ID::Road, 4, false, false });
 		TextureHolder::instance().add(Texture::ID::BotRoadLane, { Texture::ID::Road, 7, false, false });
 		TextureHolder::instance().add(Texture::ID::MonoRoadLane, { Texture::ID::Road, 8, false, false });
-        TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water.png");
+        TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water4.png");
 	}
 
 	void initTextures() {
