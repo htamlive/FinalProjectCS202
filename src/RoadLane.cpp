@@ -40,10 +40,10 @@ void RoadLane::updateCommuters(sf::Time dt) {
 
     auto isOutOfScreen = [&](Entity const &commuter) {
         if (getDirection() == Direction::Right) {
-            return commuter.getPosition().x > (float)WINDOW_VIDEO_MODE.width;
+            return commuter.getPosition().x > (float)DESTROY_BORDER.width;
         }
         else {
-            return commuter.getPosition().x + commuter.getSpriteBounds().width < 0;
+            return commuter.getPosition().x + commuter.getSpriteBounds().width < DESTROY_BORDER.left;
         }
     };
 

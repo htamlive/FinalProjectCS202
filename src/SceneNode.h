@@ -85,6 +85,8 @@ public:
     
     virtual Category::Type getCategory() const;
 
+    bool operator <(SceneNode const &other) const;
+
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
@@ -117,6 +119,7 @@ protected:
     virtual sf::FloatRect getLocalBounds() const;
 
 private:
+    int idx = -1;
     bool debug = false;
     bool applyDebugToChildren = false;
     std::vector<Ptr> mChildren;

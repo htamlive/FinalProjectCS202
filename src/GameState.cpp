@@ -91,24 +91,19 @@ void GameState::update(const float &dt) {
     // Reason: The deleted node still exists in the collisionPairs
     vector<SceneNode*> removeQueue;
     for (auto pair : collisionPairs) {
-        Entity *nodeA = nullptr, *nodeB = nullptr;
         if (pair.second->getCategory() == Category::Player) {
             std::swap(pair.first, pair.second);
         }
         // TODO: replace reinterpret_cast with sth else
-        nodeA = reinterpret_cast<Entity *>(pair.first);
-        nodeB = reinterpret_cast<Entity *>(pair.second);
+        auto nodeA = pair.first;
+        auto nodeB = pair.second;
 
         if (nodeA->getCategory() == Category::Player) {
             switch (nodeB->getCategory()) {
                 case Category::Obstacle:
-                    player->onCollision(nodeB);
-                    break;
                 case Category::Enemy:
-                    player->onCollision(nodeB);
-                    break;
                 case Category::Wood: {
-                    player->onCollideWithWood(nodeB->getVelocity());
+                    player->onCollision(nodeB);
                     break;
                 }
                 case Category::HealthBoost:

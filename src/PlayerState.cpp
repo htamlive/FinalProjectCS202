@@ -67,12 +67,18 @@ void CollidingState::update(sf::Time dt) {
     } else {
         player->setPosition(collisionPos);
         player->setVelocity({0, 0});
-        player->collidingObstacle = nullptr;
         player->setState(new IdleState(player));
     }
 }
 
-void IdleState::update(sf::Time dt) {}
+IdleState::IdleState(Player *player) : PlayerState(player) {
+    player->animation =
+            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, true);
+}
+
+void IdleState::update(sf::Time dt) {
+    player->setVelocity(player->platformVelocity);
+}
 
 StunnedState::StunnedState(Player *player) : PlayerState(player) {
     player->animation =
@@ -111,7 +117,6 @@ void ObstacleCollidingState::update(sf::Time dt) {
     } else {
         player->setPosition(collisionPos);
         player->setVelocity({0, 0});
-        player->collidingObstacle = nullptr;
         player->setState(new StunnedState(player));
     }
 }
