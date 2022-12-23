@@ -88,9 +88,11 @@ private:
         // TODO: redraw vehicles in other direction
         // TODO: add stunned animation
         TextureHolder::instance().load(Texture::ID::RightVehicle,"./resources/images/truck_1.png", {128, 128}, 4);
-        TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, true, false});
-        TextureHolder::instance().load(Texture::ID::LeftAnimal,"./resources/images/greenCar.png");
-        TextureHolder::instance().add(Texture::ID::RightAnimal, {Texture::ID::LeftAnimal, true, false});
+        TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, 0, 3, true, false});
+        TextureHolder::instance().load(Texture::ID::RightCucumber, "./resources/spritesheet/cucumber/moveRight.png", {128, 128}, 6);
+        TextureHolder::instance().add(Texture::ID::LeftCucumber, {Texture::ID::RightCucumber, 0, 5, true, false});
+        TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/plane/goRight.png", {128, 128}, 2);
+        TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/plane/goLeft.png", {128, 128}, 2);
         TextureHolder::instance().load(Texture::ID::Wood, "./resources/images/wood.png");
 		//TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
 		TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_1.png");

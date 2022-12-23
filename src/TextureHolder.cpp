@@ -15,18 +15,18 @@ TextureHolder &TextureHolder::instance() {
 
 void TextureHolder::load(Texture::ID id, const std::string &filename,
                          sf::Vector2u spriteSize, unsigned int spriteCount,
-                         unsigned int textureRow) {
+                         unsigned int texturePerRow) {
     sf::Texture texture;
     if (texture.loadFromFile(filename)) {
         if (!spriteSize.x || !spriteSize.y) {
             spriteSize = texture.getSize();
             spriteCount = 1;
         }
-        if (textureRow == 0) {
-            textureRow = texture.getSize().x / spriteSize.x;
+        if (texturePerRow == 0) {
+            texturePerRow = texture.getSize().x / spriteSize.x;
         }
         sheets[id] = std::make_unique<TextureSheet>(
-            std::move(texture), spriteCount, spriteSize, textureRow);
+            std::move(texture), spriteCount, spriteSize, texturePerRow);
     } else {
         throw std::runtime_error("TextureHolder::load - Failed to load " +
                                  filename);
@@ -51,8 +51,8 @@ sf::Texture const &TextureHolder::getTexture(Texture::ID id) const {
 }
 
 sf::Sprite TextureSheet::getSprite(unsigned int i) const {
-    int row = i / textureRow;
-    int col = i - row * textureRow;
+    int row = i / texturePerRow;
+    int col = i - row * texturePerRow;
     auto subRect = sf::IntRect(col * spriteSize.x, row * spriteSize.y,
                                spriteSize.x, spriteSize.y);
 
@@ -68,9 +68,9 @@ unsigned int TextureSheet::getCount() const { return spriteCount; }
 sf::Texture const &TextureSheet::getTexture() const { return texture; }
 
 TextureSheet::TextureSheet(const sf::Texture &texture, unsigned int spriteCount,
-                           sf::Vector2u spriteSize, unsigned int textureRow)
+                           sf::Vector2u spriteSize, unsigned int texturePerRow)
     : texture(texture), spriteCount(spriteCount), spriteSize(spriteSize),
-      textureRow(textureRow) {}
+      texturePerRow(texturePerRow) {}
 
 unsigned int SpriteSheet::getCount() const { return endIdx - startIdx + 1; }
 

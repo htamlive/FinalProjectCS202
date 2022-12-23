@@ -1,12 +1,6 @@
 #include "RoadLaneController.h"
 #include "Random.h"
 
-// 0 is left, 1 is right
-static std::vector<Texture::ID> vehicleTextures[2] = {{Texture::ID::LeftVehicle},
-                                                      {Texture::ID::RightVehicle}};
-static std::vector<Texture::ID> animalTextures[2] = {{Texture::ID::LeftAnimal},
-                                                     {Texture::ID::RightAnimal}};
-
 RoadLaneController::RoadLaneController() = default;
 
 RoadLaneController::RoadLaneController(unsigned int laneCount, float y,
