@@ -14,7 +14,7 @@ public:
         Colliding,
         Invincible,
         Stunned,
-        Dead,
+        Dead
     };
     PlayerState(Player *);
     virtual ~PlayerState();

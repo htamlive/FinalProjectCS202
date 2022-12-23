@@ -67,7 +67,6 @@ void CollidingState::update(sf::Time dt) {
     } else {
         player->setPosition(collisionPos);
         player->setVelocity({0, 0});
-        player->collidingObstacle = nullptr;
         player->setState(new IdleState(player));
     }
 }
@@ -111,7 +110,6 @@ void ObstacleCollidingState::update(sf::Time dt) {
     } else {
         player->setPosition(collisionPos);
         player->setVelocity({0, 0});
-        player->collidingObstacle = nullptr;
         player->setState(new StunnedState(player));
     }
 }

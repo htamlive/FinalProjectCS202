@@ -14,6 +14,7 @@ void SceneNode::attachChild(Ptr child) {
         child->setDebug(true, true);
     }
     child->mParent = this;
+    child->idx = (int)mChildren.size();
     mChildren.push_back(std::move(child));
 }
 
@@ -132,4 +133,14 @@ void SceneNode::setDebug(bool on, bool recursive) {
 
 Category::Type SceneNode::getCategory() const {
     return Category::Type::None;
+}
+
+bool SceneNode::operator<(const SceneNode &other) const {
+    if (getCategory() != other.getCategory()) {
+        return getCategory() < other.getCategory();
+    }
+    if (mParent != other.mParent) {
+        return *mParent < *other.mParent;
+    }
+    return idx < other.idx;
 }

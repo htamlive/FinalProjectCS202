@@ -14,18 +14,23 @@
 #include <iostream>
 #include <memory>
 
+static bool operator <(std::reference_wrapper<SceneNode const> lhs, std::reference_wrapper<SceneNode const> rhs) {
+    return lhs.get() < rhs.get();
+}
+
 void Player::updateCurrent(sf::Time dt) {
+    processCollisions();
+
     applyEffects(dt);
     state->update(dt);
+
     if (health <= 0 && state->getStateID() != PlayerState::StateID::Dying && state->getStateID() != PlayerState::StateID::Dead) {
-        if(!this->deadFlag)
-        health = 0;
+        if (!this->deadFlag)
+            health = 0;
         setState(new DyingState(this));
     }
 
-    setVelocity(getVelocity() + woodVelocity);
     Entity::updateCurrent(dt);
-    woodVelocity = {0, 0};
 }
 
 Player::Player()
@@ -92,12 +97,34 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
     }
 }
 
-void Player::onCollision(SceneNode *other) {
-    if (other == collidingObstacle && other != nullptr) {
-        return;
-    }
-    collidingObstacle = other;
+void Player::onCollision(const SceneNode *other) {
+    if (other == nullptr) return;
+    colliding.insert(*other);
+}
 
+void Player::processCollisions() {
+    erase_if(lastCollided, [&](auto &other) {
+        if (!colliding.contains(other)) {
+            onEndCollision(other);
+            return true;
+        }
+        return false;
+    });
+
+    for(auto &other : colliding) {
+        if (lastCollided.contains(other)) {
+            onRepeatCollision(other);
+        }
+        else {
+            onNewCollision(other);
+            lastCollided.insert(other);
+        }
+    }
+
+    colliding.clear();
+}
+
+void Player::onNewCollision(const SceneNode &other) {
     auto getDirection = [](sf::Vector2f v) {
         if (v.y == 0) {
             v.y = 0;
@@ -112,31 +139,40 @@ void Player::onCollision(SceneNode *other) {
         return v;
     };
 
-    if (other->getCategory() == Category::Obstacle) {
+    if (other.getCategory() == Category::Obstacle) {
         sf::Vector2f direction = -getDirection(getVelocity());
         auto         newPos    = getPosition() + direction * (GRID_SIZE.x / 2);
         setState(new ObstacleCollidingState(this, newPos));
     }
-
-    if (other->getCategory() == Category::Enemy && !isInvincible()) {
-        auto enemy = dynamic_cast<Entity *>(other);
-        if (enemy) {
-            // A standing vehicle will not deal damage to the player, hence its
-            // category is not Enemy
-            if (enemy->getCategory() == Category::Enemy) {
-                takeDamage();
-            }
-            sf::Vector2f direction =
-                (enemy->getAbsPosition() - getAbsPosition());
-            if (abs(direction.x) > abs(direction.y)) {
-                direction.y = 0;
-            } else {
-                direction.x = 0;
-            }
-            direction           = -getDirection(direction);
-            sf::Vector2f newPos = getPosition() + direction * (GRID_SIZE.x / 2);
-            setState(new CollidingState(this, newPos));
+    else if (other.getCategory() == Category::Enemy && !isInvincible()) {
+        auto &enemy = dynamic_cast<Entity const &>(other);
+        // A standing vehicle will not deal damage to the player, hence its
+        // category is not Enemy
+        if (enemy.getCategory() == Category::Enemy) {
+            takeDamage();
         }
+        sf::Vector2f direction = enemy.getAbsPosition() - getAbsPosition();
+        if (abs(direction.x) > abs(direction.y)) {
+            direction.y = 0;
+        } else {
+            direction.x = 0;
+        }
+        direction           = -getDirection(direction);
+        sf::Vector2f newPos = getPosition() + direction * (GRID_SIZE.x / 2);
+        setState(new CollidingState(this, newPos));
+    }
+    else if (other.getCategory() == Category::Wood) {
+        auto &wood = dynamic_cast<Entity const &>(other);
+        idleVelocity += wood.getVelocity();
+    }
+}
+
+void Player::onRepeatCollision(const SceneNode &other) {}
+
+void Player::onEndCollision(const SceneNode &other) {
+    if (other.getCategory() == Category::Wood) {
+        auto &wood = dynamic_cast<Entity const &>(other);
+        idleVelocity -= wood.getVelocity();
     }
 }
 
@@ -188,10 +224,6 @@ void Player::takeDamage() {
 
 bool Player::isDead() {
     return deadFlag;
-}
-
-void Player::onCollideWithWood(sf::Vector2f velocity) {
-    woodVelocity = velocity;
 }
 
 void Player::applyEffects(sf::Time dt) {

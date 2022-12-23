@@ -52,11 +52,10 @@ public:
     Player(sf::Vector2f position, sf::Vector2f size);
 
     void           onKeyPressed(sf::Event::KeyEvent);
-    void           onCollision(SceneNode *other);
+    void           onCollision(const SceneNode *other);
     Category::Type getCategory() const override;
     void           setState(PlayerState *newState);
     void           takeDamage();
-    void           onCollideWithWood(sf::Vector2f velocity);
     bool           isDead();
     void           addEffect(std::unique_ptr<Effect> effect);
     bool           isInvincible() const;
@@ -67,6 +66,11 @@ protected:
                      sf::RenderStates  states) const override;
 
 private:
+    void processCollisions();
+    void onNewCollision(SceneNode const &other);
+    void onRepeatCollision(SceneNode const &other);
+    void onEndCollision(SceneNode const &other);
+
     bool isJumping() const;
 
     void updateJump(sf::Time dt);
@@ -89,8 +93,8 @@ private:
     int invincibleBoostCount = 0;
     std::vector <std::tuple<std::unique_ptr<Effect>, sf::Time, unsigned int>> effects;
 
+    sf::Vector2f idleVelocity = {0, 0};
     float health = MAX_HEALTH;
     bool deadFlag = false;
-    SceneNode *collidingObstacle = nullptr;
-    sf::Vector2f woodVelocity = {0, 0};
+    std::set<std::reference_wrapper<SceneNode const>> colliding, lastCollided;
 };
