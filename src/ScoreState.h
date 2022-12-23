@@ -6,7 +6,7 @@
 #include <chrono>
 #include "State.h"
 #include "AudioController.h"
-
+const long double PI = acos(-1);
 class ScoreState : public State {
 private:
 	sf::RectangleShape background;
@@ -21,6 +21,7 @@ private:
 	void zoomSmall(string Button) {
 		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
 	}
+	float w = 2.f, angle = 0.f, A = 360.f, totatTime = 0.f;
 public:
 	bool isWordMode = true;
 	ScoreState(sf::RenderWindow* window, std::vector<State*>* states);
@@ -69,18 +70,23 @@ public:
 	};
 
 	void update(const float& dt) override {
-		cout << dt << endl;
-		static int countt = 6, beginn = 0, angle = 0;
-		beginn += dt;
-		if (angle < 360 && beginn < countt)
+		totatTime += dt;
+		
+		
+		//cout << beginn<< " " << angle << "\n";
+		
+		if (totatTime > PI/2/w)
 		{
-			angle += 2;
-			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle);
+			totatTime = -1;
+			angle = -1;
+			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
+			//this->gui->get<tgui::Picture>("Picture1")->moveWithAnimation({ pos.x, pos.y - 1.f }, sf::seconds(.75f));
 		}
-		else if (beginn >= countt)
-		{
-			angle = 0;
-			beginn = 0;
+		else if (totatTime >= 0) {
+			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
+			this->gui->get<tgui::Picture>("Picture1")->setPosition({ pos.x, 135 - A/4 * sin(2 * w * totatTime) });
+			angle = A * sin(w * totatTime);
+			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle,{0.5f, 0.5f});
 		}
 	};
 
