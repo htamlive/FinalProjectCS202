@@ -1,19 +1,19 @@
 #include "RiverController.h"
 
 Texture::ID RiverController::monoLane() const {
-    return Texture::ID::Water;
+    return Texture::ID::MonoRiverLane;
 }
 
 Texture::ID RiverController::topLane() const {
-    return Texture::ID::Water;
+    return Texture::ID::TopRiverLane;
 }
 
 Texture::ID RiverController::botLane() const {
-    return Texture::ID::Water;
+    return Texture::ID::BotRiverLane;
 }
 
 Texture::ID RiverController::midLane() const {
-    return Texture::ID::Water;
+    return Texture::ID::MidRiverLane;
 }
 
 std::unique_ptr<RoadLane>
