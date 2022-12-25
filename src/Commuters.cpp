@@ -58,9 +58,10 @@ Water::Water() : Entity(), PlayerCollidable(), startTexture(), midTexture(), end
 Water::Water(Texture::ID startTexture, Texture::ID midTexture, Texture::ID endTexture, sf::Vector2f position,
              sf::Vector2f sizePerSquare, unsigned int squareCount, sf::Vector2f velocity) : Entity({},
                                                                                                    position,
-                                                                                                   {sizePerSquare.x * (float)squareCount,
-                                                                                                  sizePerSquare.y},
-                                                                                                  velocity),
+                                                                                                   {sizePerSquare.x *
+                                                                                                    (float) squareCount,
+                                                                                                    sizePerSquare.y},
+                                                                                                   velocity),
                                                                                             PlayerCollidable(),
                                                                                             startTexture(startTexture),
                                                                                             midTexture(midTexture),
@@ -68,15 +69,15 @@ Water::Water(Texture::ID startTexture, Texture::ID midTexture, Texture::ID endTe
                                                                                             squareCount(squareCount) {}
 
 void Water::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const {
-    sf::Vector2f squareSize = {getSpriteBounds().width / (float)squareCount, getSpriteBounds().height};
+    sf::Vector2f squareSize = {getSpriteBounds().width / (float) squareCount, getSpriteBounds().height};
 
-    for(auto i = 0; i < squareCount; i++) {
+    for (auto i = 0; i < squareCount; i++) {
         Texture::ID id = i == 0 ? startTexture : i == squareCount - 1 ? endTexture : midTexture;
         auto sprite = TextureHolder::instance().getSheet(id).getSprite(0);
         auto preScale = sprite.getScale();
         sprite.setScale(squareSize.x / sprite.getLocalBounds().width * preScale.x,
                         squareSize.y / sprite.getLocalBounds().height * preScale.y);
-        sf::Vector2f pos = {getSpriteBounds().left + squareSize.x * (float)i, getSpriteBounds().top};
+        sf::Vector2f pos = {getSpriteBounds().left + squareSize.x * (float) i, getSpriteBounds().top};
         sprite.setPosition(pos);
 
         target.draw(sprite, state);

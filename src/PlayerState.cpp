@@ -5,50 +5,51 @@
 #include "AudioController.h"
 
 PlayerState::PlayerState(Player *player) : player(player) {}
+
 PlayerState::~PlayerState() = default;
 
 JumpingState::JumpingState(Player *player, sf::Vector2f jumpPos)
-    : PlayerState(player), jumpPos(jumpPos) {
+        : PlayerState(player), jumpPos(jumpPos) {
     player->animation =
-        AnimationMachine(player->jumpTexture, JUMP_DURATION, false);
+            AnimationMachine(player->jumpTexture, JUMP_DURATION, false);
     AudioController::instance().playSound(SoundEffect::Jump);
 }
 
 void JumpingState::update(sf::Time dt) {
-    auto p      = player;
+    auto p = player;
     auto length = jumpPos - p->getPosition();
     if (isJumping()) {
-        auto         curJumpDuration = jumpDuration * player->jumpDurationScale;
-        auto         timeLeft = curJumpDuration - jumpTime;
-        sf::Vector2f vel      = {length.x / timeLeft.asSeconds(),
-                                 length.y / timeLeft.asSeconds()};
+        auto curJumpDuration = jumpDuration * player->jumpDurationScale;
+        auto timeLeft = curJumpDuration - jumpTime;
+        sf::Vector2f vel = {length.x / timeLeft.asSeconds(),
+                            length.y / timeLeft.asSeconds()};
 
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =
-            -2 * ((jumpTime.asSeconds() / curJumpDuration.asSeconds()) - 1);
+                -2 * ((jumpTime.asSeconds() / curJumpDuration.asSeconds()) - 1);
         p->setVelocity(vel * scale);
         jumpTime += dt;
-    }
-    else {
+    } else {
         p->setPosition(jumpPos);
         p->setVelocity({0, 0});
         p->setState(new IdleState(p));
     }
 }
 
-CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos, sf::Time collisionDuration) : PlayerState(player), collisionPos(collisionPos), collisionDuration(collisionDuration) {
+CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos, sf::Time collisionDuration) : PlayerState(
+        player), collisionPos(collisionPos), collisionDuration(collisionDuration) {
     player->animation =
             AnimationMachine(player->jumpTexture, collisionDuration, false);
 }
 
 void CollidingState::update(sf::Time dt) {
     auto playerPos = player->getPosition();
-    auto dist      = collisionPos - playerPos;
+    auto dist = collisionPos - playerPos;
     if (collisionTime < collisionDuration) {
-        auto         timeLeft = collisionDuration - collisionTime;
-        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds(),
-                                 dist.y / timeLeft.asSeconds()};
+        auto timeLeft = collisionDuration - collisionTime;
+        sf::Vector2f vel = {dist.x / timeLeft.asSeconds(),
+                            dist.y / timeLeft.asSeconds()};
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =
@@ -62,7 +63,8 @@ void CollidingState::update(sf::Time dt) {
         player->setState(new IdleState(player));
     }
 }
-ObstacleCollidingState::ObstacleCollidingState(Player      *player,
+
+ObstacleCollidingState::ObstacleCollidingState(Player *player,
                                                sf::Vector2f collisionPos)
         : CollidingState(player, collisionPos, sf::seconds(0.3)) {}
 
@@ -84,7 +86,7 @@ void IdleState::update(sf::Time dt) {
 
 StunnedState::StunnedState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
     AudioController::instance().playSound(SoundEffect::Stun);
 }
 
@@ -99,7 +101,7 @@ void StunnedState::update(sf::Time dt) {
 InvincibleState::InvincibleState(Player *player) : PlayerState(player) {
     std::cout << "Invincible" << std::endl;
     player->animation =
-        AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
     savedBounds = player->localBounds;
 }
 
@@ -114,7 +116,7 @@ void InvincibleState::update(sf::Time dt) {
 
 DyingState::DyingState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->ripTexture, sf::seconds(0.f), false);
+            AnimationMachine(player->ripTexture, sf::seconds(0.f), false);
     player->setVelocity({0, 0});
     player->localBounds = sf::FloatRect(0, 0, 0, 0);
     AudioController::instance().playSound(SoundEffect::GameOver);
@@ -129,12 +131,12 @@ void DyingState::update(sf::Time dt) {
 
 DeadState::DeadState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->ripTexture, DEF_ANIMATION_DURATION, false);
+            AnimationMachine(player->ripTexture, DEF_ANIMATION_DURATION, false);
     player->setVelocity({0, 0});
     player->localBounds = sf::FloatRect(0, 0, 0, 0);
 
-    player->deadFlag    = true;
-    
+    player->deadFlag = true;
+
 }
 
 void DeadState::update(sf::Time dt) {}

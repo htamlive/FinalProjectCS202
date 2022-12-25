@@ -28,6 +28,7 @@ private:
     void onStartPlayerCollision() override;
 
     void updateCurrent(sf::Time dt) override;
+
 public:
     using Entity::Entity;
 

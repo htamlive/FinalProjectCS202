@@ -18,7 +18,8 @@ Texture::ID RiverController::midLane() const {
 
 std::unique_ptr<RoadLane>
 RiverController::newLane(Texture::ID laneTexture, RoadLane::Direction direction, float speed, float y) const {
-    auto lane = std::make_unique<WoodLane>(Texture::WaterBeforeWood, Texture::Water, Texture::WaterAfterWood, Texture::Wood, y, speed, frequencyFunction(speed));
+    auto lane = std::make_unique<WoodLane>(Texture::WaterBeforeWood, Texture::Water, Texture::WaterAfterWood,
+                                           Texture::Wood, y, speed, frequencyFunction(speed));
     lane->setCommuterSize(commuterSize);
     lane->setDirection(direction);
     lane->setLaneHeight(laneHeight);

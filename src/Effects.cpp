@@ -147,7 +147,8 @@ std::unique_ptr<Effect> SizeEffect::onEndCurrent() const {
     }
 }
 
-DistanceEffect::DistanceEffect(sf::Vector2i distanceScale, bool reverse) : distanceScale_(distanceScale), reverse_(reverse) {}
+DistanceEffect::DistanceEffect(sf::Vector2i distanceScale, bool reverse) : distanceScale_(distanceScale),
+                                                                           reverse_(reverse) {}
 
 sf::Vector2i DistanceEffect::distanceScaleCurrent() const {
     return distanceScale_;
@@ -176,7 +177,8 @@ std::unique_ptr<Effect> InvincibleEffect::onEndCurrent() const {
 
 InvincibleEffect::InvincibleEffect(int invincible, bool reverse) : invincible_(invincible), reverse_(reverse) {}
 
-DurationEffect::DurationEffect(sf::Time duration, int times, bool reverse) : durationEach_(duration), times_(times), reverse_(reverse) {}
+DurationEffect::DurationEffect(sf::Time duration, int times, bool reverse) : durationEach_(duration), times_(times),
+                                                                             reverse_(reverse) {}
 
 sf::Time DurationEffect::durationEachCurrent() const {
     return durationEach_;
@@ -206,9 +208,11 @@ std::unique_ptr<Effect> JumpDurationEffect::onEndCurrent() const {
     }
 }
 
-JumpDurationEffect::JumpDurationEffect(float jumpDurationScale, bool reverse) : jumpDurationScale_(jumpDurationScale), reverse_(reverse) {}
+JumpDurationEffect::JumpDurationEffect(float jumpDurationScale, bool reverse) : jumpDurationScale_(jumpDurationScale),
+                                                                                reverse_(reverse) {}
 
-RunMiscEffect::RunMiscEffect(std::function<void()> before, std::function<void()> after) : before_(std::move(before)), after_(std::move(after)) {}
+RunMiscEffect::RunMiscEffect(std::function<void()> before, std::function<void()> after) : before_(std::move(before)),
+                                                                                          after_(std::move(after)) {}
 
 RunMiscEffect::RunMiscEffect(std::function<void()> function) : after_(std::move(function)), before_() {}
 
@@ -245,7 +249,8 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
             }));
             break;
         case EffectType::SmallSizeBoost: {
-            effect = std::make_unique<SizeEffect>(sf::Vector2f(SIZE_SMALLER_BOOST_SCALE, SIZE_SMALLER_BOOST_SCALE), true);
+            effect = std::make_unique<SizeEffect>(sf::Vector2f(SIZE_SMALLER_BOOST_SCALE, SIZE_SMALLER_BOOST_SCALE),
+                                                  true);
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
             break;

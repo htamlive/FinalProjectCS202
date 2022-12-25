@@ -40,11 +40,6 @@ void Entity::drawCurrent(sf::RenderTarget &target,
     target.draw(sprite, state);
 }
 
-// TODO: this function is ugly
-bool Entity::isOutOfScreen() const {
-    return getAbsPosition().x + getLocalBounds().width < 0 || getAbsPosition().x > WINDOW_VIDEO_MODE.width;
-}
-
 void Entity::adjustSpriteBounds(float offX, float offY) {
     spriteBounds.left += offX;
     spriteBounds.top += offY;

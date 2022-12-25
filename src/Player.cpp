@@ -14,7 +14,7 @@
 #include <iostream>
 #include <memory>
 
-static bool operator <(std::reference_wrapper<SceneNode const> lhs, std::reference_wrapper<SceneNode const> rhs) {
+static bool operator<(std::reference_wrapper<SceneNode const> lhs, std::reference_wrapper<SceneNode const> rhs) {
     return lhs.get() < rhs.get();
 }
 
@@ -22,7 +22,8 @@ void Player::updateCurrent(sf::Time dt) {
     applyEffects(dt);
     state->update(dt);
 
-    if (health <= 0 && state->getStateID() != PlayerState::StateID::Dying && state->getStateID() != PlayerState::StateID::Dead) {
+    if (health <= 0 && state->getStateID() != PlayerState::StateID::Dying &&
+        state->getStateID() != PlayerState::StateID::Dead) {
         if (!this->deadFlag)
             health = 0;
         setState(new DyingState(this));
@@ -32,18 +33,18 @@ void Player::updateCurrent(sf::Time dt) {
 }
 
 Player::Player()
-    : jumpTexture(Texture::ID::PlayerJumpUp),
-      idleTexture(Texture::ID::PlayerIdleUp), ripTexture(Texture::RIP),
-      state(new IdleState(this)) {
+        : jumpTexture(Texture::ID::PlayerJumpUp),
+          idleTexture(Texture::ID::PlayerIdleUp), ripTexture(Texture::RIP),
+          state(new IdleState(this)) {
     setState(new IdleState(this));
     animation = AnimationMachine(idleTexture, sf::seconds(5), true);
 }
 
 Player::Player(sf::Vector2f position, sf::Vector2f size)
-    : Entity(Texture::ID::PlayerIdleUp, position, size, DEF_PLAYER_VELOCITY),
-      jumpTexture(Texture::ID::PlayerJumpUp),
-      idleTexture(Texture::ID::PlayerIdleUp),
-      ripTexture(Texture::ID::RIP), state(new IdleState(this)) {
+        : Entity(Texture::ID::PlayerIdleUp, position, size, DEF_PLAYER_VELOCITY),
+          jumpTexture(Texture::ID::PlayerJumpUp),
+          idleTexture(Texture::ID::PlayerIdleUp),
+          ripTexture(Texture::ID::RIP), state(new IdleState(this)) {
     setState(new IdleState(this));
     setVelocity({0, 0});
     localBounds = sf::FloatRect(size.x / 64 * 20, size.y / 64 * 20, size.x / 64 * 24, size.y / 64 * 24);
@@ -53,44 +54,45 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
     if (state->getStateID() == PlayerState::Idle) {
         sf::Vector2f distanceVec = {0, 0};
         switch (event.code) {
-        case sf::Keyboard::W:
-        case sf::Keyboard::Up:
-            distanceVec = {0, -GRID_SIZE.y};
-            jumpTexture = Texture::ID::PlayerJumpUp;
-            idleTexture = Texture::ID::PlayerIdleUp;
-            break;
-        case sf::Keyboard::S:
-        case sf::Keyboard::Down:
-            distanceVec = {0, GRID_SIZE.y};
-            jumpTexture = Texture::ID::PlayerJumpDown;
-            idleTexture = Texture::ID::PlayerIdleDown;
-            break;
-        case sf::Keyboard::A:
-        case sf::Keyboard::Left:
-            distanceVec = {-GRID_SIZE.x, 0};
-            jumpTexture = Texture::ID::PlayerJumpLeft;
-            idleTexture = Texture::ID::PlayerIdleLeft;
-            break;
-        case sf::Keyboard::D:
-        case sf::Keyboard::Right:
-            distanceVec = {GRID_SIZE.x, 0};
-            jumpTexture = Texture::ID::PlayerJumpRight;
-            idleTexture = Texture::ID::PlayerIdleRight;
-            break;
-        default:
-            break;
+            case sf::Keyboard::W:
+            case sf::Keyboard::Up:
+                distanceVec = {0, -GRID_SIZE.y};
+                jumpTexture = Texture::ID::PlayerJumpUp;
+                idleTexture = Texture::ID::PlayerIdleUp;
+                break;
+            case sf::Keyboard::S:
+            case sf::Keyboard::Down:
+                distanceVec = {0, GRID_SIZE.y};
+                jumpTexture = Texture::ID::PlayerJumpDown;
+                idleTexture = Texture::ID::PlayerIdleDown;
+                break;
+            case sf::Keyboard::A:
+            case sf::Keyboard::Left:
+                distanceVec = {-GRID_SIZE.x, 0};
+                jumpTexture = Texture::ID::PlayerJumpLeft;
+                idleTexture = Texture::ID::PlayerIdleLeft;
+                break;
+            case sf::Keyboard::D:
+            case sf::Keyboard::Right:
+                distanceVec = {GRID_SIZE.x, 0};
+                jumpTexture = Texture::ID::PlayerJumpRight;
+                idleTexture = Texture::ID::PlayerIdleRight;
+                break;
+            default:
+                break;
         }
 
         auto newPos = getPosition();
         if (distanceVec != sf::Vector2f(0, 0)) {
-            distanceVec += {platformVelocity.x * JUMP_DURATION.asSeconds(), platformVelocity.y * JUMP_DURATION.asSeconds()};
-            distanceVec = {distanceVec.x * (float)distanceScale.x, distanceVec.y * (float)distanceScale.y};
+            distanceVec += {platformVelocity.x * JUMP_DURATION.asSeconds(),
+                            platformVelocity.y * JUMP_DURATION.asSeconds()};
+            distanceVec = {distanceVec.x * (float) distanceScale.x, distanceVec.y * (float) distanceScale.y};
             newPos += distanceVec;
         }
         if (getPosition() != newPos) {
             newPos.x = newPos.x + getLocalBounds().width / 2;
             newPos.y = newPos.y + getLocalBounds().height / 2;
-            newPos   = getNearestGridPosition(newPos);
+            newPos = getNearestGridPosition(newPos);
             setState(new JumpingState(this, newPos));
         }
     }
@@ -106,21 +108,21 @@ void Player::setState(PlayerState *newState) {
 }
 
 sf::Vector2f Player::getNearestGridPosition(sf::Vector2f pos) const {
-    auto absPos  = getAbsTransform() * pos;
+    auto absPos = getAbsTransform() * pos;
     auto gridPos = getAbsTransform().getInverse() * absPos;
-    gridPos.x    = std::round(gridPos.x / GRID_SIZE.x) * GRID_SIZE.x;
-    gridPos.y    = std::round(gridPos.y / GRID_SIZE.y) * GRID_SIZE.y;
+    gridPos.x = std::round(gridPos.x / GRID_SIZE.x) * GRID_SIZE.x;
+    gridPos.y = std::round(gridPos.y / GRID_SIZE.y) * GRID_SIZE.y;
     return gridPos;
 }
 
 void Player::drawCurrent(sf::RenderTarget &target,
-                         sf::RenderStates  states) const {
+                         sf::RenderStates states) const {
     Entity::drawCurrent(target, states);
     drawHealthBar(target, states);
 }
 
 void Player::drawHealthBar(sf::RenderTarget &target,
-                           sf::RenderStates  states) const {
+                           sf::RenderStates states) const {
     auto size_y = GRID_SIZE.x / 6;
     auto pos = sf::Vector2f(0, -GRID_SIZE.y / 2 - size_y / 2);
 
@@ -144,7 +146,7 @@ void Player::addHealth(float delta) {
     } else {
         health += delta;
     }
-    health = std::max((float)-1, std::min(MAX_HEALTH, health));
+    health = std::max((float) -1, std::min(MAX_HEALTH, health));
 }
 
 bool Player::isDead() {
@@ -160,17 +162,20 @@ void Player::applyEffects(sf::Time dt) {
 
 
     auto apply = [&](Effect const &effect, unsigned int times) {
-        deltaHealth += effect.healthDelta() * (float)times;
-        sizeScale = {sizeScale.x * std::powf(effect.sizeScale().x, (float)times), sizeScale.y * std::powf(effect.sizeScale().y, (float)times)};
-        distScale = {distScale.x * (int)std::pow(effect.distanceScale().x, times), distScale.y * (int)std::pow(effect.distanceScale().y, times)};
-        jumpScale *= std::powf(effect.jumpDurationScale(), (float)times);
+        deltaHealth += effect.healthDelta() * (float) times;
+        sizeScale = {sizeScale.x * std::powf(effect.sizeScale().x, (float) times),
+                     sizeScale.y * std::powf(effect.sizeScale().y, (float) times)};
+        distScale = {distScale.x * (int) std::pow(effect.distanceScale().x, times),
+                     distScale.y * (int) std::pow(effect.distanceScale().y, times)};
+        jumpScale *= std::powf(effect.jumpDurationScale(), (float) times);
         invincibleDelta += effect.invincible();
         effect.runMisc();
     };
 
-    for(auto &[effect, lasted, times] : effects) {
+    for (auto &[effect, lasted, times]: effects) {
         lasted += dt;
-        if (effect->times() == 0 || (effect->times() >= 0 && times == effect->times() && lasted >= effect->durationEach())) {
+        if (effect->times() == 0 ||
+            (effect->times() >= 0 && times == effect->times() && lasted >= effect->durationEach())) {
             auto end = effect->onEnd();
             if (end) {
                 newEffects.push_back(std::move(end));
@@ -180,31 +185,30 @@ void Player::applyEffects(sf::Time dt) {
                 newEffects.push_back(std::move(next));
             }
             times = -1;
-        }
-        else {
+        } else {
             int timesApply = 0;
             if (lasted >= effect->durationEach()) {
-                timesApply = effect->durationEach() > sf::Time::Zero ? (int)(lasted / effect->durationEach()) : 1;
+                timesApply = effect->durationEach() > sf::Time::Zero ? (int) (lasted / effect->durationEach()) : 1;
             } else if (times == 0) {
                 timesApply = 1;
             }
             if (effect->times() > 0) {
-                timesApply = std::min(timesApply, effect->times() - (int)times);
+                timesApply = std::min(timesApply, effect->times() - (int) times);
             }
             if (timesApply > 0) {
                 apply(*effect, timesApply);
                 times += timesApply;
-                lasted = std::max(sf::Time::Zero, lasted - effect->durationEach() * (float)timesApply);
+                lasted = std::max(sf::Time::Zero, lasted - effect->durationEach() * (float) timesApply);
             }
         }
     }
 
     effects.erase(std::remove_if(effects.begin(), effects.end(),
-                                [](auto &b) {
-        auto &[effect, lasted, times] = b;
-        return times == (unsigned int)-1;
-    }),
-                 effects.end());
+                                 [](auto &b) {
+                                     auto &[effect, lasted, times] = b;
+                                     return times == (unsigned int) -1;
+                                 }),
+                  effects.end());
 
     invincibleBoostCount += invincibleDelta;
     addHealth(deltaHealth);
@@ -226,7 +230,7 @@ void Player::applyEffects(sf::Time dt) {
         bounds.left = center.x - bounds.width / 2;
         bounds.top = center.y - bounds.height / 2;
     }
-    for (auto &effect : newEffects) {
+    for (auto &effect: newEffects) {
         addEffect(std::move(effect));
     }
 }

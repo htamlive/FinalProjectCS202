@@ -6,17 +6,19 @@ RoadLaneController::RoadLaneController() = default;
 RoadLaneController::RoadLaneController(unsigned int laneCount, float y,
                                        Random<std::normal_distribution<double>> speedDistribution,
                                        const std::function<Random<std::normal_distribution<double>>(
-                             double)> &frequencyFunction) : laneCount(laneCount),
-                                                            speedDistribution(speedDistribution),
-                                                            frequencyFunction(frequencyFunction) {
+                                               double)> &frequencyFunction) : laneCount(laneCount),
+                                                                              speedDistribution(speedDistribution),
+                                                                              frequencyFunction(frequencyFunction) {
     setPosition(0, y);
 }
 
 RoadLaneController::RoadLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
                                        Random<std::normal_distribution<double>> speedDistribution,
                                        const std::function<Random<std::normal_distribution<double>>(double speed)> &
-                     frequencyFunction) : laneCount(laneCount), laneHeight(laneHeight), commuterSize(commuterSize),
-                                          speedDistribution(speedDistribution), frequencyFunction(frequencyFunction) {
+                                       frequencyFunction) : laneCount(laneCount), laneHeight(laneHeight),
+                                                            commuterSize(commuterSize),
+                                                            speedDistribution(speedDistribution),
+                                                            frequencyFunction(frequencyFunction) {
     setPosition(0, y);
 }
 
@@ -60,6 +62,7 @@ void RoadLaneController::setSpeedDistribution(Random<std::normal_distribution<do
     speedDistribution = distribution;
 }
 
-void RoadLaneController::setFrequencyFunction(const std::function<Random<std::normal_distribution<double>>(double)> &function) {
+void RoadLaneController::setFrequencyFunction(
+        const std::function<Random<std::normal_distribution<double>>(double)> &function) {
     frequencyFunction = function;
 }

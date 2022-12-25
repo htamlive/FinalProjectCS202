@@ -108,12 +108,14 @@ class WoodLane : public virtual RoadLane, public virtual PlayerCollidable {
 public:
     WoodLane();
 
-    WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture, Texture::ID woodTexture, float y, float speed,
-            Random<std::normal_distribution<double>> frequency);
+    WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture,
+             Texture::ID woodTexture, float y, float speed,
+             Random<std::normal_distribution<double>> frequency);
 
-    WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture, Texture::ID woodTexture, float y, float laneHeight,
-            float minWaterWidth, float maxWaterWidth, Direction direction, float speed,
-            Random<std::normal_distribution<double>> frequency);
+    WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture,
+             Texture::ID woodTexture, float y, float laneHeight,
+             float minWaterWidth, float maxWaterWidth, Direction direction, float speed,
+             Random<std::normal_distribution<double>> frequency);
 
     Type getType() const override;
 
