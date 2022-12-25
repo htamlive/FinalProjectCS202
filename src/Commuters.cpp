@@ -99,7 +99,7 @@ void Enemy::onStartPlayerCollision() {
     };
 
     if (!player->isInvincible()) {
-        player->takeDamage();
+        player->addEffect(EffectFactory::create(EffectType::HitEnemy));
         sf::Vector2f direction = getAbsPosition() - player->getAbsPosition();
         if (abs(direction.x) > abs(direction.y)) {
             direction.y = 0;

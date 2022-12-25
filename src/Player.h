@@ -40,9 +40,9 @@ class Player : public Entity {
     friend class IdleState;
     friend class StunnedState;
     friend class SpeedBoostingState;
+    friend class CollidingState;
     friend class ObstacleCollidingState;
     friend class InvincibleState;
-    friend class CollidingState;
     friend class DyingState;
     friend class DeadState;
     friend class PlayerEffect;
@@ -54,7 +54,7 @@ public:
     void           onKeyPressed(sf::Event::KeyEvent);
     Category::Type getCategory() const override;
     void           setState(PlayerState *newState);
-    void           takeDamage();
+    void           addHealth(float delta);
     bool           isDead();
     void           addEffect(std::unique_ptr<Effect> effect);
     bool           isInvincible() const;

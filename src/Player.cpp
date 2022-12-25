@@ -99,8 +99,10 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
 Category::Type Player::getCategory() const { return Category::Player; }
 
 void Player::setState(PlayerState *newState) {
-    delete state;
-    state = newState;
+    if (newState != nullptr) {
+        delete state;
+        state = newState;
+    }
 }
 
 sf::Vector2f Player::getNearestGridPosition(sf::Vector2f pos) const {
@@ -135,11 +137,14 @@ void Player::drawHealthBar(sf::RenderTarget &target,
     target.draw(healthBar2, states);
 }
 
-void Player::takeDamage() {
-    if (isInvincible()) {
-        return;
+void Player::addHealth(float delta) {
+    if (delta < 0) {
+        if (!isInvincible())
+            health += delta;
+    } else {
+        health += delta;
     }
-    addEffect(EffectFactory::create(EffectType::HitEnemy));
+    health = std::max((float)-1, std::min(MAX_HEALTH, health));
 }
 
 bool Player::isDead() {
@@ -147,43 +152,32 @@ bool Player::isDead() {
 }
 
 void Player::applyEffects(sf::Time dt) {
+    float deltaHealth = 0, jumpScale = 1;
+    sf::Vector2f sizeScale = {1, 1};
+    sf::Vector2i distScale = {1, 1};
+    int invincibleDelta = 0;
+    std::vector<std::unique_ptr<Effect>> newEffects;
+
+
     auto apply = [&](Effect const &effect, unsigned int times) {
-        health = std::max((float)-1, std::min(MAX_HEALTH, health + effect.healthDelta() * (float)times));
-
-        sf::Vector2f sizeScale = {std::powf(effect.sizeScale().x, (float)times), std::powf(effect.sizeScale().y, (float)times)};
-        {
-            auto &bounds = localBounds;
-            sf::Vector2f center = {bounds.left + bounds.width / 2, bounds.top + bounds.height / 2};
-            bounds.width *= sizeScale.x;
-            bounds.height *= sizeScale.y;
-            bounds.left = center.x - bounds.width / 2;
-            bounds.top = center.y - bounds.height / 2;
-        }
-        {
-            auto &bounds = spriteBounds;
-            sf::Vector2f center = {bounds.left + bounds.width / 2, bounds.top + bounds.height / 2};
-            bounds.width *= sizeScale.x;
-            bounds.height *= sizeScale.y;
-            bounds.left = center.x - bounds.width / 2;
-            bounds.top = center.y - bounds.height / 2;
-        }
-
-        sf::Vector2i moreDist = {(int)std::pow(effect.distanceScale().x, times), (int)std::pow(effect.distanceScale().y, times)};
-        distanceScale = {distanceScale.x * moreDist.x, distanceScale.y * moreDist.y};
-
-        jumpDurationScale *= std::powf(effect.jumpDurationScale(), (float)times);
-
-        invincibleBoostCount += effect.invincible();
-
+        deltaHealth += effect.healthDelta() * (float)times;
+        sizeScale = {sizeScale.x * std::powf(effect.sizeScale().x, (float)times), sizeScale.y * std::powf(effect.sizeScale().y, (float)times)};
+        distScale = {distScale.x * (int)std::pow(effect.distanceScale().x, times), distScale.y * (int)std::pow(effect.distanceScale().y, times)};
+        jumpScale *= std::powf(effect.jumpDurationScale(), (float)times);
+        invincibleDelta += effect.invincible();
         effect.runMisc();
     };
 
     for(auto &[effect, lasted, times] : effects) {
         lasted += dt;
-        if (effect->times() > 0 && times == effect->times() && lasted >= effect->durationEach()) {
+        if (effect->times() == 0 || (effect->times() >= 0 && times == effect->times() && lasted >= effect->durationEach())) {
             auto end = effect->onEnd();
             if (end) {
-                apply(*end, 1);
+                newEffects.push_back(std::move(end));
+            }
+            auto next = effect->nextEffect();
+            if (next) {
+                newEffects.push_back(std::move(next));
             }
             times = -1;
         }
@@ -211,6 +205,30 @@ void Player::applyEffects(sf::Time dt) {
         return times == (unsigned int)-1;
     }),
                  effects.end());
+
+    invincibleBoostCount += invincibleDelta;
+    addHealth(deltaHealth);
+    distanceScale = {distanceScale.x * distScale.x, distanceScale.y * distScale.y};
+    jumpDurationScale *= jumpScale;
+    {
+        auto &bounds = localBounds;
+        sf::Vector2f center = {bounds.left + bounds.width / 2, bounds.top + bounds.height / 2};
+        bounds.width *= sizeScale.x;
+        bounds.height *= sizeScale.y;
+        bounds.left = center.x - bounds.width / 2;
+        bounds.top = center.y - bounds.height / 2;
+    }
+    {
+        auto &bounds = spriteBounds;
+        sf::Vector2f center = {bounds.left + bounds.width / 2, bounds.top + bounds.height / 2};
+        bounds.width *= sizeScale.x;
+        bounds.height *= sizeScale.y;
+        bounds.left = center.x - bounds.width / 2;
+        bounds.top = center.y - bounds.height / 2;
+    }
+    for (auto &effect : newEffects) {
+        addEffect(std::move(effect));
+    }
 }
 
 void Player::addEffect(std::unique_ptr<Effect> effect) {

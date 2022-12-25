@@ -45,15 +45,21 @@ public:
 };
 
 class CollidingState : public PlayerState {
+protected:
     sf::Time      collisionTime = sf::Time::Zero;
     sf::Vector2f  collisionPos;
-    sf::Time      collisionDuration = sf::seconds(0.3);
-    sf::FloatRect savedBounds;
+    sf::Time      collisionDuration;
 
 public:
-    CollidingState(Player *player, sf::Vector2f collisionPos);
+    CollidingState(Player *player, sf::Vector2f collisionPos, sf::Time collisionDuration = RECOIL_AFTER_COLLIDING_DURATION);
     void    update(sf::Time dt) override;
     StateID getStateID() const override { return StateID::Colliding; }
+};
+
+class ObstacleCollidingState : public CollidingState {
+public:
+    ObstacleCollidingState(Player *player, sf::Vector2f collisionPos);
+    void    update(sf::Time dt) override;
 };
 
 class StunnedState : public PlayerState {
@@ -64,17 +70,6 @@ public:
     StunnedState(Player *player);
     void    update(sf::Time dt) override;
     StateID getStateID() const override { return StateID::Stunned; }
-};
-
-class ObstacleCollidingState : public PlayerState {
-    sf::Time     collisionTime = sf::Time::Zero;
-    sf::Vector2f collisionPos;
-    sf::Time     collisionDuration = sf::seconds(0.3);
-
-public:
-    ObstacleCollidingState(Player *player, sf::Vector2f collisionPos);
-    void    update(sf::Time dt) override;
-    StateID getStateID() const override { return StateID::Colliding; }
 };
 
 class InvincibleState : public PlayerState {
