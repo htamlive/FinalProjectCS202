@@ -1,33 +1,29 @@
 #include "RiverController.h"
 
 Texture::ID RiverController::monoLane() const {
-    return Texture::ID::MonoRiverLane;
+    return Texture::ID::Wood;
 }
 
 Texture::ID RiverController::topLane() const {
-    return Texture::ID::TopRiverLane;
+    return Texture::ID::Wood;
 }
 
 Texture::ID RiverController::botLane() const {
-    return Texture::ID::BotRiverLane;
+    return Texture::ID::Wood;
 }
 
 Texture::ID RiverController::midLane() const {
-    return Texture::ID::MidRiverLane;
+    return Texture::ID::Wood;
 }
 
 std::unique_ptr<RoadLane>
 RiverController::newLane(Texture::ID laneTexture, RoadLane::Direction direction, float speed, float y) const {
-    // TODO: wood piece random in length
-    auto lane = std::make_unique<River>();
+    auto lane = std::make_unique<WoodLane>(Texture::WaterBeforeWood, Texture::Water, Texture::WaterAfterWood, Texture::Wood, y, speed, frequencyFunction(speed));
     lane->setCommuterSize(commuterSize);
     lane->setDirection(direction);
     lane->setLaneHeight(laneHeight);
-    lane->setPosY(y);
-    lane->setFrequency(frequencyFunction(speed));
-    lane->setSpeed(speed);
-    lane->setLaneTexture(laneTexture);
-    lane->setCommuterTexture(Texture::ID::Wood);
+    lane->setMaxWaterWidth(commuterSize.x * 5);
+    lane->spawnWaterInMiddle();
 
     return lane;
 }
@@ -35,4 +31,3 @@ RiverController::newLane(Texture::ID laneTexture, RoadLane::Direction direction,
 RoadLane::Type RiverController::getType() const {
     return RoadLane::Type::River;
 }
-

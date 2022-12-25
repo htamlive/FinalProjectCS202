@@ -81,7 +81,6 @@ private:
 		TextureHolder::instance().add(Texture::ID::MidRoadLane, { Texture::ID::Road, 4, false, false });
 		TextureHolder::instance().add(Texture::ID::BotRoadLane, { Texture::ID::Road, 7, false, false });
 		TextureHolder::instance().add(Texture::ID::MonoRoadLane, { Texture::ID::Road, 8, false, false });
-        //TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water4.png");
 
 		TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water6.png", { 128, 128 }, 9);
 		TextureHolder::instance().add(Texture::ID::TopRiverLane, { Texture::ID::Water, 1, false, false });
@@ -89,6 +88,11 @@ private:
 		TextureHolder::instance().add(Texture::ID::BotRiverLane, { Texture::ID::Water, 7, false, false });
 		TextureHolder::instance().add(Texture::ID::MonoRiverLane, { Texture::ID::Water, 8, false, false });
 	}
+        TextureHolder::instance().add(Texture::ID::Water, {Texture::ID::WaterAndWood, 0, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterBeforeWood, {Texture::ID::WaterAndWood, 1, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterAfterWood, {Texture::ID::WaterAndWood, 3, false, false });
+
+    }
 
 	void initTextures() {
         // TODO: redraw vehicles in other direction
@@ -100,7 +104,11 @@ private:
         TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/plane/goRight.png", {128, 128}, 2);
         TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/plane/goLeft.png", {128, 128}, 2);
         TextureHolder::instance().load(Texture::ID::Wood, "./resources/images/HalfWood.png");
-		//TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
+
+        TextureHolder::instance().load(Texture::ID::WaterAndWood, "resources/images/waterAndWood.png", {128, 128 }, 4);
+        TextureHolder::instance().add(Texture::ID::Wood, {Texture::ID::WaterAndWood, 2, false, false});
+
+        //TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
 		TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_2.png");
         initLaneTextures();
 		initTrafficLightTextures();

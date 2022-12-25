@@ -13,7 +13,7 @@ enum Type {
     InvincibleBoost,
     Health,
     Wood,
-    River
+    Water
 };
 }
 
@@ -24,7 +24,8 @@ enum class EffectType {
     InvincibleBoost,
     Hungry,
     HitEnemy,
-    Drunk
+    Drunk,
+    Drown
 };
 
 namespace Texture {
@@ -63,7 +64,10 @@ enum ID {
     Object,
     RIP,
     HealthBoost,
+    WaterAndWood,
     Water,
+    WaterBeforeWood,
+    WaterAfterWood,
     Wood
 };
 }

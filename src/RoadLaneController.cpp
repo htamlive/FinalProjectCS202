@@ -27,7 +27,8 @@ void RoadLaneController::build() {
         Texture::ID laneTexture =
                 laneCount == 1 ? monoLane() : i == 0 ? topLane() : i == laneCount - 1 ? botLane() : midLane();
         auto direction = (RoadLane::Direction) (rand.get<int>() % 2);
-        auto speed = speedDistribution.get<float>();
+        // get only positive values
+        auto speed = speedDistribution.get<float>(0, std::numeric_limits<float>::max());
 
         auto lane = newLane(laneTexture, direction, speed, laneHeight * (float) i);
         lanes.push_back(lane.get());

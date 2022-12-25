@@ -44,15 +44,38 @@ sf::Time Effect::durationEach() const {
 }
 
 int Effect::times() const {
+    // 0 means stop immediately
+    if ((wrapper && wrapper->times() == 0) || timesCurrent() == 0)
+        return 0;
     return wrapper ? std::max(wrapper->times(), timesCurrent()) : timesCurrent();
+}
+
+void Effect::runMisc() const {
+    runMiscCurrentBefore();
+    if (wrapper) {
+        wrapper->runMisc();
+    }
+    runMiscCurrentAfter();
 }
 
 std::unique_ptr<Effect> Effect::onEnd() const {
     auto end = onEndCurrent();
-    if (wrapper) {
-        end->concat(wrapper->onEnd());
+    if (end) {
+        end->concat(wrapper ? wrapper->onEnd() : nullptr);
+    } else {
+        end = wrapper ? wrapper->onEnd() : nullptr;
     }
     return end;
+}
+
+std::unique_ptr<Effect> Effect::nextEffect() {
+    auto next = nextEffectCurrent();
+    if (next) {
+        next->concat(wrapper ? wrapper->nextEffect() : nullptr);
+    } else {
+        next = wrapper ? wrapper->nextEffect() : nullptr;
+    }
+    return next;
 }
 
 float Effect::healthDeltaCurrent() const {
@@ -75,6 +98,10 @@ std::unique_ptr<Effect> Effect::onEndCurrent() const {
     return std::make_unique<Effect>();
 }
 
+std::unique_ptr<Effect> Effect::nextEffectCurrent() {
+    return std::make_unique<Effect>();
+}
+
 sf::Time Effect::durationEachCurrent() const {
     return sf::Time::Zero;
 }
@@ -91,40 +118,48 @@ void Effect::runMiscCurrentBefore() const {}
 
 void Effect::runMiscCurrentAfter() const {}
 
-void Effect::runMisc() const {
-    runMiscCurrentBefore();
-    if (wrapper) {
-        wrapper->runMisc();
-    }
-    runMiscCurrentAfter();
-}
-
-HealthEffect::HealthEffect(float healthDelta) : healthDelta_(healthDelta) {}
+HealthEffect::HealthEffect(float healthDelta, bool reverse) : healthDelta_(healthDelta), reverse_(reverse) {}
 
 float HealthEffect::healthDeltaCurrent() const {
     return healthDelta_;
 }
 
-SizeEffect::SizeEffect(sf::Vector2f sizeScale) : sizeScale_(sizeScale) {}
+std::unique_ptr<Effect> HealthEffect::onEndCurrent() const {
+    if (reverse_) {
+        return std::make_unique<HealthEffect>(-healthDelta_, false);
+    } else {
+        return Effect::onEndCurrent();
+    }
+}
+
+SizeEffect::SizeEffect(sf::Vector2f sizeScale, bool reverse) : sizeScale_(sizeScale), reverse_(reverse) {}
 
 sf::Vector2f SizeEffect::sizeScaleCurrent() const {
     return sizeScale_;
 }
 
 std::unique_ptr<Effect> SizeEffect::onEndCurrent() const {
-    auto current = sizeScaleCurrent();
-    return std::make_unique<SizeEffect>(sf::Vector2f(1 / current.x, 1 / current.y));
+    if (reverse_) {
+        auto current = sizeScaleCurrent();
+        return std::make_unique<SizeEffect>(sf::Vector2f(1 / current.x, 1 / current.y), false);
+    } else {
+        return Effect::onEndCurrent();
+    }
 }
 
-DistanceEffect::DistanceEffect(sf::Vector2i distanceScale) : distanceScale_(distanceScale) {}
+DistanceEffect::DistanceEffect(sf::Vector2i distanceScale, bool reverse) : distanceScale_(distanceScale), reverse_(reverse) {}
 
 sf::Vector2i DistanceEffect::distanceScaleCurrent() const {
     return distanceScale_;
 }
 
 std::unique_ptr<Effect> DistanceEffect::onEndCurrent() const {
-    auto current = distanceScaleCurrent();
-    return std::make_unique<DistanceEffect>(sf::Vector2i(1 / current.x, 1 / current.y));
+    if (reverse_) {
+        auto current = distanceScaleCurrent();
+        return std::make_unique<DistanceEffect>(sf::Vector2i(1 / current.x, 1 / current.y), false);
+    } else {
+        return Effect::onEndCurrent();
+    }
 }
 
 int InvincibleEffect::invincibleCurrent() const {
@@ -132,12 +167,16 @@ int InvincibleEffect::invincibleCurrent() const {
 }
 
 std::unique_ptr<Effect> InvincibleEffect::onEndCurrent() const {
-    return std::make_unique<InvincibleEffect>(-invincible_);
+    if (reverse_) {
+        return std::make_unique<InvincibleEffect>(-invincible_, false);
+    } else {
+        return Effect::onEndCurrent();
+    }
 }
 
-InvincibleEffect::InvincibleEffect(int invincible) : invincible_(invincible) {}
+InvincibleEffect::InvincibleEffect(int invincible, bool reverse) : invincible_(invincible), reverse_(reverse) {}
 
-DurationEffect::DurationEffect(sf::Time duration, int times) : durationEach_(duration), times_(times) {}
+DurationEffect::DurationEffect(sf::Time duration, int times, bool reverse) : durationEach_(duration), times_(times), reverse_(reverse) {}
 
 sf::Time DurationEffect::durationEachCurrent() const {
     return durationEach_;
@@ -147,17 +186,27 @@ int DurationEffect::timesCurrent() const {
     return times_;
 }
 
+std::unique_ptr<Effect> DurationEffect::onEndCurrent() const {
+    if (reverse_) {
+        return std::make_unique<DurationEffect>(durationEach_, times_, false);
+    } else {
+        return Effect::onEndCurrent();
+    }
+}
+
 float JumpDurationEffect::jumpDurationScaleCurrent() const {
     return jumpDurationScale_;
 }
 
 std::unique_ptr<Effect> JumpDurationEffect::onEndCurrent() const {
-    return std::make_unique<JumpDurationEffect>(1 / jumpDurationScaleCurrent());
+    if (reverse_) {
+        return std::make_unique<JumpDurationEffect>(1 / jumpDurationScaleCurrent(), false);
+    } else {
+        return Effect::onEndCurrent();
+    }
 }
 
-JumpDurationEffect::JumpDurationEffect(float jumpDurationScale) {
-    jumpDurationScale_ = jumpDurationScale;
-}
+JumpDurationEffect::JumpDurationEffect(float jumpDurationScale, bool reverse) : jumpDurationScale_(jumpDurationScale), reverse_(reverse) {}
 
 RunMiscEffect::RunMiscEffect(std::function<void()> before, std::function<void()> after) : before_(std::move(before)), after_(std::move(after)) {}
 
@@ -171,44 +220,75 @@ void RunMiscEffect::runMiscCurrentAfter() const {
     if (after_) after_();
 }
 
+std::unique_ptr<Effect> NextEffect::nextEffectCurrent() {
+    return std::move(next_);
+}
+
+NextEffect::NextEffect(std::unique_ptr<Effect> next) : next_(std::move(next)) {}
+
+void StopOnCommandEffect::stop() {
+    stop_ = true;
+}
+
+int StopOnCommandEffect::timesCurrent() const {
+    return stop_ ? 0 : Effect::timesCurrent();
+}
+
 std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
     std::unique_ptr<Effect> effect = nullptr;
     switch (type) {
         case EffectType::HealthBoost:
-            effect = std::make_unique<HealthEffect>(HEALTH_PER_FOOD);
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1));
+            effect = std::make_unique<HealthEffect>(HEALTH_PER_FOOD, false);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, false));
             effect->concat(std::make_unique<RunMiscEffect>([]() {
                 AudioController::instance().playSound(SoundEffect::Regen);
             }));
             break;
         case EffectType::SmallSizeBoost: {
-            effect = std::make_unique<SizeEffect>(sf::Vector2f(0.5, 0.5));
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1));
+            effect = std::make_unique<SizeEffect>(sf::Vector2f(SIZE_SMALLER_BOOST_SCALE, SIZE_SMALLER_BOOST_SCALE), true);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
             break;
         }
         case EffectType::SpeedBoost: {
-            effect = std::make_unique<JumpDurationEffect>(0.5);
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1));
+            effect = std::make_unique<JumpDurationEffect>(JUMP_DURATION_BOOST_SCALE, true);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
             break;
         }
         case EffectType::InvincibleBoost: {
-            effect = std::make_unique<InvincibleEffect>();
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1));
+            effect = std::make_unique<InvincibleEffect>(1, true);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
             break;
         }
         case EffectType::Hungry: {
-            effect = std::make_unique<HealthEffect>(HEALTH_REDUCTION_RATE);
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(1), 0));
+            effect = std::make_unique<HealthEffect>(HEALTH_REDUCTION_RATE, false);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(1), -1, false));
             break;
         }
         case EffectType::HitEnemy: {
-            effect = std::make_unique<HealthEffect>(DAMAGE_PER_ENEMY);
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1));
+            effect = std::make_unique<HealthEffect>(DAMAGE_PER_ENEMY, false);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, false));
+            effect->concat(std::make_unique<RunMiscEffect>([]() {
+                AudioController::instance().playSound(SoundEffect::Hitting);
+            }));
+
+            auto inv = std::make_unique<InvincibleEffect>(1, true);
+            inv->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
+            inv->concat(std::make_unique<DurationEffect>(INVINCIBLE_AFTER_DAMAGED_DURATION, 1, false));
+            effect->concat(std::make_unique<NextEffect>(std::move(inv)));
             break;
         }
         case EffectType::Drunk: {
-            effect = std::make_unique<DistanceEffect>(sf::Vector2i(-1, -1));
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1));
+            effect = std::make_unique<DistanceEffect>(sf::Vector2i(-1, -1), true);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
+            break;
+        }
+        case EffectType::Drown: {
+            effect = std::make_unique<HealthEffect>(HEALTH_REDUCTION_RATE_WHEN_DROWN, false);
+            effect->concat(std::make_unique<DurationEffect>(sf::seconds(1), -1, false));
             break;
         }
         default:
