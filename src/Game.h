@@ -83,7 +83,7 @@ private:
 		TextureHolder::instance().add(Texture::ID::MonoRoadLane, { Texture::ID::Road, 8, false, false });
         //TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water4.png");
 
-		TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water5.png", { 128, 128 }, 9);
+		TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water6.png", { 128, 128 }, 9);
 		TextureHolder::instance().add(Texture::ID::TopRiverLane, { Texture::ID::Water, 1, false, false });
 		TextureHolder::instance().add(Texture::ID::MidRiverLane, { Texture::ID::Water, 4, false, false });
 		TextureHolder::instance().add(Texture::ID::BotRiverLane, { Texture::ID::Water, 7, false, false });
@@ -99,14 +99,14 @@ private:
         TextureHolder::instance().add(Texture::ID::LeftCucumber, {Texture::ID::RightCucumber, 0, 5, true, false});
         TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/plane/goRight.png", {128, 128}, 2);
         TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/plane/goLeft.png", {128, 128}, 2);
-        TextureHolder::instance().load(Texture::ID::Wood, "./resources/images/wood.png");
+        TextureHolder::instance().load(Texture::ID::Wood, "./resources/images/HalfWood.png");
 		//TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");
-		TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_1.png");
+		TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_2.png");
         initLaneTextures();
 		initTrafficLightTextures();
 		initMainCharacterTextures();
 		//TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle1.png", { 28, 19 });
-		TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle1.png", { 282, 378 });
+		TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle3.png", { 225, 214 });
         TextureHolder::instance().load(Texture::ID::Object, "resources/spritesheet/objects.png", { 16, 16 }, 45, 5);
         TextureHolder::instance().add(Texture::ID::HealthBoost, {Texture::ID::Object, 18, false, false });
         TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
