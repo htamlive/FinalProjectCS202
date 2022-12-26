@@ -2,6 +2,8 @@
 #include "Commuters.h"
 #include <iostream>
 
+static const float OFFSET_FROM_PAVEMENT = 15;
+
 RoadLane::RoadLane()
         : speedX(0), height(0),
           frequency(), laneTexture(), commuterTexture(), commuterSize(0, 0), direction(Direction::Left) {
@@ -150,7 +152,7 @@ std::unique_ptr<Entity> VehicleLane::newCommuter() const {
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
     auto vehicle = std::make_unique<Vehicle>(commuterTexture, pos, commuterSize, getVelocity());
     vehicle->adjustBounds(0, 0, 0, 40);
-    vehicle->adjustSpriteBounds(0, -30);
+    vehicle->adjustSpriteBounds(0, height - commuterSize.y - OFFSET_FROM_PAVEMENT);
     return vehicle;
 }
 
@@ -170,13 +172,13 @@ std::unique_ptr<Entity> AnimalLane::newCommuter() const {
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
     auto animal = std::make_unique<Animal>(commuterTexture, pos, commuterSize, getVelocity());
 
+
     if (commuterTexture == Texture::ID::RightCucumber || commuterTexture == Texture::ID::LeftCucumber) {
         animal->adjustBounds(30, 0, 60, 40);
-        animal->adjustSpriteBounds(0, -55);
-    } else {
+    } else if (commuterTexture == Texture::RightPlane || commuterTexture == Texture::LeftPlane) {
         animal->adjustBounds(0, 0, 0, 40);
-        animal->adjustSpriteBounds(0, -30);
     }
+    animal->adjustSpriteBounds(0, height - commuterSize.y - OFFSET_FROM_PAVEMENT);
     return animal;
 }
 

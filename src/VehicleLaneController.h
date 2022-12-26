@@ -5,8 +5,8 @@
 
 class VehicleLaneController : public RoadLaneController {
 private:
-    const std::map<RoadLane::Direction, std::vector<Texture::ID>> vehicleTextures = {{RoadLane::Direction::Left,  {Texture::ID::LeftVehicle}},
-                                                                                     {RoadLane::Direction::Right, {Texture::ID::RightVehicle}}};
+    const std::map<RoadLane::Direction, std::vector<Texture::ID>> vehicleTextures = {{RoadLane::Direction::Left,  {Texture::LeftRedTruck,  Texture::LeftRedCar,  Texture::LeftGreenCar,  Texture::LeftBlueCar}},
+                                                                                     {RoadLane::Direction::Right, {Texture::RightRedTruck, Texture::RightRedCar, Texture::RightGreenCar, Texture::RightBlueCar}}};
     Light *light = nullptr;
     sf::Time greenDuration = {}, redDuration = {};
 

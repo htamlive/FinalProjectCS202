@@ -24,12 +24,12 @@
 //    TextureHolder::instance().add(Texture::ID::MonoRoadLane, {Texture::ID::Road, 8, false, false});
 //    TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
 //    TextureHolder::instance().load(Texture::ID::RedLight, "./resources/images/redLight.png");
-//    TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/main/redToGreen.png", {128, 128},
+//    TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/character/redToGreen.png", {128, 128},
 //                                   5);
-//    TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/main/greenToRed.png", {128, 128},
+//    TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/character/greenToRed.png", {128, 128},
 //                                   5);
-//    TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/main/goLeft.png", { 128, 128 }, 6);
-//    TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png", { 128, 128 }, 6);
+//    TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/character/goLeft.png", { 128, 128 }, 6);
+//    TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/character/goRight.png", { 128, 128 }, 6);
 //    TextureHolder::instance().load(Texture::ID::Water, "./resources/images/water.png");
 //    TextureHolder::instance().load(Texture::ID::Wood, "./resources/images/wood.png");
 //

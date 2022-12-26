@@ -58,30 +58,34 @@ private:
     }
 
     void initMainCharacterTextures() {
-        TextureHolder::instance().load(Texture::ID::PlayerIdleUp, "resources/spritesheet/main/idleUp.png", {128, 128},
+        TextureHolder::instance().load(Texture::ID::PlayerIdleUp, "resources/spritesheet/character/idleUp.png",
+                                       {128, 128},
                                        6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleDown, "resources/spritesheet/main/idleDown.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleDown, "resources/spritesheet/character/idleDown.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, "resources/spritesheet/main/idleLeft.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, "resources/spritesheet/character/idleLeft.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleRight, "resources/spritesheet/main/idleRight.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleRight, "resources/spritesheet/character/idleRight.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/main/goLeft.png", {128, 128},
+        TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/character/goLeft.png",
+                                       {128, 128},
                                        6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/main/goRight.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/character/goRight.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpUp, "resources/spritesheet/main/goUp.png", {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/main/goDown.png", {128, 128},
+        TextureHolder::instance().load(Texture::ID::PlayerJumpUp, "resources/spritesheet/character/goUp.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/character/goDown.png",
+                                       {128, 128},
                                        4);
-        TextureHolder::instance().load(Texture::ID::RIP, "resources/spritesheet/main/rip.png", {128, 128}, 1);
+        TextureHolder::instance().load(Texture::ID::RIP, "resources/spritesheet/character/rip.png", {128, 128}, 1);
     }
 
     void initTrafficLightTextures() {
         TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
         TextureHolder::instance().load(Texture::ID::RedLight, "./resources/images/redLight.png");
-        TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/main/redToGreen.png",
+        TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/character/redToGreen.png",
                                        {128, 128}, 5);
-        TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/main/greenToRed.png",
+        TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/character/greenToRed.png",
                                        {128, 128}, 5);
     }
 
@@ -121,14 +125,29 @@ private:
     void initTextures() {
         // TODO: redraw vehicles in other direction
         // TODO: add stunned animation
-        TextureHolder::instance().load(Texture::ID::RightVehicle, "./resources/images/truck_1.png", {128, 128}, 4);
-        TextureHolder::instance().add(Texture::ID::LeftVehicle, {Texture::ID::RightVehicle, 0, 3, true, false});
-        TextureHolder::instance().load(Texture::ID::RightCucumber, "./resources/spritesheet/cucumber/moveRight.png",
+        TextureHolder::instance().load(Texture::ID::RightRedTruck, "./resources/spritesheet/vehicles/redTruckRight.png",
+                                       {128, 128}, 4);
+        TextureHolder::instance().load(Texture::ID::LeftRedTruck, "./resources/spritesheet/vehicles/redTruckLeft.png",
+                                       {128, 128}, 4);
+        TextureHolder::instance().load(Texture::ID::LeftBlueCar, "./resources/spritesheet/vehicles/blueCar.png",
+                                       {64, 64}, 1);
+        TextureHolder::instance().add(Texture::ID::RightBlueCar, {Texture::ID::LeftBlueCar, true, false});
+        TextureHolder::instance().load(Texture::ID::LeftGreenCar, "./resources/spritesheet/vehicles/greenCar.png",
+                                       {64, 64}, 1);
+        TextureHolder::instance().add(Texture::ID::RightGreenCar, {Texture::ID::LeftGreenCar, true, false});
+        TextureHolder::instance().load(Texture::ID::LeftRedCar, "./resources/spritesheet/vehicles/redCar.png", {64, 64},
+                                       1);
+        TextureHolder::instance().add(Texture::ID::RightRedCar, {Texture::ID::LeftRedCar, true, false});
+
+        TextureHolder::instance().load(Texture::ID::RightCucumber,
+                                       "./resources/spritesheet/animals/cucumber/moveRight.png",
                                        {128, 128}, 6);
         TextureHolder::instance().add(Texture::ID::LeftCucumber, {Texture::ID::RightCucumber, 0, 5, true, false});
-        TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/plane/goRight.png", {128, 128},
+        TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/animals/plane/goRight.png",
+                                       {128, 128},
                                        2);
-        TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/plane/goLeft.png", {128, 128},
+        TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/animals/plane/goLeft.png",
+                                       {128, 128},
                                        2);
 
         //TextureHolder::instance().load(Texture::ID::Background,"./resources/images/bg.jpg");

@@ -30,8 +30,14 @@ enum class EffectType {
 
 namespace Texture {
 enum ID {
-    LeftVehicle,
-    RightVehicle,
+    LeftRedTruck,
+    RightRedTruck,
+    LeftBlueCar,
+    RightBlueCar,
+    LeftGreenCar,
+    RightGreenCar,
+    LeftRedCar,
+    RightRedCar,
     LeftCucumber,
     RightCucumber,
     LeftPlane,

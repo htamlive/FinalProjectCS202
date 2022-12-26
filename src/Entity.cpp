@@ -6,7 +6,7 @@
 #include <iostream>
 
 Entity::Entity()
-        : animation(Texture::ID::LeftVehicle, DEF_ANIMATION_DURATION, true), localBounds(0, 0, 0, 0) {}
+        : animation(Texture::Null, DEF_ANIMATION_DURATION, true), localBounds(0, 0, 0, 0) {}
 
 Entity::Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf::Vector2f velocity,
                sf::Time animationDuration, bool loop)
