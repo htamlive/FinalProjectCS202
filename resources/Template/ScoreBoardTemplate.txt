@@ -9,7 +9,7 @@ Picture.background {
 }
 
 Picture.silverGlow {
-    Position = (158, 216);
+    Position = (158, 296);
     Size = (721, 198);
 
     Renderer {
@@ -19,7 +19,7 @@ Picture.silverGlow {
 }
 
 Picture.goldenGlow {
-    Position = (158, 90);
+    Position = (158, 160);
     Size = (721, 198);
 
     Renderer {
@@ -29,7 +29,7 @@ Picture.goldenGlow {
 }
 
 Picture.bronzeGlow {
-    Position = (158, 340);
+    Position = (158, 410);
     Size = (721, 198);
 
     Renderer {
@@ -40,7 +40,7 @@ Picture.bronzeGlow {
 
 Label.lblTop1 {
     HorizontalAlignment = Center;
-    Position = (410, 132.8);
+    Position = (410, 212.8);
     ScrollbarPolicy = Never;
     Size = (227.2, 81.7949);
     Text = "TOP 1";
@@ -60,7 +60,7 @@ Label.lblTop1 {
 
 Label.lblTop2 {
     HorizontalAlignment = Center;
-    Position = (410, 270);
+    Position = (410, 350);
     Size = (227, 81.7949);
     Text = "TOP 2";
     TextSize = 44;
@@ -78,7 +78,7 @@ Label.lblTop2 {
 
 Label.lblTop3 {
     HorizontalAlignment = Center;
-    Position = (410, 390);
+    Position = (410, 460);
     Size = (227, 81.7949);
     Text = "TOP 3";
     TextSize = 40;
@@ -95,7 +95,7 @@ Label.lblTop3 {
 }
 
 Button.btnBack {
-    Position = (470, 552.368);
+    Position = (480, 582.368);
     Size = (111, 45.8678);
     TextSize = 13;
 
@@ -127,7 +127,7 @@ Button.btnBack {
 }
 
 Picture.Picture1 {
-    Position = (770, 30);
+    Position = (790, 110);
     Size = (78, 63.5556);
 
     Renderer {
@@ -137,7 +137,7 @@ Picture.Picture1 {
 }
 
 Picture.Picture2 {
-    Position = (310, 30);
+    Position = (310, 110);
     Size = (421, 63.5952);
 
     Renderer {

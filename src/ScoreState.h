@@ -77,14 +77,14 @@ public:
 		
 		if (totatTime > PI/2/w)
 		{
-			totatTime = -1;
+			totatTime = -3;
 			angle = -1;
 			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
 			//this->gui->get<tgui::Picture>("Picture1")->moveWithAnimation({ pos.x, pos.y - 1.f }, sf::seconds(.75f));
 		}
 		else if (totatTime >= 0) {
 			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
-			this->gui->get<tgui::Picture>("Picture1")->setPosition({ pos.x, 135 - A/4 * sin(2 * w * totatTime) });
+			this->gui->get<tgui::Picture>("Picture1")->setPosition({ pos.x, 110 - A/4 * sin(2 * w * totatTime) });
 			angle = A * sin(w * totatTime);
 			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle,{0.5f, 0.5f});
 		}
