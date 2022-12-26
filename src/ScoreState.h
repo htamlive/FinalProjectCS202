@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <chrono>
+#include <cmath>
 #include "State.h"
 #include "AudioController.h"
 const long double PI = acos(-1);

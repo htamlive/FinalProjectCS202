@@ -163,11 +163,11 @@ void Player::applyEffects(sf::Time dt) {
 
     auto apply = [&](Effect const &effect, unsigned int times) {
         deltaHealth += effect.healthDelta() * (float) times;
-        sizeScale = {sizeScale.x * std::powf(effect.sizeScale().x, (float) times),
-                     sizeScale.y * std::powf(effect.sizeScale().y, (float) times)};
+        sizeScale = {sizeScale.x * std::pow(effect.sizeScale().x, (float) times),
+                     sizeScale.y * std::pow(effect.sizeScale().y, (float) times)};
         distScale = {distScale.x * (int) std::pow(effect.distanceScale().x, times),
                      distScale.y * (int) std::pow(effect.distanceScale().y, times)};
-        jumpScale *= std::powf(effect.jumpDurationScale(), (float) times);
+        jumpScale *= std::pow(effect.jumpDurationScale(), (float) times);
         invincibleDelta += effect.invincible();
         effect.runMisc();
     };
