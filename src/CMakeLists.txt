@@ -9,7 +9,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add source to this project's executable.
 file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/src/*.cpp)
-add_executable (FinalProjectCS202 ${sourcecode})
+
+
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/appicon.rc")
+
+add_executable(FinalProjectCS202
+        ${sourcecode}
+        ${APP_ICON_RESOURCE_WINDOWS}
+)
+
+
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
