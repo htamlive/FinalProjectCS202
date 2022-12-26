@@ -29,6 +29,9 @@ SceneBuilder &SceneBuilder::addBackground(Texture::ID id) {
 
 SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes, float pos, float minSpeed, float maxSpeed,
                                               float minSpawnRate, float maxSpawnRate) {
+    auto meanSpeed = (minSpeed + maxSpeed) / 2;
+    auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
+
     std::unique_ptr<RoadLaneController> roads;
     switch (type) {
         case RoadLane::Type::Vehicle: {
@@ -45,12 +48,11 @@ SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes, fl
         }
         case RoadLane::Type::River: {
             roads = std::make_unique<RiverController>();
+            meanSpeed *= 0.6;
             break;
         }
     }
 
-    auto meanSpeed = (minSpeed + maxSpeed) / 2;
-    auto meanSpawnRate = (minSpawnRate + maxSpawnRate) / 2;
     auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
     roads->setLaneCount(lanes);
     roads->setPosY(pos);

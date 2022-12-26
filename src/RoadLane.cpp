@@ -246,7 +246,7 @@ void WoodLane::spawnWaterInMiddle() {
     auto rand = Random(std::uniform_real_distribution<>(0, getLocalBounds().width));
 
     for (float x = 0; x < getLocalBounds().width; x += MINIMUM_WIDTH_BETWEEN_VEHICLES) {
-        x = rand.get<float>(x, getLocalBounds().width);
+        x = rand.get<float>(x, (x == 0? getLocalBounds().width / 3 : getLocalBounds().width));
         auto water = newCommuter();
         water->setPosition(x, 0);
         x += water->getSpriteBounds().width;
