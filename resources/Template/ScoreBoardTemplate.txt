@@ -131,7 +131,7 @@ Picture.Picture1 {
     Size = (78, 63.5556);
 
     Renderer {
-        Texture = "../spritesheet/main/proPlayer.png" Smooth;
+        Texture = "../spritesheet/character/proPlayer.png" Smooth;
         TransparentTexture = false;
     }
 }

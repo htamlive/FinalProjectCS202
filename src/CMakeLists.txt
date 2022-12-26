@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 
-set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/appicon.rc")
+set(APP_ICON_RESOURCE_WINDOWS "../resources/icons/appicon.rc")
 
 add_executable(FinalProjectCS202
         ${sourcecode}
