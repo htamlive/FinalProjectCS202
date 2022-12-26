@@ -8,10 +8,16 @@
 
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
 
-class Wall : public Obstacle {
+class Wall : public PlayerCollidable {
 private:
     sf::Vector2f velocity;
     sf::FloatRect bounds;
+
+    void onStartPlayerCollision() override {
+        sf::Vector2f direction = -player->getDirectionVec();
+        auto newPos = player->getPosition() + direction * (GRID_SIZE.x);
+        player->setState(new CollidingState(player, newPos));
+    }
 
 public:
     Wall(sf::FloatRect bounds) : bounds(bounds) {}
@@ -26,7 +32,7 @@ public:
 
     void updateCurrent(sf::Time dt) override {
         move(velocity * dt.asSeconds());
-        Obstacle::updateCurrent(dt);
+        PlayerCollidable::updateCurrent(dt);
     }
 };
 

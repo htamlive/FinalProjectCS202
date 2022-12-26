@@ -3,20 +3,30 @@
 #include "VehicleLaneController.h"
 #include "Random.h"
 
-VehicleLaneController::VehicleLaneController(unsigned int laneCount, float y, Random<std::normal_distribution<double>> speedDistribution,
-                                             const std::function<Random<std::normal_distribution<double>>(double)> &frequencyFunction,
-                                             sf::Time greenDuration, sf::Time redDuration) : RoadLaneController(laneCount, y,
-                                                                                                                speedDistribution, frequencyFunction),
-                                                                                             greenDuration(greenDuration), redDuration(redDuration) {}
-
-VehicleLaneController::VehicleLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
+VehicleLaneController::VehicleLaneController(unsigned int laneCount, float y,
                                              Random<std::normal_distribution<double>> speedDistribution,
-                                             const std::function<Random<std::normal_distribution<double>>(double)> &frequencyFunction,
-                                             sf::Time greenDuration, sf::Time redDuration) : RoadLaneController(laneCount, y,
-                                                                                                                laneHeight, commuterSize,
-                                                                                                                speedDistribution,
-                                                                                                                frequencyFunction),
-                                                                                             greenDuration(greenDuration), redDuration(redDuration) {}
+                                             const std::function<Random<std::normal_distribution<double>>(
+                                                     double)> &frequencyFunction,
+                                             sf::Time greenDuration, sf::Time redDuration) : RoadLaneController(
+        laneCount, y,
+        speedDistribution, frequencyFunction),
+                                                                                             greenDuration(
+                                                                                                     greenDuration),
+                                                                                             redDuration(redDuration) {}
+
+VehicleLaneController::VehicleLaneController(unsigned int laneCount, float y, float laneHeight,
+                                             sf::Vector2f commuterSize,
+                                             Random<std::normal_distribution<double>> speedDistribution,
+                                             const std::function<Random<std::normal_distribution<double>>(
+                                                     double)> &frequencyFunction,
+                                             sf::Time greenDuration, sf::Time redDuration) : RoadLaneController(
+        laneCount, y,
+        laneHeight, commuterSize,
+        speedDistribution,
+        frequencyFunction),
+                                                                                             greenDuration(
+                                                                                                     greenDuration),
+                                                                                             redDuration(redDuration) {}
 
 RoadLane::Type VehicleLaneController::getType() const {
     return RoadLane::Type::Vehicle;
@@ -60,7 +70,8 @@ void VehicleLaneController::build() {
     RoadLaneController::build();
 
     auto trafficLight = std::make_unique<Light>(sf::Vector2f(0, laneHeight * (float) laneCount - DEF_LIGHT_HEIGHT),
-                                                sf::Vector2f(DEF_LIGHT_HEIGHT, DEF_LIGHT_HEIGHT), greenDuration, redDuration);
+                                                sf::Vector2f(DEF_LIGHT_HEIGHT, DEF_LIGHT_HEIGHT), greenDuration,
+                                                redDuration);
     light = trafficLight.get();
     attachChild(std::move(trafficLight));
 

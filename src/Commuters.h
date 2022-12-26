@@ -28,6 +28,7 @@ private:
     void onStartPlayerCollision() override;
 
     void updateCurrent(sf::Time dt) override;
+
 public:
     using Entity::Entity;
 
@@ -39,16 +40,25 @@ private:
     sf::Vector2f tmpVelocity = {0, 0};
 };
 
-class Wood : public virtual PlayerCollidable, public virtual Entity {
+class Water : public virtual PlayerCollidable, public virtual Entity {
 private:
+    StopOnCommandEffect *damageEffect = nullptr;
+    Texture::ID startTexture, midTexture, endTexture;
+    unsigned int squareCount;
+
     void onStartPlayerCollision() override;
 
     void onEndPlayerCollision() override;
 
     void updateCurrent(sf::Time dt) override;
 
+    void drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const override;
+
 public:
-    using Entity::Entity;
+    Water();
+
+    Water(Texture::ID startTexture, Texture::ID midTexture, Texture::ID endTexture, sf::Vector2f position,
+          sf::Vector2f sizePerSquare, unsigned int squareCount, sf::Vector2f velocity);
 
     Category::Type getCategory() const override;
 };

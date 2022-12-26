@@ -18,6 +18,8 @@ const sf::Time LIGHT_CHANGING_DURATION = sf::seconds(1.f);
 
 const sf::Time INVINCIBLE_AFTER_DAMAGED_DURATION = sf::seconds(3);
 
+const sf::Time RECOIL_AFTER_COLLIDING_DURATION = sf::seconds(0.3);
+
 
 const sf::VideoMode WINDOW_VIDEO_MODE = {1024, 768};
 
@@ -48,4 +50,8 @@ const float DAMAGE_PER_ENEMY = -MAX_HEALTH / 100 * 40;
 
 const float HEALTH_REDUCTION_RATE = -MAX_HEALTH / 50;
 
-const float SIZE_SMALLER_BOOST_SCALE = 0.75;
+const float HEALTH_REDUCTION_RATE_WHEN_DROWN = -MAX_HEALTH / 5;
+
+const float SIZE_SMALLER_BOOST_SCALE = 0.5;
+
+const float JUMP_DURATION_BOOST_SCALE = 0.5;

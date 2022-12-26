@@ -10,7 +10,7 @@ RoadLane::RoadLane()
 
 RoadLane::RoadLane(Texture::ID commuterTexture, Texture::ID laneTexture, float y, float speed,
                    Random<std::normal_distribution<double>> frequency) : laneTexture(laneTexture), frequency(frequency),
-                                                                         speedX(-speed), height(DEF_LANE_HEIGHT),
+                                                                         speedX(speed), height(DEF_LANE_HEIGHT),
                                                                          commuterTexture(commuterTexture),
                                                                          commuterSize(DEF_COMMUTER_SIZE),
                                                                          direction(Direction::Left) {
@@ -19,30 +19,35 @@ RoadLane::RoadLane(Texture::ID commuterTexture, Texture::ID laneTexture, float y
 
 RoadLane::RoadLane(Texture::ID commuterTexture,
                    Texture::ID laneTexture, float y, float laneHeight,
-                   float commuterWidth, float commuterHeight, RoadLane::Direction direction,
+                   sf::Vector2f commuterSize, RoadLane::Direction direction,
                    float speed, Random<std::normal_distribution<double>> frequency)
         : laneTexture(laneTexture),
           frequency(frequency), height(laneHeight), commuterTexture(commuterTexture),
-          commuterSize(commuterWidth, commuterHeight), direction(direction), speedX(speed) {
+          commuterSize(commuterSize), direction(direction), speedX(speed) {
     setPosition(0, y);
 }
 
 void RoadLane::updateCommuters(sf::Time dt) {
-    // TODO: doesnt rly work
     auto isLastCommuterFarEnough = [&]() {
         if (!commuters.empty()) {
-            auto startX = getDirection() == Direction::Right ? 0 : WINDOW_VIDEO_MODE.width;
-            auto &last = commuters.back();
-            return std::abs((float) startX - last->getPosition().x) >= MINIMUM_WIDTH_BETWEEN_VEHICLES;
+            if (getDirection() == Direction::Right) {
+                auto startX = getLocalBounds().left;
+                auto &last = commuters.back();
+                return last->getPosition().x - startX >= MINIMUM_WIDTH_BETWEEN_VEHICLES;
+            } else {
+                auto startX = getLocalBounds().left + getLocalBounds().width;
+                auto &last = commuters.back();
+                return startX - last->getPosition().x - last->getSpriteBounds().width >= MINIMUM_WIDTH_BETWEEN_VEHICLES;
+
+            }
         } else
             return true;
     };
 
     auto isOutOfScreen = [&](Entity const &commuter) {
         if (getDirection() == Direction::Right) {
-            return commuter.getPosition().x > (float)DESTROY_BORDER.width;
-        }
-        else {
+            return commuter.getPosition().x > (float) DESTROY_BORDER.width;
+        } else {
             return commuter.getPosition().x + commuter.getSpriteBounds().width < DESTROY_BORDER.left;
         }
     };
@@ -87,6 +92,10 @@ void RoadLane::setDirection(RoadLane::Direction newDirection) {
 
 void RoadLane::setSpeed(float speed) {
     speedX = speed;
+}
+
+sf::FloatRect RoadLane::getLocalBounds() const {
+    return {0, 0, (float) WINDOW_VIDEO_MODE.width, height};
 }
 
 void RoadLane::setFrequency(const Random<std::normal_distribution<double>> &newFrequency) {
@@ -164,25 +173,83 @@ std::unique_ptr<Entity> AnimalLane::newCommuter() const {
     if (commuterTexture == Texture::ID::RightCucumber || commuterTexture == Texture::ID::LeftCucumber) {
         animal->adjustBounds(30, 0, 60, 40);
         animal->adjustSpriteBounds(0, -55);
-    }
-    else {
+    } else {
         animal->adjustBounds(0, 0, 0, 40);
         animal->adjustSpriteBounds(0, -30);
     }
     return animal;
 }
 
-RoadLane::Type River::getType() const {
+WoodLane::WoodLane() : RoadLane(), maxWaterWidth(0) {}
+
+WoodLane::WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture,
+                   Texture::ID woodTexture, float y, float speed,
+                   Random<std::normal_distribution<double>> frequency) : RoadLane(waterTexture, woodTexture, y,
+                                                                                  speed, frequency),
+                                                                         waterBeforeWoodTexture(waterBeforeWoodTexture),
+                                                                         waterAfterWoodTexture(waterAfterWoodTexture) {
+    maxWaterWidth = commuterSize.x;
+}
+
+WoodLane::WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture,
+                   Texture::ID woodTexture, float y, float laneHeight, float minWaterWidth,
+                   float maxWaterWidth, RoadLane::Direction direction, float speed,
+                   Random<std::normal_distribution<double>> frequency) : RoadLane(waterTexture, woodTexture, y,
+                                                                                  laneHeight,
+                                                                                  {laneHeight, minWaterWidth},
+                                                                                  direction, speed, frequency),
+                                                                         waterBeforeWoodTexture(waterBeforeWoodTexture),
+                                                                         waterAfterWoodTexture(waterAfterWoodTexture) {
+    this->maxWaterWidth = std::max(maxWaterWidth, commuterSize.x);
+}
+
+RoadLane::Type WoodLane::getType() const {
     return RoadLane::Type::River;
 }
 
-std::unique_ptr<Entity> River::newCommuter() const {
+std::unique_ptr<Entity> WoodLane::newCommuter() const {
+    sf::Vector2f squareSize = {height, height};
+    auto width = Random(std::uniform_real_distribution<>(commuterSize.x, maxWaterWidth)).get<float>();
     auto pos =
             getDirection() == Direction::Right
-            ? sf::Vector2f(-commuterSize.x + 1, 0)
+            ? sf::Vector2f(-width + 1, 0)
             : sf::Vector2f((float) WINDOW_VIDEO_MODE.width - 1, 0);
-    auto wood = std::make_unique<Wood>(commuterTexture, pos, commuterSize, getVelocity());
-    wood->adjustBounds(0, 0, 0, 40);
-    wood->adjustSpriteBounds(0, -30);
-    return wood;
+    auto water = std::make_unique<Water>(waterAfterWoodTexture, commuterTexture, waterBeforeWoodTexture, pos,
+                                         squareSize, width / squareSize.x, getVelocity());
+    return water;
+}
+
+Category::Type WoodLane::getCategory() const {
+    return Category::Type::Wood;
+}
+
+void WoodLane::onStartPlayerCollision() {
+    player->addPlatformVelocity(getVelocity());
+}
+
+void WoodLane::onEndPlayerCollision() {
+    player->addPlatformVelocity(-getVelocity());
+}
+
+void WoodLane::updateCurrent(sf::Time dt) {
+    RoadLane::updateCurrent(dt);
+    PlayerCollidable::updateCurrent(dt);
+}
+
+void WoodLane::setMaxWaterWidth(float width) {
+    this->maxWaterWidth = std::max(width, commuterSize.x);
+}
+
+void WoodLane::spawnWaterInMiddle() {
+    auto rand = Random(std::uniform_real_distribution<>(0, getLocalBounds().width));
+
+    for (float x = 0; x < getLocalBounds().width; x += MINIMUM_WIDTH_BETWEEN_VEHICLES) {
+        x = rand.get<float>(x, getLocalBounds().width);
+        auto water = newCommuter();
+        water->setPosition(x, 0);
+        x += water->getSpriteBounds().width;
+
+        commuters.push_back(water.get());
+        attachChild(std::move(water));
+    }
 }

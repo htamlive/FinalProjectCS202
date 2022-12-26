@@ -47,12 +47,6 @@ public:
            sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
 
-    /**
-     * Check if this entity is out of screen
-     * @return true if out of screen, false otherwise
-     */
-    bool isOutOfScreen() const;
-
     sf::Vector2f getVelocity() const;
 
     /**

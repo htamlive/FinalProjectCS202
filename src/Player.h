@@ -34,38 +34,58 @@
  */
 
 class PlayerState;
+
 class Player : public Entity {
     friend class PlayerState;
+
     friend class JumpingState;
+
     friend class IdleState;
+
     friend class StunnedState;
+
     friend class SpeedBoostingState;
-    friend class ObstacleCollidingState;
-    friend class InvincibleState;
+
     friend class CollidingState;
+
+    friend class ObstacleCollidingState;
+
+    friend class InvincibleState;
+
     friend class DyingState;
+
     friend class DeadState;
+
     friend class PlayerEffect;
 
 public:
     Player();
+
     Player(sf::Vector2f position, sf::Vector2f size);
 
-    void           onKeyPressed(sf::Event::KeyEvent);
-    Category::Type getCategory() const override;
-    void           setState(PlayerState *newState);
-    void           takeDamage();
-    bool           isDead();
-    void           addEffect(std::unique_ptr<Effect> effect);
-    bool           isInvincible() const;
+    void onKeyPressed(sf::Event::KeyEvent);
 
-    sf::Vector2f   getDirectionVec() const;
-    void           addPlatformVelocity(sf::Vector2f velocity);
+    Category::Type getCategory() const override;
+
+    void setState(PlayerState *newState);
+
+    void addHealth(float delta);
+
+    bool isDead();
+
+    void addEffect(std::unique_ptr<Effect> effect);
+
+    bool isInvincible() const;
+
+    sf::Vector2f getDirectionVec() const;
+
+    void addPlatformVelocity(sf::Vector2f velocity);
 
 protected:
     void updateCurrent(sf::Time dt) override;
+
     void drawCurrent(sf::RenderTarget &target,
-                     sf::RenderStates  states) const override;
+                     sf::RenderStates states) const override;
 
 private:
     void drawHealthBar(sf::RenderTarget &target, sf::RenderStates states) const;
@@ -82,7 +102,7 @@ private:
     float jumpDurationScale = 1;
     sf::Vector2i distanceScale = {1, 1};
     int invincibleBoostCount = 0;
-    std::vector <std::tuple<std::unique_ptr<Effect>, sf::Time, unsigned int>> effects;
+    std::vector<std::tuple<std::unique_ptr<Effect>, sf::Time, unsigned int>> effects;
 
     sf::Vector2f platformVelocity = {0, 0};
     float health = MAX_HEALTH;

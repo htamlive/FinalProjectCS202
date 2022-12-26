@@ -12,7 +12,8 @@ enum Type {
     HealthBoost,
     InvincibleBoost,
     Health,
-    Wood
+    Wood,
+    Water
 };
 }
 
@@ -23,7 +24,8 @@ enum class EffectType {
     InvincibleBoost,
     Hungry,
     HitEnemy,
-    Drunk
+    Drunk,
+    Drown
 };
 
 namespace Texture {
@@ -52,17 +54,27 @@ enum ID {
     MidRoadLane,
     BotRoadLane,
     MonoRoadLane,
-    TopRiverLane,
-    MidRiverLane,
-    BotRiverLane,
-    MonoRiverLane,
-    SafeLane,
     Background,
     Obstacle,
     Object,
     RIP,
     HealthBoost,
-    Water,
-    Wood
+    WaterAndWood,
+    TopWoodLane,
+    MidWoodLane,
+    BotWoodLane,
+    MonoWoodLane,
+    WaterTopLane,
+    WaterMidLane,
+    WaterBotLane,
+    WaterMonoLane,
+    WaterBeforeWoodTopLane,
+    WaterBeforeWoodMidLane,
+    WaterBeforeWoodBotLane,
+    WaterBeforeWoodMonoLane,
+    WaterAfterWoodTopLane,
+    WaterAfterWoodMidLane,
+    WaterAfterWoodBotLane,
+    WaterAfterWoodMonoLane
 };
 }

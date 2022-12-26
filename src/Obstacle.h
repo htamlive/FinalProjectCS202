@@ -31,7 +31,7 @@ class Rock : public virtual Obstacle, public virtual Entity {
 private:
     void updateCurrent(sf::Time dt) override {
         Entity::updateCurrent(dt);
-        PlayerCollidable::updateCurrent(dt);
+        Obstacle::updateCurrent(dt);
     }
 
 public:
@@ -49,14 +49,14 @@ private:
         PlayerCollidable::updateCurrent(dt);
     }
 
+    void onStartPlayerCollision() override {
+        player->addEffect(EffectFactory::create(EffectType::HealthBoost));
+    }
+
 public:
     HealthBoost(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::HealthBoost, pos, size, {0, 0}, {}, false) {}
 
     Category::Type getCategory() const override {
         return Category::HealthBoost;
-    }
-
-    void onStartPlayerCollision() override {
-        player->addEffect(EffectFactory::create(EffectType::HealthBoost));
     }
 };
