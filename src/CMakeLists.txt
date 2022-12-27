@@ -28,7 +28,6 @@ endif()
 
 
 #message("Hello" + "${CMAKE_CURRENT_SOURCE_DIR}")
-# TODO: Add tests and install targets if needed.
 
 if(WIN32)
 

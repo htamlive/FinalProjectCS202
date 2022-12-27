@@ -72,12 +72,12 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
                                   difficultyMetrics.minSpawnRate,
                                   difficultyMetrics.maxSpawnRate);
         auto shouldPlaceObstacle = Random(std::bernoulli_distribution(0.2));
-        auto shouldPlaceReward = Random(std::bernoulli_distribution(0.05));
+        auto shouldPlaceBoost = Random(std::bernoulli_distribution(0.05));
         for (int j = 0; j < laneType; j++) {
             for (int k = 0; k < mapWidth; k++) {
-                if (shouldPlaceReward.get<bool>()) {
-                    builder.addReward({k * GRID_SIZE.x,
-                                       (i + j) * GRID_SIZE.y}, GRID_SIZE);
+                if (shouldPlaceBoost.get<bool>()) {
+                    builder.addBoost({k * GRID_SIZE.x,
+                                      (i + j) * GRID_SIZE.y}, GRID_SIZE);
                 }
             }
         }
