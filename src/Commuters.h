@@ -42,13 +42,14 @@ private:
 
 class Water : public virtual PlayerCollidable, public virtual Entity {
 private:
+    bool isPlayerInWater = false;
     StopOnCommandEffect *damageEffect = nullptr;
     Texture::ID startTexture, midTexture, endTexture;
     unsigned int squareCount;
 
     void onStartPlayerCollision() override;
 
-    void onEndPlayerCollision() override;
+    void onRepeatPlayerCollision() override;
 
     void updateCurrent(sf::Time dt) override;
 

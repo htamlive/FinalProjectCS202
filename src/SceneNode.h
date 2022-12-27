@@ -77,6 +77,13 @@ public:
     void checkSceneCollision(SceneNode& node, std::set<Pair>& collisions);
 
     /**
+     * Implement this to allow collision detection
+     */
+    virtual sf::FloatRect getBoundingRect() const;
+
+    virtual sf::FloatRect getLocalBounds() const;
+
+    /**
      * Set the debug mode of the node
      * @param on: on/off
      * @param recursive: apply to all children
@@ -111,14 +118,6 @@ private:
      */
     void updateChildren(sf::Time dt);
 
-protected:
-    /**
-     * Implement this to allow collision detection
-     */
-    virtual sf::FloatRect getBoundingRect() const;
-    virtual sf::FloatRect getLocalBounds() const;
-
-private:
     int idx = -1;
     bool debug = false;
     bool applyDebugToChildren = false;

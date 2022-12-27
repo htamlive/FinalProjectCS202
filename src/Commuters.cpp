@@ -37,15 +37,29 @@ Category::Type Water::getCategory() const {
 }
 
 void Water::onStartPlayerCollision() {
-    auto effect = std::make_unique<StopOnCommandEffect>();
-    effect->concat(EffectFactory::create(EffectType::Drown));
-    damageEffect = effect.get();
-    player->addEffect(std::move(effect));
+    onRepeatPlayerCollision();
 }
 
-void Water::onEndPlayerCollision() {
-    damageEffect->stop();
-    damageEffect = nullptr;
+void Water::onRepeatPlayerCollision() {
+    auto isCompletelyWithin = [](sf::FloatRect outer, sf::FloatRect inner) {
+        return outer.contains(inner.left, inner.top) && outer.contains(inner.left + inner.width, inner.top + inner.height);
+    };
+
+    if (isCompletelyWithin(getBoundingRect(), player->getBoundingRect())) {
+        if (!isPlayerInWater) {
+            isPlayerInWater = true;
+            auto effect = std::make_unique<StopOnCommandEffect>();
+            effect->concat(EffectFactory::create(EffectType::Drown));
+            damageEffect = effect.get();
+            player->addEffect(std::move(effect));
+        }
+    } else {
+        if (isPlayerInWater) {
+            isPlayerInWater = false;
+            damageEffect->stop();
+            damageEffect = nullptr;
+        }
+    }
 }
 
 void Water::updateCurrent(sf::Time dt) {
