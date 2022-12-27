@@ -3,8 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include "Enums.h"
 
-const float VEHICLE_LANE_PROB = 0.5
-        ;
+const float VEHICLE_LANE_PROB = 0.5;
+
 const float ANIMAL_LANE_PROB = 0.3;
 
 const float RIVER_LANE_PROB = 1 - VEHICLE_LANE_PROB - ANIMAL_LANE_PROB;
@@ -21,6 +21,14 @@ const sf::Time INVINCIBLE_AFTER_DAMAGED_DURATION = sf::seconds(3);
 const sf::Time RECOIL_AFTER_COLLIDING_DURATION = sf::seconds(0.3);
 
 const sf::Time STUNNED_DURATION = sf::seconds(0.5);
+
+const sf::Time MIN_RED_LIGHT_DURATION = sf::seconds(2);
+
+const sf::Time MAX_RED_LIGHT_DURATION = sf::seconds(4);
+
+const sf::Time MIN_GREEN_LIGHT_DURATION = sf::seconds(5);
+
+const sf::Time MAX_GREEN_LIGHT_DURATION = sf::seconds(10);
 
 
 const sf::VideoMode WINDOW_VIDEO_MODE = {1024, 768};
