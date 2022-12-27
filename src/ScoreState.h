@@ -52,11 +52,15 @@ public:
 		this->gui->get<tgui::Button>("btnBack")->onMouseEnter([&]() {
 			zoomBig("btnBack");
 			});
-
+		this->gui->get<tgui::Button>("resetBtn")->onMouseEnter([&]() {
+			zoomBig("resetBtn");
+			});
 		this->gui->get<tgui::Button>("btnBack")->onMouseLeave([&]() {
 			zoomSmall("btnBack");
 			});
-
+		this->gui->get<tgui::Button>("resetBtn")->onMouseLeave([&]() {
+			zoomSmall("resetBtn");
+			});
 		this->gui->get<tgui::Button>("btnBack")->onClick([&]() {
 			endState();
 			});
