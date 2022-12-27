@@ -69,7 +69,9 @@ public:
 			break;
 		}
 	};
-
+	template <class T> const T& min(const T& a, const T& b) {
+		return !(b < a) ? a : b;     // or: return !comp(b,a)?a:b; for version (2)
+	}
 	void update(const float& dt) override {
 		totatTime += dt;
 		
@@ -90,16 +92,11 @@ public:
 			angle = A * sin(w * totatTime);
 
 			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle,{0.5f, 0.5f});
-			this->gui->get<tgui::Picture>("goldenGlow")->setInheritedOpacity(totatTime);
-			this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(totatTime);
-			this->gui->get<tgui::Picture>("bronzeGlow")->setInheritedOpacity(totatTime);
 		}
-		else if (totatTime < 0)
-		{
-			this->gui->get<tgui::Picture>("goldenGlow")->setInheritedOpacity(abs(totatTime));
-			this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(abs(totatTime));
-			this->gui->get<tgui::Picture>("bronzeGlow")->setInheritedOpacity(abs(totatTime));
-		}
+
+		this->gui->get<tgui::Picture>("goldenGlow")->setInheritedOpacity(min<float>(abs(totatTime) * 1.2, 1.f));
+		this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(min<float>(abs(totatTime) * 1.2, 1.f));
+		this->gui->get<tgui::Picture>("bronzeGlow")->setInheritedOpacity(min<float>(abs(totatTime) * 1.2, 1.f));
 	};
 
 	void updateBtns() {
