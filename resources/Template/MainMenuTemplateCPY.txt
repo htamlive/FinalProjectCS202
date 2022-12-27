@@ -194,8 +194,8 @@ Button.btnScore {
 }
 
 Picture.silverGlow {
-    Position = (150, 30);
-    Size = (721, 298);
+    Position = (140, 10);
+    Size = (721, 248);
 
     Renderer {
         Texture = "../glowEffect/Silver.png" Smooth;
