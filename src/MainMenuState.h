@@ -101,7 +101,9 @@ public:
 			break;
 		}
 	};
-
+	template <class T> const T& min(const T& a, const T& b) {
+		return !(b < a) ? a : b;     // or: return !comp(b,a)?a:b; for version (2)
+	}
 	void update(const float& dt) override {
 		Meow.update(dt); 
 
@@ -110,7 +112,7 @@ public:
 		{
 			totalTime = -totalTime;
 		}
-		this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(abs(totalTime) * 1.27);
+		this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(min<float>(abs(totalTime) * 1.27,1.f));
 	};
 
 	void render(sf::RenderTarget* target = nullptr) override;
