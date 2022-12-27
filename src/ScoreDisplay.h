@@ -25,7 +25,7 @@ public:
 
 
 	void update(int score) {
-		curScore = max(score, curScore);
+		curScore = std::max(score, curScore);
 		this->gui->get<tgui::Label>("lblScore")->setText(std::to_string(curScore));
 	}
 

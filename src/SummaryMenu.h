@@ -1,5 +1,5 @@
 ﻿#include "State.h"
-
+#include <fstream>
 class SummaryMenu : public State {
 private:
 	tgui::Group::Ptr myGroup;
@@ -30,6 +30,22 @@ private:
 		quit = false;
 		playAgain = false;
 	}
+
+	void saveScore(int score) {
+		std::ifstream ifs("data/scores.txt");
+		vector<int> v(3);
+		for (int i = 0; i < 3; ++i) {
+			ifs >> v[i];
+		}
+		v.push_back(score);
+		sort(v.rbegin(), v.rend());
+		ifs.close();
+		std::ofstream ofs("data/scores.txt");
+		for (int i = 0; i < 3; ++i) {
+			ofs << v[i] << "\n";
+		}
+		ofs.close();
+	}
 	
 public:
 	SummaryMenu(sf::RenderWindow* window, vector<State*>* states, int finalScore) : State(window, states) {
@@ -41,6 +57,7 @@ public:
 		this->initButtons();
 		
 		myGroup->get<tgui::Label>("lblFinalScore")->setText(tgui::String(finalScore));
+		saveScore(finalScore);
 	}
 
 	void updateInput() {

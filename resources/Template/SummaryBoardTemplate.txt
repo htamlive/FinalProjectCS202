@@ -96,7 +96,7 @@ Group.SummaryBox {
             BorderColor = #3C3C3C;
             Borders = (0, 0, 0, 0);
             Font = "../fonts/04B_30__.TTF";
-            TextColor = #9DEBFF;
+            TextColor = #CE83FF;
             TextureBackground = None;
         }
     }

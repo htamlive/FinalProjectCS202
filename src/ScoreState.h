@@ -23,6 +23,20 @@ private:
 		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
 	}
 	float w = 2.f, angle = 0.f, A = 360.f, totatTime = 0.f, opa = 0.f;
+
+	void initRank() {
+		vector<int> v(3);
+		ifstream ifs("data/scores.txt");
+		for (int i = 0; i < 3; ++i) {
+			ifs >> v[i];
+			if (v[i] == 0) continue;
+			tgui::String label = "lblTop" + std::to_string(i + 1);
+			this->gui->get<tgui::Label>(label)->setText(tgui::String(v[i]));
+		}
+		ifs.close();
+
+
+	}
 public:
 	bool isWordMode = true;
 	ScoreState(sf::RenderWindow* window, std::vector<State*>* states);
