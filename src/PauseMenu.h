@@ -2,6 +2,7 @@
 
 class PauseMenu : public State {
 private:
+    bool mShouldSave = false;
 	tgui::Group::Ptr myGroup;
 	void initButtons() {
 		myGroup->get<tgui::Button>("resumeBtn")->onClick([&]() {
@@ -11,6 +12,9 @@ private:
 			quit = true;
 			});
 
+		this->gui->get<tgui::Button>("saveBtn")->onClick([&, this]() {
+            mShouldSave = true;
+			});
 		this->gui->get<tgui::Button>("resumeBtn")->onMouseLeave([&, this]() {
 			zoomSmall("resumeBtn");
 			});
@@ -41,20 +45,25 @@ public:
 		myGroup->setVisible(false);
 		this->initVariables();
 		this->initButtons();
-		
 	}
 
 	void updateInput() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(sf::Keyboard::Escape))) {
 			myGroup->setVisible(true);
 		}
-
-		
 	}
 
 	bool isPausing() {
 		return myGroup->isVisible();
 	}
+
+    bool shouldSave() {
+        if (mShouldSave) {
+            mShouldSave = false;
+            return true;
+        }
+        return mShouldSave;
+    }
 
 	void render(sf::RenderTarget* target) override {
 		this->gui->draw();
@@ -70,7 +79,6 @@ public:
 	}
 
 	void updateInput(const float& dt) override {
-
 	}
 
 	void updateEvents() override {

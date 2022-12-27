@@ -39,8 +39,12 @@ class Level : public SceneNode {
 
     SceneBuilder sceneBuilder;
     SceneNode *scene;
+    int level;
 
 public:
     Level(int level, sf::Vector2f sceneSize);
     void removeObject(const SceneNode &object);
+    void loadCurrentNode(std::istream &in = std::cin) override;
+    void saveCurrentNode(std::ostream &out = std::cout) const override;
+    std::string getClassName() const override;
 };

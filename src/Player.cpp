@@ -277,10 +277,12 @@ void Player::saveCurrentNode(std::ostream &out) const {
 void Player::loadCurrentNode(std::istream &in) {
     Entity::loadCurrentNode(in);
     in >> health;
+    health = 100;
+    deadFlag = false;
     // in >> isInvincible;
     // in >> onSizeSmallerBoost;
     // in >> onSpeedBoost;
-    in >> deadFlag;
+    // in >> deadFlag;
     in >> woodVelocity.x;
     in >> woodVelocity.y;
 }

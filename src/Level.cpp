@@ -100,3 +100,15 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
 void Level::removeObject(const SceneNode &object) {
     scene->detachChild(object);
 }
+
+void Level::loadCurrentNode(std::istream &in) {
+    SceneNode::loadCurrentNode(in);
+}
+
+void Level::saveCurrentNode(std::ostream &out) const {
+    SceneNode::saveCurrentNode(out);
+}
+
+std::string Level::getClassName() const {
+    return "Level";
+}

@@ -34,6 +34,9 @@ public:
 
 World::World(sf::Vector2f sceneSize)
     : sceneSize(sceneSize) {
+}
+
+void World::init() {
     SceneNode::Ptr lv(new SceneNode());
     SceneNode::Ptr gl(new Grid(sceneSize));
     levelLayer = lv.get();
@@ -69,4 +72,16 @@ void World::drawCurrent(sf::RenderTarget &target,
 
 Level* World::getCurrentLevel() const {
     return maintainedLevels.back();
+}
+
+void World::loadCurrentNode(std::istream &in) {
+    SceneNode::loadCurrentNode(in);
+}
+
+void World::saveCurrentNode(std::ostream &out) const {
+    SceneNode::saveCurrentNode(out);
+}
+
+std::string World::getClassName() const {
+    return "World";
 }

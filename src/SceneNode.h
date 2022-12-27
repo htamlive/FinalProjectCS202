@@ -97,6 +97,8 @@ public:
 
     virtual sf::FloatRect getLocalBounds() const;
 
+    virtual void loadCurrentNode(std::istream& in = std::cin);
+
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -128,7 +130,6 @@ protected:
 
     virtual void saveCurrentNode(std::ostream& out = std::cout) const;
 
-    virtual void loadCurrentNode(std::istream& in = std::cin);
 
 private:
     int idx = -1;

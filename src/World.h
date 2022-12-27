@@ -35,10 +35,15 @@ class World : public SceneNode {
     void makeLevelTransition();
 
   public:
+    World() = default;
     World(sf::Vector2f sceneSize);
+    void init();
     void addNewLevel();
     void updateCurrent(sf::Time dt) override;
     Level* getCurrentLevel() const;
     void drawCurrent(sf::RenderTarget &target,
                      sf::RenderStates states) const override;
+    void loadCurrentNode(std::istream &in = std::cin) override;
+    void saveCurrentNode(std::ostream &out = std::cout) const override;
+    std::string getClassName() const override;
 };

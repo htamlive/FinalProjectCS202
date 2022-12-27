@@ -6,6 +6,7 @@
 #include "PauseMenu.h"
 #include "Camera.h"
 #include "World.h"
+#include "GameLoader.h"
 #include "SummaryMenu.h"
 
 class GameState : public State
@@ -48,7 +49,14 @@ private:
 		//summaryMenu = new SummaryMenu(window, states);
 		summaryMenu = nullptr;
 		world = new World(sf::Vector2f(window->getSize()));
-		world->setDebug(true, true);
+        ifstream fin("save.v1");
+        if (fin) {
+            world = dynamic_cast<World*>(loadNode(fin).release());
+            std::cout << "Loaded world" << std::endl;
+        } else {
+            world->init();
+        }
+		// world->setDebug(true, true);
         //world->setScale(0.8, 0.8);
 		camera = new Camera(*player, *window, *world);
 		world->attachChild(std::move(pPlayer));

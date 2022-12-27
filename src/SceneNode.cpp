@@ -35,6 +35,7 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode &childTarget) {
 void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform *= this->getTransform();
 
+    std::cout << "Drawing: " << getClassName() << std::endl;
     drawCurrent(target, states);
     if (debug) {
         drawBoundingBox(target, states);
@@ -46,6 +47,7 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 }
 
 void SceneNode::update(sf::Time dt) {
+    std::cout << "Updating: " << getClassName() << std::endl;
     updateCurrent(dt);
     updateChildren(dt);
 }

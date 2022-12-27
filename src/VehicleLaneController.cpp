@@ -89,6 +89,7 @@ std::string VehicleLaneController::getClassName() const {
 
 void VehicleLaneController::saveCurrentNode(std::ostream &out) const {
     RoadLaneController::saveCurrentNode(out);
+    out << " " << 0 << " " << 0 << std::endl;;
 }
 
 void VehicleLaneController::loadCurrentNode(std::istream &in) {

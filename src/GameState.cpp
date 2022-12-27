@@ -76,6 +76,13 @@ void GameState::updateInput(const float &dt) {
 };
 
 void GameState::update(const float &dt) {
+    std::cout << "GameState::update" << std::endl;
+    if (pauseMenu->shouldSave()) {
+        ofstream fout("save.v1");
+        world->saveNode(fout);
+        fout.close();
+    }
+
     float transDt = dt;
     if (pauseMenu->isPausing())
         transDt = 0;
@@ -137,6 +144,7 @@ void GameState::render(sf::RenderTarget *target) {
     if (!target) {
         target = this->window;
     }
+    std::cout << "Render" << std::endl;
     // this->player.render(target);
     this->gui->draw();
     target->draw(*world);
