@@ -37,6 +37,7 @@ private:
 
 
 	}
+	
 public:
 	bool isWordMode = true;
 	ScoreState(sf::RenderWindow* window, std::vector<State*>* states);
@@ -46,6 +47,19 @@ public:
 	void initBackground() {
 
 	};
+
+	void reset() {
+		ofstream ofs;
+		ofs.open("data/scores.txt", ios::trunc);
+		for (int i = 0; i < 3; ++i)
+		{
+			ofs << 0 << "\n";
+			tgui::String label = "lblTop" + std::to_string(i + 1);
+			tgui::String score = "TOP " + std::to_string(i + 1);
+			this->gui->get<tgui::Label>(label)->setText(score);
+		}
+		ofs.close();
+	}
 
 	void initButtons() {
 		
@@ -63,6 +77,9 @@ public:
 			});
 		this->gui->get<tgui::Button>("btnBack")->onClick([&]() {
 			endState();
+			});
+		this->gui->get<tgui::Button>("resetBtn")->onClick([&]() {
+			reset();
 			});
 	};
 
