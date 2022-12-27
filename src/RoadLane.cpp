@@ -30,6 +30,7 @@ RoadLane::RoadLane(Texture::ID commuterTexture,
 }
 
 void RoadLane::updateCommuters(sf::Time dt) {
+    // TODO: isLastCommuterFarEnough doesnt rly work
     auto isLastCommuterFarEnough = [&]() {
         if (!commuters.empty()) {
             if (getDirection() == Direction::Right) {
@@ -135,6 +136,29 @@ sf::Vector2f RoadLane::getVelocity() const {
         return {-speedX, 0};
 }
 
+std::string RoadLane::getClassName() const {
+    return "RoadLane";
+}
+
+void RoadLane::saveCurrentNode(std::ostream &out) const {
+    Lane::saveCurrentNode(out);
+    out << speedX << ' ' << (int)direction << ' ' << timer.asMilliseconds() << ' ' << (int)laneTexture << ' ' << commuterTexture << ' ' << commuterSize.x << ' ' << commuterSize.y << std::endl;
+    //TODO: out << frequency
+}
+
+void RoadLane::loadCurrentNode(std::istream &in) {
+    Lane::loadCurrentNode(in);
+    int dir, laneTex, comTex, timerMs;
+    in >> speedX >> dir >> timerMs >> laneTex >> comTex >> commuterSize.x >> commuterSize.y;
+    direction = (Direction)dir;
+    laneTexture = (Texture::ID)laneTex;
+    commuterTexture = (Texture::ID)comTex;
+    timer = sf::milliseconds(timerMs);
+
+    //TODO: in >> frequency
+    //TODO: bind commuters (children)
+}
+
 RoadLane::Type VehicleLane::getType() const {
     return RoadLane::Type::Vehicle;
 }
@@ -161,6 +185,20 @@ void VehicleLane::updateCommuters(sf::Time dt) {
         RoadLane::updateCommuters(dt);
 }
 
+std::string VehicleLane::getClassName() const {
+    return "VehicleLane";
+}
+
+void VehicleLane::saveCurrentNode(std::ostream &out) const {
+    RoadLane::saveCurrentNode(out);
+    out << stopSpawning << std::endl;
+}
+
+void VehicleLane::loadCurrentNode(std::istream &in) {
+    RoadLane::loadCurrentNode(in);
+    in >> stopSpawning;
+}
+
 RoadLane::Type AnimalLane::getType() const {
     return RoadLane::Type::Animal;
 }
@@ -180,6 +218,10 @@ std::unique_ptr<Entity> AnimalLane::newCommuter() const {
     }
     animal->adjustSpriteBounds(0, height - commuterSize.y - OFFSET_FROM_PAVEMENT);
     return animal;
+}
+
+std::string AnimalLane::getClassName() const {
+    return "AnimalLane";
 }
 
 WoodLane::WoodLane() : RoadLane(), maxWaterWidth(0) {}
@@ -254,4 +296,8 @@ void WoodLane::spawnWaterInMiddle() {
         commuters.push_back(water.get());
         attachChild(std::move(water));
     }
+}
+
+std::string WoodLane::getClassName() const {
+    return "WoodLane";
 }

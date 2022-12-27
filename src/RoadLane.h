@@ -75,6 +75,12 @@ public:
     void setSpeed(float);
 
     void setFrequency(Random<std::normal_distribution<double>> const &);
+
+    std::string getClassName() const override;
+
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
+
+    void loadCurrentNode(std::istream& in = std::cin) override;
 };
 
 class VehicleLane : public RoadLane, public LightObserver {
@@ -84,6 +90,10 @@ public:
     Type getType() const override;
 
     void onLightChanged() override;
+
+    std::string getClassName() const override;
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
+    void loadCurrentNode(std::istream& in = std::cin) override;
 
 protected:
     void updateCommuters(sf::Time dt) override;
@@ -99,6 +109,8 @@ public:
     using RoadLane::RoadLane;
 
     Type getType() const override;
+
+    std::string getClassName() const override;
 
 private:
     std::unique_ptr<Entity> newCommuter() const override;
@@ -119,6 +131,7 @@ public:
 
     Type getType() const override;
 
+    std::string getClassName() const override;
     Category::Type getCategory() const override;
 
     void setMaxWaterWidth(float width);

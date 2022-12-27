@@ -135,6 +135,40 @@ Category::Type SceneNode::getCategory() const {
     return Category::Type::None;
 }
 
+void SceneNode::loadCurrentNode(std::istream& in) {
+    float x, y;
+    float scaleX, scaleY;
+    float rotation;
+    // position
+    in >> x >> y;
+    setPosition(x, y);
+    // scale
+    in >> scaleX >> scaleY;
+    setScale(scaleX, scaleY);
+    // rotation
+    in >> rotation;
+    setRotation(rotation);
+}
+
+void SceneNode::saveNode(std::ostream& out) const {
+    out << getClassName() << std::endl;
+    saveCurrentNode(out);
+    out << mChildren.size() << std::endl;
+    for (const auto& child : mChildren) {
+        child->saveNode(out);
+    }
+}
+
+void SceneNode::saveCurrentNode(std::ostream& out) const {
+    out << getPosition().x << " " << getPosition().y << std::endl;
+    out << getScale().x << " " << getScale().y << std::endl;
+    out << getRotation() << std::endl;
+}
+
+std::string SceneNode::getClassName() const {
+    return "SceneNode";
+}
+
 bool SceneNode::operator<(const SceneNode &other) const {
     if (getCategory() != other.getCategory()) {
         return getCategory() < other.getCategory();

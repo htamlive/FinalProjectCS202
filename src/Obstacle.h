@@ -25,6 +25,10 @@ public:
     Category::Type getCategory() const override {
         return Category::Obstacle;
     }
+
+    std::string getClassName() const override {
+        return "Obstacle";
+    }
 };
 
 class Rock : public virtual Obstacle, public virtual Entity {
@@ -39,6 +43,10 @@ public:
 
     Category::Type getCategory() const override {
         return Obstacle::getCategory();
+    }
+
+    std::string getClassName() const override {
+        return "Rock";
     }
 };
 
@@ -58,5 +66,9 @@ public:
 
     Category::Type getCategory() const override {
         return Category::HealthBoost;
+    }
+
+    std::string getClassName() const override {
+        return "HealthBoost";
     }
 };

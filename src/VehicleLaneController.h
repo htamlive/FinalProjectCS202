@@ -44,4 +44,10 @@ public:
     void setGreenDuration(sf::Time);
 
     void build() override;
+
+    std::string getClassName() const override;
+
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
+
+    void loadCurrentNode(std::istream& in = std::cin) override;
 };

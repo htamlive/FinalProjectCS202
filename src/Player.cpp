@@ -263,3 +263,28 @@ sf::Vector2f Player::getDirectionVec() const {
 void Player::addPlatformVelocity(sf::Vector2f velocity) {
     platformVelocity += velocity;
 }
+
+void Player::saveCurrentNode(std::ostream &out) const {
+    Entity::saveCurrentNode(out);
+    // out << health << " ";
+    // out << isInvincible << " ";
+    // out << onSizeSmallerBoost << " ";
+    // out << onSpeedBoost << " ";
+    out << deadFlag << " ";
+    out << woodVelocity.x << " " << woodVelocity.y << " ";
+}
+
+void Player::loadCurrentNode(std::istream &in) {
+    Entity::loadCurrentNode(in);
+    in >> health;
+    // in >> isInvincible;
+    // in >> onSizeSmallerBoost;
+    // in >> onSpeedBoost;
+    in >> deadFlag;
+    in >> woodVelocity.x;
+    in >> woodVelocity.y;
+}
+
+std::string Player::getClassName() const {
+    return "Player";
+}

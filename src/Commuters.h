@@ -13,6 +13,8 @@ public:
     using PlayerCollidable::PlayerCollidable;
 
     Category::Type getCategory() const override;
+
+    std::string getClassName() const override;
 };
 
 class Animal : public virtual Enemy, public virtual Entity {
@@ -21,6 +23,8 @@ private:
 
 public:
     using Entity::Entity;
+    std::string getClassName() const override;
+    Category::Type getCategory() const override;
 };
 
 class Vehicle : public virtual Enemy, public virtual Obstacle, public virtual Entity, public LightObserver {
@@ -35,6 +39,8 @@ public:
     void onLightChanged() override;
 
     Category::Type getCategory() const override;
+
+    std::string getClassName() const override;
 
 private:
     sf::Vector2f tmpVelocity = {0, 0};
@@ -62,4 +68,6 @@ public:
           sf::Vector2f sizePerSquare, unsigned int squareCount, sf::Vector2f velocity);
 
     Category::Type getCategory() const override;
+
+    std::string getClassName() const override;
 };

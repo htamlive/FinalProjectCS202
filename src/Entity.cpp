@@ -52,6 +52,32 @@ void Entity::adjustBounds(float offX, float offY, float cropWidth, float cropHei
     localBounds.height -= cropHeight;
 }
 
+void Entity::saveCurrentNode(std::ostream &out) const {
+    SceneNode::saveCurrentNode(out);
+    out << velocity.x << " " << velocity.y << std::endl;
+    out << localBounds.left << " " << localBounds.top << " " << localBounds.width << " " << localBounds.height << std::endl;
+    out << spriteBounds.left << " " << spriteBounds.top << " " << spriteBounds.width << " " << spriteBounds.height << std::endl;
+    animation.save(out);
+}
+
+void Entity::loadCurrentNode(std::istream &in) {
+    SceneNode::loadCurrentNode(in);
+    float velocityX, velocityY;
+    float localBoundsLeft, localBoundsTop, localBoundsWidth, localBoundsHeight;
+    float spriteBoundsLeft, spriteBoundsTop, spriteBoundsWidth, spriteBoundsHeight;
+    in >> velocityX >> velocityY;
+    in >> localBoundsLeft >> localBoundsTop >> localBoundsWidth >> localBoundsHeight;
+    in >> spriteBoundsLeft >> spriteBoundsTop >> spriteBoundsWidth >> spriteBoundsHeight;
+    spriteBounds = {spriteBoundsLeft, spriteBoundsTop, spriteBoundsWidth, spriteBoundsHeight};
+    localBounds = {localBoundsLeft, localBoundsTop, localBoundsWidth, localBoundsHeight};
+    velocity = {velocityX, velocityY};
+    animation.load(in);
+}
+
+std::string Entity::getClassName() const {
+    return "Entity";
+}
+
 sf::FloatRect Entity::getSpriteBounds() const {
     return spriteBounds;
 }

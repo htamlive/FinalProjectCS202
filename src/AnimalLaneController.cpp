@@ -37,3 +37,7 @@ AnimalLaneController::newLane(Texture::ID laneTexture, RoadLane::Direction direc
 RoadLane::Type AnimalLaneController::getType() const {
     return RoadLane::Type::Animal;
 }
+
+std::string AnimalLaneController::getClassName() const {
+    return "AnimalLaneController";
+}

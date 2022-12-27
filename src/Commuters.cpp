@@ -2,6 +2,18 @@
 #include "Consts.h"
 #include "TextureHolder.h"
 
+Category::Type Animal::getCategory() const {
+    return Category::Enemy;
+}
+
+std::string Enemy::getClassName() const {
+    return "Enemy";
+}
+
+std::string Animal::getClassName() const {
+    return "Animal";
+}
+
 void Vehicle::onLightChanged() {
     auto oldVelocity = getVelocity();
     setVelocity(tmpVelocity);
@@ -13,6 +25,10 @@ Category::Type Vehicle::getCategory() const {
         return Enemy::getCategory();
     } else
         return Obstacle::getCategory();
+}
+
+std::string Vehicle::getClassName() const {
+    return "Vehicle";
 }
 
 void Vehicle::onStartPlayerCollision() {
@@ -130,4 +146,8 @@ void Enemy::onStartPlayerCollision() {
 void Animal::updateCurrent(sf::Time dt) {
     Entity::updateCurrent(dt);
     PlayerCollidable::updateCurrent(dt);
+}
+
+std::string Water::getClassName() const {
+    return "Water";
 }
