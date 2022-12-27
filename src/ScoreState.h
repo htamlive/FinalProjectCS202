@@ -88,7 +88,7 @@ public:
 			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
 			this->gui->get<tgui::Picture>("Picture1")->setPosition({ pos.x, 110 - A/4 * sin(2 * w * totatTime) });
 			angle = A * sin(w * totatTime);
-			std::cout << totatTime << endl;
+
 			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle,{0.5f, 0.5f});
 			this->gui->get<tgui::Picture>("goldenGlow")->setInheritedOpacity(totatTime);
 			this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(totatTime);
