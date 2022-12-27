@@ -6,13 +6,13 @@
 #include <iostream>
 
 Entity::Entity()
-        : animation(Texture::ID::LeftVehicle, DEF_ANIMATION_DURATION, true), localBounds(0, 0, 0, 0) {}
+        : animation(Texture::Null, DEF_ANIMATION_DURATION, true), localBounds(0, 0, 0, 0) {}
 
 Entity::Entity(Texture::ID texture, sf::Vector2f position, sf::Vector2f size, sf::Vector2f velocity,
                sf::Time animationDuration, bool loop)
         : animation(texture, animationDuration, loop), velocity(velocity), spriteBounds({0, 0}, size) {
     setPosition(position);
-    localBounds = sf::FloatRect({0, 0}, {size.x, size.y});
+    localBounds = spriteBounds;
 }
 
 
@@ -32,16 +32,12 @@ void Entity::updateCurrent(sf::Time dt) {
 void Entity::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates state) const {
     sf::Sprite sprite = animation.toSprite();
-    auto scale = sprite.getScale();
-    sprite.setScale(scale.x * spriteBounds.width / sprite.getLocalBounds().width,
-                    scale.y * spriteBounds.height / sprite.getLocalBounds().height);
-    sprite.setPosition(spriteBounds.left, spriteBounds.top);
+    auto bounds = getSpriteBounds();
+    auto preScale = sprite.getScale();
+    sprite.setScale(bounds.width / sprite.getLocalBounds().width * preScale.x,
+                    bounds.height / sprite.getLocalBounds().height * preScale.y);
+    sprite.setPosition(bounds.left, bounds.top);
     target.draw(sprite, state);
-}
-
-// TODO: this function is ugly
-bool Entity::isOutOfScreen() const {
-    return getAbsPosition().x + localBounds.width < 0 || getAbsPosition().x > WINDOW_VIDEO_MODE.width;
 }
 
 void Entity::adjustSpriteBounds(float offX, float offY) {
@@ -55,7 +51,6 @@ void Entity::adjustBounds(float offX, float offY, float cropWidth, float cropHei
     localBounds.width -= cropWidth;
     localBounds.height -= cropHeight;
 }
-
 
 void Entity::saveCurrentNode(std::ostream &out) const {
     SceneNode::saveCurrentNode(out);
@@ -83,3 +78,6 @@ std::string Entity::getClassName() const {
     return "Entity";
 }
 
+sf::FloatRect Entity::getSpriteBounds() const {
+    return spriteBounds;
+}

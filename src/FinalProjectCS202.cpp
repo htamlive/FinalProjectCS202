@@ -7,7 +7,7 @@
 
 int main()
 {
-    //AnimationsByFrames animations("FinalProjectCS202/spritesheet/main/goDown.png");
+    //AnimationsByFrames animations("FinalProjectCS202/spritesheet/character/goDown.png");
 
 
     Game game;

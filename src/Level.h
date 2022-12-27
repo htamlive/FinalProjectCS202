@@ -13,7 +13,7 @@ const float BASE_SPAWN_RATE_DECREASE = 0.01;
 
 const float BASE_MIN_SPEED = 100.f;
 const float BASE_MAX_SPEED = 200.f;
-const float BASE_SPEED_INCREASE = 40.f;
+const float BASE_SPEED_INCREASE = 25.f;
 const int   MAX_LANE_COUNT = 8;
 
 class Level : public SceneNode {

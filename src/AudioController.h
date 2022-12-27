@@ -15,7 +15,12 @@ namespace SoundEffect {
         Jump,
         GreenLight,
         RedLight,
-        ButtonPressed
+        ButtonPressed, 
+        CarNoise,
+        GameOver,
+        Stun,
+        Hitting,
+        Regen
     };
 }
 
@@ -52,6 +57,7 @@ public:
     void playMusic(Music::ID id, bool loop = false);
     void resumeMusic();
     void pauseMusic();
+    void pauseSound();
     void setMuted(bool);
     void setMusicVolume(float vol);
     void loadMusicFromFile(Music::ID type, const std::string &path);

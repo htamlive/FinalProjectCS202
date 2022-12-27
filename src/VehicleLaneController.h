@@ -5,10 +5,10 @@
 
 class VehicleLaneController : public RoadLaneController {
 private:
-    const std::map<RoadLane::Direction, std::vector<Texture::ID>> vehicleTextures = {{RoadLane::Direction::Left,  {Texture::ID::LeftVehicle}},
-                                                                                     {RoadLane::Direction::Right, {Texture::ID::RightVehicle}}};
+    const std::map<RoadLane::Direction, std::vector<Texture::ID>> vehicleTextures = {{RoadLane::Direction::Left,  {Texture::LeftRedTruck,  Texture::LeftRedCar,  Texture::LeftGreenCar,  Texture::LeftBlueCar}},
+                                                                                     {RoadLane::Direction::Right, {Texture::RightRedTruck, Texture::RightRedCar, Texture::RightGreenCar, Texture::RightBlueCar}}};
     Light *light = nullptr;
-    sf::Time greenTimer, redTimer;
+    sf::Time greenDuration = {}, redDuration = {};
 
     Texture::ID monoLane() const override;
 
@@ -23,17 +23,25 @@ protected:
     newLane(Texture::ID laneTexture, RoadLane::Direction direction, float speed, float y) const override;
 
 public:
+    using RoadLaneController::RoadLaneController;
+
     VehicleLaneController(unsigned int laneCount, float y,
                           Random<std::normal_distribution<double>> speedDistribution,
-                          const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction,
-                          sf::Time greenTimer, sf::Time redTimer);
+                          const std::function<Random<std::normal_distribution<double>>(
+                                  double speed)> &frequencyFunction,
+                          sf::Time greenDuration, sf::Time redDuration);
 
     VehicleLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
                           Random<std::normal_distribution<double>> speedDistribution,
-                          const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction,
-                          sf::Time greenTimer, sf::Time redTimer);
+                          const std::function<Random<std::normal_distribution<double>>(
+                                  double speed)> &frequencyFunction,
+                          sf::Time greenDuration, sf::Time redDuration);
 
     RoadLane::Type getType() const override;
+
+    void setRedDuration(sf::Time);
+
+    void setGreenDuration(sf::Time);
 
     void build() override;
 

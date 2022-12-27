@@ -18,11 +18,6 @@ public:
         Left = 0, Right = 1
     };
 
-private:
-    void updateCurrent(sf::Time dt) override;
-
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
-
 protected:
     float speedX;
     Direction direction;
@@ -45,6 +40,10 @@ protected:
 
     sf::Vector2f getVelocity() const;
 
+    void updateCurrent(sf::Time dt) override;
+
+    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const override;
+
 public:
     RoadLane();
 
@@ -52,12 +51,14 @@ public:
              Random<std::normal_distribution<double>> frequency);
 
     RoadLane(Texture::ID commuterTexture, Texture::ID laneTexture, float y, float laneHeight,
-             float commuterWidth, float commuterHeight, Direction direction, float speed,
+             sf::Vector2f commuterSize, Direction direction, float speed,
              Random<std::normal_distribution<double>> frequency);
 
     virtual Type getType() const = 0;
 
     Direction getDirection() const;
+
+    sf::FloatRect getLocalBounds() const override;
 
     void setPosY(float) override;
 
@@ -115,14 +116,37 @@ private:
     std::unique_ptr<Entity> newCommuter() const override;
 };
 
-class River : public RoadLane {
+class WoodLane : public virtual RoadLane, public virtual PlayerCollidable {
 public:
-    using RoadLane::RoadLane;
+    WoodLane();
+
+    WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture,
+             Texture::ID woodTexture, float y, float speed,
+             Random<std::normal_distribution<double>> frequency);
+
+    WoodLane(Texture::ID waterBeforeWoodTexture, Texture::ID waterTexture, Texture::ID waterAfterWoodTexture,
+             Texture::ID woodTexture, float y, float laneHeight,
+             float minWaterWidth, float maxWaterWidth, Direction direction, float speed,
+             Random<std::normal_distribution<double>> frequency);
 
     Type getType() const override;
 
     std::string getClassName() const override;
+    Category::Type getCategory() const override;
+
+    void setMaxWaterWidth(float width);
+
+    void spawnWaterInMiddle();
 
 private:
+    float maxWaterWidth;
+    Texture::ID waterBeforeWoodTexture, waterAfterWoodTexture;
+
+    void updateCurrent(sf::Time dt) override;
+
+    void onStartPlayerCollision() override;
+
+    void onEndPlayerCollision() override;
+
     std::unique_ptr<Entity> newCommuter() const override;
 };

@@ -13,13 +13,11 @@
  * Override `drawCurrent` and `updateCurrent` if need to.
  */
 
-class Entity : public SceneNode {
-private:
+class Entity : public virtual SceneNode {
+protected:
     sf::Vector2f velocity;
     sf::FloatRect localBounds;
     sf::FloatRect spriteBounds;
-
-protected:
     AnimationMachine animation;
 
     void drawCurrent(sf::RenderTarget &target,
@@ -49,12 +47,6 @@ public:
            sf::Time animationDuration = DEF_ANIMATION_DURATION,
            bool loop = true);
 
-    /**
-     * Check if this entity is out of screen
-     * @return true if out of screen, false otherwise
-     */
-    bool isOutOfScreen() const;
-
     sf::Vector2f getVelocity() const;
 
     /**
@@ -66,8 +58,16 @@ public:
 
     sf::FloatRect getLocalBounds() const override;
 
+    sf::FloatRect getSpriteBounds() const;
+
+    /**
+     * Does not account for scaling.
+     */
     void adjustSpriteBounds(float offX, float offY);
 
+    /**
+     * Does not account for scaling.
+     */
     void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
 
     std::string getClassName() const override;

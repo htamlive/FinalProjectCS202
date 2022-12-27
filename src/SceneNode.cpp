@@ -14,6 +14,7 @@ void SceneNode::attachChild(Ptr child) {
         child->setDebug(true, true);
     }
     child->mParent = this;
+    child->idx = (int)mChildren.size();
     mChildren.push_back(std::move(child));
 }
 
@@ -166,4 +167,14 @@ void SceneNode::saveCurrentNode(std::ostream& out) const {
 
 std::string SceneNode::getClassName() const {
     return "SceneNode";
+}
+
+bool SceneNode::operator<(const SceneNode &other) const {
+    if (getCategory() != other.getCategory()) {
+        return getCategory() < other.getCategory();
+    }
+    if (mParent != other.mParent) {
+        return *mParent < *other.mParent;
+    }
+    return idx < other.idx;
 }

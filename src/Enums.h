@@ -10,17 +10,38 @@ enum Type {
     SmallSizeBoost,
     SpeedBoost,
     HealthBoost,
+    InvincibleBoost,
     Health,
-    Wood
+    Wood,
+    Water
 };
 }
 
+enum class EffectType {
+    HealthBoost,
+    SmallSizeBoost,
+    SpeedBoost,
+    InvincibleBoost,
+    Hungry,
+    HitEnemy,
+    Drunk,
+    Drown
+};
+
 namespace Texture {
 enum ID {
-    LeftVehicle,
-    RightVehicle,
-    LeftAnimal,
-    RightAnimal,
+    LeftRedTruck,
+    RightRedTruck,
+    LeftBlueCar,
+    RightBlueCar,
+    LeftGreenCar,
+    RightGreenCar,
+    LeftRedCar,
+    RightRedCar,
+    LeftCucumber,
+    RightCucumber,
+    LeftPlane,
+    RightPlane,
     PlayerJumpLeft,
     PlayerJumpRight,
     PlayerJumpUp,
@@ -39,13 +60,27 @@ enum ID {
     MidRoadLane,
     BotRoadLane,
     MonoRoadLane,
-    SafeLane,
     Background,
     Obstacle,
     Object,
     RIP,
     HealthBoost,
-    Water,
-    Wood
+    WaterAndWood,
+    TopWoodLane,
+    MidWoodLane,
+    BotWoodLane,
+    MonoWoodLane,
+    WaterTopLane,
+    WaterMidLane,
+    WaterBotLane,
+    WaterMonoLane,
+    WaterBeforeWoodTopLane,
+    WaterBeforeWoodMidLane,
+    WaterBeforeWoodBotLane,
+    WaterBeforeWoodMonoLane,
+    WaterAfterWoodTopLane,
+    WaterAfterWoodMidLane,
+    WaterAfterWoodBotLane,
+    WaterAfterWoodMonoLane
 };
 }

@@ -8,23 +8,31 @@
 
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
 
-class Wall : public SceneNode {
-    sf::FloatRect bounds;
+class Wall : public PlayerCollidable {
+private:
     sf::Vector2f velocity;
-public:
-    Wall(sf::FloatRect bounds) : bounds(bounds) {
+    sf::FloatRect bounds;
+
+    void onStartPlayerCollision() override {
+        sf::Vector2f direction = -player->getDirectionVec();
+        auto newPos = player->getPosition() + direction * (GRID_SIZE.x);
+        player->setState(new CollidingState(player, newPos));
     }
+
+public:
+    Wall(sf::FloatRect bounds) : bounds(bounds) {}
+
     sf::FloatRect getLocalBounds() const override {
         return bounds;
     }
-    void updateCurrent(sf::Time dt) override {
-        move(velocity * dt.asSeconds());
-    }
+
     void setVelocity(sf::Vector2f velocity) {
         this->velocity = velocity;
     }
-    Category::Type getCategory() const override {
-        return Category::Obstacle;
+
+    void updateCurrent(sf::Time dt) override {
+        move(velocity * dt.asSeconds());
+        PlayerCollidable::updateCurrent(dt);
     }
 };
 

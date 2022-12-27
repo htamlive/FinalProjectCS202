@@ -3,7 +3,7 @@
 #include "SceneNode.h"
 #include "Enums.h"
 
-class Lane : public SceneNode {
+class Lane : public virtual SceneNode {
 public:
     virtual void setPosY(float) = 0;
 

@@ -11,16 +11,26 @@ AudioController &AudioController::instance() {
 }
 
 void AudioController::playSound(SoundEffect::ID id) {
+
     if (isMuted)
         return;
 
+
     sounds.emplace_back(getSoundBuffer(id));
+
     sounds.back().play();
 }
 
 sf::SoundBuffer &AudioController::getSoundBuffer(SoundEffect::ID id) {
     auto found = soundBar.find(id);
     return *found->second;
+}
+
+void AudioController::pauseSound() {
+    while(sounds.size())
+    {
+        sounds.pop_front();
+    }
 }
 
 void AudioController::playMusic(Music::ID id, bool loop) {

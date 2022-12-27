@@ -9,7 +9,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add source to this project's executable.
 file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/src/*.cpp)
-add_executable (FinalProjectCS202 ${sourcecode})
+
+
+set(APP_ICON_RESOURCE_WINDOWS "../resources/icons/appicon.rc")
+
+add_executable(FinalProjectCS202
+        ${sourcecode}
+        ${APP_ICON_RESOURCE_WINDOWS}
+)
+
+
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -42,10 +51,14 @@ endif (WIN32)
 if(UNIX)
     find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
     include_directories(${SFML_INCLUDE_DIRS})
-    target_link_libraries(FinalProjectCS202 sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+    if(APPLE)
+        target_link_libraries(FinalProjectCS202 sfml-system sfml-window sfml-graphics sfml-audio sfml-network)
+    else()
+        target_link_libraries(FinalProjectCS202 sfml-system sfml-window sfml-graphics sfml-audio sfml-network tgui)
+    endif()
 
     include_directories(${CMAKE_SOURCE_DIR}/TGUI-0.9.5/include)
     file(GLOB LIBRARIES "${CMAKE_SOURCE_DIR}/TGUI-0.9.5/lib/*.dylib")
     message("LIBRARIES = ${LIBRARIES}")
     target_link_libraries(FinalProjectCS202 ${LIBRARIES})
-endif (UNIX)
+endif(UNIX)

@@ -20,12 +20,13 @@ GameState::GameState(sf::RenderWindow *window,
 };
 
 void GameState::initMusic() {
-    AudioController::instance().loadSoundFromFile(SoundEffect::GreenLight, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
-    AudioController::instance().playSound(SoundEffect::GreenLight);
+    AudioController::instance().loadSoundFromFile(SoundEffect::CarNoise, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
+    AudioController::instance().playSound(SoundEffect::CarNoise);
 }
 
 GameState::~GameState() {
     delVariables();
+    AudioController::instance().pauseSound();
 };
 
 void GameState::updateEventsPauseMenu() {
@@ -85,43 +86,38 @@ void GameState::update(const float &dt) {
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
     // Queue to remove all colliding nodes
-    // Prevent segmenation fault
+    // Prevent segmentation fault
     // Reason: The deleted node still exists in the collisionPairs
     vector<SceneNode*> removeQueue;
     for (auto pair : collisionPairs) {
-        Entity *nodeA = nullptr, *nodeB = nullptr;
         if (pair.second->getCategory() == Category::Player) {
             std::swap(pair.first, pair.second);
         }
-        nodeA = reinterpret_cast<Entity *>(pair.first);
-        nodeB = reinterpret_cast<Entity *>(pair.second);
+
+        auto nodeA = pair.first;
+        auto nodeB = pair.second;
 
         if (nodeA->getCategory() == Category::Player) {
+            auto collidable = dynamic_cast<PlayerCollidable *>(nodeB);
+            if (collidable) {
+                collidable->onPlayerCollision(*player);
+            }
+
             switch (nodeB->getCategory()) {
-                case Category::Obstacle:
-                    player->onCollision(nodeB);
-                    break;
-                case Category::Enemy:
-                    player->onCollision(nodeB);
-                    break;
-                case Category::Wood: {
-                    player->onCollideWithWood(nodeB->getVelocity());
-                    break;
-                }
                 case Category::HealthBoost:
-                    player->takeFood();
+//                    player->addEffect(EffectFactory::create(EffectType::HealthBoost));
                     removeQueue.push_back(nodeB);
                     break;
                 case Category::SmallSizeBoost:
-                    player->takeSmallSizeBoost();
+                    player->addEffect(EffectFactory::create(EffectType::SmallSizeBoost));
                     removeQueue.push_back(nodeB);
                     break;
                 case Category::SpeedBoost:
-                    player->takeSpeedBoost();
+                    player->addEffect(EffectFactory::create(EffectType::SpeedBoost));
                     removeQueue.push_back(nodeB);
                     break;
-                case Category::Health:
-                    player->takeFood();
+                case Category::InvincibleBoost:
+                    player->addEffect(EffectFactory::create(EffectType::InvincibleBoost));
                     removeQueue.push_back(nodeB);
                     break;
                 default:

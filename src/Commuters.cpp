@@ -6,6 +6,10 @@ Category::Type Animal::getCategory() const {
     return Category::Enemy;
 }
 
+std::string Enemy::getClassName() const {
+    return "Enemy";
+}
+
 std::string Animal::getClassName() const {
     return "Animal";
 }
@@ -17,21 +21,133 @@ void Vehicle::onLightChanged() {
 }
 
 Category::Type Vehicle::getCategory() const {
-    if (getVelocity() == sf::Vector2f(0, 0)) {
-        return Category::Obstacle;
-    }
-    else
-        return Category::Enemy;
+    if (getVelocity() != sf::Vector2f(0, 0)) {
+        return Enemy::getCategory();
+    } else
+        return Obstacle::getCategory();
 }
 
 std::string Vehicle::getClassName() const {
     return "Vehicle";
 }
 
-Category::Type Wood::getCategory() const {
-    return Category::Wood;
+void Vehicle::onStartPlayerCollision() {
+    if (getCategory() == Enemy::getCategory()) {
+        Enemy::onStartPlayerCollision();
+    } else {
+        Obstacle::onStartPlayerCollision();
+    }
 }
 
-std::string Wood::getClassName() const {
-    return "Wood";
+void Vehicle::updateCurrent(sf::Time dt) {
+    Entity::updateCurrent(dt);
+    if (getCategory() == Enemy::getCategory()) {
+        Enemy::updateCurrent(dt);
+    } else {
+        Obstacle::updateCurrent(dt);
+    }
+}
+
+Category::Type Water::getCategory() const {
+    return Category::Water;
+}
+
+void Water::onStartPlayerCollision() {
+    onRepeatPlayerCollision();
+}
+
+void Water::onRepeatPlayerCollision() {
+    auto isCompletelyWithin = [](sf::FloatRect outer, sf::FloatRect inner) {
+        return outer.contains(inner.left, inner.top) && outer.contains(inner.left + inner.width, inner.top + inner.height);
+    };
+
+    if (isCompletelyWithin(getBoundingRect(), player->getBoundingRect())) {
+        if (!isPlayerInWater) {
+            isPlayerInWater = true;
+            auto effect = std::make_unique<StopOnCommandEffect>();
+            effect->concat(EffectFactory::create(EffectType::Drown));
+            damageEffect = effect.get();
+            player->addEffect(std::move(effect));
+        }
+    } else {
+        if (isPlayerInWater) {
+            isPlayerInWater = false;
+            damageEffect->stop();
+            damageEffect = nullptr;
+        }
+    }
+}
+
+void Water::updateCurrent(sf::Time dt) {
+    Entity::updateCurrent(dt);
+    PlayerCollidable::updateCurrent(dt);
+}
+
+Water::Water() : Entity(), PlayerCollidable(), startTexture(), midTexture(), endTexture(), squareCount(0) {}
+
+Water::Water(Texture::ID startTexture, Texture::ID midTexture, Texture::ID endTexture, sf::Vector2f position,
+             sf::Vector2f sizePerSquare, unsigned int squareCount, sf::Vector2f velocity) : Entity({},
+                                                                                                   position,
+                                                                                                   {sizePerSquare.x *
+                                                                                                    (float) squareCount,
+                                                                                                    sizePerSquare.y},
+                                                                                                   velocity),
+                                                                                            PlayerCollidable(),
+                                                                                            startTexture(startTexture),
+                                                                                            midTexture(midTexture),
+                                                                                            endTexture(endTexture),
+                                                                                            squareCount(squareCount) {}
+
+void Water::drawCurrent(sf::RenderTarget &target, sf::RenderStates state) const {
+    sf::Vector2f squareSize = {getSpriteBounds().width / (float) squareCount, getSpriteBounds().height};
+
+    for (auto i = 0; i < squareCount; i++) {
+        Texture::ID id = i == 0 ? startTexture : i == squareCount - 1 ? endTexture : midTexture;
+        auto sprite = TextureHolder::instance().getSheet(id).getSprite(0);
+        auto preScale = sprite.getScale();
+        sprite.setScale(squareSize.x / sprite.getLocalBounds().width * preScale.x,
+                        squareSize.y / sprite.getLocalBounds().height * preScale.y);
+        sf::Vector2f pos = {getSpriteBounds().left + squareSize.x * (float) i, getSpriteBounds().top};
+        sprite.setPosition(pos);
+
+        target.draw(sprite, state);
+    }
+}
+
+Category::Type Enemy::getCategory() const {
+    return Category::Enemy;
+}
+
+void Enemy::onStartPlayerCollision() {
+    auto getDirection = [](sf::Vector2f v) {
+        if (v.y != 0) {
+            v.y /= std::abs(v.y);
+        }
+        if (v.x != 0) {
+            v.x /= std::abs(v.x);
+        }
+        return v;
+    };
+
+    if (!player->isInvincible()) {
+        player->addEffect(EffectFactory::create(EffectType::HitEnemy));
+        sf::Vector2f direction = getAbsPosition() - player->getAbsPosition();
+        if (abs(direction.x) > abs(direction.y)) {
+            direction.y = 0;
+        } else {
+            direction.x = 0;
+        }
+        direction = -getDirection(direction);
+        sf::Vector2f newPos = player->getPosition() + direction * (GRID_SIZE.x / 2);
+        player->setState(new CollidingState(player, newPos));
+    }
+}
+
+void Animal::updateCurrent(sf::Time dt) {
+    Entity::updateCurrent(dt);
+    PlayerCollidable::updateCurrent(dt);
+}
+
+std::string Water::getClassName() const {
+    return "Water";
 }

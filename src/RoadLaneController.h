@@ -30,6 +30,11 @@ public:
     void saveCurrentNode(std::ostream& out = std::cout) const override;
 
     void loadCurrentNode(std::istream& in = std::cin) override;
+    void setLaneCount(unsigned int);
+
+    void setSpeedDistribution(Random<std::normal_distribution<double>>);
+
+    void setFrequencyFunction(const std::function<Random<std::normal_distribution<double>>(double speed)> &);
 
 protected:
     std::vector<RoadLane *> lanes;

@@ -4,11 +4,13 @@
 #include "Entity.h"
 #include "Enums.h"
 #include "SceneNode.h"
+#include "Effects.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
 // [x] Boost tăng tốc
 // [x] Boost small size
+// [x] Bị xỉn xong đi ngược
 // [ ] Vỏ chuối
 // [ ] Mud
 // [ ] Hiệu ứng mù (bãi nước đen)
@@ -32,79 +34,79 @@
  */
 
 class PlayerState;
+
 class Player : public Entity {
     friend class PlayerState;
+
     friend class JumpingState;
+
     friend class IdleState;
+
     friend class StunnedState;
+
     friend class SpeedBoostingState;
-    friend class ObstacleCollidingState;
-    friend class InvincibleState;
+
     friend class CollidingState;
+
+    friend class ObstacleCollidingState;
+
+    friend class InvincibleState;
+
     friend class DyingState;
+
     friend class DeadState;
+
     friend class PlayerEffect;
 
 public:
     Player();
+
     Player(sf::Vector2f position, sf::Vector2f size);
 
-    void           onKeyPressed(sf::Event::KeyEvent);
-    void           onCollision(SceneNode *other);
+    void onKeyPressed(sf::Event::KeyEvent);
+
     Category::Type getCategory() const override;
-    void           setState(PlayerState *newState);
-    void           takeDamage(float damage);
-    void           takeFood();
-    void           takeSmallSizeBoost();
-    void           takeSpeedBoost();
-    void           onCollideWithWood(sf::Vector2f velocity);
-    bool           isDead();
+
+    void setState(PlayerState *newState);
+
+    void addHealth(float delta);
+
+    bool isDead();
+
+    void addEffect(std::unique_ptr<Effect> effect);
+
+    bool isInvincible() const;
+
+    sf::Vector2f getDirectionVec() const;
+
+    void addPlatformVelocity(sf::Vector2f velocity);
 
 protected:
     void updateCurrent(sf::Time dt) override;
+
     void drawCurrent(sf::RenderTarget &target,
-                     sf::RenderStates  states) const override;
+                     sf::RenderStates states) const override;
 
 private:
-    bool isJumping() const;
-
-    void updateJump(sf::Time dt);
-
-    void onJumpAnimationFinished();
-
     void drawHealthBar(sf::RenderTarget &target, sf::RenderStates states) const;
-
-    sf::FloatRect getLocalBounds() const override;
 
     sf::Vector2f getNearestGridPosition(sf::Vector2f pos) const;
 
-private:
-    PlayerState *state;
+    void applyEffects(sf::Time dt);
 
-    sf::FloatRect       localBounds;
-    const sf::FloatRect defaultBounds =
-        sf::FloatRect(20, 20, GRID_SIZE.x - 40, GRID_SIZE.y - 40);
+private:
     Texture::ID jumpTexture, idleTexture, ripTexture;
 
-    float health              = MAX_HEALTH;
-    float healthReductionRate = 2;
+    PlayerState *state;
 
-    const sf::Time sizeBoostDuration = sf::seconds(5);
-    sf::Time       sizeBoostTime     = sf::Time::Zero;
-    bool           onSizeSmallerBoost       = true;
-    sf::FloatRect  sizeBoostBounds =
-        sf::FloatRect(25, 25, GRID_SIZE.x - 50, GRID_SIZE.y - 50);
+    float jumpDurationScale = 1;
+    sf::Vector2i distanceScale = {1, 1};
+    int invincibleBoostCount = 0;
+    std::vector<std::tuple<std::unique_ptr<Effect>, sf::Time, unsigned int>> effects;
 
-    const sf::Time speedBoostDuration = sf::seconds(5);
-    sf::Time       speedBoostTime     = sf::Time::Zero;
-    bool           onSpeedBoost       = true;
-
-    const sf::Time invincibleDuration = sf::seconds(3);
-    sf::Time       invincibleTime     = sf::Time::Zero;
-    bool           isInvincible       = false;
-
+    sf::Vector2f platformVelocity = {0, 0};
+    float health = MAX_HEALTH;
     bool deadFlag = false;
-
     SceneNode *collidingObstacle = nullptr;
     sf::Vector2f woodVelocity = {0, 0};
 

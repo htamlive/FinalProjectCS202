@@ -4,12 +4,11 @@ ScoreState::ScoreState(sf::RenderWindow* window, std::vector<State*>* states) : 
 {
 	this->gui->loadWidgetsFromFile("resources/Template/ScoreBoardTemplate.txt");
 
-
+	//this->gui->get<tgui::Picture>("Picture1")->setOrigin(0.5f,0.5f);
 	initBackground();
 
 	//initSearchBar();
 	initButtons();
-
 
 
 }

@@ -3,6 +3,8 @@
 /.idea/
 /TGUI-0.9.5/
 FinalProjectCS202
+/resources/textFile/MusicController.txt
+/resources/textFile/SoundController.txt
 
 .vs
 .vscode
@@ -19,8 +21,6 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
-MusicController.txt
-SoundController.txt
 
 *.vcxproj
 *.vcxproj.filters
@@ -36,3 +36,6 @@ test_*
 
 html
 latex
+/resources/textFile/MusicController.txt
+/resources/textFile/SoundController.txt
+

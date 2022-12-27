@@ -88,6 +88,14 @@ public:
     virtual Category::Type getCategory() const;
 
     void saveNode(std::ostream& out) const;
+    bool operator <(SceneNode const &other) const;
+
+    /**
+     * Implement this to allow collision detection
+     */
+    virtual sf::FloatRect getBoundingRect() const;
+
+    virtual sf::FloatRect getLocalBounds() const;
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -115,12 +123,6 @@ private:
     void updateChildren(sf::Time dt);
 
 protected:
-    /**
-     * Implement this to allow collision detection
-     */
-    virtual sf::FloatRect getBoundingRect() const;
-
-    virtual sf::FloatRect getLocalBounds() const;
 
     virtual std::string getClassName() const;
 
@@ -129,6 +131,7 @@ protected:
     virtual void loadCurrentNode(std::istream& in = std::cin);
 
 private:
+    int idx = -1;
     bool debug = false;
     bool applyDebugToChildren = false;
     std::vector<Ptr> mChildren;

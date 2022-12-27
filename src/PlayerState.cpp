@@ -2,120 +2,112 @@
 #include "Consts.h"
 #include "Player.h"
 #include <SFML/System/Time.hpp>
+#include "AudioController.h"
 
 PlayerState::PlayerState(Player *player) : player(player) {}
+
 PlayerState::~PlayerState() = default;
 
 JumpingState::JumpingState(Player *player, sf::Vector2f jumpPos)
-    : PlayerState(player), jumpPos(jumpPos) {
+        : PlayerState(player), jumpPos(jumpPos) {
     player->animation =
-        AnimationMachine(player->jumpTexture, JUMP_DURATION, false);
+            AnimationMachine(player->jumpTexture, JUMP_DURATION, false);
+    AudioController::instance().playSound(SoundEffect::Jump);
 }
 
 void JumpingState::update(sf::Time dt) {
-    auto p      = player;
+    auto p = player;
     auto length = jumpPos - p->getPosition();
     if (isJumping()) {
-        auto         timeLeft = jumpDuration - jumpTime;
-        sf::Vector2f vel      = {length.x / timeLeft.asSeconds(),
-                                 length.y / timeLeft.asSeconds()};
-        if (p->onSpeedBoost) {
-            vel = vel * 2.f;
-        }
+        auto curJumpDuration = jumpDuration * player->jumpDurationScale;
+        auto timeLeft = curJumpDuration - jumpTime;
+        sf::Vector2f vel = {length.x / timeLeft.asSeconds(),
+                            length.y / timeLeft.asSeconds()};
+
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =
-            -2 * ((jumpTime.asSeconds() / jumpDuration.asSeconds()) - 1);
+                -2 * ((jumpTime.asSeconds() / curJumpDuration.asSeconds()) - 1);
         p->setVelocity(vel * scale);
         jumpTime += dt;
-        return;
+    } else {
+        p->setPosition(jumpPos);
+        p->setVelocity({0, 0});
+        p->setState(new IdleState(p));
     }
-    p->setPosition(jumpPos);
-    p->setVelocity({0, 0});
-    p->setState(new IdleState(p));
 }
 
-CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos)
-    : PlayerState(player), collisionPos(collisionPos) {
+CollidingState::CollidingState(Player *player, sf::Vector2f collisionPos, sf::Time collisionDuration) : PlayerState(
+        player), collisionPos(collisionPos), collisionDuration(collisionDuration) {
     player->animation =
-        AnimationMachine(player->jumpTexture, sf::seconds(0.8), false);
-    player->isInvincible = true;
+            AnimationMachine(player->jumpTexture, collisionDuration, false);
 }
 
 void CollidingState::update(sf::Time dt) {
     auto playerPos = player->getPosition();
-    auto dist      = collisionPos - playerPos;
+    auto dist = collisionPos - playerPos;
     if (collisionTime < collisionDuration) {
-        auto         timeLeft = collisionDuration - collisionTime;
-        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds(),
-                                 dist.y / timeLeft.asSeconds()};
+        auto timeLeft = collisionDuration - collisionTime;
+        sf::Vector2f vel = {dist.x / timeLeft.asSeconds(),
+                            dist.y / timeLeft.asSeconds()};
         // The scale to ease the jumping movement
         // Derived from the formula: y = 1 - (x - 1)^2
         float scale =
-            -2 *
-            ((collisionTime.asSeconds() / collisionDuration.asSeconds()) - 1);
+                -2 *
+                ((collisionTime.asSeconds() / collisionDuration.asSeconds()) - 1);
         player->setVelocity(vel * scale);
         collisionTime += dt;
     } else {
         player->setPosition(collisionPos);
         player->setVelocity({0, 0});
-        player->collidingObstacle = nullptr;
         player->setState(new IdleState(player));
     }
 }
 
-void IdleState::update(sf::Time dt) {}
+ObstacleCollidingState::ObstacleCollidingState(Player *player,
+                                               sf::Vector2f collisionPos)
+        : CollidingState(player, collisionPos, sf::seconds(0.3)) {}
+
+void ObstacleCollidingState::update(sf::Time dt) {
+    CollidingState::update(dt);
+    if (collisionTime >= collisionDuration) {
+        player->setState(new StunnedState(player));
+    }
+}
+
+IdleState::IdleState(Player *player) : PlayerState(player) {
+    player->animation =
+            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, true);
+}
+
+void IdleState::update(sf::Time dt) {
+    player->setVelocity(player->platformVelocity);
+}
 
 StunnedState::StunnedState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+    AudioController::instance().playSound(SoundEffect::Stun);
 }
 
 void StunnedState::update(sf::Time dt) {
     stunTime += dt;
+    player->setVelocity(player->platformVelocity);
     if (stunTime > stunDuration) {
         player->setState(new IdleState(player));
-    }
-}
-
-ObstacleCollidingState::ObstacleCollidingState(Player      *player,
-                                               sf::Vector2f collisionPos)
-    : PlayerState(player), collisionPos(collisionPos) {
-    player->animation =
-        AnimationMachine(player->jumpTexture, sf::seconds(0.8), false);
-}
-
-void ObstacleCollidingState::update(sf::Time dt) {
-    auto playerPos = player->getPosition();
-    auto dist      = collisionPos - playerPos;
-    if (collisionTime < collisionDuration) {
-        auto         timeLeft = collisionDuration - collisionTime;
-        sf::Vector2f vel      = {dist.x / timeLeft.asSeconds(),
-                                 dist.y / timeLeft.asSeconds()};
-        // The scale to ease the jumping movement
-        // Derived from the formula: y = 1 - (x - 1)^2
-        float scale =
-            -2 *
-            ((collisionTime.asSeconds() / collisionDuration.asSeconds()) - 1);
-        player->setVelocity(vel * scale);
-        collisionTime += dt;
-    } else {
-        player->setPosition(collisionPos);
-        player->setVelocity({0, 0});
-        player->collidingObstacle = nullptr;
-        player->setState(new StunnedState(player));
     }
 }
 
 InvincibleState::InvincibleState(Player *player) : PlayerState(player) {
     std::cout << "Invincible" << std::endl;
     player->animation =
-        AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
+            AnimationMachine(player->idleTexture, DEF_ANIMATION_DURATION, false);
     savedBounds = player->localBounds;
 }
 
 void InvincibleState::update(sf::Time dt) {
     invincibleTime += dt;
+    player->setVelocity(player->platformVelocity);
     if (invincibleTime > invincibleDuration) {
         player->localBounds = savedBounds;
         player->setState(new IdleState(player));
@@ -124,9 +116,10 @@ void InvincibleState::update(sf::Time dt) {
 
 DyingState::DyingState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->ripTexture, sf::seconds(0.f), false);
+            AnimationMachine(player->ripTexture, sf::seconds(0.f), false);
     player->setVelocity({0, 0});
     player->localBounds = sf::FloatRect(0, 0, 0, 0);
+    AudioController::instance().playSound(SoundEffect::GameOver);
 }
 
 void DyingState::update(sf::Time dt) {
@@ -138,10 +131,12 @@ void DyingState::update(sf::Time dt) {
 
 DeadState::DeadState(Player *player) : PlayerState(player) {
     player->animation =
-        AnimationMachine(player->ripTexture, DEF_ANIMATION_DURATION, false);
+            AnimationMachine(player->ripTexture, DEF_ANIMATION_DURATION, false);
     player->setVelocity({0, 0});
     player->localBounds = sf::FloatRect(0, 0, 0, 0);
-    player->deadFlag    = true;
+
+    player->deadFlag = true;
+
 }
 
 void DeadState::update(sf::Time dt) {}

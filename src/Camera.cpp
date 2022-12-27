@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include "AudioController.h"
 
 Camera::Camera(SceneNode &follower, sf::RenderWindow &window, World &world)
     : follower(follower), window(window), world(world)
@@ -46,6 +47,7 @@ void Camera::update(sf::Time dt) {
             window.getView().getCenter().x,
             window.getView().getCenter().y - window.getView().getSize().y,
         };
+        AudioController::instance().removeStoppedSounds();
         world.addNewLevel();
         isTransitioning = true;
     }
