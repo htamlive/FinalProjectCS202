@@ -77,14 +77,32 @@ SceneBuilder &SceneBuilder::addRock(sf::Vector2f pos, sf::Vector2f size) {
     return *this;
 }
 
-SceneBuilder &SceneBuilder::addReward(sf::Vector2f pos, sf::Vector2f size) {
-    auto reward = std::make_unique<HealthBoost>(pos, size);
-    scene->attachChild(std::move(reward));
-    return *this;
-}
+SceneBuilder &SceneBuilder::addBoost(sf::Vector2f pos, sf::Vector2f size) {
+    std::unique_ptr<SceneNode> boost = nullptr;
 
-SceneBuilder &SceneBuilder::addBoost(sf::Vector2f pos) {
-    auto boost = SceneNode::Ptr(new SpriteNode(Texture::Obstacle, pos));
-    roadLayer->attachChild(std::move(boost));
+    auto prob = Random(std::uniform_real_distribution(0.f, 1.f)).get<float>();
+    for(auto &[type, rate] : BOOST_PROBS) {
+        if (prob <= rate) {
+            switch(type) {
+            case Category::SmallSizeBoost:
+                boost = std::make_unique<SmallSizeBoost>(pos, size);
+                break;
+            case Category::SpeedBoost:
+                boost = std::make_unique<SpeedBoost>(pos, size);
+                break;
+            case Category::HealthBoost:
+                boost = std::make_unique<HealthBoost>(pos, size);
+                break;
+            case Category::InvincibleBoost:
+                boost = std::make_unique<InvincibleBoost>(pos, size);
+                break;
+            default:
+                break;
+            }
+        } else
+            prob -= rate;
+    }
+
+    scene->attachChild(std::move(boost));
     return *this;
 }
