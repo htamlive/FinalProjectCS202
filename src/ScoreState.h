@@ -35,7 +35,7 @@ private:
 		}
 		ifs.close();
 
-
+		//this->gui->get<tgui::Picture>("Picture1")-
 	}
 	
 public:
@@ -45,7 +45,7 @@ public:
 
 
 	void initBackground() {
-
+		
 	};
 
 	void reset() {
