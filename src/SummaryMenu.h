@@ -32,13 +32,15 @@ private:
 	}
 	
 public:
-	SummaryMenu(sf::RenderWindow* window, vector<State*>* states) : State(window, states) {
-		this->gui->loadWidgetsFromFile("resources/Template/SummaryBoardTemplate.txt", false);
+	SummaryMenu(sf::RenderWindow* window, vector<State*>* states, int finalScore) : State(window, states) {
+		this->gui->loadWidgetsFromFile("resources/Template/SummaryBoardTemplate.txt");
+
 		myGroup = this->gui->get<tgui::Group>("SummaryBox");
 		myGroup->setVisible(true);
 		this->initVariables();
 		this->initButtons();
 		
+		myGroup->get<tgui::Label>("lblFinalScore")->setText(tgui::String(finalScore));
 	}
 
 	void updateInput() {
@@ -46,6 +48,7 @@ public:
 	}
 
 	void render(sf::RenderTarget* target) override {
+		
 		this->gui->draw();
 	}
 	void zoomBig(string Button) {

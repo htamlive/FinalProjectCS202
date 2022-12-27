@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "World.h"
 #include "SummaryMenu.h"
+#include "ScoreDisplay.h"
 
 class GameState : public State
 {
@@ -23,6 +24,8 @@ private:
 	Player* player;
 	PauseMenu* pauseMenu;
 	SummaryMenu* summaryMenu;
+	ScoreDisplay* scoreDisplay;
+
     World* world;
     Camera* camera;
 	//std::string getMode();
@@ -45,14 +48,17 @@ private:
         player->addEffect(EffectFactory::create(EffectType::Hungry));
 
 		pauseMenu = new PauseMenu(window, states);
-		//summaryMenu = new SummaryMenu(window, states);
+		scoreDisplay = new ScoreDisplay(gui);
 		summaryMenu = nullptr;
+
 		world = new World(sf::Vector2f(window->getSize()));
 		world->setDebug(true, true);
         //world->setScale(0.8, 0.8);
 		camera = new Camera(*player, *window, *world);
 		world->attachChild(std::move(pPlayer));
 	}
+
+
 
 public:
 
@@ -80,6 +86,7 @@ public:
 	void render(sf::RenderTarget* target = nullptr) override;
 	void delVariables() {
 		AudioController::instance().removeStoppedSounds();
+		delete scoreDisplay;
 		delete pauseMenu;
 		delete summaryMenu;
 		delete world;

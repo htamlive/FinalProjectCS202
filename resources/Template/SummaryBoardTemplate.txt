@@ -45,7 +45,7 @@ Group.SummaryBox {
     }
 
     Picture.gameOverPic {
-        Position = (325, 291.066);
+        Position = (325, 281.066);
         Size = (349, 38.56);
 
         Renderer {
@@ -81,6 +81,23 @@ Group.SummaryBox {
             TextureDownHover = "../buttons/playAgainButtonPressed.png" Smooth;
             TextureFocused = None;
             TextureHover = None;
+        }
+    }
+
+    Label.lblFinalScore {
+        HorizontalAlignment = Center;
+        Position = (390, 360);
+        Size = (237.2, 77.7517);
+        Text = 0000;
+        TextSize = 60;
+
+        Renderer {
+            BackgroundColor = transparent;
+            BorderColor = #3C3C3C;
+            Borders = (0, 0, 0, 0);
+            Font = "../fonts/04B_30__.TTF";
+            TextColor = #9DEBFF;
+            TextureBackground = None;
         }
     }
 }
