@@ -10,6 +10,10 @@ Category::Type Obstacle::getCategory() const {
     return Category::Obstacle;
 }
 
+std::string Obstacle::getClassName() const {
+    return "Obstacle";
+}
+
 void Rock::updateCurrent(sf::Time dt) {
     Entity::updateCurrent(dt);
     Obstacle::updateCurrent(dt);
@@ -19,6 +23,10 @@ Rock::Rock(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID::Obstacle, 
 
 Category::Type Rock::getCategory() const {
     return Obstacle::getCategory();
+}
+
+std::string Rock::getClassName() const {
+    return "Rock";
 }
 
 void HealthBoost::updateCurrent(sf::Time dt) {
@@ -36,6 +44,10 @@ Category::Type HealthBoost::getCategory() const {
     return Category::HealthBoost;
 }
 
+std::string HealthBoost::getClassName() const {
+    return "HealthBoost";
+}
+
 void SpeedBoost::updateCurrent(sf::Time dt) {
     Entity::updateCurrent(dt);
     PlayerCollidable::updateCurrent(dt);
@@ -49,6 +61,10 @@ SpeedBoost::SpeedBoost(sf::Vector2f pos, sf::Vector2f size) : Entity(Texture::ID
 
 Category::Type SpeedBoost::getCategory() const {
     return Category::SpeedBoost;
+}
+
+std::string SpeedBoost::getClassName() const {
+    return "SpeedBoost";
 }
 
 void SmallSizeBoost::updateCurrent(sf::Time dt) {
@@ -66,6 +82,10 @@ Category::Type SmallSizeBoost::getCategory() const {
     return Category::SmallSizeBoost;
 }
 
+std::string SmallSizeBoost::getClassName() const {
+    return "SmallSizeBoost";
+}
+
 void InvincibleBoost::updateCurrent(sf::Time dt) {
     Entity::updateCurrent(dt);
     PlayerCollidable::updateCurrent(dt);
@@ -79,4 +99,8 @@ InvincibleBoost::InvincibleBoost(sf::Vector2f pos, sf::Vector2f size) : Entity(T
 
 Category::Type InvincibleBoost::getCategory() const {
     return Category::InvincibleBoost;
+}
+
+std::string InvincibleBoost::getClassName() const {
+    return "InvincibleBoost";
 }

@@ -19,9 +19,7 @@ public:
 
     Category::Type getCategory() const override;
 
-    std::string getClassName() const override {
-        return "Obstacle";
-    }
+    std::string getClassName() const override;
 };
 
 class Rock : public virtual Obstacle, public virtual Entity {
@@ -33,9 +31,7 @@ public:
 
     Category::Type getCategory() const override;
 
-    std::string getClassName() const override {
-        return "Rock";
-    }
+    std::string getClassName() const override;
 };
 
 class HealthBoost : public virtual PlayerCollidable, public virtual Entity {
@@ -48,6 +44,8 @@ public:
     HealthBoost(sf::Vector2f pos, sf::Vector2f size);
 
     Category::Type getCategory() const override;
+
+    std::string getClassName() const override;
 };
 
 class SpeedBoost : public virtual PlayerCollidable, public virtual Entity {
@@ -60,6 +58,8 @@ public:
     SpeedBoost(sf::Vector2f pos, sf::Vector2f size);
 
     Category::Type getCategory() const override;
+
+    std::string getClassName() const override;
 };
 
 class SmallSizeBoost : public virtual PlayerCollidable, public virtual Entity {
@@ -72,6 +72,8 @@ public:
     SmallSizeBoost(sf::Vector2f pos, sf::Vector2f size);
 
     Category::Type getCategory() const override;
+
+    std::string getClassName() const override;
 };
 
 class InvincibleBoost : public virtual PlayerCollidable, public virtual Entity {
@@ -84,4 +86,6 @@ public:
     InvincibleBoost(sf::Vector2f pos, sf::Vector2f size);
 
     Category::Type getCategory() const override;
+
+    std::string getClassName() const override;
 };
