@@ -21,7 +21,8 @@ private:
 	void zoomSmall(string Button) {
 		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
 	}
-
+	float totalTime = 0.f;
+	const float overTime = 1;
 public:
 	bool isWordMode = true;
 	MainMenuState(sf::RenderWindow* window, std::vector<State*>* states);
@@ -103,6 +104,13 @@ public:
 
 	void update(const float& dt) override {
 		Meow.update(dt); 
+
+		totalTime += dt;
+		if (totalTime > overTime)
+		{
+			totalTime = -totalTime;
+		}
+		this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(abs(totalTime) * 1.27);
 	};
 
 	void render(sf::RenderTarget* target = nullptr) override;
