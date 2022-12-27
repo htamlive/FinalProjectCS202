@@ -52,3 +52,7 @@ RiverController::newLane(Texture::ID laneTexture, RoadLane::Direction direction,
 RoadLane::Type RiverController::getType() const {
     return RoadLane::Type::River;
 }
+
+std::string RiverController::getClassName() const {
+    return "RiverController";
+}

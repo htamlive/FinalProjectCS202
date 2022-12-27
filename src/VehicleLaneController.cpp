@@ -83,6 +83,21 @@ void VehicleLaneController::build() {
     }
 }
 
+std::string VehicleLaneController::getClassName() const {
+    return "VehicleLaneController";
+}
+
+void VehicleLaneController::saveCurrentNode(std::ostream &out) const {
+    RoadLaneController::saveCurrentNode(out);
+}
+
+void VehicleLaneController::loadCurrentNode(std::istream &in) {
+    RoadLaneController::loadCurrentNode(in);
+    int green, red;
+    in >> green >> red;
+    //TODO: link light (child)
+}
+
 void VehicleLaneController::setGreenDuration(sf::Time duration) {
     greenDuration = duration;
 }

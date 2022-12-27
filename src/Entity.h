@@ -69,4 +69,10 @@ public:
      * Does not account for scaling.
      */
     void adjustBounds(float offX, float offY, float cropWidth, float cropHeight);
+
+    std::string getClassName() const override;
+
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
+
+    void loadCurrentNode(std::istream& in = std::cin) override;
 };

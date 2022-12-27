@@ -78,7 +78,7 @@ public:
 
 class StunnedState : public PlayerState {
     sf::Time stunTime = sf::Time::Zero;
-    sf::Time stunDuration = sf::seconds(0.5);
+    sf::Time stunDuration = STUNNED_DURATION;
 
 public:
     StunnedState(Player *player);

@@ -2,6 +2,18 @@
 #include "Consts.h"
 #include "TextureHolder.h"
 
+Category::Type Animal::getCategory() const {
+    return Category::Enemy;
+}
+
+std::string Enemy::getClassName() const {
+    return "Enemy";
+}
+
+std::string Animal::getClassName() const {
+    return "Animal";
+}
+
 void Vehicle::onLightChanged() {
     auto oldVelocity = getVelocity();
     setVelocity(tmpVelocity);
@@ -13,6 +25,10 @@ Category::Type Vehicle::getCategory() const {
         return Enemy::getCategory();
     } else
         return Obstacle::getCategory();
+}
+
+std::string Vehicle::getClassName() const {
+    return "Vehicle";
 }
 
 void Vehicle::onStartPlayerCollision() {
@@ -37,15 +53,29 @@ Category::Type Water::getCategory() const {
 }
 
 void Water::onStartPlayerCollision() {
-    auto effect = std::make_unique<StopOnCommandEffect>();
-    effect->concat(EffectFactory::create(EffectType::Drown));
-    damageEffect = effect.get();
-    player->addEffect(std::move(effect));
+    onRepeatPlayerCollision();
 }
 
-void Water::onEndPlayerCollision() {
-    damageEffect->stop();
-    damageEffect = nullptr;
+void Water::onRepeatPlayerCollision() {
+    auto isCompletelyWithin = [](sf::FloatRect outer, sf::FloatRect inner) {
+        return outer.contains(inner.left, inner.top) && outer.contains(inner.left + inner.width, inner.top + inner.height);
+    };
+
+    if (isCompletelyWithin(getBoundingRect(), player->getBoundingRect())) {
+        if (!isPlayerInWater) {
+            isPlayerInWater = true;
+            auto effect = std::make_unique<StopOnCommandEffect>();
+            effect->concat(EffectFactory::create(EffectType::Drown));
+            damageEffect = effect.get();
+            player->addEffect(std::move(effect));
+        }
+    } else {
+        if (isPlayerInWater) {
+            isPlayerInWater = false;
+            damageEffect->stop();
+            damageEffect = nullptr;
+        }
+    }
 }
 
 void Water::updateCurrent(sf::Time dt) {
@@ -116,4 +146,8 @@ void Enemy::onStartPlayerCollision() {
 void Animal::updateCurrent(sf::Time dt) {
     Entity::updateCurrent(dt);
     PlayerCollidable::updateCurrent(dt);
+}
+
+std::string Water::getClassName() const {
+    return "Water";
 }

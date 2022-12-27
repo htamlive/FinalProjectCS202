@@ -1,6 +1,7 @@
 #pragma once
 
 #include <random>
+#include <iostream>
 
 /**
  * A wrapper to pass on RandomNumberDistribution machines.
@@ -24,9 +25,23 @@ public:
     template<typename TResult>
     TResult get(TResult min, TResult max);
 
+    void save(std::ostream& out = std::cout) const;
+
+    void load(std::istream& in = std::cin);
+
 private:
     RandomNumberDistribution distribution;
 };
+
+template<class RandomNumberDistribution>
+void Random<RandomNumberDistribution>::save(std::ostream &out) const {
+    //TODO: how to save a distribution?
+}
+
+template<class RandomNumberDistribution>
+void Random<RandomNumberDistribution>::load(std::istream &in) {
+    //TODO: how to load a distribution?
+}
 
 template<class RandomNumberDistribution>
 Random<RandomNumberDistribution>::Random(RandomNumberDistribution distribution) : distribution(distribution) {}

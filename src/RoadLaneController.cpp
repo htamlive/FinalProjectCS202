@@ -54,6 +54,25 @@ void RoadLaneController::setCommuterSize(sf::Vector2f size) {
     }
 }
 
+std::string RoadLaneController::getClassName() const {
+    return "RoadLaneController";
+}
+
+void RoadLaneController::saveCurrentNode(std::ostream &out) const {
+    Lane::saveCurrentNode(out);
+    out << laneCount << " " << laneHeight << " " << commuterSize.x << " " << commuterSize.y << std::endl;
+
+    //TODO: save speedDistribution, frequencyFunction
+}
+
+void RoadLaneController::loadCurrentNode(std::istream &in) {
+    Lane::loadCurrentNode(in);
+    in >> laneCount >> laneHeight >> commuterSize.x >> commuterSize.y;
+
+    //TODO: load speedDistribution, frequencyFunction
+    //TODO: bind lanes (children)
+}
+
 void RoadLaneController::setLaneCount(unsigned int count) {
     laneCount = count;
 }

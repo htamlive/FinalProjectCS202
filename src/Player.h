@@ -107,4 +107,10 @@ private:
     sf::Vector2f platformVelocity = {0, 0};
     float health = MAX_HEALTH;
     bool deadFlag = false;
+    SceneNode *collidingObstacle = nullptr;
+    sf::Vector2f woodVelocity = {0, 0};
+
+    std::string getClassName() const override;
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
+    void loadCurrentNode(std::istream& in = std::cin) override;
 };

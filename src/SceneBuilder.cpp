@@ -35,10 +35,13 @@ SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes, fl
     std::unique_ptr<RoadLaneController> roads;
     switch (type) {
         case RoadLane::Type::Vehicle: {
+            auto redRand = Random(std::uniform_real_distribution<>(MIN_RED_LIGHT_DURATION.asSeconds(),
+                                                                   MAX_RED_LIGHT_DURATION.asSeconds()));
+            auto greenRand = Random(std::uniform_real_distribution<>(MIN_GREEN_LIGHT_DURATION.asSeconds(),
+                                                                     MAX_GREEN_LIGHT_DURATION.asSeconds()));
             auto vehicles = std::make_unique<VehicleLaneController>();
-            // TODO: Handle traffic light durations
-            vehicles->setGreenDuration(sf::seconds(10));
-            vehicles->setRedDuration(sf::seconds(3));
+            vehicles->setGreenDuration(sf::seconds(greenRand.get<float>()));
+            vehicles->setRedDuration(sf::seconds(redRand.get<float>()));
             roads = std::move(vehicles);
             break;
         }

@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include <set>
+#include <iostream>
 
 /**
  * @brief A node in the scene graph.
@@ -22,6 +23,7 @@ class SceneNode : public sf::Drawable,
 public:
     typedef std::unique_ptr<SceneNode> Ptr;
     typedef std::pair<SceneNode*, SceneNode*> Pair;
+    friend std::unique_ptr<SceneNode> loadNode(std::istream &in);
 
     SceneNode();
 
@@ -85,10 +87,19 @@ public:
     
     virtual Category::Type getCategory() const;
 
+    void saveNode(std::ostream& out) const;
     bool operator <(SceneNode const &other) const;
+
+    /**
+     * Implement this to allow collision detection
+     */
+    virtual sf::FloatRect getBoundingRect() const;
+
+    virtual sf::FloatRect getLocalBounds() const;
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
+
     void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
     /**
@@ -112,11 +123,12 @@ private:
     void updateChildren(sf::Time dt);
 
 protected:
-    /**
-     * Implement this to allow collision detection
-     */
-    virtual sf::FloatRect getBoundingRect() const;
-    virtual sf::FloatRect getLocalBounds() const;
+
+    virtual std::string getClassName() const;
+
+    virtual void saveCurrentNode(std::ostream& out = std::cout) const;
+
+    virtual void loadCurrentNode(std::istream& in = std::cin);
 
 private:
     int idx = -1;
