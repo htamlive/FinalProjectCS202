@@ -30,7 +30,6 @@ RoadLane::RoadLane(Texture::ID commuterTexture,
 }
 
 void RoadLane::updateCommuters(sf::Time dt) {
-    // TODO: isLastCommuterFarEnough doesnt rly work
     auto isLastCommuterFarEnough = [&]() {
         if (!commuters.empty()) {
             if (getDirection() == Direction::Right) {
