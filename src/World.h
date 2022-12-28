@@ -24,7 +24,7 @@ public:
 class World : public SceneNode {
     SceneNode *levelLayer;
     SceneNode *gridLayer;
-    Player *player;
+    Player *player = nullptr;
     list<Level *> maintainedLevels;
     Level *oldLevel;
     Level *currentLevel;
@@ -60,6 +60,7 @@ class World : public SceneNode {
     void loadCurrentNode(std::istream &in = std::cin) override;
     void saveCurrentNode(std::ostream &out = std::cout) const override;
     void addPlayer(std::unique_ptr<Player> &player);
+    void attachChild(Ptr child) override;
     void rmPlayer();
     std::string getClassName() const override;
 };

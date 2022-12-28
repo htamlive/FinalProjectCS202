@@ -46,8 +46,8 @@ void GameState::initVariables() {
     if (fin) {
         camera->load(fin);
     }
+    world->attachChild(std::move(pPlayer));
     fin.close();
-    world->addPlayer(pPlayer);
 }
 
 void GameState::initMusic() {
@@ -106,7 +106,6 @@ void GameState::updateInput(const float &dt) {
 };
 
 void GameState::update(const float &dt) {
-    std::cout << "GameState::update" << std::endl;
     if (pauseMenu->shouldSave()) {
         ofstream fout("save.v1");
         world->rmPlayer();
@@ -179,7 +178,6 @@ void GameState::render(sf::RenderTarget *target) {
     if (!target) {
         target = this->window;
     }
-    std::cout << "Render" << std::endl;
     // this->player.render(target);
     this->gui->draw();
     target->draw(*world);

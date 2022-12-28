@@ -43,9 +43,7 @@ void World::init() {
     attachChild(std::move(gl));
     auto level = std::unique_ptr<Level>(new Level(currentLevelNumber + 1, sceneSize));
     level->init();
-    currentLevel = level.get();
     attachChild(std::move(level));
-    maintainedLevels.push_back(currentLevel);
 }
 
 void World::addNewLevel() {
@@ -60,7 +58,8 @@ void World::addNewLevel() {
     level->init();
     level->move({0, currentLevelNumber*(-sceneSize.y)});
     attachChild(std::move(level));
-    maintainedLevels.push_back(currentLevel);
+    auto p = detachChild(*player);
+    attachChild(std::move(p));
 }
 
 void World::updateCurrent(sf::Time dt) {
@@ -71,15 +70,19 @@ void World::drawCurrent(sf::RenderTarget &target,
 }
 
 Level* World::getCurrentLevel() const {
-    return maintainedLevels.back();
+    return currentLevel;
 }
 
 void World::loadCurrentNode(std::istream &in) {
     SceneNode::loadCurrentNode(in);
+    in >> currentLevelNumber;
+    in >> sceneSize.x >> sceneSize.y;
 }
 
 void World::saveCurrentNode(std::ostream &out) const {
     SceneNode::saveCurrentNode(out);
+    out << currentLevelNumber << std::endl;
+    out << sceneSize.x << " " << sceneSize.y << std::endl;
 }
 
 std::string World::getClassName() const {
@@ -93,8 +96,21 @@ bool World::shouldSave() const {
 void World::addPlayer(std::unique_ptr<Player> &player) {
     this->player = player.get();
     attachChild(std::move(player));
+    std::cout << player->getPosition().x << std::endl;
 }
 
 void World::rmPlayer() {
     detachChild(*player);
+}
+
+void World::attachChild(Ptr child) {
+    if (dynamic_cast<Level *>(child.get())) {
+        std::cout << "Level attached" << std::endl;
+        maintainedLevels.push_back(dynamic_cast<Level *>(child.get()));
+        currentLevel = maintainedLevels.back();
+    } else if (dynamic_cast<Player *>(child.get())) {
+        std::cout << "Player attached" << std::endl;
+        player = dynamic_cast<Player *>(child.get());
+    }
+    SceneNode::attachChild(std::move(child));
 }
