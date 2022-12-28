@@ -87,7 +87,7 @@ public:
     
     virtual Category::Type getCategory() const;
 
-    void saveNode(std::ostream& out) const;
+    virtual void saveNode(std::ostream& out) const;
     bool operator <(SceneNode const &other) const;
 
     /**
