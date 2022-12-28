@@ -40,14 +40,17 @@ void GameState::initVariables() {
         world->init();
     }
     // world->setDebug(true, true);
-    //world->setScale(0.8, 0.8);
     camera = new Camera(*player, *window, *world);
     fin.open("camera.v1");
     if (fin) {
         camera->load(fin);
     }
-    world->attachChild(std::move(pPlayer));
     fin.close();
+    pPlayer->setPosition(sf::Vector2f(window->getView().getSize().x / 2 - GRID_SIZE.x,
+                      window->getView().getCenter().y + (float)window->getSize().y / 2 - GRID_SIZE.y));
+    std::cout << "Player pos: " << pPlayer->getPosition().y << std::endl;
+    world->attachChild(std::move(pPlayer));
+    std::cout << "Player abs pos: " << player->getAbsPosition().y << std::endl;
 }
 
 void GameState::initMusic() {

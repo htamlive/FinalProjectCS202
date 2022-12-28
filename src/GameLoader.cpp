@@ -1,5 +1,6 @@
 #include "GameLoader.h"
 #include "Level.h"
+#include "SpriteNode.h"
 #include "Obstacle.h"
 #include "SceneNode.h"
 #include "World.h"
@@ -30,7 +31,7 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
     std::string line;
     getline(in, line);
     std::unique_ptr<SceneNode> node;
-    cout << "Loading " << line << endl;
+    std::cout << "Loading " << line << std::endl;
     if (line == "SceneNode") {
         node = std::make_unique<SceneNode>();
         node->loadCurrentNode(in);
@@ -49,8 +50,11 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
     } else if (line == "RiverController") {
         node = std::make_unique<RiverController>();
         node->loadCurrentNode(in);
+    } else if (line == "SpriteNode") {
+        node = std::make_unique<SpriteNode>(Texture::ID::Null);
+        node->loadCurrentNode(in);
     } else if (line == "Level") {
-        node = std::make_unique<Level>(1, sf::Vector2f(1024, 768));
+        node = std::make_unique<Level>();
         node->loadCurrentNode(in);
     } else if (line == "WoodLane") {
         node = std::make_unique<WoodLane>();
@@ -95,7 +99,7 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
     int n;
     in >> n;
     in.ignore();
-    cout << "Loading " << n << " children" << endl;
+    std::cout << "Loading " << n << " children" << std::endl;
     for (int j = 0; j < n; j++) {
         node->attachChild(loadNode(in));
     }

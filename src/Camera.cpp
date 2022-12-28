@@ -26,12 +26,13 @@ Camera::~Camera() {
     window.setView(window.getDefaultView());
 }
 bool Camera::needReposition() {
+    std::cout << "Camera::needReposition()" << std::endl;
     sf::View view = window.getView();
     sf::Vector2f playerPos = follower.getAbsPosition();
     sf::Vector2f viewPos = view.getCenter();
     sf::Vector2f viewSize = view.getSize();
     // Add a little bit of offset to the view size to make sure the player is always in the view
-    if (playerPos.y + 15 < viewPos.y - viewSize.y / 2)
+    if (playerPos.y + 30 < viewPos.y - viewSize.y / 2)
         return true;
     return false;
 }
@@ -98,8 +99,8 @@ void Camera::updateVelocity(sf::Time dt) {
 }
 
 void Camera::save(std::ostream &out) {
-    out << window.getView().getCenter().x << " " << window.getView().getCenter().y << endl;
-    out << window.getView().getSize().x << " " << window.getView().getSize().y << endl;
+    out << window.getView().getCenter().x << " " << window.getView().getCenter().y << std::endl;
+    out << window.getView().getSize().x << " " << window.getView().getSize().y << std::endl;
 }
 
 void Camera::load(std::istream &in) {

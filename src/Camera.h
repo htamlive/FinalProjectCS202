@@ -1,11 +1,15 @@
 #include "Enums.h"
 #include "SceneNode.h"
 #include "World.h"
+#include "PlayerCollidable.h"
+#include "PlayerState.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
+#include <vector>
+using std::vector;
 
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
 

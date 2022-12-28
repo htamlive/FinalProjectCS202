@@ -4,8 +4,9 @@
 #include <iostream>
 
 #include "Lane.h"
-#include "SceneNode.h"
+#include "Level.h"
 #include "RoadLane.h"
+#include "SceneNode.h"
 
 using namespace std;
 
@@ -14,25 +15,49 @@ using namespace std;
  */
 class SceneBuilder {
     sf::Vector2f sceneSize;
-    SceneNode::Ptr scene;
+    std::unique_ptr<Level> scene;
+    std::unique_ptr<SceneNode> bg;
     SceneNode *roadLayer;
     SceneNode *backgroundLayer;
 
   public:
     SceneBuilder(sf::Vector2f size);
-    SceneBuilder &addBackground   ( Texture::ID id);
-    SceneBuilder &addRoadController      (RoadLane::Type type, int lanes, float pos, float minSpeed,
-                                          float maxSpeed, float minSpawnRate,
-                                          float maxSpawnRate);
+    SceneBuilder &addBackground(Texture::ID id);
+    SceneBuilder &addRoadController(RoadLane::Type type, int lanes, float pos,
+                                    float minSpeed, float maxSpeed,
+                                    float minSpawnRate, float maxSpawnRate);
 
     SceneBuilder &addRock(sf::Vector2f pos, sf::Vector2f size);
     SceneBuilder &addReward(sf::Vector2f pos, sf::Vector2f size);
-    SceneBuilder &addBoost        ( sf::Vector2f pos);
-    SceneBuilder &addBombard      ( sf::Vector2f pos);
-    SceneBuilder &addElectricGate ( sf::Vector2f pos, float width);
-    SceneBuilder &addTree         ( sf::Vector2f pos);
-    SceneBuilder &addHouse        ( sf::Vector2f pos);
-    SceneBuilder &addHole         ( sf::Vector2f pos);
-    SceneBuilder &addMudHole      ( sf::Vector2f pos);
-    SceneNode::Ptr build();
+    SceneBuilder &addBoost(sf::Vector2f pos);
+    SceneBuilder &addBombard(sf::Vector2f pos);
+    SceneBuilder &addElectricGate(sf::Vector2f pos, float width);
+    SceneBuilder &addTree(sf::Vector2f pos);
+    SceneBuilder &addHouse(sf::Vector2f pos);
+    SceneBuilder &addHole(sf::Vector2f pos);
+    SceneBuilder &addMudHole(sf::Vector2f pos);
+    std::unique_ptr<Level> build();
+};
+
+struct DifficultyMetrics {
+    int level;
+    float minSpeed;
+    float maxSpeed;
+    float minSpawnRate;
+    float maxSpawnRate;
+    vector<float> laneSpawnProb;
+public:
+    DifficultyMetrics();
+    DifficultyMetrics(int level);
+    void increaseLevel();
+    int getLevel() const { return level; }
+    float getMinSpeed() const { return minSpeed; }
+    float getMaxSpeed() const { return maxSpeed; }
+    float getMinSpawnRate() const { return minSpawnRate; }
+    float getMaxSpawnRate() const { return maxSpawnRate; }
+};
+
+class LevelGenerator {
+public:
+    unique_ptr<Level> makeLevel(int level, sf::Vector2f sceneSize);
 };

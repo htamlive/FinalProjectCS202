@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <list>
+using std::list;
 
 class LevelLayer : public SceneNode {
     sf::Vector2f sceneSize;

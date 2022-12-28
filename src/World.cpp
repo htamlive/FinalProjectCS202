@@ -1,5 +1,6 @@
 #include "World.h"
 #include "Consts.h"
+#include "SceneBuilder.h"
 #include "SceneNode.h"
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
@@ -41,8 +42,7 @@ void World::init() {
     SceneNode::Ptr gl(new Grid(sceneSize));
     gridLayer = gl.get();
     attachChild(std::move(gl));
-    auto level = std::unique_ptr<Level>(new Level(currentLevelNumber + 1, sceneSize));
-    level->init();
+    auto level = LevelGenerator().makeLevel(1, sceneSize);
     attachChild(std::move(level));
 }
 
@@ -53,9 +53,8 @@ void World::addNewLevel() {
     }
     currentLevelNumber++;
     oldLevel = currentLevel;
-    auto level = std::unique_ptr<Level>(new Level(currentLevelNumber, sceneSize));
+    auto level = LevelGenerator().makeLevel(currentLevelNumber, sceneSize);
     currentLevel = level.get();
-    level->init();
     level->move({0, currentLevelNumber*(-sceneSize.y)});
     attachChild(std::move(level));
     auto p = detachChild(*player);
