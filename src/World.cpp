@@ -1,6 +1,6 @@
 #include "World.h"
 #include "Consts.h"
-#include "SceneBuilder.h"
+#include "LevelGenerator.h"
 #include "SceneNode.h"
 #include <SFML/System/Vector2.hpp>
 #include <iostream>

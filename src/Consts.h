@@ -61,5 +61,5 @@ const float JUMP_DURATION_BOOST_SCALE = 0.5;
 
 const auto DEF_FREQUENCY_FUNCTION = [](double speed) {
     auto spawnRate = 400 / speed;
-    return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
+    return Random<std::normal_distribution<double>>(std::normal_distribution<double>(spawnRate, spawnRate / 3));
 };
