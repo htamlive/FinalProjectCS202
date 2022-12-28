@@ -56,3 +56,15 @@ RoadLane::Type RiverController::getType() const {
 std::string RiverController::getClassName() const {
     return "RiverController";
 }
+
+void RiverController::saveCurrentNode(std::ostream &out) const {
+    RoadLaneController::saveCurrentNode(out);
+    out << (int)riverDirection << std::endl;
+}
+
+void RiverController::loadCurrentNode(std::istream &in) {
+    RoadLaneController::loadCurrentNode(in);
+    int direction;
+    in >> direction;
+    riverDirection = (RoadLane::Direction)direction;
+}

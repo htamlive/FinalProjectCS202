@@ -30,7 +30,6 @@ RoadLane::RoadLane(Texture::ID commuterTexture, Texture::ID laneTexture,
 }
 
 void RoadLane::updateCommuters(sf::Time dt) {
-    // TODO: isLastCommuterFarEnough doesnt rly work
     auto isLastCommuterFarEnough = [&]() {
         if (!commuters.empty()) {
             if (getDirection() == Direction::Right) {
@@ -129,28 +128,6 @@ sf::Vector2f RoadLane::getVelocity() const {
 
 std::string RoadLane::getClassName() const { return "RoadLane"; }
 
-void RoadLane::saveCurrentNode(std::ostream &out) const {
-    Lane::saveCurrentNode(out);
-    out << speedX << ' ' << (int)direction << ' ' << timer.asMilliseconds()
-        << ' ' << (int)laneTexture << ' ' << commuterTexture << ' '
-        << commuterSize.x << ' ' << commuterSize.y << std::endl;
-    // TODO: out << frequency
-}
-
-void RoadLane::loadCurrentNode(std::istream &in) {
-    Lane::loadCurrentNode(in);
-    int dir, laneTex, comTex, timerMs;
-    in >> speedX >> dir >> timerMs >> laneTex >> comTex >> commuterSize.x >>
-        commuterSize.y;
-    direction = (Direction)dir;
-    laneTexture = (Texture::ID)laneTex;
-    commuterTexture = (Texture::ID)comTex;
-    timer = sf::milliseconds(timerMs);
-
-    // TODO: in >> frequency
-    // TODO: bind commuters (children)
-}
-
 RoadLane::Type VehicleLane::getType() const { return RoadLane::Type::Vehicle; }
 
 void VehicleLane::onLightChanged() {
@@ -177,16 +154,6 @@ void VehicleLane::updateCommuters(sf::Time dt) {
 }
 
 std::string VehicleLane::getClassName() const { return "VehicleLane"; }
-
-void VehicleLane::saveCurrentNode(std::ostream &out) const {
-    RoadLane::saveCurrentNode(out);
-    out << stopSpawning << std::endl;
-}
-
-void VehicleLane::loadCurrentNode(std::istream &in) {
-    RoadLane::loadCurrentNode(in);
-    in >> stopSpawning;
-}
 
 RoadLane::Type AnimalLane::getType() const { return RoadLane::Type::Animal; }
 

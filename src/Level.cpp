@@ -112,3 +112,7 @@ void Level::saveCurrentNode(std::ostream &out) const {
 std::string Level::getClassName() const {
     return "Level";
 }
+
+bool Level::shouldSave() const {
+    return true;
+}

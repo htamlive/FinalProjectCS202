@@ -34,6 +34,8 @@ class World : public SceneNode {
 
     void makeLevelTransition();
 
+    bool shouldSave() const override;
+
   public:
     World() = default;
     World(sf::Vector2f sceneSize);

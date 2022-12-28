@@ -94,5 +94,6 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
     for (int j = 0; j < n; j++) {
         node->attachChild(loadNode(in));
     }
+    node->onLoadingFinished();
     return node;
 }

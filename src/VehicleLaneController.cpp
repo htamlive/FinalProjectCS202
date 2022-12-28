@@ -89,14 +89,15 @@ std::string VehicleLaneController::getClassName() const {
 
 void VehicleLaneController::saveCurrentNode(std::ostream &out) const {
     RoadLaneController::saveCurrentNode(out);
-    out << " " << 0 << " " << 0 << std::endl;;
+    out << greenDuration.asSeconds() << ' ' << redDuration.asSeconds() << std::endl;
 }
 
 void VehicleLaneController::loadCurrentNode(std::istream &in) {
     RoadLaneController::loadCurrentNode(in);
-    int green, red;
+    float green, red;
     in >> green >> red;
-    //TODO: link light (child)
+    greenDuration = sf::seconds(green);
+    redDuration = sf::seconds(red);
 }
 
 void VehicleLaneController::setGreenDuration(sf::Time duration) {

@@ -290,3 +290,7 @@ void Player::loadCurrentNode(std::istream &in) {
 std::string Player::getClassName() const {
     return "Player";
 }
+
+bool Player::shouldSave() const {
+    return true;
+}

@@ -153,11 +153,13 @@ void SceneNode::loadCurrentNode(std::istream& in) {
 }
 
 void SceneNode::saveNode(std::ostream& out) const {
-    out << getClassName() << std::endl;
-    saveCurrentNode(out);
-    out << mChildren.size() << std::endl;
-    for (const auto& child : mChildren) {
-        child->saveNode(out);
+    if (shouldSave()) {
+        out << getClassName() << std::endl;
+        saveCurrentNode(out);
+        out << mChildren.size() << std::endl;
+        for (const auto &child: mChildren) {
+            child->saveNode(out);
+        }
     }
 }
 
@@ -167,8 +169,14 @@ void SceneNode::saveCurrentNode(std::ostream& out) const {
     out << getRotation() << std::endl;
 }
 
+void SceneNode::onLoadingFinished() {}
+
 std::string SceneNode::getClassName() const {
     return "SceneNode";
+}
+
+bool SceneNode::shouldSave() const {
+    return false;
 }
 
 bool SceneNode::operator<(const SceneNode &other) const {

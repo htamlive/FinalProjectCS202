@@ -88,13 +88,14 @@ protected:
                      sf::RenderStates states) const override;
 
 private:
+    bool shouldSave() const override;
+
     void drawHealthBar(sf::RenderTarget &target, sf::RenderStates states) const;
 
     sf::Vector2f getNearestGridPosition(sf::Vector2f pos) const;
 
     void applyEffects(sf::Time dt);
 
-private:
     Texture::ID jumpTexture, idleTexture, ripTexture;
 
     PlayerState *state;

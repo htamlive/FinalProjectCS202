@@ -70,7 +70,6 @@ void RoadLaneController::loadCurrentNode(std::istream &in) {
     in >> laneCount >> laneHeight >> commuterSize.x >> commuterSize.y;
 
     //TODO: load speedDistribution, frequencyFunction
-    //TODO: bind lanes (children)
 }
 
 void RoadLaneController::setLaneCount(unsigned int count) {
@@ -84,4 +83,12 @@ void RoadLaneController::setSpeedDistribution(Random<std::normal_distribution<do
 void RoadLaneController::setFrequencyFunction(
         const std::function<Random<std::normal_distribution<double>>(double)> &function) {
     frequencyFunction = function;
+}
+
+void RoadLaneController::onLoadingFinished() {
+    build();
+}
+
+bool RoadLaneController::shouldSave() const {
+    return true;
 }

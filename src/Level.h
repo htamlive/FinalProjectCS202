@@ -41,6 +41,8 @@ class Level : public SceneNode {
     SceneNode *scene;
     int level;
 
+    bool shouldSave() const override;
+
 public:
     Level(int level, sf::Vector2f sceneSize);
     void removeObject(const SceneNode &object);

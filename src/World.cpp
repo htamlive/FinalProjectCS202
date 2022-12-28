@@ -85,3 +85,7 @@ void World::saveCurrentNode(std::ostream &out) const {
 std::string World::getClassName() const {
     return "World";
 }
+
+bool World::shouldSave() const {
+    return true;
+}

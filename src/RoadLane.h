@@ -77,10 +77,6 @@ public:
     void setFrequency(Random<std::normal_distribution<double>> const &);
 
     std::string getClassName() const override;
-
-    void saveCurrentNode(std::ostream& out = std::cout) const override;
-
-    void loadCurrentNode(std::istream& in = std::cin) override;
 };
 
 class VehicleLane : public RoadLane, public LightObserver {
@@ -92,8 +88,6 @@ public:
     void onLightChanged() override;
 
     std::string getClassName() const override;
-    void saveCurrentNode(std::ostream& out = std::cout) const override;
-    void loadCurrentNode(std::istream& in = std::cin) override;
 
 protected:
     void updateCommuters(sf::Time dt) override;

@@ -30,11 +30,14 @@ public:
     void saveCurrentNode(std::ostream& out = std::cout) const override;
 
     void loadCurrentNode(std::istream& in = std::cin) override;
+
     void setLaneCount(unsigned int);
 
     void setSpeedDistribution(Random<std::normal_distribution<double>>);
 
     void setFrequencyFunction(const std::function<Random<std::normal_distribution<double>>(double speed)> &);
+
+    void onLoadingFinished() override;
 
 protected:
     std::vector<RoadLane *> lanes;
@@ -48,6 +51,8 @@ protected:
     newLane(Texture::ID laneTexture, RoadLane::Direction direction, float speed, float y) const = 0;
 
 private:
+    bool shouldSave() const override;
+
     virtual Texture::ID monoLane() const = 0;
 
     virtual Texture::ID topLane() const = 0;
