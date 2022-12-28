@@ -70,5 +70,4 @@ public:
 		delete world;
 		delete camera;
 	};
-
 };

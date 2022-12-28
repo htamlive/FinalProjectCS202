@@ -266,7 +266,7 @@ void Player::addPlatformVelocity(sf::Vector2f velocity) {
 
 void Player::saveCurrentNode(std::ostream &out) const {
     Entity::saveCurrentNode(out);
-    // out << health << " ";
+    out << health << " ";
     // out << isInvincible << " ";
     // out << onSizeSmallerBoost << " ";
     // out << onSpeedBoost << " ";
@@ -277,12 +277,10 @@ void Player::saveCurrentNode(std::ostream &out) const {
 void Player::loadCurrentNode(std::istream &in) {
     Entity::loadCurrentNode(in);
     in >> health;
-    health = 100;
-    deadFlag = false;
     // in >> isInvincible;
     // in >> onSizeSmallerBoost;
     // in >> onSpeedBoost;
-    // in >> deadFlag;
+    in >> deadFlag;
     in >> woodVelocity.x;
     in >> woodVelocity.y;
 }

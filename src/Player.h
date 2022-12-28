@@ -80,6 +80,8 @@ public:
     sf::Vector2f getDirectionVec() const;
 
     void addPlatformVelocity(sf::Vector2f velocity);
+    void loadCurrentNode(std::istream& in = std::cin) override;
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
 
 protected:
     void updateCurrent(sf::Time dt) override;
@@ -112,6 +114,4 @@ private:
     sf::Vector2f woodVelocity = {0, 0};
 
     std::string getClassName() const override;
-    void saveCurrentNode(std::ostream& out = std::cout) const override;
-    void loadCurrentNode(std::istream& in = std::cin) override;
 };

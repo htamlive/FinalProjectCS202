@@ -34,7 +34,6 @@ void GameState::initVariables() {
     ifstream fin("save.v1");
     if (fin) {
         world = dynamic_cast<World*>(loadNode(fin).release());
-        std::cout << "Loaded world" << std::endl;
         fin.close();
     } else {
         world->init();
@@ -46,11 +45,15 @@ void GameState::initVariables() {
         camera->load(fin);
     }
     fin.close();
-    pPlayer->setPosition(sf::Vector2f(window->getView().getSize().x / 2 - GRID_SIZE.x,
-                      window->getView().getCenter().y + (float)window->getSize().y / 2 - GRID_SIZE.y));
-    std::cout << "Player pos: " << pPlayer->getPosition().y << std::endl;
+
+    fin.open("player.v1");
+    if (fin) {
+        player->loadCurrentNode(fin);
+        std::cout << "player position: " << player->getPosition().x << " "
+                  << player->getPosition().y << std::endl;
+    }
+    fin.close();
     world->attachChild(std::move(pPlayer));
-    std::cout << "Player abs pos: " << player->getAbsPosition().y << std::endl;
 }
 
 void GameState::initMusic() {
@@ -110,7 +113,11 @@ void GameState::updateInput(const float &dt) {
 
 void GameState::update(const float &dt) {
     if (pauseMenu->shouldSave()) {
-        ofstream fout("save.v1");
+        ofstream fout("player.v1");
+        player->saveCurrentNode(fout);
+        fout.close();
+
+        fout.open("save.v1");
         world->detachChild(*player);
         world->saveNode(fout);
         fout.close();
