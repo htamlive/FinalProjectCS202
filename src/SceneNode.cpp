@@ -156,10 +156,16 @@ void SceneNode::saveNode(std::ostream& out) const {
     if (shouldSave()) {
         out << getClassName() << std::endl;
         saveCurrentNode(out);
-        out << mChildren.size() << std::endl;
-        for (const auto &child: mChildren) {
-            child->saveNode(out);
+    }
+    int count = 0;
+    for (const auto &child: mChildren) {
+        if (child->shouldSave()) {
+            count++;
         }
+    }
+    out << count << std::endl;
+    for (const auto &child: mChildren) {
+        child->saveNode(out);
     }
 }
 

@@ -89,3 +89,12 @@ std::string World::getClassName() const {
 bool World::shouldSave() const {
     return true;
 }
+
+void World::addPlayer(std::unique_ptr<Player> &player) {
+    this->player = player.get();
+    attachChild(std::move(player));
+}
+
+void World::rmPlayer() {
+    detachChild(*player);
+}

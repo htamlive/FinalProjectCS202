@@ -37,30 +37,7 @@ private:
 		}
 	};
 
-	void initVariables() {
-		auto pPlayer = std::make_unique<Player>(
-			sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
-							  (float)window->getSize().y - GRID_SIZE.y),
-				GRID_SIZE);
-		player = pPlayer.get();
-        player->addEffect(EffectFactory::create(EffectType::Hungry));
-
-		pauseMenu = new PauseMenu(window, states);
-		//summaryMenu = new SummaryMenu(window, states);
-		summaryMenu = nullptr;
-		world = new World(sf::Vector2f(window->getSize()));
-        ifstream fin("save.v1");
-        if (fin) {
-            world = dynamic_cast<World*>(loadNode(fin).release());
-            std::cout << "Loaded world" << std::endl;
-        } else {
-            world->init();
-        }
-		// world->setDebug(true, true);
-        //world->setScale(0.8, 0.8);
-		camera = new Camera(*player, *window, *world);
-		world->attachChild(std::move(pPlayer));
-	}
+	void initVariables();
 
 public:
 

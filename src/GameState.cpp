@@ -19,6 +19,31 @@ GameState::GameState(sf::RenderWindow *window,
     initMusic();
 };
 
+void GameState::initVariables() {
+    auto pPlayer = std::make_unique<Player>(
+        sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
+                          (float)window->getSize().y - GRID_SIZE.y),
+            GRID_SIZE);
+    player = pPlayer.get();
+    player->addEffect(EffectFactory::create(EffectType::Hungry));
+
+    pauseMenu = new PauseMenu(window, states);
+    //summaryMenu = new SummaryMenu(window, states);
+    summaryMenu = nullptr;
+    world = new World(sf::Vector2f(window->getSize()));
+    ifstream fin("save.v1");
+    if (fin) {
+        world = dynamic_cast<World*>(loadNode(fin).release());
+        std::cout << "Loaded world" << std::endl;
+    } else {
+        world->init();
+    }
+    // world->setDebug(true, true);
+    //world->setScale(0.8, 0.8);
+    camera = new Camera(*player, *window, *world);
+    world->addPlayer(pPlayer);
+}
+
 void GameState::initMusic() {
     AudioController::instance().loadSoundFromFile(SoundEffect::CarNoise, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
     AudioController::instance().playSound(SoundEffect::CarNoise);
@@ -61,7 +86,6 @@ void GameState::updateEvents() {
         } else 
             this->endState();
     }
-    
 };
 
 void GameState::updateInput(const float &dt) {
@@ -79,7 +103,12 @@ void GameState::update(const float &dt) {
     std::cout << "GameState::update" << std::endl;
     if (pauseMenu->shouldSave()) {
         ofstream fout("save.v1");
+        world->rmPlayer();
         world->saveNode(fout);
+        fout.close();
+
+        fout.open("camera.v1");
+        camera->save(fout);
         fout.close();
     }
 
@@ -153,3 +182,4 @@ void GameState::render(sf::RenderTarget *target) {
     if (summaryMenu)
         summaryMenu->render(target);
 };
+
