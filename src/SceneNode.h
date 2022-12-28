@@ -48,7 +48,7 @@ public:
      *
      * @param dt: time elapsed since last frame
      */
-    void update(sf::Time dt);
+    virtual void update(sf::Time dt);
 
     /**
      * @return the absolute transform (all transform of node hierarchy combined)
@@ -97,11 +97,11 @@ public:
     virtual sf::FloatRect getBoundingRect() const;
 
     virtual sf::FloatRect getLocalBounds() const;
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates state) const;
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
     /**
      * Derived class should implement this method to draw itself

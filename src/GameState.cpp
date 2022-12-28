@@ -111,7 +111,7 @@ void GameState::updateInput(const float &dt) {
 void GameState::update(const float &dt) {
     if (pauseMenu->shouldSave()) {
         ofstream fout("save.v1");
-        world->rmPlayer();
+        world->detachChild(*player);
         world->saveNode(fout);
         fout.close();
 

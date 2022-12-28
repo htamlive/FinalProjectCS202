@@ -92,16 +92,6 @@ bool World::shouldSave() const {
     return true;
 }
 
-void World::addPlayer(std::unique_ptr<Player> &player) {
-    this->player = player.get();
-    attachChild(std::move(player));
-    std::cout << player->getPosition().x << std::endl;
-}
-
-void World::rmPlayer() {
-    detachChild(*player);
-}
-
 void World::attachChild(Ptr child) {
     if (dynamic_cast<Level *>(child.get())) {
         std::cout << "Level attached" << std::endl;

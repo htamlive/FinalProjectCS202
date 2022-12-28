@@ -59,8 +59,6 @@ class World : public SceneNode {
                      sf::RenderStates states) const override;
     void loadCurrentNode(std::istream &in = std::cin) override;
     void saveCurrentNode(std::ostream &out = std::cout) const override;
-    void addPlayer(std::unique_ptr<Player> &player);
     void attachChild(Ptr child) override;
-    void rmPlayer();
     std::string getClassName() const override;
 };
