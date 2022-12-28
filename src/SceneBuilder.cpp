@@ -57,10 +57,6 @@ SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes, fl
     roads->setLaneCount(lanes);
     roads->setPosY(pos);
     roads->setSpeedDistribution(speed);
-    roads->setFrequencyFunction([](double speed) {
-        auto spawnRate = 400 / speed;
-        return Random(std::normal_distribution<double>(spawnRate, spawnRate / 3));
-    });
     roads->build();
 
     scene->attachChild(std::move(roads));
