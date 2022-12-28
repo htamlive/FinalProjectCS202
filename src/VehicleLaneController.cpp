@@ -5,11 +5,9 @@
 
 VehicleLaneController::VehicleLaneController(unsigned int laneCount, float y,
                                              Random<std::normal_distribution<double>> speedDistribution,
-                                             const std::function<Random<std::normal_distribution<double>>(
-                                                     double)> &frequencyFunction,
                                              sf::Time greenDuration, sf::Time redDuration) : RoadLaneController(
         laneCount, y,
-        speedDistribution, frequencyFunction),
+        speedDistribution),
                                                                                              greenDuration(
                                                                                                      greenDuration),
                                                                                              redDuration(redDuration) {}
@@ -17,13 +15,10 @@ VehicleLaneController::VehicleLaneController(unsigned int laneCount, float y,
 VehicleLaneController::VehicleLaneController(unsigned int laneCount, float y, float laneHeight,
                                              sf::Vector2f commuterSize,
                                              Random<std::normal_distribution<double>> speedDistribution,
-                                             const std::function<Random<std::normal_distribution<double>>(
-                                                     double)> &frequencyFunction,
                                              sf::Time greenDuration, sf::Time redDuration) : RoadLaneController(
         laneCount, y,
         laneHeight, commuterSize,
-        speedDistribution,
-        frequencyFunction),
+        speedDistribution),
                                                                                              greenDuration(
                                                                                                      greenDuration),
                                                                                              redDuration(redDuration) {}

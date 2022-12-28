@@ -8,12 +8,10 @@ public:
     RoadLaneController();
 
     RoadLaneController(unsigned int laneCount, float y,
-                       Random<std::normal_distribution<double>> speedDistribution,
-                       const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction);
+                       Random<std::normal_distribution<double>> speedDistribution);
 
     RoadLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
-                       Random<std::normal_distribution<double>> speed,
-                       const std::function<Random<std::normal_distribution<double>>(double speed)> &frequencyFunction);
+                       Random<std::normal_distribution<double>> speedDistribution);
 
     virtual RoadLane::Type getType() const = 0;
 
@@ -35,8 +33,6 @@ public:
 
     void setSpeedDistribution(Random<std::normal_distribution<double>>);
 
-    void setFrequencyFunction(const std::function<Random<std::normal_distribution<double>>(double speed)> &);
-
     void onLoadingFinished() override;
 
 protected:
@@ -45,7 +41,7 @@ protected:
     float laneHeight = DEF_LANE_HEIGHT;
     sf::Vector2f commuterSize = DEF_COMMUTER_SIZE;
     Random<std::normal_distribution<double>> speedDistribution;
-    std::function<Random<std::normal_distribution<double>>(double speed)> frequencyFunction;
+    std::function<Random<std::normal_distribution<double>>(double speed)> frequencyFunction = DEF_FREQUENCY_FUNCTION;
 
     virtual std::unique_ptr<RoadLane>
     newLane(Texture::ID laneTexture, RoadLane::Direction direction, float speed, float y) const = 0;
