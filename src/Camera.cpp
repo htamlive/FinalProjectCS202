@@ -97,5 +97,18 @@ void Camera::updateVelocity(sf::Time dt) {
     // }
 }
 
-void Camera::reposition() {
+void Camera::save(std::ostream &out) {
+    out << window.getView().getCenter().x << " " << window.getView().getCenter().y << endl;
+    out << window.getView().getSize().x << " " << window.getView().getSize().y << endl;
+}
+
+void Camera::load(std::istream &in) {
+    int x, y;
+    int width, height;
+    in >> x >> y;
+    in >> width >> height;
+    sf::View view;
+    view.setCenter(x, y);
+    view.setSize(width, height);
+    window.setView(view);
 }

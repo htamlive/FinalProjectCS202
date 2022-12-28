@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <iostream>
 
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
 
@@ -54,5 +55,8 @@ class Camera {
 public:
     Camera(SceneNode &follower, sf::RenderWindow &window, World &world);
     ~Camera();
+
+    void save(std::ostream &out);
+    void load(std::istream &in);
     void update(sf::Time dt);
 };
