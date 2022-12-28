@@ -37,29 +37,29 @@ World::World(sf::Vector2f sceneSize)
 }
 
 void World::init() {
-    SceneNode::Ptr lv(new SceneNode());
+    SceneNode::Ptr lv(new LevelLayer());
     SceneNode::Ptr gl(new Grid(sceneSize));
-    levelLayer = lv.get();
     gridLayer = gl.get();
-    attachChild(std::move(lv));
     attachChild(std::move(gl));
     auto level = std::unique_ptr<Level>(new Level(currentLevelNumber + 1, sceneSize));
+    level->init();
     currentLevel = level.get();
-    levelLayer->attachChild(std::move(level));
+    attachChild(std::move(level));
     maintainedLevels.push_back(currentLevel);
 }
 
 void World::addNewLevel() {
     if (maintainedLevels.size() == 2) {
-        levelLayer->detachChild(*maintainedLevels.front());
+        detachChild(*maintainedLevels.front());
         maintainedLevels.pop_front();
     }
     currentLevelNumber++;
     oldLevel = currentLevel;
     auto level = std::unique_ptr<Level>(new Level(currentLevelNumber, sceneSize));
     currentLevel = level.get();
-    level->move({0, currentLevelNumber*-sceneSize.y});
-    levelLayer->attachChild(std::move(level));
+    level->init();
+    level->move({0, currentLevelNumber*(-sceneSize.y)});
+    attachChild(std::move(level));
     maintainedLevels.push_back(currentLevel);
 }
 

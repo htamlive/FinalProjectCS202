@@ -7,6 +7,17 @@
 #include <SFML/System/Vector2.hpp>
 #include <list>
 
+class LevelLayer : public SceneNode {
+    sf::Vector2f sceneSize;
+public:
+    bool shouldSave() const override {
+        return true;
+    }
+    std::string getClassName() const override {
+        return "LevelLayer";
+    }
+};
+
 /*
  * Represent the root node of the scene graph.
  */

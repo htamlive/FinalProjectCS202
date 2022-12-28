@@ -47,7 +47,7 @@ void Level::DifficultyMetrics::increaseLevel() {
     incProb(laneSpawnProb, toInc, 0.20f);
 };
 
-Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
+void Level::init() {
     float mapWidth = sceneSize.x / GRID_SIZE.x;
     float mapHeight = sceneSize.y / GRID_SIZE.y;
     DifficultyMetrics difficultyMetrics(level);
@@ -97,16 +97,68 @@ Level::Level(int level, sf::Vector2f sceneSize) : sceneBuilder(sceneSize) {
     attachChild(std::move(pScene));
 }
 
+Level::Level(int level, sf::Vector2f sceneSize) : level(level), sceneSize(sceneSize), sceneBuilder(sceneSize) {
+}
+
 void Level::removeObject(const SceneNode &object) {
     scene->detachChild(object);
 }
 
 void Level::loadCurrentNode(std::istream &in) {
     SceneNode::loadCurrentNode(in);
+    sceneSize = { 1024, 768 };
+    float mapWidth = sceneSize.x / GRID_SIZE.x;
+    float mapHeight = sceneSize.y / GRID_SIZE.y;
+    DifficultyMetrics difficultyMetrics(level);
+    random = std::discrete_distribution<unsigned>(
+            difficultyMetrics.laneSpawnProb.begin(),
+            difficultyMetrics.laneSpawnProb.end());
+    auto builder = SceneBuilder(sceneSize);
+    builder.addBackground(Texture::ID::Background);
+
+    for (int i = 1; i < mapHeight - 2; i++) {
+        float laneType;
+        do {
+            laneType = random.get<float>() + 1;
+        } while (i + laneType >= mapHeight);
+
+        auto prob = Random(std::uniform_real_distribution(0.f, 1.f)).get<float>();
+        auto type = prob <= VEHICLE_LANE_PROB ? RoadLane::Type::Vehicle : prob <= VEHICLE_LANE_PROB + ANIMAL_LANE_PROB
+                                                                          ? RoadLane::Type::Animal
+                                                                          : RoadLane::Type::River;
+        builder.addRoadController(type, laneType, i * GRID_SIZE.y, difficultyMetrics.minSpeed,
+                                  difficultyMetrics.maxSpeed,
+                                  difficultyMetrics.minSpawnRate,
+                                  difficultyMetrics.maxSpawnRate);
+        auto shouldPlaceObstacle = Random(std::bernoulli_distribution(0.2));
+        auto shouldPlaceReward = Random(std::bernoulli_distribution(0.05));
+        for (int j = 0; j < laneType; j++) {
+            for (int k = 0; k < mapWidth; k++) {
+                if (shouldPlaceReward.get<bool>()) {
+                    builder.addReward({k * GRID_SIZE.x,
+                                       (i + j) * GRID_SIZE.y}, GRID_SIZE);
+                }
+            }
+        }
+        i += laneType;
+        if (i >= mapHeight - 2) {
+            break;
+        }
+        for (int j = 0; j < mapWidth; j++) {
+            if (shouldPlaceObstacle.get<bool>())
+                builder.addRock(
+                        sf::Vector2f(j * GRID_SIZE.x, i * GRID_SIZE.y), GRID_SIZE);
+        }
+    }
+
+    auto pScene = builder.build();
+    scene = pScene.get();
+    attachChild(std::move(pScene));
 }
 
 void Level::saveCurrentNode(std::ostream &out) const {
     SceneNode::saveCurrentNode(out);
+    std::cout << "Level saved" << std::endl;
 }
 
 std::string Level::getClassName() const {

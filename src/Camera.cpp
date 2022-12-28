@@ -107,7 +107,7 @@ void Camera::load(std::istream &in) {
     int width, height;
     in >> x >> y;
     in >> width >> height;
-    sf::View view;
+    sf::View view = window.getView();
     view.setCenter(x, y);
     view.setSize(width, height);
     window.setView(view);

@@ -50,7 +50,7 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
         node = std::make_unique<RiverController>();
         node->loadCurrentNode(in);
     } else if (line == "Level") {
-        node = std::make_unique<Level>(1, sf::Vector2f(0, 0));
+        node = std::make_unique<Level>(1, sf::Vector2f(1024, 768));
         node->loadCurrentNode(in);
     } else if (line == "WoodLane") {
         node = std::make_unique<WoodLane>();
@@ -85,12 +85,17 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
     } else if (line == "HealthBoost") {
         node = std::make_unique<HealthBoost>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
         node->loadCurrentNode(in);
+    } else if (line == "LevelLayer") {
+        node = std::make_unique<LevelLayer>();
+        node->loadCurrentNode(in);
+
     } else {
         throw std::runtime_error("Unhandle node type: " + line);
     }
     int n;
     in >> n;
     in.ignore();
+    cout << "Loading " << n << " children" << endl;
     for (int j = 0; j < n; j++) {
         node->attachChild(loadNode(in));
     }

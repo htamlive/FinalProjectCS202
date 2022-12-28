@@ -35,12 +35,18 @@ void GameState::initVariables() {
     if (fin) {
         world = dynamic_cast<World*>(loadNode(fin).release());
         std::cout << "Loaded world" << std::endl;
+        fin.close();
     } else {
         world->init();
     }
     // world->setDebug(true, true);
     //world->setScale(0.8, 0.8);
     camera = new Camera(*player, *window, *world);
+    fin.open("camera.v1");
+    if (fin) {
+        camera->load(fin);
+    }
+    fin.close();
     world->addPlayer(pPlayer);
 }
 
