@@ -1,5 +1,6 @@
 #include "World.h"
 #include "Consts.h"
+#include "LevelGenerator.h"
 #include "SceneNode.h"
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
@@ -34,30 +35,30 @@ public:
 
 World::World(sf::Vector2f sceneSize)
     : sceneSize(sceneSize) {
-    SceneNode::Ptr lv(new SceneNode());
+}
+
+void World::init() {
+    SceneNode::Ptr lv(new LevelLayer());
     SceneNode::Ptr gl(new Grid(sceneSize));
-    levelLayer = lv.get();
     gridLayer = gl.get();
-    attachChild(std::move(lv));
     attachChild(std::move(gl));
-    auto level = std::unique_ptr<Level>(new Level(currentLevelNumber + 1, sceneSize));
-    currentLevel = level.get();
-    levelLayer->attachChild(std::move(level));
-    maintainedLevels.push_back(currentLevel);
+    auto level = LevelGenerator().makeLevel(1, sceneSize);
+    attachChild(std::move(level));
 }
 
 void World::addNewLevel() {
     if (maintainedLevels.size() == 2) {
-        levelLayer->detachChild(*maintainedLevels.front());
+        detachChild(*maintainedLevels.front());
         maintainedLevels.pop_front();
     }
     currentLevelNumber++;
     oldLevel = currentLevel;
-    auto level = std::unique_ptr<Level>(new Level(currentLevelNumber, sceneSize));
+    auto level = LevelGenerator().makeLevel(currentLevelNumber, sceneSize);
     currentLevel = level.get();
-    level->move({0, currentLevelNumber*-sceneSize.y});
-    levelLayer->attachChild(std::move(level));
-    maintainedLevels.push_back(currentLevel);
+    level->move({0, currentLevelNumber*(-sceneSize.y)});
+    attachChild(std::move(level));
+    auto p = detachChild(*player);
+    attachChild(std::move(p));
 }
 
 void World::updateCurrent(sf::Time dt) {
@@ -68,5 +69,37 @@ void World::drawCurrent(sf::RenderTarget &target,
 }
 
 Level* World::getCurrentLevel() const {
-    return maintainedLevels.back();
+    return currentLevel;
+}
+
+void World::loadCurrentNode(std::istream &in) {
+    SceneNode::loadCurrentNode(in);
+    in >> currentLevelNumber;
+    in >> sceneSize.x >> sceneSize.y;
+}
+
+void World::saveCurrentNode(std::ostream &out) const {
+    SceneNode::saveCurrentNode(out);
+    out << currentLevelNumber << std::endl;
+    out << sceneSize.x << " " << sceneSize.y << std::endl;
+}
+
+std::string World::getClassName() const {
+    return "World";
+}
+
+bool World::shouldSave() const {
+    return true;
+}
+
+void World::attachChild(Ptr child) {
+    if (dynamic_cast<Level *>(child.get())) {
+        std::cout << "Level attached" << std::endl;
+        maintainedLevels.push_back(dynamic_cast<Level *>(child.get()));
+        currentLevel = maintainedLevels.back();
+    } else if (dynamic_cast<Player *>(child.get())) {
+        std::cout << "Player attached" << std::endl;
+        player = dynamic_cast<Player *>(child.get());
+    }
+    SceneNode::attachChild(std::move(child));
 }

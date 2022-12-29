@@ -47,19 +47,3 @@ Light::Light(sf::Vector2f position, sf::Vector2f size, sf::Time greenTimer, sf::
 std::string Light::getClassName() const {
     return "Light";
 }
-
-void Light::saveCurrentNode(std::ostream &out) const {
-    Entity::saveCurrentNode(out);
-    out << currentTime.asMilliseconds() << " " << nextTime.asMilliseconds() << ' ' << timer.asMilliseconds() << ' ' << std::endl;
-}
-
-void Light::loadCurrentNode(std::istream &in) {
-    Entity::loadCurrentNode(in);
-    int currentTime, nextTime, timer;
-    in >> currentTime >> nextTime >> timer;
-    this->currentTime = sf::milliseconds(currentTime);
-    this->nextTime = sf::milliseconds(nextTime);
-    this->timer = sf::milliseconds(timer);
-
-    //TODO: bind observers (children)
-}

@@ -80,6 +80,8 @@ public:
     sf::Vector2f getDirectionVec() const;
 
     void addPlatformVelocity(sf::Vector2f velocity);
+    void loadCurrentNode(std::istream& in = std::cin) override;
+    void saveCurrentNode(std::ostream& out = std::cout) const override;
 
 protected:
     void updateCurrent(sf::Time dt) override;
@@ -88,13 +90,14 @@ protected:
                      sf::RenderStates states) const override;
 
 private:
+    bool shouldSave() const override;
+
     void drawHealthBar(sf::RenderTarget &target, sf::RenderStates states) const;
 
     sf::Vector2f getNearestGridPosition(sf::Vector2f pos) const;
 
     void applyEffects(sf::Time dt);
 
-private:
     Texture::ID jumpTexture, idleTexture, ripTexture;
 
     PlayerState *state;
@@ -111,6 +114,4 @@ private:
     sf::Vector2f woodVelocity = {0, 0};
 
     std::string getClassName() const override;
-    void saveCurrentNode(std::ostream& out = std::cout) const override;
-    void loadCurrentNode(std::istream& in = std::cin) override;
 };

@@ -6,6 +6,7 @@
 #include "PauseMenu.h"
 #include "Camera.h"
 #include "World.h"
+#include "GameLoader.h"
 #include "SummaryMenu.h"
 #include "ScoreDisplay.h"
 
@@ -39,26 +40,7 @@ private:
 		}
 	};
 
-	void initVariables() {
-		auto pPlayer = std::make_unique<Player>(
-			sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
-							  (float)window->getSize().y - GRID_SIZE.y),
-				GRID_SIZE);
-		player = pPlayer.get();
-        player->addEffect(EffectFactory::create(EffectType::Hungry));
-
-		pauseMenu = new PauseMenu(window, states);
-		scoreDisplay = new ScoreDisplay(gui);
-		summaryMenu = nullptr;
-
-		world = new World(sf::Vector2f(window->getSize()));
-		world->setDebug(true, true);
-        //world->setScale(0.8, 0.8);
-		camera = new Camera(*player, *window, *world);
-		world->attachChild(std::move(pPlayer));
-	}
-
-
+	void initVariables();
 
 public:
 
@@ -92,5 +74,4 @@ public:
 		delete world;
 		delete camera;
 	};
-
 };

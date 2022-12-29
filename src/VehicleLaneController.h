@@ -27,14 +27,10 @@ public:
 
     VehicleLaneController(unsigned int laneCount, float y,
                           Random<std::normal_distribution<double>> speedDistribution,
-                          const std::function<Random<std::normal_distribution<double>>(
-                                  double speed)> &frequencyFunction,
                           sf::Time greenDuration, sf::Time redDuration);
 
     VehicleLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
                           Random<std::normal_distribution<double>> speedDistribution,
-                          const std::function<Random<std::normal_distribution<double>>(
-                                  double speed)> &frequencyFunction,
                           sf::Time greenDuration, sf::Time redDuration);
 
     RoadLane::Type getType() const override;

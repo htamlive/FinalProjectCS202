@@ -25,22 +25,15 @@ public:
     template<typename TResult>
     TResult get(TResult min, TResult max);
 
-    void save(std::ostream& out = std::cout) const;
-
-    void load(std::istream& in = std::cin);
+    RandomNumberDistribution const &dis() const;
 
 private:
     RandomNumberDistribution distribution;
 };
 
 template<class RandomNumberDistribution>
-void Random<RandomNumberDistribution>::save(std::ostream &out) const {
-    //TODO: how to save a distribution?
-}
-
-template<class RandomNumberDistribution>
-void Random<RandomNumberDistribution>::load(std::istream &in) {
-    //TODO: how to load a distribution?
+RandomNumberDistribution const &Random<RandomNumberDistribution>::dis() const {
+    return distribution;
 }
 
 template<class RandomNumberDistribution>

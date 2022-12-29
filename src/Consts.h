@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "Enums.h"
+#include "Random.h"
+
+const float VEHICLE_LANE_PROB = 0.5;
 
 const float VEHICLE_LANE_PROB = 0.5;
 
@@ -72,3 +75,8 @@ const float HEALTH_REDUCTION_RATE_WHEN_DROWN = -MAX_HEALTH / 5;
 const float SIZE_SMALLER_BOOST_SCALE = 0.5;
 
 const float JUMP_DURATION_BOOST_SCALE = 0.5;
+
+const auto DEF_FREQUENCY_FUNCTION = [](double speed) {
+    auto spawnRate = 400 / speed;
+    return Random<std::normal_distribution<double>>(std::normal_distribution<double>(spawnRate, spawnRate / 3));
+};

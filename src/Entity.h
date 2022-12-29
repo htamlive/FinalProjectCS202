@@ -32,6 +32,10 @@ protected:
      */
     void updateCurrent(sf::Time dt) override;
 
+    virtual bool shouldSave() const override {
+        return false;
+    }
+
 public:
     Entity();
 

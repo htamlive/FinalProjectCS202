@@ -32,7 +32,7 @@ public:
      *
      * @param child: the child to be added
      */
-    void attachChild(Ptr child);
+    virtual void attachChild(Ptr child);
 
     /**
      * Remove a child from the node
@@ -41,14 +41,14 @@ public:
      *
      * @return a Ptr to child
      */
-    Ptr detachChild(const SceneNode &child);
+    virtual Ptr detachChild(const SceneNode &child);
 
     /**
      * Update the node and all the children node
      *
      * @param dt: time elapsed since last frame
      */
-    void update(sf::Time dt);
+    virtual void update(sf::Time dt);
 
     /**
      * @return the absolute transform (all transform of node hierarchy combined)
@@ -84,10 +84,11 @@ public:
      * @param recursive: apply to all children
      */
     void setDebug(bool on, bool recursive = false);
-    
+
     virtual Category::Type getCategory() const;
 
-    void saveNode(std::ostream& out) const;
+    virtual void saveNode(std::ostream& out) const;
+
     bool operator <(SceneNode const &other) const;
 
     /**
@@ -96,11 +97,11 @@ public:
     virtual sf::FloatRect getBoundingRect() const;
 
     virtual sf::FloatRect getLocalBounds() const;
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates state) const;
 
 private:
     void drawBoundingBox(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void draw(sf::RenderTarget &target, sf::RenderStates state) const final;
 
     /**
      * Derived class should implement this method to draw itself
@@ -123,12 +124,15 @@ private:
     void updateChildren(sf::Time dt);
 
 protected:
-
     virtual std::string getClassName() const;
 
     virtual void saveCurrentNode(std::ostream& out = std::cout) const;
 
     virtual void loadCurrentNode(std::istream& in = std::cin);
+
+    virtual void onLoadingFinished();
+
+    virtual bool shouldSave() const;
 
 private:
     int idx = -1;

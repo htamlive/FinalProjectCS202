@@ -4,21 +4,16 @@
 RoadLaneController::RoadLaneController() = default;
 
 RoadLaneController::RoadLaneController(unsigned int laneCount, float y,
-                                       Random<std::normal_distribution<double>> speedDistribution,
-                                       const std::function<Random<std::normal_distribution<double>>(
-                                               double)> &frequencyFunction) : laneCount(laneCount),
-                                                                              speedDistribution(speedDistribution),
-                                                                              frequencyFunction(frequencyFunction) {
+                                       Random<std::normal_distribution<double>> speedDistribution) : laneCount(laneCount),
+                                                                                                     speedDistribution(speedDistribution) {
     setPosition(0, y);
 }
 
 RoadLaneController::RoadLaneController(unsigned int laneCount, float y, float laneHeight, sf::Vector2f commuterSize,
-                                       Random<std::normal_distribution<double>> speedDistribution,
-                                       const std::function<Random<std::normal_distribution<double>>(double speed)> &
-                                       frequencyFunction) : laneCount(laneCount), laneHeight(laneHeight),
-                                                            commuterSize(commuterSize),
-                                                            speedDistribution(speedDistribution),
-                                                            frequencyFunction(frequencyFunction) {
+                                       Random<std::normal_distribution<double>> speedDistribution) : laneCount(laneCount),
+                                                                                                     laneHeight(laneHeight),
+                                                                                                     commuterSize(commuterSize),
+                                                                                                     speedDistribution(speedDistribution) {
     setPosition(0, y);
 }
 
@@ -60,17 +55,16 @@ std::string RoadLaneController::getClassName() const {
 
 void RoadLaneController::saveCurrentNode(std::ostream &out) const {
     Lane::saveCurrentNode(out);
-    out << laneCount << " " << laneHeight << " " << commuterSize.x << " " << commuterSize.y << std::endl;
-
-    //TODO: save speedDistribution, frequencyFunction
+    out << laneCount << " " << laneHeight << " " << commuterSize.x << " " << commuterSize.y << " ";
+    out << speedDistribution.dis().mean() << " " << speedDistribution.dis().stddev() << " ";
 }
 
 void RoadLaneController::loadCurrentNode(std::istream &in) {
     Lane::loadCurrentNode(in);
     in >> laneCount >> laneHeight >> commuterSize.x >> commuterSize.y;
-
-    //TODO: load speedDistribution, frequencyFunction
-    //TODO: bind lanes (children)
+    double mean, stddev;
+    in >> mean >> stddev;
+    speedDistribution = std::normal_distribution<double>(mean, stddev);
 }
 
 void RoadLaneController::setLaneCount(unsigned int count) {
@@ -81,7 +75,10 @@ void RoadLaneController::setSpeedDistribution(Random<std::normal_distribution<do
     speedDistribution = distribution;
 }
 
-void RoadLaneController::setFrequencyFunction(
-        const std::function<Random<std::normal_distribution<double>>(double)> &function) {
-    frequencyFunction = function;
+void RoadLaneController::onLoadingFinished() {
+    build();
+}
+
+bool RoadLaneController::shouldSave() const {
+    return true;
 }

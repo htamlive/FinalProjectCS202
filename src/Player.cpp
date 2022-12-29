@@ -266,7 +266,7 @@ void Player::addPlatformVelocity(sf::Vector2f velocity) {
 
 void Player::saveCurrentNode(std::ostream &out) const {
     Entity::saveCurrentNode(out);
-    // out << health << " ";
+    out << health << " ";
     // out << isInvincible << " ";
     // out << onSizeSmallerBoost << " ";
     // out << onSpeedBoost << " ";
@@ -287,4 +287,8 @@ void Player::loadCurrentNode(std::istream &in) {
 
 std::string Player::getClassName() const {
     return "Player";
+}
+
+bool Player::shouldSave() const {
+    return true;
 }

@@ -9,6 +9,8 @@ Camera::Camera(SceneNode &follower, sf::RenderWindow &window, World &world)
     : follower(follower), window(window), world(world)
 {
     futurePos = window.getView().getCenter();
+    transitionTime = sf::Time::Zero;
+    isTransitioning = false;
     velocity = {0, 0};
     auto size = window.getView().getSize();
     auto wall1 = std::make_unique<Wall>(sf::FloatRect(-10, 0, 10, size.y));
@@ -31,7 +33,7 @@ bool Camera::needReposition() {
     sf::Vector2f viewPos = view.getCenter();
     sf::Vector2f viewSize = view.getSize();
     // Add a little bit of offset to the view size to make sure the player is always in the view
-    if (playerPos.y + 15 < viewPos.y - viewSize.y / 2)
+    if (playerPos.y + 30 < viewPos.y - viewSize.y / 2)
         return true;
     return false;
 }
@@ -80,22 +82,36 @@ void Camera::updateVelocity(sf::Time dt) {
         velocity = velocity * scale;
         transitionTime += dt;
 
-    } else if(dt != sf::seconds(0)) {
+    } else {
         velocity = {length.x / dt.asSeconds(), length.y / dt.asSeconds()};
         for (auto wall : walls) {
-            wall->setVelocity(velocity);
+            auto newView = window.getView();
+            newView.setCenter({futurePos.x, futurePos.y});
+            window.setView(newView);
+            velocity = {0, 0};
+            wall->setVelocity({0, 0});
+            wall->setPosition({
+                0,
+                window.getView().getCenter().y - window.getView().getSize().y / 2,
+                });
+            transitionTime = sf::Time::Zero;
         }
     }
-
-    // if (isTransitioning) {
-    //     auto time_left = TRANSITION_TIME - transitionTime;
-    //     velocity = {0, 5};
-    //     transitionTime += dt;
-    //     cout << "transitionTime: " << transitionTime.asSeconds() << endl;
-    // } else {
-    //     velocity = {0, 0};
-    // }
 }
 
-void Camera::reposition() {
+void Camera::save(std::ostream &out) {
+    out << window.getView().getCenter().x << " " << window.getView().getCenter().y << std::endl;
+    out << window.getView().getSize().x << " " << window.getView().getSize().y << std::endl;
+}
+
+void Camera::load(std::istream &in) {
+    int x, y;
+    int width, height;
+    in >> x >> y;
+    in >> width >> height;
+    sf::View view = window.getView();
+    futurePos = {(float)x, (float)y};
+    view.setCenter(x, y);
+    view.setSize(width, height);
+    window.setView(view);
 }

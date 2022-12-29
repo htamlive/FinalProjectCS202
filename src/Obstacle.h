@@ -31,7 +31,13 @@ public:
 
     Category::Type getCategory() const override;
 
-    std::string getClassName() const override;
+    std::string getClassName() const override {
+        return "Rock";
+    }
+
+    bool shouldSave() const override {
+        return true;
+    }
 };
 
 class HealthBoost : public virtual PlayerCollidable, public virtual Entity {
@@ -66,7 +72,12 @@ class SmallSizeBoost : public virtual PlayerCollidable, public virtual Entity {
 private:
     void updateCurrent(sf::Time dt) override;
 
-    void onStartPlayerCollision() override;
+    void onStartPlayerCollision() override {
+        player->addEffect(EffectFactory::create(EffectType::HealthBoost));
+    }
+    bool shouldSave() const override {
+        return true;
+    }
 
 public:
     SmallSizeBoost(sf::Vector2f pos, sf::Vector2f size);

@@ -19,6 +19,43 @@ GameState::GameState(sf::RenderWindow *window,
     initMusic();
 };
 
+void GameState::initVariables() {
+    auto pPlayer = std::make_unique<Player>(
+        sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
+                          (float)window->getSize().y - GRID_SIZE.y),
+            GRID_SIZE);
+    player = pPlayer.get();
+    player->addEffect(EffectFactory::create(EffectType::Hungry));
+
+    pauseMenu = new PauseMenu(window, states);
+    //summaryMenu = new SummaryMenu(window, states);
+    summaryMenu = nullptr;
+    world = new World(sf::Vector2f(window->getSize()));
+    ifstream fin("save.v1");
+    if (fin) {
+        world = dynamic_cast<World*>(loadNode(fin).release());
+        fin.close();
+    } else {
+        world->init();
+    }
+    // world->setDebug(true, true);
+    camera = new Camera(*player, *window, *world);
+    fin.open("camera.v1");
+    if (fin) {
+        camera->load(fin);
+    }
+    fin.close();
+
+    fin.open("player.v1");
+    if (fin) {
+        player->loadCurrentNode(fin);
+        std::cout << "player position: " << player->getPosition().x << " "
+                  << player->getPosition().y << std::endl;
+    }
+    fin.close();
+    world->attachChild(std::move(pPlayer));
+}
+
 void GameState::initMusic() {
     AudioController::instance().loadSoundFromFile(SoundEffect::CarNoise, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
     AudioController::instance().playSound(SoundEffect::CarNoise);
@@ -61,7 +98,6 @@ void GameState::updateEvents() {
         } else 
             this->endState();
     }
-    
 };
 
 void GameState::updateInput(const float &dt) {
@@ -76,6 +112,21 @@ void GameState::updateInput(const float &dt) {
 };
 
 void GameState::update(const float &dt) {
+    if (pauseMenu->shouldSave()) {
+        ofstream fout("player.v1");
+        player->saveCurrentNode(fout);
+        fout.close();
+
+        fout.open("save.v1");
+        world->detachChild(*player);
+        world->saveNode(fout);
+        fout.close();
+
+        fout.open("camera.v1");
+        camera->save(fout);
+        fout.close();
+    }
+
     float transDt = dt;
     if (pauseMenu->isPausing())
         transDt = 0;
@@ -152,3 +203,4 @@ void GameState::render(sf::RenderTarget *target) {
     if (summaryMenu)
         summaryMenu->render(target);
 };
+
