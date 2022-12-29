@@ -192,3 +192,13 @@ Button.btnScore {
         TextureHover = "../buttons/ScoreButtonIdle.png" Smooth;
     }
 }
+
+Picture.silverGlow {
+    Position = (140, 10);
+    Size = (721, 248);
+
+    Renderer {
+        Texture = "../glowEffect/Silver.png" Smooth;
+        TransparentTexture = false;
+    }
+}

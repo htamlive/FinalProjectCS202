@@ -140,6 +140,7 @@ void GameState::update(const float &dt) {
     // Prevent segmentation fault
     // Reason: The deleted node still exists in the collisionPairs
     vector<SceneNode*> removeQueue;
+    //std::cout << "Player: " << player->getAbsPosition().x << " " << player->getAbsPosition().y << "\n";
     for (auto pair : collisionPairs) {
         if (pair.second->getCategory() == Category::Player) {
             std::swap(pair.first, pair.second);
@@ -181,7 +182,12 @@ void GameState::update(const float &dt) {
     }
 
     if (player->isDead() && !summaryMenu)
-        summaryMenu = new SummaryMenu(window, states);
+        summaryMenu = new SummaryMenu(window, states, scoreDisplay->finalScore());
+    if (!player->isDead()) {
+        int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) / GRID_SIZE.y;
+        scoreDisplay->update(score);
+    }
+    
 };
 
 void GameState::render(sf::RenderTarget *target) {
@@ -189,8 +195,9 @@ void GameState::render(sf::RenderTarget *target) {
         target = this->window;
     }
     // this->player.render(target);
-    this->gui->draw();
+    //this->gui->draw();
     target->draw(*world);
+    this->gui->draw();
     pauseMenu->render(target);
 
     if (summaryMenu)

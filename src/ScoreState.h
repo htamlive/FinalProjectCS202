@@ -22,7 +22,22 @@ private:
 	void zoomSmall(string Button) {
 		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
 	}
-	float w = 2.f, angle = 0.f, A = 360.f, totatTime = 0.f;
+	float w = 2.f, angle = 0.f, A = 360.f, totatTime = 0.f, opa = 0.f;
+
+	void initRank() {
+		vector<int> v(3);
+		ifstream ifs("data/scores.txt");
+		for (int i = 0; i < 3; ++i) {
+			ifs >> v[i];
+			if (v[i] == 0) continue;
+			tgui::String label = "lblTop" + std::to_string(i + 1);
+			this->gui->get<tgui::Label>(label)->setText(tgui::String(v[i]));
+		}
+		ifs.close();
+
+		//this->gui->get<tgui::Picture>("Picture1")-
+	}
+	
 public:
 	bool isWordMode = true;
 	ScoreState(sf::RenderWindow* window, std::vector<State*>* states);
@@ -30,21 +45,41 @@ public:
 
 
 	void initBackground() {
-
+		
 	};
+
+	void reset() {
+		ofstream ofs;
+		ofs.open("data/scores.txt", ios::trunc);
+		for (int i = 0; i < 3; ++i)
+		{
+			ofs << 0 << "\n";
+			tgui::String label = "lblTop" + std::to_string(i + 1);
+			tgui::String score = "TOP " + std::to_string(i + 1);
+			this->gui->get<tgui::Label>(label)->setText(score);
+		}
+		ofs.close();
+	}
 
 	void initButtons() {
 		
 		this->gui->get<tgui::Button>("btnBack")->onMouseEnter([&]() {
 			zoomBig("btnBack");
 			});
-
+		this->gui->get<tgui::Button>("resetBtn")->onMouseEnter([&]() {
+			zoomBig("resetBtn");
+			});
 		this->gui->get<tgui::Button>("btnBack")->onMouseLeave([&]() {
 			zoomSmall("btnBack");
 			});
-
+		this->gui->get<tgui::Button>("resetBtn")->onMouseLeave([&]() {
+			zoomSmall("resetBtn");
+			});
 		this->gui->get<tgui::Button>("btnBack")->onClick([&]() {
 			endState();
+			});
+		this->gui->get<tgui::Button>("resetBtn")->onClick([&]() {
+			reset();
 			});
 	};
 
@@ -69,7 +104,9 @@ public:
 			break;
 		}
 	};
-
+	template <class T> const T& min(const T& a, const T& b) {
+		return !(b < a) ? a : b;     // or: return !comp(b,a)?a:b; for version (2)
+	}
 	void update(const float& dt) override {
 		totatTime += dt;
 		
@@ -82,13 +119,19 @@ public:
 			angle = -1;
 			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
 			//this->gui->get<tgui::Picture>("Picture1")->moveWithAnimation({ pos.x, pos.y - 1.f }, sf::seconds(.75f));
+			
 		}
 		else if (totatTime >= 0) {
 			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
 			this->gui->get<tgui::Picture>("Picture1")->setPosition({ pos.x, 110 - A/4 * sin(2 * w * totatTime) });
 			angle = A * sin(w * totatTime);
+
 			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle,{0.5f, 0.5f});
 		}
+
+		this->gui->get<tgui::Picture>("goldenGlow")->setInheritedOpacity(min<float>(abs(totatTime) * 1.2, 1.f));
+		this->gui->get<tgui::Picture>("silverGlow")->setInheritedOpacity(min<float>(abs(totatTime) * 1.2, 1.f));
+		this->gui->get<tgui::Picture>("bronzeGlow")->setInheritedOpacity(min<float>(abs(totatTime) * 1.2, 1.f));
 	};
 
 	void updateBtns() {

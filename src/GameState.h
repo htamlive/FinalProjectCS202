@@ -8,6 +8,7 @@
 #include "World.h"
 #include "GameLoader.h"
 #include "SummaryMenu.h"
+#include "ScoreDisplay.h"
 
 class GameState : public State
 {
@@ -24,6 +25,8 @@ private:
 	Player* player;
 	PauseMenu* pauseMenu;
 	SummaryMenu* summaryMenu;
+	ScoreDisplay* scoreDisplay;
+
     World* world;
     Camera* camera;
 	//std::string getMode();
@@ -65,6 +68,7 @@ public:
 	void render(sf::RenderTarget* target = nullptr) override;
 	void delVariables() {
 		AudioController::instance().removeStoppedSounds();
+		delete scoreDisplay;
 		delete pauseMenu;
 		delete summaryMenu;
 		delete world;

@@ -55,6 +55,24 @@ Label.lblTop1 {
         TextColor = #E5C863;
         TextStyle = Bold;
         TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
     }
 }
 
@@ -73,6 +91,24 @@ Label.lblTop2 {
         Font = "../fonts/04B_30__.TTF";
         TextColor = #A2D6FF;
         TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
     }
 }
 
@@ -91,11 +127,29 @@ Label.lblTop3 {
         Font = "../fonts/04B_30__.TTF";
         TextColor = #E7A571;
         TextureBackground = None;
+
+        Scrollbar {
+            ArrowBackgroundColor = #F5F5F5;
+            ArrowBackgroundColorHover = white;
+            ArrowColor = #3C3C3C;
+            ArrowColorHover = black;
+            TextureArrowDown = None;
+            TextureArrowDownHover = None;
+            TextureArrowUp = None;
+            TextureArrowUpHover = None;
+            TextureThumb = None;
+            TextureThumbHover = None;
+            TextureTrack = None;
+            TextureTrackHover = None;
+            ThumbColor = #DCDCDC;
+            ThumbColorHover = #E6E6E6;
+            TrackColor = #F5F5F5;
+        }
     }
 }
 
 Button.btnBack {
-    Position = (480, 582.368);
+    Position = (470, 582.368);
     Size = (111, 45.8678);
     TextSize = 13;
 
@@ -126,9 +180,38 @@ Button.btnBack {
     }
 }
 
+Button.resetBtn {
+    Position = (795, 132.368);
+    Size = (61, 21.3583);
+    TextSize = 13;
+
+    Renderer {
+        BackgroundColor = white;
+        BackgroundColorDown = #FFBD37D7;
+        BackgroundColorFocused = #16FF1599;
+        BackgroundColorHover = #00F9FFD7;
+        BorderColor = rgba(240, 240, 240, 215);
+        BorderColorDown = #FFD314A3;
+        BorderColorDownHover = #23EAFFA8;
+        BorderColorFocused = #1EFF1496;
+        BorderColorHover = #27FFF800;
+        Borders = (0, 0, 0, 0);
+        TextColor = black;
+        TextColorDown = rgba(255, 255, 255, 235);
+        TextColorHover = rgba(255, 255, 255, 235);
+        Texture = "../buttons/resetButtonIdle.png" Smooth;
+        TextureDisabled = None;
+        TextureDown = "../buttons/resetButtonPressed.png" Smooth;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = "../buttons/resetButtonIdle.png" Smooth;
+    }
+}
+
 Picture.Picture1 {
-    Position = (790, 110);
-    Size = (78, 63.5556);
+    Position = (790, 103.704);
+    Size = (88, 71.7038);
 
     Renderer {
         Texture = "../spritesheet/character/proPlayer.png" Smooth;
