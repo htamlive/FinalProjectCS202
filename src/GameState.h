@@ -22,7 +22,7 @@ private:
 	float height, width;
 	bool lastPlay;
 
-	Player* player;
+	Player* player = nullptr;
 	PauseMenu* pauseMenu;
 	SummaryMenu* summaryMenu;
 	ScoreDisplay* scoreDisplay;

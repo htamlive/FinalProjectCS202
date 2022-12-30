@@ -39,7 +39,13 @@ void GameState::initVariables() {
     } else {
         world->init();
     }
-    // world->setDebug(true, true);
+    fin.open("player.v1");
+    if (fin) {
+        pPlayer->loadCurrentNode(fin);
+    }
+    fin.close();
+    world->attachChild(std::move(pPlayer));
+
     camera = new Camera(*player, *window, *world);
     fin.open("camera.v1");
     if (fin) {
@@ -47,14 +53,6 @@ void GameState::initVariables() {
     }
     fin.close();
 
-    fin.open("player.v1");
-    if (fin) {
-        player->loadCurrentNode(fin);
-        std::cout << "player position: " << player->getPosition().x << " "
-                  << player->getPosition().y << std::endl;
-    }
-    fin.close();
-    world->attachChild(std::move(pPlayer));
 }
 
 void GameState::initMusic() {
@@ -113,9 +111,20 @@ void GameState::updateInput(const float &dt) {
 };
 
 void GameState::update(const float &dt) {
+    if (player->isDead() && !summaryMenu)
+        summaryMenu = new SummaryMenu(window, states, scoreDisplay->finalScore());
+    if (!player->isDead()) {
+        int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) / GRID_SIZE.y;
+        scoreDisplay->update(score);
+    }
+    
     if (pauseMenu->shouldSave()) {
         ofstream fout("player.v1");
         player->saveCurrentNode(fout);
+        fout.close();
+
+        fout.open("camera.v1");
+        camera->save(fout);
         fout.close();
 
         fout.open("save.v1");
@@ -123,9 +132,9 @@ void GameState::update(const float &dt) {
         world->saveNode(fout);
         fout.close();
 
-        fout.open("camera.v1");
-        camera->save(fout);
-        fout.close();
+        std::cout << "save successfully" << std::endl;
+        pauseMenu->endState();
+        endState();
     }
 
     float transDt = dt;
@@ -181,14 +190,6 @@ void GameState::update(const float &dt) {
     for (auto *item : removeQueue) {
         world->getCurrentLevel()->removeObject(*item);
     }
-
-    if (player->isDead() && !summaryMenu)
-        summaryMenu = new SummaryMenu(window, states, scoreDisplay->finalScore());
-    if (!player->isDead()) {
-        int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) / GRID_SIZE.y;
-        scoreDisplay->update(score);
-    }
-    
 };
 
 void GameState::render(sf::RenderTarget *target) {
