@@ -20,6 +20,7 @@ GameState::GameState(sf::RenderWindow *window,
 };
 
 void GameState::initVariables() {
+    scoreDisplay = new ScoreDisplay(gui);
     auto pPlayer = std::make_unique<Player>(
         sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
                           (float)window->getSize().y - GRID_SIZE.y),

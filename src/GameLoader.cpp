@@ -89,6 +89,9 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
     } else if (line == "HealthBoost") {
         node = std::make_unique<HealthBoost>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
         node->loadCurrentNode(in);
+    } else if (line == "SmallSizeBoost") {
+        node = std::make_unique<HealthBoost>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
+        node->loadCurrentNode(in);
     } else if (line == "LevelLayer") {
         node = std::make_unique<LevelLayer>();
         node->loadCurrentNode(in);
