@@ -6,8 +6,6 @@
 
 const float VEHICLE_LANE_PROB = 0.5;
 
-const float VEHICLE_LANE_PROB = 0.5;
-
 const float ANIMAL_LANE_PROB = 0.3;
 
 const float RIVER_LANE_PROB = 1 - VEHICLE_LANE_PROB - ANIMAL_LANE_PROB;

@@ -80,7 +80,7 @@ std::unique_ptr<Level> LevelGenerator::makeLevel(int level,
         for (int j = 0; j < laneType; j++) {
             for (int k = 0; k < mapWidth; k++) {
                 if (shouldPlaceReward.get<bool>()) {
-                    builder.addReward({k * GRID_SIZE.x, (i + j) * GRID_SIZE.y},
+                    builder.addBoost({k * GRID_SIZE.x, (i + j) * GRID_SIZE.y},
                                       GRID_SIZE);
                 }
             }

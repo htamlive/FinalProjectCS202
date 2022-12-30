@@ -50,6 +50,7 @@ SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes,
         meanSpeed *= 0.6;
         break;
     }
+    }
 
     auto speed = std::normal_distribution<double>(meanSpeed, meanSpeed / 4);
     roads->setLaneCount(lanes);

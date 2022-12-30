@@ -29,7 +29,7 @@ class SceneBuilder {
 
     SceneBuilder &addRock(sf::Vector2f pos, sf::Vector2f size);
     SceneBuilder &addReward(sf::Vector2f pos, sf::Vector2f size);
-    SceneBuilder &addBoost(sf::Vector2f pos);
+    SceneBuilder &addBoost(sf::Vector2f pos, sf::Vector2f size);
     SceneBuilder &addBombard(sf::Vector2f pos);
     SceneBuilder &addElectricGate(sf::Vector2f pos, float width);
     SceneBuilder &addTree(sf::Vector2f pos);
