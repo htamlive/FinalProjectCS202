@@ -5,6 +5,7 @@
 FinalProjectCS202
 /resources/textFile/MusicController.txt
 /resources/textFile/SoundController.txt
+/data/scores.txt
 
 .vs
 .vscode

@@ -1,9 +1,11 @@
 #include "Obstacle.h"
 
 void Obstacle::onStartPlayerCollision() {
-    sf::Vector2f direction = -player->getDirectionVec();
-    auto newPos = player->getPosition() + direction * (GRID_SIZE.x / 2);
-    player->setState(new ObstacleCollidingState(player, newPos));
+    if (!player->isInvincible()) {
+        sf::Vector2f direction = -player->getDirectionVec();
+        auto newPos = player->getPosition() + direction * (GRID_SIZE.x / 2);
+        player->setState(new ObstacleCollidingState(player, newPos));
+    }
 }
 
 Category::Type Obstacle::getCategory() const {

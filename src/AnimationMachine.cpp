@@ -4,6 +4,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Time.hpp>
 
+AnimationMachine::AnimationMachine() : id(Texture::ID::Null), duration(sf::Time::Zero), loop(false) {}
+
 AnimationMachine::AnimationMachine(Texture::ID textureID, sf::Time duration,
                                    bool loop)
     : id(textureID), duration(duration), loop(loop) {}

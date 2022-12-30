@@ -205,4 +205,3 @@ class EffectFactory {
 public:
     static std::unique_ptr<Effect> create(EffectType type);
 };
-

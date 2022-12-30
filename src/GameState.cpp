@@ -193,8 +193,8 @@ void GameState::update(const float &dt) {
             auto collidable = dynamic_cast<PlayerCollidable *>(nodeB);
             if (collidable) {
                 collidable->onPlayerCollision(*player);
-                if (nodeB->getCategory() == Category::Obstacle ||
-                    nodeB->getCategory() == Category::Enemy) {
+                if (!player->isInvincible() && (nodeB->getCategory() == Category::Obstacle ||
+                    nodeB->getCategory() == Category::Enemy)) {
                     camera->shake(sf::seconds(0.5f), 10.f);
                 }
             }

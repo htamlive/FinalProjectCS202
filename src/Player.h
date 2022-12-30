@@ -58,6 +58,8 @@ class Player : public Entity {
 
     friend class PlayerEffect;
 
+    enum Direction { Up, Right, Down, Left };
+
 public:
     Player();
 
@@ -80,8 +82,18 @@ public:
     sf::Vector2f getDirectionVec() const;
 
     void addPlatformVelocity(sf::Vector2f velocity);
+
     void loadCurrentNode(std::istream& in = std::cin) override;
+
     void saveCurrentNode(std::ostream& out = std::cout) const override;
+
+    Texture::ID getJumpTexture() const;
+
+    Texture::ID getIdleTexture() const;
+
+    Texture::ID getStunnedTexture() const;
+
+    Texture::ID getRipTexture() const;
 
 protected:
     void updateCurrent(sf::Time dt) override;
@@ -98,7 +110,7 @@ private:
 
     void applyEffects(sf::Time dt);
 
-    Texture::ID jumpTexture, idleTexture, ripTexture;
+    Direction direction;
 
     PlayerState *state;
 
@@ -110,7 +122,6 @@ private:
     sf::Vector2f platformVelocity = {0, 0};
     float health = MAX_HEALTH;
     bool deadFlag = false;
-    SceneNode *collidingObstacle = nullptr;
     sf::Vector2f woodVelocity = {0, 0};
 
     std::string getClassName() const override;
