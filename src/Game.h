@@ -77,6 +77,32 @@ private:
         TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/character/goDown.png",
                                        {128, 128},
                                        4);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleUpInvincible, "resources/spritesheet/character/invisible/idleUpInvisible.png",
+                                       {128, 128},
+                                       6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleDownInvincible, "resources/spritesheet/character/invisible/idleDownInvisible.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleLeftInvincible, "resources/spritesheet/character/invisible/idleLeftInvisible.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleRightInvincible, "resources/spritesheet/character/invisible/idleRightInvisible.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerJumpLeftInvincible, "resources/spritesheet/character/invisible/goLeftInvisible.png",
+                                       {128, 128},
+                                       6);
+        TextureHolder::instance().load(Texture::ID::PlayerJumpRightInvincible, "resources/spritesheet/character/invisible/goRightInvisible.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerJumpUpInvincible, "resources/spritesheet/character/invisible/goUpInvisible.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerJumpDownInvincible, "resources/spritesheet/character/invisible/goDownInvisible.png",
+                                       {128, 128},
+                                       4);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleUpStunned, "resources/spritesheet/character/stunned/idleUpStun.png", {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleDownStunned, "resources/spritesheet/character/stunned/idleDownStun.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleLeftStunned, "resources/spritesheet/character/stunned/idleLeftStun.png",
+                                       {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleRightStunned, "resources/spritesheet/character/stunned/idleRightStun.png",
+                                       {128, 128}, 6);
         TextureHolder::instance().load(Texture::ID::RIP, "resources/spritesheet/character/rip.png", {128, 128}, 1);
     }
 

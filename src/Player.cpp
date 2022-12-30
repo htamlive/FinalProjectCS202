@@ -33,18 +33,15 @@ void Player::updateCurrent(sf::Time dt) {
 }
 
 Player::Player()
-        : jumpTexture(Texture::ID::PlayerJumpUp),
-          idleTexture(Texture::ID::PlayerIdleUp), ripTexture(Texture::RIP),
+        : direction(Direction::Up),
           state(new IdleState(this)) {
     setState(new IdleState(this));
-    animation = AnimationMachine(idleTexture, sf::seconds(5), true);
+    animation = AnimationMachine(getIdleTexture(), sf::seconds(5), true);
 }
 
 Player::Player(sf::Vector2f position, sf::Vector2f size)
         : Entity(Texture::ID::PlayerIdleUp, position, size, DEF_PLAYER_VELOCITY),
-          jumpTexture(Texture::ID::PlayerJumpUp),
-          idleTexture(Texture::ID::PlayerIdleUp),
-          ripTexture(Texture::ID::RIP), state(new IdleState(this)) {
+          direction(Direction::Up), state(new IdleState(this)) {
     setState(new IdleState(this));
     setVelocity({0, 0});
     localBounds = sf::FloatRect(size.x / 64 * 20, size.y / 64 * 20, size.x / 64 * 24, size.y / 64 * 24);
@@ -57,26 +54,22 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
             case sf::Keyboard::W:
             case sf::Keyboard::Up:
                 distanceVec = {0, -GRID_SIZE.y};
-                jumpTexture = Texture::ID::PlayerJumpUp;
-                idleTexture = Texture::ID::PlayerIdleUp;
+                direction = Direction::Up;
                 break;
             case sf::Keyboard::S:
             case sf::Keyboard::Down:
                 distanceVec = {0, GRID_SIZE.y};
-                jumpTexture = Texture::ID::PlayerJumpDown;
-                idleTexture = Texture::ID::PlayerIdleDown;
+                direction = Direction::Down;
                 break;
             case sf::Keyboard::A:
             case sf::Keyboard::Left:
                 distanceVec = {-GRID_SIZE.x, 0};
-                jumpTexture = Texture::ID::PlayerJumpLeft;
-                idleTexture = Texture::ID::PlayerIdleLeft;
+                direction = Direction::Left;
                 break;
             case sf::Keyboard::D:
             case sf::Keyboard::Right:
                 distanceVec = {GRID_SIZE.x, 0};
-                jumpTexture = Texture::ID::PlayerJumpRight;
-                idleTexture = Texture::ID::PlayerIdleRight;
+                direction = Direction::Right;
                 break;
             default:
                 break;
@@ -291,4 +284,83 @@ std::string Player::getClassName() const {
 
 bool Player::shouldSave() const {
     return true;
+}
+
+Texture::ID Player::getJumpTexture() const {
+    switch(direction) {
+        case Direction::Left: {
+            if (isInvincible())
+                return Texture::ID::PlayerJumpLeftInvincible;
+            else
+                return Texture::ID::PlayerJumpLeft;
+        }
+        case Direction::Right: {
+            if (isInvincible())
+                return Texture::ID::PlayerJumpRightInvincible;
+            else
+                return Texture::ID::PlayerJumpRight;
+        }
+        case Direction::Up: {
+            if (isInvincible())
+                return Texture::ID::PlayerJumpUpInvincible;
+            else
+                return Texture::ID::PlayerJumpUp;
+        }
+        case Direction::Down: {
+            if (isInvincible())
+                return Texture::ID::PlayerJumpDownInvincible;
+            else
+                return Texture::ID::PlayerJumpDown;
+        }
+    }
+}
+
+Texture::ID Player::getIdleTexture() const {
+    switch(direction) {
+        case Direction::Left: {
+            if (isInvincible())
+                return Texture::ID::PlayerIdleLeftInvincible;
+            else
+                return Texture::ID::PlayerIdleLeft;
+        }
+        case Direction::Right: {
+            if (isInvincible())
+                return Texture::ID::PlayerIdleRightInvincible;
+            else
+                return Texture::ID::PlayerIdleRight;
+        }
+        case Direction::Up: {
+            if (isInvincible())
+                return Texture::ID::PlayerIdleUpInvincible;
+            else
+                return Texture::ID::PlayerIdleUp;
+        }
+        case Direction::Down: {
+            if (isInvincible())
+                return Texture::ID::PlayerIdleDownInvincible;
+            else
+                return Texture::ID::PlayerIdleDown;
+        }
+    }
+}
+
+Texture::ID Player::getRipTexture() const {
+    return Texture::RIP;
+}
+
+Texture::ID Player::getStunnedTexture() const {
+    switch(direction) {
+        case Direction::Left: {
+            return Texture::ID::PlayerIdleLeftStunned;
+        }
+        case Direction::Right: {
+            return Texture::ID::PlayerIdleRightStunned;
+        }
+        case Direction::Up: {
+            return Texture::ID::PlayerIdleUpStunned;
+        }
+        case Direction::Down: {
+            return Texture::ID::PlayerIdleDownStunned;
+        }
+    }
 }

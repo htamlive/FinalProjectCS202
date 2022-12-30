@@ -24,6 +24,8 @@ class AnimationMachine {
     Sheet const &getSheet() const;
 
 public:
+    AnimationMachine();
+
     /**
      * @param textureID ID of the texture
      * @param duration the duration of the animation
