@@ -6,12 +6,15 @@
 #include "GameState.h"
 #include "MenuAnimation.h"
 #include "ScoreState.h"
+#include <TGUI/Widgets/FileDialog.hpp>
 
 class MainMenuState : public State {
 private:
 	sf::RectangleShape background;
 	sf::Texture backgroundTexture;
 	sf::Font font;
+	tgui::FileDialog::Ptr fileDialog;
+	
 	MenuAnimation Meow;
 	int curOpt = 1;
 
@@ -23,6 +26,24 @@ private:
 	}
 	float totalTime = 0.f;
 	const float overTime = 1;
+
+	void initFileDialog() {
+		fileDialog = tgui::FileDialog::create();
+		this->gui->add(fileDialog, "fileDialog");
+		fileDialog->setPosition(200, 170);
+		fileDialog->setWidth(650);
+		fileDialog->setHeight(500);
+
+		fileDialog->onFileSelect([&]() {
+			auto path = fileDialog->getSelectedPaths()[0].asString();
+
+			cout << fileDialog->getSelectedPaths()[0].asString() << "\n";
+			});
+
+		fileDialog->onClose([&]() {
+			gui->remove(fileDialog);
+			});
+	}
 public:
 	bool isWordMode = true;
 	MainMenuState(sf::RenderWindow* window, std::vector<State*>* states);
@@ -32,6 +53,7 @@ public:
 		this->supportedKeys = supportedKeys;
 		
 		Meow.SetGui(this->gui);
+
 	};
 
 	void initBackground() {
@@ -43,7 +65,8 @@ public:
 			this->states->push_back(new GameState(this->window, this->supportedKeys, this->states));
 			});
 		this->gui->get<tgui::Button>("btnLoad")->onClick([&]() {
-			cout << "load button pressed\n";
+			initFileDialog();
+			
 			});
 		this->gui->get<tgui::Button>("btnSetting")->onClick([&, this]() {
 			cout << "setting button pressed\n";
