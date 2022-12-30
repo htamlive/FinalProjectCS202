@@ -40,8 +40,8 @@ Picture.toUp {
 }
 
 Button.btnPlay {
-    Position = (453, 286.125);
-    Size = (115, 49.9999);
+    Position = (413, 360);
+    Size = (175, 49.9999);
     TextSize = 13;
 
     Renderer {
@@ -60,18 +60,18 @@ Button.btnPlay {
         TextColorDisabled = #7D7D7D;
         TextColorDown = black;
         TextColorHover = black;
-        Texture = "../buttons/playButtonIdle.png" Smooth;
+        Texture = "../buttons/newGameButtonIdle.png" Smooth;
         TextureDisabled = None;
-        TextureDown = "../buttons/playButtonIdle.png" Smooth;
+        TextureDown = "../buttons/newGameButtonIdle.png" Smooth;
         TextureDownFocused = None;
-        TextureDownHover = "../buttons/playButtonHover.png" Smooth;
+        TextureDownHover = "../buttons/newGameButtonPressed.png" Smooth;
         TextureFocused = None;
         TextureHover = None;
     }
 }
 
 Button.btnLoad {
-    Position = (452, 370);
+    Position = (442, 270);
     Size = (115, 49.9999);
     TextSize = 13;
 
@@ -101,7 +101,7 @@ Button.btnLoad {
 }
 
 Button.btnSetting {
-    Position = (412, 550);
+    Position = (402, 550);
     Size = (197, 50);
     TextSize = 13;
 
@@ -164,7 +164,7 @@ Picture.Picture1 {
 }
 
 Button.btnScore {
-    Position = (440, 460);
+    Position = (430, 460);
     Size = (145, 50);
     TextSize = 13;
 
@@ -194,7 +194,7 @@ Button.btnScore {
 }
 
 Picture.silverGlow {
-    Position = (140, 10);
+    Position = (150, 10);
     Size = (721, 248);
 
     Renderer {
