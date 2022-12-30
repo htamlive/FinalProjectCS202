@@ -43,6 +43,7 @@ public:
 
 
 class Camera {
+    sf::Vector2f balancePos;
     sf::Vector2f velocity;
     sf::Vector2f futurePos;
     bool isTransitioning = false;
@@ -51,10 +52,13 @@ class Camera {
     SceneNode &follower;
     sf::RenderWindow &window;
     World &world;
+    bool isShaking = false;
+    sf::Time shakeTime = sf::seconds(0);
 
     bool needReposition();
     void reposition();
     void updateVelocity(sf::Time dt);
+    void shakingUpdate(sf::Time dt);
     vector<Wall*> walls;
 public:
     Camera(SceneNode &follower, sf::RenderWindow &window, World &world);
@@ -63,4 +67,5 @@ public:
     void save(std::ostream &out);
     void load(std::istream &in);
     void update(sf::Time dt);
+    void shake(sf::Time duration, float intensity);
 };

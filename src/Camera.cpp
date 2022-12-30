@@ -1,8 +1,10 @@
 #include "Camera.h"
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <random>
 #include "AudioController.h"
 
 Camera::Camera(SceneNode &follower, sf::RenderWindow &window, World &world)
@@ -66,6 +68,27 @@ void Camera::update(sf::Time dt) {
         }
         window.setView(view);
     }
+    if (isShaking) {
+        shakingUpdate(dt);
+    }
+}
+
+void Camera::shakingUpdate(sf::Time dt) {
+    std::random_device rd;  // Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+    std::uniform_real_distribution<> dis(-1, 1);
+    if (shakeTime >= sf::seconds(0.1f)) {
+        isShaking = false;
+        shakeTime = sf::Time::Zero;
+        auto view = window.getView();
+        view.setCenter({balancePos.x, balancePos.y});
+        window.setView(view);
+        return;
+    }
+    auto view = window.getView();
+    view.move(sf::Vector2f(dis(gen) * 4, dis(gen) * 1));
+    window.setView(view);
+    shakeTime += dt;
 }
 
 void Camera::updateVelocity(sf::Time dt) {
@@ -81,21 +104,20 @@ void Camera::updateVelocity(sf::Time dt) {
         float scale = 1;
         velocity = velocity * scale;
         transitionTime += dt;
-
-    } else {
-        velocity = {length.x / dt.asSeconds(), length.y / dt.asSeconds()};
-        for (auto wall : walls) {
-            auto newView = window.getView();
-            newView.setCenter({futurePos.x, futurePos.y});
-            window.setView(newView);
-            velocity = {0, 0};
-            wall->setVelocity({0, 0});
-            wall->setPosition({
-                0,
-                window.getView().getCenter().y - window.getView().getSize().y / 2,
-                });
-            transitionTime = sf::Time::Zero;
-        }
+        return;
+    }
+    velocity = {length.x / dt.asSeconds(), length.y / dt.asSeconds()};
+    for (auto wall : walls) {
+        auto newView = window.getView();
+        newView.setCenter({futurePos.x, futurePos.y});
+        window.setView(newView);
+        velocity = {0, 0};
+        wall->setVelocity({0, 0});
+        wall->setPosition({
+            0,
+            window.getView().getCenter().y - window.getView().getSize().y / 2,
+            });
+        transitionTime = sf::Time::Zero;
     }
 }
 
@@ -114,4 +136,10 @@ void Camera::load(std::istream &in) {
     view.setCenter(x, y);
     view.setSize(width, height);
     window.setView(view);
+}
+
+void Camera::shake(sf::Time duration, float intensity) {
+    balancePos = window.getView().getCenter();
+    shakeTime = sf::Time::Zero;
+    isShaking = true;
 }
