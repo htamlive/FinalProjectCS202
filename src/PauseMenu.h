@@ -82,6 +82,7 @@ public:
 	}
 
 	void updateEvents() override {
+
 		this->gui->handleEvent(this->ev);
 	}
 

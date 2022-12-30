@@ -33,8 +33,11 @@ private:
 		fileDialog->setPosition(200, 170);
 		fileDialog->setWidth(650);
 		fileDialog->setHeight(500);
+		fileDialog->setFileMustExist(true);
 
 		fileDialog->onFileSelect([&]() {
+			auto res = fileDialog->getSelectedPaths();
+			if (res.empty()) return;
 			auto path = fileDialog->getSelectedPaths()[0].asString();
 
 			cout << fileDialog->getSelectedPaths()[0].asString() << "\n";

@@ -87,7 +87,9 @@ void GameState::updateEvents() {
         break;
     }
 
-    updateEventsPauseMenu();
+    if(!player->isDead())
+        updateEventsPauseMenu();
+
     updateEventsSummaryMenu();
 
     if (pauseMenu->getQuit()) {
