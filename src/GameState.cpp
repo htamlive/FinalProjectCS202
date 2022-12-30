@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "AudioController.h"
 #include "Consts.h"
 #include "Enums.h"
 #include "Level.h"
@@ -6,7 +7,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <memory>
-#include "AudioController.h"
 
 GameState::GameState(sf::RenderWindow *window,
                      std::map<std::string, int> *supportedKeys,
@@ -23,18 +23,18 @@ void GameState::initVariables() {
     scoreDisplay = new ScoreDisplay(gui);
     auto pPlayer = std::make_unique<Player>(
         sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
-                          (float)window->getSize().y - GRID_SIZE.y),
-            GRID_SIZE);
+                     (float)window->getSize().y - GRID_SIZE.y),
+        GRID_SIZE);
     player = pPlayer.get();
     player->addEffect(EffectFactory::create(EffectType::Hungry));
 
     pauseMenu = new PauseMenu(window, states);
-    //summaryMenu = new SummaryMenu(window, states);
+    // summaryMenu = new SummaryMenu(window, states);
     summaryMenu = nullptr;
     world = new World(sf::Vector2f(window->getSize()));
     ifstream fin("save.v1");
     if (fin) {
-        world = dynamic_cast<World*>(loadNode(fin).release());
+        world = dynamic_cast<World *>(loadNode(fin).release());
         fin.close();
     } else {
         world->init();
@@ -52,11 +52,13 @@ void GameState::initVariables() {
         camera->load(fin);
     }
     fin.close();
-
 }
 
 void GameState::initMusic() {
-    AudioController::instance().loadSoundFromFile(SoundEffect::CarNoise, "resources/music/mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
+    AudioController::instance().loadSoundFromFile(
+        SoundEffect::CarNoise,
+        "resources/music/"
+        "mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
     AudioController::instance().playSound(SoundEffect::CarNoise);
 }
 
@@ -94,7 +96,7 @@ void GameState::updateEvents() {
     if (summaryMenu && summaryMenu->getQuit()) {
         if (summaryMenu->checkPlayAgain()) {
             this->playAgain();
-        } else 
+        } else
             this->endState();
     }
 };
@@ -107,17 +109,18 @@ void GameState::updateInput(const float &dt) {
             this->player->onKeyPressed(this->ev.key);
         }
     }
-
 };
 
 void GameState::update(const float &dt) {
     if (player->isDead() && !summaryMenu)
-        summaryMenu = new SummaryMenu(window, states, scoreDisplay->finalScore());
+        summaryMenu =
+            new SummaryMenu(window, states, scoreDisplay->finalScore());
     if (!player->isDead()) {
-        int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) / GRID_SIZE.y;
+        int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) /
+                    GRID_SIZE.y;
         scoreDisplay->update(score);
     }
-    
+
     if (pauseMenu->shouldSave()) {
         ofstream fout("player.v1");
         player->saveCurrentNode(fout);
@@ -128,8 +131,9 @@ void GameState::update(const float &dt) {
         fout.close();
 
         fout.open("save.v1");
-        world->detachChild(*player);
+        auto p = world->detachChild(*player);
         world->saveNode(fout);
+        world->attachChild(std::move(p));
         fout.close();
 
         std::cout << "save successfully" << std::endl;
@@ -149,8 +153,9 @@ void GameState::update(const float &dt) {
     // Queue to remove all colliding nodes
     // Prevent segmentation fault
     // Reason: The deleted node still exists in the collisionPairs
-    vector<SceneNode*> removeQueue;
-    //std::cout << "Player: " << player->getAbsPosition().x << " " << player->getAbsPosition().y << "\n";
+    vector<SceneNode *> removeQueue;
+    // std::cout << "Player: " << player->getAbsPosition().x << " " <<
+    // player->getAbsPosition().y << "\n";
     for (auto pair : collisionPairs) {
         if (pair.second->getCategory() == Category::Player) {
             std::swap(pair.first, pair.second);
@@ -163,27 +168,34 @@ void GameState::update(const float &dt) {
             auto collidable = dynamic_cast<PlayerCollidable *>(nodeB);
             if (collidable) {
                 collidable->onPlayerCollision(*player);
+                if (nodeB->getCategory() == Category::Obstacle ||
+                    nodeB->getCategory() == Category::Enemy) {
+                    camera->shake(sf::seconds(0.5f), 10.f);
+                }
             }
 
             switch (nodeB->getCategory()) {
-                case Category::HealthBoost:
-//                    player->addEffect(EffectFactory::create(EffectType::HealthBoost));
-                    removeQueue.push_back(nodeB);
-                    break;
-                case Category::SmallSizeBoost:
-                    player->addEffect(EffectFactory::create(EffectType::SmallSizeBoost));
-                    removeQueue.push_back(nodeB);
-                    break;
-                case Category::SpeedBoost:
-                    player->addEffect(EffectFactory::create(EffectType::SpeedBoost));
-                    removeQueue.push_back(nodeB);
-                    break;
-                case Category::InvincibleBoost:
-                    player->addEffect(EffectFactory::create(EffectType::InvincibleBoost));
-                    removeQueue.push_back(nodeB);
-                    break;
-                default:
-                    break;
+            case Category::HealthBoost:
+                //                    player->addEffect(EffectFactory::create(EffectType::HealthBoost));
+                removeQueue.push_back(nodeB);
+                break;
+            case Category::SmallSizeBoost:
+                player->addEffect(
+                    EffectFactory::create(EffectType::SmallSizeBoost));
+                removeQueue.push_back(nodeB);
+                break;
+            case Category::SpeedBoost:
+                player->addEffect(
+                    EffectFactory::create(EffectType::SpeedBoost));
+                removeQueue.push_back(nodeB);
+                break;
+            case Category::InvincibleBoost:
+                player->addEffect(
+                    EffectFactory::create(EffectType::InvincibleBoost));
+                removeQueue.push_back(nodeB);
+                break;
+            default:
+                break;
             }
         }
     }
@@ -197,7 +209,7 @@ void GameState::render(sf::RenderTarget *target) {
         target = this->window;
     }
     // this->player.render(target);
-    //this->gui->draw();
+    // this->gui->draw();
     target->draw(*world);
     this->gui->draw();
     pauseMenu->render(target);
@@ -205,4 +217,3 @@ void GameState::render(sf::RenderTarget *target) {
     if (summaryMenu)
         summaryMenu->render(target);
 };
-
