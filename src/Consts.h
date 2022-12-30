@@ -78,3 +78,7 @@ const auto DEF_FREQUENCY_FUNCTION = [](double speed) {
     auto spawnRate = 400 / speed;
     return Random<std::normal_distribution<double>>(std::normal_distribution<double>(spawnRate, spawnRate / 3));
 };
+
+const sf::Time SMALL_SIZE_BOOST_DUR = sf::seconds(5);
+
+const sf::Time SPEED_BOOST_DUR = sf::seconds(5);

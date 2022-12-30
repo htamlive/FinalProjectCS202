@@ -2,6 +2,7 @@
 #include "Consts.h"
 #include "SceneBuilder.h"
 #include "RoadLane.h"
+#include <numeric>
 
 void incProb(std::vector<float> &prob, int index, float amount) {
     prob[index] += amount;
