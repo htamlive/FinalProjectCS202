@@ -154,6 +154,7 @@ void GameState::update(const float &dt) {
         summaryMenu =
             new SummaryMenu(window, states, scoreDisplay->finalScore());
     if (!player->isDead()) {
+        auto pos = player->getAbsPosition();
         int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) /
                     GRID_SIZE.y;
         scoreDisplay->update(score);

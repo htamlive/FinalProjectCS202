@@ -64,6 +64,7 @@ public:
 	void playAgain() {
 		delVariables();
 		initVariables();
+		initGameVariables();
 	}
 	void updateEvents() override;
 
