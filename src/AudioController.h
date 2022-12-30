@@ -20,7 +20,8 @@ namespace SoundEffect {
         GameOver,
         Stun,
         Hitting,
-        Regen
+        Regen,
+        Invisible
     };
 }
 
