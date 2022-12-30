@@ -271,7 +271,7 @@ void Player::saveCurrentNode(std::ostream &out) const {
     // out << onSizeSmallerBoost << " ";
     // out << onSpeedBoost << " ";
     out << deadFlag << " ";
-    out << woodVelocity.x << " " << woodVelocity.y << " ";
+    out << woodVelocity.x << " " << woodVelocity.y << " " << std::endl;
 }
 
 void Player::loadCurrentNode(std::istream &in) {

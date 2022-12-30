@@ -16,42 +16,62 @@ GameState::GameState(sf::RenderWindow *window,
     this->initKeyBinds();
 
     initVariables();
+    initGameVariables();
     initMusic();
 };
 
-void GameState::initVariables() {
-    scoreDisplay = new ScoreDisplay(gui);
+GameState::GameState(sf::RenderWindow *window,
+                     std::map<std::string, int> *supportedKeys,
+                     std::vector<State *> *states, const std::string &fileName)
+    : State(window, supportedKeys, states) {
+    this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
+    this->initKeyBinds();
+
+    initVariables();
+    loadGameFromFile(fileName);
+    initMusic();
+};
+void GameState::initGameVariables() {
     auto pPlayer = std::make_unique<Player>(
         sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
                      (float)window->getSize().y - GRID_SIZE.y),
         GRID_SIZE);
     player = pPlayer.get();
     player->addEffect(EffectFactory::create(EffectType::Hungry));
-
-    pauseMenu = new PauseMenu(window, states);
-    // summaryMenu = new SummaryMenu(window, states);
-    summaryMenu = nullptr;
     world = new World(sf::Vector2f(window->getSize()));
-    ifstream fin("save.v1");
-    if (fin) {
-        world = dynamic_cast<World *>(loadNode(fin).release());
-        fin.close();
-    } else {
-        world->init();
+    world->init();
+    world->attachChild(std::move(pPlayer));
+    camera = new Camera(*player, *window, *world);
+}
+
+void GameState::loadGameFromFile(const std::string& fileName) {
+    auto pPlayer = std::make_unique<Player>(
+        sf::Vector2f(window->getSize().x / 2 - GRID_SIZE.x,
+                     (float)window->getSize().y - GRID_SIZE.y),
+        GRID_SIZE);
+    player = pPlayer.get();
+    player->addEffect(EffectFactory::create(EffectType::Hungry));
+    world = new World(sf::Vector2f(window->getSize()));
+    ifstream fin(fileName);
+    if (!fin) {
+        throw std::runtime_error("Cannot open file");
     }
-    fin.open("player.v1");
-    if (fin) {
-        pPlayer->loadCurrentNode(fin);
-    }
-    fin.close();
+
+    pPlayer->loadCurrentNode(fin);
+    fin.ignore(1000, '\n');
+    world = dynamic_cast<World *>(loadNode(fin).release());
     world->attachChild(std::move(pPlayer));
 
     camera = new Camera(*player, *window, *world);
-    fin.open("camera.v1");
-    if (fin) {
-        camera->load(fin);
-    }
+    camera->load(fin);
     fin.close();
+}
+
+void GameState::initVariables() {
+    scoreDisplay = new ScoreDisplay(gui);
+    pauseMenu = new PauseMenu(window, states);
+    // summaryMenu = new SummaryMenu(window, states);
+    summaryMenu = nullptr;
 }
 
 void GameState::initMusic() {
@@ -113,6 +133,22 @@ void GameState::updateInput(const float &dt) {
     }
 };
 
+void GameState::saveGameToFile(const std::string& fileName) {
+    ofstream fout("save.v1");
+    if (!fout) {
+        throw std::runtime_error("Cannot open file");
+    }
+    player->saveCurrentNode(fout);
+
+    auto p = world->detachChild(*player);
+    world->saveNode(fout);
+    world->attachChild(std::move(p));
+
+    camera->save(fout);
+
+    fout.close();
+}
+
 void GameState::update(const float &dt) {
     if (player->isDead() && !summaryMenu)
         summaryMenu =
@@ -124,21 +160,7 @@ void GameState::update(const float &dt) {
     }
 
     if (pauseMenu->shouldSave()) {
-        ofstream fout("player.v1");
-        player->saveCurrentNode(fout);
-        fout.close();
-
-        fout.open("camera.v1");
-        camera->save(fout);
-        fout.close();
-
-        fout.open("save.v1");
-        auto p = world->detachChild(*player);
-        world->saveNode(fout);
-        world->attachChild(std::move(p));
-        fout.close();
-
-        std::cout << "save successfully" << std::endl;
+        saveGameToFile("save.v1");
         pauseMenu->endState();
         endState();
     }
