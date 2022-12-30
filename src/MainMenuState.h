@@ -37,7 +37,7 @@ private:
 		fileDialog->onFileSelect([&]() {
 			auto path = fileDialog->getSelectedPaths()[0].asString();
 
-			cout << fileDialog->getSelectedPaths()[0].asString() << "\n";
+			this->states->push_back(new GameState(this->window, this->supportedKeys, this->states, path.toStdString()));
 			});
 
 		fileDialog->onClose([&]() {
