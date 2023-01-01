@@ -126,7 +126,7 @@ void GameState::updateEvents() {
 void GameState::updateInput(const float &dt) {
     this->pauseMenu->updateInput();
 
-    if (!player->isDead()) {
+    if (!player->isDead() && !camera->checkIsTransistioning()) {
         if (this->ev.type == sf::Event::KeyPressed) {
             this->player->onKeyPressed(this->ev.key);
         }
@@ -167,11 +167,15 @@ void GameState::update(const float &dt) {
     }
 
     float transDt = dt;
-    if (pauseMenu->isPausing())
-        transDt = 0;
+    //if (camera->checkIsTransistioning()) {
+    //    transDt = 0;
+    //}
+    if(pauseMenu->isPausing() && !camera->checkIsTransistioning()) transDt = 0;
+
     updateInput(transDt);
     world->update(sf::seconds(transDt));
-    camera->update(sf::seconds(transDt));
+
+    camera->update(sf::seconds(dt));
 
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
