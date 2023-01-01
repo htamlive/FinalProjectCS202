@@ -34,7 +34,9 @@ private:
 		fileDialog->setWidth(650);
 		fileDialog->setHeight(500);
 		fileDialog->setFileMustExist(true);
-		fileDialog->setPath("saved games");
+		fileDialog->setPositionLocked(true);
+		fileDialog->setPath(fileDialog->getPath().asString() + "/saved games");
+		
 
 		fileDialog->onFileSelect([&]() {
 			auto res = fileDialog->getSelectedPaths();

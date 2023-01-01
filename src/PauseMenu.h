@@ -26,9 +26,11 @@ private:
 		fileDialog->setWidth(650);
 		fileDialog->setHeight(500);
 		fileDialog->setFileMustExist(false);
+		fileDialog->setPositionLocked(true);
 		fileDialog->setFileTypeFilters({{ "name.meow", {"*.meow"} }});
 		fileDialog->setFilename(getNameFile());
-		fileDialog->setPath("saved games");
+		fileDialog->setPath(fileDialog->getPath().asString() + "/saved games");
+		
 
 		fileDialog->onFileSelect([&]() {
 			auto res = fileDialog->getSelectedPaths();
