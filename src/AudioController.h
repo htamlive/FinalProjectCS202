@@ -21,7 +21,8 @@ namespace SoundEffect {
         Stun,
         Hitting,
         Regen,
-        Invisible
+        Invisible,
+        Small
     };
 }
 
