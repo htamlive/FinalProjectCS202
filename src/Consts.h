@@ -11,10 +11,10 @@ const float ANIMAL_LANE_PROB = 0.3;
 const float RIVER_LANE_PROB = 1 - VEHICLE_LANE_PROB - ANIMAL_LANE_PROB;
 
 const std::pair<Category::Type, float> BOOST_PROBS[] = {
-    {Category::HealthBoost, 0.5},
-    {Category::SmallSizeBoost, 0.2},
-    {Category::SpeedBoost, 0.2},
-    {Category::InvincibleBoost, 0.1},
+    {Category::HealthPickup,     0.6},
+    {Category::SmallSizePickup,  0.15},
+    {Category::SpeedPickup,      0.2},
+    {Category::InvinciblePickup, 0.05},
 };
 
 
@@ -79,6 +79,8 @@ const auto DEF_FREQUENCY_FUNCTION = [](double speed) {
     return Random<std::normal_distribution<double>>(std::normal_distribution<double>(spawnRate, spawnRate / 3));
 };
 
-const sf::Time SMALL_SIZE_BOOST_DUR = sf::seconds(5);
+const sf::Time SMALL_SIZE_BOOST_DURATION = sf::seconds(5);
 
-const sf::Time SPEED_BOOST_DUR = sf::seconds(5);
+const sf::Time SPEED_BOOST_DURATION = sf::seconds(5);
+
+const sf::Time INVINCIBLE_BOOST_DURATION = sf::seconds(5);
