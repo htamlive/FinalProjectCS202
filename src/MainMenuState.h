@@ -28,12 +28,13 @@ private:
 	const float overTime = 1;
 
 	void initFileDialog() {
-		fileDialog = tgui::FileDialog::create();
+		fileDialog = tgui::FileDialog::create("Load game", "Load");
 		this->gui->add(fileDialog, "fileDialog");
 		fileDialog->setPosition(200, 170);
 		fileDialog->setWidth(650);
 		fileDialog->setHeight(500);
 		fileDialog->setFileMustExist(true);
+		fileDialog->setPath("saved games");
 
 		fileDialog->onFileSelect([&]() {
 			auto res = fileDialog->getSelectedPaths();

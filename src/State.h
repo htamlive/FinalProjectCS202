@@ -5,6 +5,8 @@
 #include <sstream>
 #include <stack>
 #include <vector>
+#include <chrono>
+#include <ctime> 
 #include <TGUI/TGUI.hpp>
 //#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <map>

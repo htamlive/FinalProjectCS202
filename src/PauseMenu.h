@@ -4,6 +4,45 @@ class PauseMenu : public State {
 private:
     bool mShouldSave = false;
 	tgui::Group::Ptr myGroup;
+	tgui::FileDialog::Ptr fileDialog;
+	tgui::String savePath;
+	
+	string getNameFile() {
+
+		auto end = std::chrono::system_clock::now();
+		std::time_t now = std::chrono::system_clock::to_time_t(end);
+		char buffer[80];
+		auto myTime = std::localtime(&now);
+
+		strftime(buffer, 80, "%F_%H-%M-%S", myTime);
+		string name = string(buffer) + ".meow";
+		return name;
+	}
+
+	void saveGameWithFileDialog() {
+		fileDialog = tgui::FileDialog::create("Save game", "Save");
+		this->gui->add(fileDialog, "fileDialog");
+		fileDialog->setPosition(200, 170);
+		fileDialog->setWidth(650);
+		fileDialog->setHeight(500);
+		fileDialog->setFileMustExist(false);
+		fileDialog->setFileTypeFilters({{ "name.meow", {"*.meow"} }});
+		fileDialog->setFilename(getNameFile());
+		fileDialog->setPath("saved games");
+
+		fileDialog->onFileSelect([&]() {
+			auto res = fileDialog->getSelectedPaths();
+			if (res.empty()) return;
+			savePath = fileDialog->getSelectedPaths()[0].asString();
+			mShouldSave = true;
+		});
+
+
+		fileDialog->onClose([&]() {
+			gui->remove(fileDialog);
+			});
+
+	}
 	void initButtons() {
 		myGroup->get<tgui::Button>("resumeBtn")->onClick([&]() {
 			myGroup->setVisible(false);
@@ -13,7 +52,9 @@ private:
 			});
 
 		this->gui->get<tgui::Button>("saveBtn")->onClick([&, this]() {
-            mShouldSave = true;
+			saveGameWithFileDialog();
+            
+			
 			});
 		this->gui->get<tgui::Button>("resumeBtn")->onMouseLeave([&, this]() {
 			zoomSmall("resumeBtn");
@@ -57,12 +98,12 @@ public:
 		return myGroup->isVisible();
 	}
 
-    bool shouldSave() {
+    string returnedSavePath() {
         if (mShouldSave) {
             mShouldSave = false;
-            return true;
+            return savePath.toStdString();
         }
-        return mShouldSave;
+        return "";
     }
 
 	void render(sf::RenderTarget* target) override {

@@ -133,11 +133,11 @@ void GameState::updateInput(const float &dt) {
     }
 };
 
-void GameState::saveGameToFile(const std::string& fileName) {
-    ofstream fout("save.v1");
-    if (!fout) {
+void GameState::saveGameToFile(const std::string& filePath) {
+    ofstream fout(filePath);
+    /*if (!fout) {
         throw std::runtime_error("Cannot open file");
-    }
+    }*/
     player->saveCurrentNode(fout);
 
     auto p = world->detachChild(*player);
@@ -160,10 +160,12 @@ void GameState::update(const float &dt) {
         scoreDisplay->update(score);
     }
 
-    if (pauseMenu->shouldSave()) {
-        saveGameToFile("save.v1");
-        pauseMenu->endState();
-        endState();
+    string savePath = pauseMenu->returnedSavePath();
+    if (savePath != "") {
+        //saveGameWithFileDialog();
+        saveGameToFile(savePath);
+        //pauseMenu->endState();
+        //endState();
     }
 
     float transDt = dt;
@@ -174,9 +176,7 @@ void GameState::update(const float &dt) {
 
     updateInput(transDt);
     world->update(sf::seconds(transDt));
-
     camera->update(sf::seconds(dt));
-
     std::set<SceneNode::Pair> collisionPairs;
     world->checkSceneCollision(*world, collisionPairs);
     // Queue to remove all colliding nodes

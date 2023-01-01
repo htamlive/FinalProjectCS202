@@ -1,6 +1,5 @@
 #pragma once
 #include "State.h"
-
 #include <memory>
 #include "Player.h"
 #include "PauseMenu.h"
@@ -10,6 +9,8 @@
 #include "SummaryMenu.h"
 #include "ScoreDisplay.h"
 
+
+#include <fstream>
 class GameState : public State
 {
 private:
@@ -44,6 +45,8 @@ private:
     void initGameVariables();
     void loadGameFromFile(const std::string& fileName);
     void saveGameToFile(const std::string& fileName);
+
+	
 
 public:
 
