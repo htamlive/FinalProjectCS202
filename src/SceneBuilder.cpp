@@ -72,8 +72,11 @@ SceneBuilder &SceneBuilder::addBoost(sf::Vector2f pos, sf::Vector2f size) {
     std::unique_ptr<SceneNode> boost = nullptr;
 
     auto prob = Random(std::uniform_real_distribution(0.f, 1.f)).get<float>();
+    bool found = false;
     for(auto &[type, rate] : BOOST_PROBS) {
+        if (found) break;
         if (prob <= rate) {
+            found = true;
             switch(type) {
             case Category::SmallSizeBoost:
                 boost = std::make_unique<SmallSizeBoost>(pos, size);
