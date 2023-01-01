@@ -68,4 +68,7 @@ public:
     void load(std::istream &in);
     void update(sf::Time dt);
     void shake(sf::Time duration, float intensity);
+    bool checkIsTransistioning() {
+        return this->isTransitioning;
+    }
 };
