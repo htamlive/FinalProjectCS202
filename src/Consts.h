@@ -11,9 +11,9 @@ const float ANIMAL_LANE_PROB = 0.3;
 const float RIVER_LANE_PROB = 1 - VEHICLE_LANE_PROB - ANIMAL_LANE_PROB;
 
 const std::pair<Category::Type, float> BOOST_PROBS[] = {
-    {Category::HealthBoost, 0.7},
-    {Category::SpeedBoost, 0.1},
-    {Category::SmallSizeBoost, 0.1},
+    {Category::HealthBoost, 0.5},
+    {Category::SmallSizeBoost, 0.2},
+    {Category::SpeedBoost, 0.2},
     {Category::InvincibleBoost, 0.1},
 };
 
