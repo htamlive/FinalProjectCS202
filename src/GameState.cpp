@@ -204,21 +204,21 @@ void GameState::update(const float &dt) {
             }
 
             switch (nodeB->getCategory()) {
-            case Category::HealthBoost:
+            case Category::HealthPickup:
                 //                    player->addEffect(EffectFactory::create(EffectType::HealthBoost));
                 removeQueue.push_back(nodeB);
                 break;
-            case Category::SmallSizeBoost:
+            case Category::SmallSizePickup:
                 player->addEffect(
                     EffectFactory::create(EffectType::SmallSizeBoost));
                 removeQueue.push_back(nodeB);
                 break;
-            case Category::SpeedBoost:
+            case Category::SpeedPickup:
                 player->addEffect(
                     EffectFactory::create(EffectType::SpeedBoost));
                 removeQueue.push_back(nodeB);
                 break;
-            case Category::InvincibleBoost:
+            case Category::InvinciblePickup:
                 player->addEffect(
                     EffectFactory::create(EffectType::InvincibleBoost));
                 removeQueue.push_back(nodeB);

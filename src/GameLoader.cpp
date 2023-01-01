@@ -10,7 +10,10 @@
 #include "AnimalLaneController.h"
 #include "RoadLaneController.h"
 #include "RiverController.h"
+#include "Pickups.h"
+
 #include <SFML/System/Vector2.hpp>
+
 #include <memory>
 #include <string>
 
@@ -86,11 +89,17 @@ std::unique_ptr<SceneNode> loadNode(std::istream &in) {
     } else if (line == "Animal") {
         node = std::make_unique<Animal>();
         node->loadCurrentNode(in);
-    } else if (line == "HealthBoost") {
-        node = std::make_unique<HealthBoost>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
+    } else if (line == "HealthPickup") {
+        node = std::make_unique<HealthPickup>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
         node->loadCurrentNode(in);
-    } else if (line == "SmallSizeBoost") {
-        node = std::make_unique<HealthBoost>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
+    } else if (line == "SmallSizePickup") {
+        node = std::make_unique<SmallSizePickup>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
+        node->loadCurrentNode(in);
+    } else if (line == "SpeedPickup") {
+        node = std::make_unique<SpeedPickup>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
+        node->loadCurrentNode(in);
+    } else if (line == "InvinciblePickup") {
+        node = std::make_unique<InvinciblePickup>(sf::Vector2f(0, 0), sf::Vector2f(0, 0));
         node->loadCurrentNode(in);
     } else if (line == "LevelLayer") {
         node = std::make_unique<LevelLayer>();

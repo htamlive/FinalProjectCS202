@@ -189,7 +189,6 @@ private:
         //TextureHolder::instance().load(Texture::ID::, "resources/spritesheet/objects.png", { 16, 16 }, 45, 5);
        //TextureHolder::instance().add(Texture::ID::HealthBoost, {Texture::ID::Object, 18, false, false });
 		TextureHolder::instance().load(Texture::ID::HealthBoost, "resources/spritesheet/regen.png");
-        // TODO: textures for different boosts
         TextureHolder::instance().load(Texture::ID::SpeedBoost, "resources/spritesheet/speed.png");
         TextureHolder::instance().load(Texture::ID::SmallSizeBoost, "resources/spritesheet/smallSize.png");
         TextureHolder::instance().load(Texture::ID::InvincibleBoost, "resources/spritesheet/invisible.png");

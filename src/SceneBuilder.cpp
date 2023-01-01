@@ -7,9 +7,11 @@
 #include "SceneNode.h"
 #include "SpriteNode.h"
 #include "VehicleLaneController.h"
-#include <SFML/Graphics/Sprite.hpp>
+#include "Pickups.h"
 
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
+
 #include <memory>
 
 SceneBuilder::SceneBuilder(sf::Vector2f size) : sceneSize(size) {
@@ -34,10 +36,13 @@ SceneBuilder &SceneBuilder::addRoadController(RoadLane::Type type, int lanes,
     std::unique_ptr<RoadLaneController> roads;
     switch (type) {
     case RoadLane::Type::Vehicle: {
+        auto redRand = Random(std::uniform_real_distribution<>(MIN_RED_LIGHT_DURATION.asSeconds(),
+                                                               MAX_RED_LIGHT_DURATION.asSeconds()));
+        auto greenRand = Random(std::uniform_real_distribution<>(MIN_GREEN_LIGHT_DURATION.asSeconds(),
+                                                                 MAX_GREEN_LIGHT_DURATION.asSeconds()));
         auto vehicles = std::make_unique<VehicleLaneController>();
-        // TODO: Handle traffic light durations
-        vehicles->setGreenDuration(sf::seconds(10));
-        vehicles->setRedDuration(sf::seconds(3));
+        vehicles->setGreenDuration(sf::seconds(greenRand.get<float>()));
+        vehicles->setRedDuration(sf::seconds(redRand.get<float>()));
         roads = std::move(vehicles);
         break;
     }
@@ -78,17 +83,17 @@ SceneBuilder &SceneBuilder::addBoost(sf::Vector2f pos, sf::Vector2f size) {
         if (prob <= rate) {
             found = true;
             switch(type) {
-            case Category::SmallSizeBoost:
-                boost = std::make_unique<SmallSizeBoost>(pos, size);
+            case Category::SmallSizePickup:
+                boost = std::make_unique<SmallSizePickup>(pos, size);
                 break;
-            case Category::SpeedBoost:
-                boost = std::make_unique<SpeedBoost>(pos, size);
+            case Category::SpeedPickup:
+                boost = std::make_unique<SpeedPickup>(pos, size);
                 break;
-            case Category::HealthBoost:
-                boost = std::make_unique<HealthBoost>(pos, size);
+            case Category::HealthPickup:
+                boost = std::make_unique<HealthPickup>(pos, size);
                 break;
-            case Category::InvincibleBoost:
-                boost = std::make_unique<InvincibleBoost>(pos, size);
+            case Category::InvinciblePickup:
+                boost = std::make_unique<InvinciblePickup>(pos, size);
                 break;
             default:
                 break;
