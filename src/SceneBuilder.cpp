@@ -7,9 +7,11 @@
 #include "SceneNode.h"
 #include "SpriteNode.h"
 #include "VehicleLaneController.h"
-#include <SFML/Graphics/Sprite.hpp>
+#include "Pickups.h"
 
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
+
 #include <memory>
 
 SceneBuilder::SceneBuilder(sf::Vector2f size) : sceneSize(size) {
@@ -81,17 +83,17 @@ SceneBuilder &SceneBuilder::addBoost(sf::Vector2f pos, sf::Vector2f size) {
         if (prob <= rate) {
             found = true;
             switch(type) {
-            case Category::SmallSizeBoost:
-                boost = std::make_unique<SmallSizeBoost>(pos, size);
+            case Category::SmallSizePickup:
+                boost = std::make_unique<SmallSizePickup>(pos, size);
                 break;
-            case Category::SpeedBoost:
-                boost = std::make_unique<SpeedBoost>(pos, size);
+            case Category::SpeedPickup:
+                boost = std::make_unique<SpeedPickup>(pos, size);
                 break;
-            case Category::HealthBoost:
-                boost = std::make_unique<HealthBoost>(pos, size);
+            case Category::HealthPickup:
+                boost = std::make_unique<HealthPickup>(pos, size);
                 break;
-            case Category::InvincibleBoost:
-                boost = std::make_unique<InvincibleBoost>(pos, size);
+            case Category::InvinciblePickup:
+                boost = std::make_unique<InvinciblePickup>(pos, size);
                 break;
             default:
                 break;

@@ -252,13 +252,13 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
             effect = std::make_unique<SizeEffect>(sf::Vector2f(SIZE_SMALLER_BOOST_SCALE, SIZE_SMALLER_BOOST_SCALE),
                                                   true);
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
+            effect->concat(std::make_unique<DurationEffect>(SMALL_SIZE_BOOST_DURATION, 1, false));
             break;
         }
         case EffectType::SpeedBoost: {
             effect = std::make_unique<JumpDurationEffect>(JUMP_DURATION_BOOST_SCALE, true);
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
+            effect->concat(std::make_unique<DurationEffect>(SPEED_BOOST_DURATION, 1, false));
             break;
         }
         case EffectType::InvincibleBoost: {
@@ -267,7 +267,7 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
             effect->concat(std::make_unique<RunMiscEffect>([]() {
                 AudioController::instance().playSound(SoundEffect::Invisible);
                 }));
-            effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
+            effect->concat(std::make_unique<DurationEffect>(INVINCIBLE_BOOST_DURATION, 1, false));
             
             break;
         }
