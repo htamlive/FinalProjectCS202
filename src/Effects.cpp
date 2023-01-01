@@ -264,8 +264,11 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
         case EffectType::InvincibleBoost: {
             effect = std::make_unique<InvincibleEffect>(1, true);
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
+            effect->concat(std::make_unique<RunMiscEffect>([]() {
+                AudioController::instance().playSound(SoundEffect::Invisible);
+                }));
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(5), 1, false));
-            AudioController::instance().playSound(SoundEffect::Invisible);
+            
             break;
         }
         case EffectType::Hungry: {
