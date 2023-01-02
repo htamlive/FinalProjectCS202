@@ -40,6 +40,7 @@ private:
         AudioController::instance().loadSoundFromFile(SoundEffect::Regen, "resources/music/regen.wav");
         AudioController::instance().loadSoundFromFile(SoundEffect::Invisible, "resources/music/invisible.wav");
         AudioController::instance().loadSoundFromFile(SoundEffect::Small, "resources/music/small.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Speed, "resources/music/speed.wav");
 
         AudioController::instance().playMusic(Music::Game, true);
 
