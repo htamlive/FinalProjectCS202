@@ -253,6 +253,9 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
                                                   true);
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
             effect->concat(std::make_unique<DurationEffect>(SMALL_SIZE_BOOST_DURATION, 1, false));
+            effect->concat(std::make_unique<RunMiscEffect>([]() {
+                AudioController::instance().playSound(SoundEffect::Small);          
+        }));
             break;
         }
         case EffectType::SpeedBoost: {
