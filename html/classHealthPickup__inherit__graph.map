@@ -1,0 +1,9 @@
+<map id="HealthPickup" name="HealthPickup">
+<area shape="rect" id="node1" title=" " alt="" coords="128,924,271,1031"/>
+<area shape="rect" id="node2" href="$classPlayerCollidable.html" title=" " alt="" coords="13,645,189,766"/>
+<area shape="rect" id="node3" href="$classSceneNode.html" title="A node in the scene graph." alt="" coords="109,131,289,487"/>
+<area shape="rect" id="node7" href="$classEntity.html" title=" " alt="" coords="213,535,386,876"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,5,108,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="132,5,267,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="291,5,419,83"/>
+</map>

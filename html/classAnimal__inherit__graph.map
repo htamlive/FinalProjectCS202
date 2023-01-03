@@ -1,0 +1,10 @@
+<map id="Animal" name="Animal">
+<area shape="rect" id="node1" title=" " alt="" coords="132,1093,275,1244"/>
+<area shape="rect" id="node2" href="$classEnemy.html" title=" " alt="" coords="5,821,196,928"/>
+<area shape="rect" id="node3" href="$classPlayerCollidable.html" title=" " alt="" coords="53,535,229,656"/>
+<area shape="rect" id="node4" href="$classSceneNode.html" title="A node in the scene graph." alt="" coords="113,131,293,487"/>
+<area shape="rect" id="node8" href="$classEntity.html" title=" " alt="" coords="221,704,394,1045"/>
+<area shape="rect" id="node5" title=" " alt="" coords="9,5,112,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="136,5,271,83"/>
+<area shape="rect" id="node7" title=" " alt="" coords="295,5,423,83"/>
+</map>

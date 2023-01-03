@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classSheet.html" title=" " alt="" coords="5,31,64,57"/>
+<area shape="rect" id="node2" href="$structSpriteSheet.html" title="A class that stores information of a part of a texture, with effects on it." alt="" coords="117,5,214,32"/>
+<area shape="rect" id="node3" href="$classTextureSheet.html" title="A class that stores texture&#39;s related information." alt="" coords="112,56,219,83"/>
+</map>

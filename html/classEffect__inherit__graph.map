@@ -1,0 +1,12 @@
+<map id="Effect" name="Effect">
+<area shape="rect" id="node1" title=" " alt="" coords="635,5,853,435"/>
+<area shape="rect" id="node2" href="$classDistanceEffect.html" title=" " alt="" coords="5,490,147,597"/>
+<area shape="rect" id="node3" href="$classDurationEffect.html" title=" " alt="" coords="171,490,311,597"/>
+<area shape="rect" id="node4" href="$classHealthEffect.html" title=" " alt="" coords="335,490,462,597"/>
+<area shape="rect" id="node5" href="$classInvincibleEffect.html" title=" " alt="" coords="487,490,633,597"/>
+<area shape="rect" id="node6" href="$classJumpDurationEffect.html" title=" " alt="" coords="657,490,831,597"/>
+<area shape="rect" id="node7" href="$classNextEffect.html" title=" " alt="" coords="855,490,969,597"/>
+<area shape="rect" id="node8" href="$classRunMiscEffect.html" title=" " alt="" coords="993,483,1132,604"/>
+<area shape="rect" id="node9" href="$classSizeEffect.html" title=" " alt="" coords="1157,505,1267,582"/>
+<area shape="rect" id="node10" href="$classStopOnCommandEffect.html" title=" " alt="" coords="1292,490,1465,597"/>
+</map>

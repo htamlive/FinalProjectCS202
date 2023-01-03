@@ -36,8 +36,6 @@ External
 .clang-format
 test_*
 
-html
-latex
 /resources/textFile/MusicController.txt
 /resources/textFile/SoundController.txt
 

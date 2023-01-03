@@ -1,0 +1,5 @@
+<map id="Sheet" name="Sheet">
+<area shape="rect" id="node1" title=" " alt="" coords="101,5,217,127"/>
+<area shape="rect" id="node2" href="$structSpriteSheet.html" title="A class that stores information of a part of a texture, with effects on it." alt="" coords="5,175,149,413"/>
+<area shape="rect" id="node3" href="$classTextureSheet.html" title="A class that stores texture&#39;s related information." alt="" coords="174,233,306,355"/>
+</map>

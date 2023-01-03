@@ -1,0 +1,8 @@
+<map id="Player" name="Player">
+<area shape="rect" id="node1" title=" " alt="" coords="124,924,275,1177"/>
+<area shape="rect" id="node2" href="$classEntity.html" title=" " alt="" coords="113,535,286,876"/>
+<area shape="rect" id="node3" href="$classSceneNode.html" title="A node in the scene graph." alt="" coords="109,131,289,487"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,5,108,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="132,5,267,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="291,5,419,83"/>
+</map>

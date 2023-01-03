@@ -1,0 +1,11 @@
+<map id="SmallSizePickup" name="SmallSizePickup">
+<area shape="rect" id="node1" title=" " alt="" coords="5,1399,159,1505"/>
+<area shape="rect" id="node2" href="$classPlayerCollidable.html" title=" " alt="" coords="103,1243,279,1349"/>
+<area shape="rect" id="node3" href="$classSceneNode.html" title="A node in the scene graph." alt="" coords="203,132,383,488"/>
+<area shape="rect" id="node8" href="$classEntity.html" title=" " alt="" coords="45,551,218,877"/>
+<area shape="rect" id="node4" title=" " alt="" coords="99,5,201,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="225,5,360,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="385,5,513,83"/>
+<area shape="rect" id="node7" href="$classPlayer.html" title=" " alt="" coords="104,927,255,1180"/>
+<area shape="rect" id="node9" href="$classAnimationMachine.html" title="Component of Entity that holds the animation data, can be used to replace the sprite of the entity." alt="" coords="9,220,179,400"/>
+</map>

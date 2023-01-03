@@ -1,0 +1,10 @@
+<map id="Obstacle" name="Obstacle">
+<area shape="rect" id="node1" title=" " alt="" coords="104,704,295,811"/>
+<area shape="rect" id="node7" href="$classRock.html" title=" " alt="" coords="43,881,185,1002"/>
+<area shape="rect" id="node8" href="$classVehicle.html" title=" " alt="" coords="210,859,362,1024"/>
+<area shape="rect" id="node2" href="$classPlayerCollidable.html" title=" " alt="" coords="111,535,287,656"/>
+<area shape="rect" id="node3" href="$classSceneNode.html" title="A node in the scene graph." alt="" coords="109,131,289,487"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,5,108,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="132,5,267,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="291,5,419,83"/>
+</map>
