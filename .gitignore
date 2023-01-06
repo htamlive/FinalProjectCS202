@@ -39,3 +39,5 @@ test_*
 /resources/textFile/MusicController.txt
 /resources/textFile/SoundController.txt
 
+# documetation folder
+/html
