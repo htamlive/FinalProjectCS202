@@ -38,8 +38,6 @@ class JumpingState : public PlayerState {
 public:
     JumpingState(Player *player, sf::Vector2f jumpPos);
 
-    bool isJumping() const { return jumpTime < jumpDuration; }
-
     void update(sf::Time dt) override;
 
     StateID getStateID() const override { return StateID::Jumping; }

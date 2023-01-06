@@ -18,8 +18,9 @@ JumpingState::JumpingState(Player *player, sf::Vector2f jumpPos)
 void JumpingState::update(sf::Time dt) {
     auto p = player;
     auto length = jumpPos - p->getPosition();
-    if (isJumping()) {
-        auto curJumpDuration = jumpDuration * player->jumpDurationScale;
+    // TODO: chua chay
+    auto curJumpDuration = jumpDuration * (player->jumpDurationScale != 1 ? JUMP_DURATION_BOOST_SCALE : 1);
+    if (jumpTime < curJumpDuration) {
         auto timeLeft = curJumpDuration - jumpTime;
         sf::Vector2f vel = {length.x / timeLeft.asSeconds(),
                             length.y / timeLeft.asSeconds()};
