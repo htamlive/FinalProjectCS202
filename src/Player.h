@@ -106,6 +106,23 @@ private:
 
     void drawHealthBar(sf::RenderTarget &target, sf::RenderStates states) const;
 
+    void drawSpeedEffect(sf::RenderTarget& target, sf::RenderStates states) const {
+        if (jumpDurationScale == 1) return;
+ 
+        auto pos = sf::Vector2f(GRID_SIZE.x / 2, GRID_SIZE.y / 2);
+
+        sf::RectangleShape lightningTheme;
+        lightningTheme.setSize(sf::Vector2f(GRID_SIZE.x, GRID_SIZE.y));
+        lightningTheme.setTexture(&TextureHolder::instance().getTexture(Texture::LightningTheme));
+        lightningTheme.setPosition(pos);
+        lightningTheme.setOrigin(sf::Vector2f(GRID_SIZE.x / 2, GRID_SIZE.y / 2));
+        auto scale = (1.0 + 0.1 / jumpDurationScale);
+        lightningTheme.setScale(scale,scale);
+        target.draw(lightningTheme, states);
+
+        target.draw(lightningTheme, states);
+    };
+
     sf::Vector2f getNearestGridPosition(sf::Vector2f pos) const;
 
     void applyEffects(sf::Time dt);

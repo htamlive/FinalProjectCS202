@@ -119,6 +119,33 @@ private:
                                        {128, 128}, 5);
     }
 
+    void initWaterTextures() {
+        TextureHolder::instance().load(Texture::ID::WaterAndWood, "resources/images/waterAndWood.png", { 128, 128 }, 16,
+            4);
+        TextureHolder::instance().add(Texture::ID::WaterTopLane, { Texture::ID::WaterAndWood, 0, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodTopLane,
+            { Texture::ID::WaterAndWood, 1, false, false });
+        TextureHolder::instance().add(Texture::ID::TopWoodLane, { Texture::ID::WaterAndWood, 2, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterAfterWoodTopLane, { Texture::ID::WaterAndWood, 3, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterMidLane, { Texture::ID::WaterAndWood, 4, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodMidLane,
+            { Texture::ID::WaterAndWood, 5, false, false });
+        TextureHolder::instance().add(Texture::ID::MidWoodLane, { Texture::ID::WaterAndWood, 6, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterAfterWoodMidLane, { Texture::ID::WaterAndWood, 7, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterBotLane, { Texture::ID::WaterAndWood, 8, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodBotLane,
+            { Texture::ID::WaterAndWood, 9, false, false });
+        TextureHolder::instance().add(Texture::ID::BotWoodLane, { Texture::ID::WaterAndWood, 10, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterAfterWoodBotLane,
+            { Texture::ID::WaterAndWood, 11, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterMonoLane, { Texture::ID::WaterAndWood, 12, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodMonoLane,
+            { Texture::ID::WaterAndWood, 13, false, false });
+        TextureHolder::instance().add(Texture::ID::MonoWoodLane, { Texture::ID::WaterAndWood, 14, false, false });
+        TextureHolder::instance().add(Texture::ID::WaterAfterWoodMonoLane,
+            { Texture::ID::WaterAndWood, 15, false, false });
+    }
+
     void initLaneTextures() {
         TextureHolder::instance().load(Texture::ID::Road, "./resources/images/VehicleRoad.png", {128, 128}, 9);
         TextureHolder::instance().add(Texture::ID::TopRoadLane, {Texture::ID::Road, 1, false, false});
@@ -126,30 +153,12 @@ private:
         TextureHolder::instance().add(Texture::ID::BotRoadLane, {Texture::ID::Road, 7, false, false});
         TextureHolder::instance().add(Texture::ID::MonoRoadLane, {Texture::ID::Road, 8, false, false});
 
-        TextureHolder::instance().load(Texture::ID::WaterAndWood, "resources/images/waterAndWood.png", {128, 128}, 16,
-                                       4);
-        TextureHolder::instance().add(Texture::ID::WaterTopLane, {Texture::ID::WaterAndWood, 0, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodTopLane,
-                                      {Texture::ID::WaterAndWood, 1, false, false});
-        TextureHolder::instance().add(Texture::ID::TopWoodLane, {Texture::ID::WaterAndWood, 2, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterAfterWoodTopLane, {Texture::ID::WaterAndWood, 3, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterMidLane, {Texture::ID::WaterAndWood, 4, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodMidLane,
-                                      {Texture::ID::WaterAndWood, 5, false, false});
-        TextureHolder::instance().add(Texture::ID::MidWoodLane, {Texture::ID::WaterAndWood, 6, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterAfterWoodMidLane, {Texture::ID::WaterAndWood, 7, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterBotLane, {Texture::ID::WaterAndWood, 8, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodBotLane,
-                                      {Texture::ID::WaterAndWood, 9, false, false});
-        TextureHolder::instance().add(Texture::ID::BotWoodLane, {Texture::ID::WaterAndWood, 10, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterAfterWoodBotLane,
-                                      {Texture::ID::WaterAndWood, 11, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterMonoLane, {Texture::ID::WaterAndWood, 12, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterBeforeWoodMonoLane,
-                                      {Texture::ID::WaterAndWood, 13, false, false});
-        TextureHolder::instance().add(Texture::ID::MonoWoodLane, {Texture::ID::WaterAndWood, 14, false, false});
-        TextureHolder::instance().add(Texture::ID::WaterAfterWoodMonoLane,
-                                      {Texture::ID::WaterAndWood, 15, false, false});
+        initWaterTextures();
+    }
+
+    void initTheme() {
+        TextureHolder::instance().load(Texture::LightningTheme, "./resources/spritesheet/lightning.png", {128,128},1);
+
     }
 
     void initTextures() {
@@ -184,6 +193,7 @@ private:
         initLaneTextures();
 		initTrafficLightTextures();
 		initMainCharacterTextures();
+        initTheme();
 		//TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle1.png", { 28, 19 });
 		TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle3.png", { 225, 214 });
         //TextureHolder::instance().load(Texture::ID::Object, "resources/spritesheet/objects.png", { 16, 16 }, 45, 5);

@@ -96,6 +96,7 @@ enum ID {
     WaterAfterWoodTopLane,
     WaterAfterWoodMidLane,
     WaterAfterWoodBotLane,
-    WaterAfterWoodMonoLane
+    WaterAfterWoodMonoLane,
+    LightningTheme,
 };
 }

@@ -40,9 +40,9 @@ Picture.bronzeGlow {
 
 Label.lblTop1 {
     HorizontalAlignment = Center;
-    Position = (410, 212.8);
+    Position = (0, 212.8);
     ScrollbarPolicy = Never;
-    Size = (227.2, 81.7949);
+    Size = (1027.2, 81.7949);
     Text = "TOP 1";
     TextSize = 48;
     VerticalAlignment = Center;
@@ -78,8 +78,8 @@ Label.lblTop1 {
 
 Label.lblTop2 {
     HorizontalAlignment = Center;
-    Position = (410, 350);
-    Size = (227, 81.7949);
+    Position = (0, 350);
+    Size = (1027, 81.7949);
     Text = "TOP 2";
     TextSize = 44;
     VerticalAlignment = Center;
@@ -114,8 +114,8 @@ Label.lblTop2 {
 
 Label.lblTop3 {
     HorizontalAlignment = Center;
-    Position = (410, 460);
-    Size = (227, 81.7949);
+    Position = (0, 460);
+    Size = (1027, 81.7949);
     Text = "TOP 3";
     TextSize = 40;
     VerticalAlignment = Center;

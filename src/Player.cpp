@@ -88,6 +88,7 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
             newPos = getNearestGridPosition(newPos);
             setState(new JumpingState(this, newPos));
         }
+        //std::cout << "Player: " << getPosition().x << " " << getPosition().y << "\n";
     }
 }
 
@@ -112,6 +113,7 @@ void Player::drawCurrent(sf::RenderTarget &target,
                          sf::RenderStates states) const {
     Entity::drawCurrent(target, states);
     drawHealthBar(target, states);
+    drawSpeedEffect(target, states);
 }
 
 void Player::drawHealthBar(sf::RenderTarget &target,
