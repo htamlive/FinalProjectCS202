@@ -9,6 +9,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <vector>
+
 using std::vector;
 
 const sf::Time TRANSITION_TIME = sf::seconds(0.5f);
@@ -20,7 +21,12 @@ private:
 
     void onStartPlayerCollision() override {
         sf::Vector2f direction = -player->getDirectionVec();
-        auto newPos = player->getPosition() + direction * (GRID_SIZE.x);
+        if (bounds.width < bounds.height) {
+            direction.y = -direction.y;
+        } else {
+            direction.x = -direction.x;
+        }
+        auto newPos = player->getPosition() + direction * (GRID_SIZE.x / 2.f);
         player->setState(new CollidingState(player, newPos));
     }
 
