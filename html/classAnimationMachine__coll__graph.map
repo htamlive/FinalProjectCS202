@@ -1,3 +1,0 @@
-<map id="AnimationMachine" name="AnimationMachine">
-<area shape="rect" id="node1" title="Component of Entity that holds the animation data, can be used to replace the sprite of the entity." alt="" coords="5,5,175,185"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="Light" name="Light">
-<area shape="rect" id="node1" title=" " alt="" coords="227,927,369,1063"/>
-<area shape="rect" id="node2" href="$classEntity.html" title=" " alt="" coords="211,551,385,877"/>
-<area shape="rect" id="node3" href="$classSceneNode.html" title="A node in the scene graph." alt="" coords="109,132,289,488"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,5,108,83"/>
-<area shape="rect" id="node5" title=" " alt="" coords="132,5,267,83"/>
-<area shape="rect" id="node6" title=" " alt="" coords="291,5,419,83"/>
-<area shape="rect" id="node7" href="$classAnimationMachine.html" title="Component of Entity that holds the animation data, can be used to replace the sprite of the entity." alt="" coords="313,220,483,400"/>
-</map>

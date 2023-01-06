@@ -1,3 +1,0 @@
-<map id="TextureHolder" name="TextureHolder">
-<area shape="rect" id="node1" title="A singleton that handles textures. &#160;TextureSheet stores sf::Texture. SpriteSheet represents the sprit..." alt="" coords="5,5,144,171"/>
-</map>
