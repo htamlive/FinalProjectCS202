@@ -159,12 +159,12 @@ private:
         TextureHolder::instance().load(Texture::ID::LeftRedTruck, "./resources/spritesheet/vehicles/redTruckLeft.png",
                                        {128, 128}, 4);
         TextureHolder::instance().load(Texture::ID::LeftBlueCar, "./resources/spritesheet/vehicles/blueCar.png",
-                                       {64, 64}, 1);
+                                       {128, 128}, 1);
         TextureHolder::instance().add(Texture::ID::RightBlueCar, {Texture::ID::LeftBlueCar, true, false});
         TextureHolder::instance().load(Texture::ID::LeftGreenCar, "./resources/spritesheet/vehicles/greenCar.png",
-                                       {64, 64}, 1);
+                                       {128, 128}, 1);
         TextureHolder::instance().add(Texture::ID::RightGreenCar, {Texture::ID::LeftGreenCar, true, false});
-        TextureHolder::instance().load(Texture::ID::LeftRedCar, "./resources/spritesheet/vehicles/redCar.png", {64, 64},
+        TextureHolder::instance().load(Texture::ID::LeftRedCar, "./resources/spritesheet/vehicles/redCar.png", {128, 128},
                                        1);
         TextureHolder::instance().add(Texture::ID::RightRedCar, {Texture::ID::LeftRedCar, true, false});
 
