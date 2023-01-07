@@ -71,14 +71,6 @@ public:
 		this->sprite.setRotation(rotations[kind]);
 		
 	}
-	//tgui::Vector2f getXY()
-	//{
-	//	return this->gui->get<tgui::Picture>(s[kind])->getPosition();
-	//}
-	void moveXY(tgui::Vector2f pos, int time, int kind)
-	{
-		//this->gui->get<tgui::Picture>(s[kind])->moveWithAnimation(pos, tgui::Duration(sf::seconds(1)));
-	}
 
 	void moveCharacter(int kind, const float& dt) {
 		tgui::Vector2f nwPos = tgui::Vector2f(this->sprite.getPosition() + velocity * dt);
