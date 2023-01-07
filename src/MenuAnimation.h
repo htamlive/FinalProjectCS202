@@ -59,6 +59,11 @@ public:
 	{
 		this->gui = gui;
 	}
+	void SetGui(tgui::Gui*& gui)
+	{
+		this->gui = gui;
+
+	}
 	void setXY(tgui::Vector2f pos, int kind)
 	{
 		//this->gui->get<tgui::Picture>(s[kind])->setPosition(pos);
@@ -101,7 +106,6 @@ public:
 	bool checkResting() {
 		return !checkMoveBack() && !checkMoveTo();
 	}
-
 	void setEdge(int kind)
 	{
 		// random 1 of 4 edges: up:0, down:1, left:2, right:3
