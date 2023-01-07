@@ -150,10 +150,16 @@ void GameState::saveGameToFile(const std::string& filePath) {
     fout.close();
 }
 
-void GameState::update(const float &dt) {
+void GameState::updateSummary() {
     if (player->isDead() && !summaryMenu)
         summaryMenu =
-            new SummaryMenu(window, states, scoreDisplay->finalScore());
+        new SummaryMenu(window, states, scoreDisplay->finalScore());
+}
+
+void GameState::update(const float &dt) {
+    //summary menu when player is dead
+    updateSummary();
+
     if (!player->isDead()) {
         auto pos = player->getAbsPosition();
         int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) /
