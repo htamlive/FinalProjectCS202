@@ -20,7 +20,7 @@
 // [ ] Cổng điện
 // [ ] Cây cầu
 // [ ] Zombie giữa mộ trên đường
-// [ ] Trộm chó (trúng là chết luôn)
+// [ ] Trộm mèo (trúng là chết luôn)
 // [ ] Akshan
 // [ ] Dải caro kết thúc màn
 // [ ] Bãy caitlyn + R caitlyn
