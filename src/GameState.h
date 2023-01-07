@@ -75,6 +75,7 @@ public:
 
 	void updateSummary();
 	void updateScore();
+	void updateSaveGame();
 	void updateInput(const float& dt) override;
 	void update(const float& dt) override;
 	void render(sf::RenderTarget* target = nullptr) override;

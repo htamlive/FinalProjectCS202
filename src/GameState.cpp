@@ -163,13 +163,7 @@ void GameState::updateScore() {
         scoreDisplay->update(score);
     }
 }
-void GameState::update(const float &dt) {
-    //summary menu when player is dead
-    updateSummary();
-
-    //score update
-    updateScore();
-
+void GameState::updateSaveGame() {
     string savePath = pauseMenu->returnedSavePath();
     if (savePath != "") {
         //saveGameWithFileDialog();
@@ -177,6 +171,15 @@ void GameState::update(const float &dt) {
         //pauseMenu->endState();
         //endState();
     }
+}
+void GameState::update(const float &dt) {
+    //summary menu when player is dead
+    updateSummary();
+
+    //score update
+    updateScore();
+
+    updateSaveGame();
 
     float transDt = dt;
     //if (camera->checkIsTransistioning()) {
