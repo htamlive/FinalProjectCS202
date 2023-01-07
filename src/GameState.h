@@ -48,6 +48,8 @@ private:
 
 	
 
+	
+
 public:
 
 	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states);

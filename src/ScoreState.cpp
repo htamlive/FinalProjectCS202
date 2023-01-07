@@ -11,7 +11,7 @@ ScoreState::ScoreState(sf::RenderWindow* window, std::vector<State*>* states) : 
 	initButtons();
 	initRank();
 
-
+	scaling();
 }
 
 void ScoreState::render(sf::RenderTarget* target)

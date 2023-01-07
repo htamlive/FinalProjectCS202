@@ -58,6 +58,10 @@ public:
 		
 		myGroup->get<tgui::Label>("lblFinalScore")->setText(tgui::String(finalScore));
 		saveScore(finalScore);
+
+		myGroup->setScale(SYSTEM_SCALE);
+		//scaling();
+		//scaling(myGroup->getWidgets());
 	}
 
 	void updateInput() {

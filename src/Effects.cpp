@@ -264,6 +264,7 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
             effect->concat(std::make_unique<RunMiscEffect>([]() {
                 AudioController::instance().playSound(SoundEffect::Speed);
+                AudioController::instance().playSound(SoundEffect::SpeedVoice);
                 }));
             effect->concat(std::make_unique<DurationEffect>(SPEED_BOOST_DURATION, 1, false));
 
@@ -274,7 +275,11 @@ std::unique_ptr<Effect> EffectFactory::create(EffectType type) {
             effect->concat(std::make_unique<DurationEffect>(sf::seconds(0), 1, true));
             effect->concat(std::make_unique<RunMiscEffect>([]() {
                 AudioController::instance().playSound(SoundEffect::Invisible);
+                AudioController::instance().playSound(SoundEffect::InvincibleVoice);
                 }));
+            //effect->concat(std::make_unique<RunMiscEffect>([]() {
+            //    
+            //    }));
             effect->concat(std::make_unique<DurationEffect>(INVINCIBLE_BOOST_DURATION, 1, false));
             
             break;

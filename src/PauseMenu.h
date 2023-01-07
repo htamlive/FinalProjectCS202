@@ -22,9 +22,9 @@ private:
 	void saveGameWithFileDialog() {
 		fileDialog = tgui::FileDialog::create("Save game", "Save");
 		this->gui->add(fileDialog, "fileDialog");
-		fileDialog->setPosition(200, 170);
-		fileDialog->setWidth(650);
-		fileDialog->setHeight(500);
+		fileDialog->setPosition(DEF_FILE_DIALOG_POS);
+		fileDialog->setSize(DEF_FILE_DIALOG_SIZE);
+		fileDialog->setTextSize(fileDialog->getTextSize() * SYSTEM_SCALE);
 		fileDialog->setFileMustExist(false);
 		fileDialog->setPositionLocked(true);
 		fileDialog->setFileTypeFilters({{ "name.meow", {"*.meow"} }});
@@ -88,6 +88,8 @@ public:
 		myGroup->setVisible(false);
 		this->initVariables();
 		this->initButtons();
+		myGroup->setScale(SYSTEM_SCALE);
+		//scaling(myGroup->getWidgets());
 	}
 
 	void updateInput() {

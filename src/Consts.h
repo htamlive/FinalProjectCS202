@@ -4,6 +4,23 @@
 #include "Enums.h"
 #include "Random.h"
 
+#ifdef __linux__ 
+const float SYSTEM_SCALE = 1.0f;
+#elif _WIN32
+
+#include <TGUI/Backend/SFML-Graphics.hpp>
+const float SYSTEM_SCALE = 1.0f;
+
+#elif __APPLE__
+const float SYSTEM_SCALE = 2.0f;
+#include <ApplicationServices/ApplicationServices.h>
+
+#else
+
+#endif
+
+
+
 const float VEHICLE_LANE_PROB = 0.5;
 
 const float ANIMAL_LANE_PROB = 0.3;
@@ -39,26 +56,30 @@ const sf::Time MIN_GREEN_LIGHT_DURATION = sf::seconds(5);
 const sf::Time MAX_GREEN_LIGHT_DURATION = sf::seconds(10);
 
 
-const sf::VideoMode WINDOW_VIDEO_MODE = {1024, 768};
+const sf::VideoMode WINDOW_VIDEO_MODE = {int(1024*SYSTEM_SCALE), int(768* SYSTEM_SCALE) };
 
-const sf::Vector2f GRID_SIZE{64, 64};
+const tgui::Vector2f DEF_FILE_DIALOG_POS = { 200*SYSTEM_SCALE, 170*SYSTEM_SCALE};
+
+const tgui::Vector2f DEF_FILE_DIALOG_SIZE = { 650*SYSTEM_SCALE,500*SYSTEM_SCALE };
+
+const sf::Vector2f GRID_SIZE{64* SYSTEM_SCALE, 64* SYSTEM_SCALE };
 
 const sf::Vector2u DEF_SPRITE_SIZE = {128, 128};
 
-const float MINIMUM_WIDTH_BETWEEN_VEHICLES = GRID_SIZE.x * 1.5f;
+const float MINIMUM_WIDTH_BETWEEN_VEHICLES = GRID_SIZE.x * 1.5f *SYSTEM_SCALE;
 
-const sf::Vector2f DEF_COMMUTER_SIZE = {100, 100};
+const sf::Vector2f DEF_COMMUTER_SIZE = {100 * SYSTEM_SCALE, 100 * SYSTEM_SCALE};
 
-const float DEF_LANE_HEIGHT = 66.f;
+const float DEF_LANE_HEIGHT = 66.f * SYSTEM_SCALE;
 
-const float DEF_LIGHT_HEIGHT = DEF_LANE_HEIGHT * 1.2f;
+const float DEF_LIGHT_HEIGHT = DEF_LANE_HEIGHT * 1.2f * SYSTEM_SCALE;
 
-const float DESTROY_PADDING = 100;
+const float DESTROY_PADDING = 100 * SYSTEM_SCALE;
 
 const sf::FloatRect DESTROY_BORDER = {-DESTROY_PADDING, -DESTROY_PADDING, (float)WINDOW_VIDEO_MODE.width + DESTROY_PADDING * 2, (float)WINDOW_VIDEO_MODE.height + DESTROY_PADDING * 2};
 
 
-const sf::Vector2f DEF_PLAYER_VELOCITY = {100, 100};
+const sf::Vector2f DEF_PLAYER_VELOCITY = {100 * SYSTEM_SCALE, 100 * SYSTEM_SCALE};
 
 const float MAX_HEALTH = 100;
 

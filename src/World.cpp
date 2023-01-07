@@ -76,12 +76,13 @@ void World::loadCurrentNode(std::istream &in) {
     SceneNode::loadCurrentNode(in);
     in >> currentLevelNumber;
     in >> sceneSize.x >> sceneSize.y;
+    sceneSize *= SYSTEM_SCALE;
 }
 
 void World::saveCurrentNode(std::ostream &out) const {
     SceneNode::saveCurrentNode(out);
     out << currentLevelNumber << std::endl;
-    out << sceneSize.x << " " << sceneSize.y << std::endl;
+    out << sceneSize.x/SYSTEM_SCALE << " " << sceneSize.y/SYSTEM_SCALE << std::endl;
 }
 
 std::string World::getClassName() const {
@@ -93,13 +94,14 @@ bool World::shouldSave() const {
 }
 
 void World::attachChild(Ptr child) {
-    if (dynamic_cast<Level *>(child.get())) {
+
+    if (auto result = dynamic_cast<Level *>(child.get())) {
         std::cout << "Level attached" << std::endl;
-        maintainedLevels.push_back(dynamic_cast<Level *>(child.get()));
+        maintainedLevels.push_back(result);
         currentLevel = maintainedLevels.back();
-    } else if (dynamic_cast<Player *>(child.get())) {
+    } else if (auto result = dynamic_cast<Player *>(child.get())) {
         std::cout << "Player attached" << std::endl;
-        player = dynamic_cast<Player *>(child.get());
+        player = result;
     }
     SceneNode::attachChild(std::move(child));
 }

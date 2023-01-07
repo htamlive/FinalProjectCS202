@@ -23,7 +23,9 @@ namespace SoundEffect {
         Regen,
         Invisible,
         Small,
-        Speed
+        Speed,
+        InvincibleVoice,
+        SpeedVoice,
     };
 }
 

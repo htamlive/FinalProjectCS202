@@ -122,8 +122,8 @@ void Camera::updateVelocity(sf::Time dt) {
 }
 
 void Camera::save(std::ostream &out) {
-    out << window.getView().getCenter().x << " " << window.getView().getCenter().y << std::endl;
-    out << window.getView().getSize().x << " " << window.getView().getSize().y << std::endl;
+    out << window.getView().getCenter().x / SYSTEM_SCALE << " " << window.getView().getCenter().y / SYSTEM_SCALE << std::endl;
+    out << window.getView().getSize().x / SYSTEM_SCALE << " " << window.getView().getSize().y / SYSTEM_SCALE << std::endl;
 }
 
 void Camera::load(std::istream &in) {
@@ -131,6 +131,10 @@ void Camera::load(std::istream &in) {
     int width, height;
     in >> x >> y;
     in >> width >> height;
+    x *= SYSTEM_SCALE;
+    y *= SYSTEM_SCALE;
+    width *= SYSTEM_SCALE;
+    height *= SYSTEM_SCALE;
     sf::View view = window.getView();
     futurePos = {(float)x, (float)y};
     view.setCenter(x, y);

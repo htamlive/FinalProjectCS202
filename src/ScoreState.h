@@ -16,13 +16,14 @@ private:
 
 	int curOpt = 1;
 
+
 	void zoomBig(string Button) {
 		this->gui->get<tgui::Button>(Button)->setScale({ 1.1f, 1.1f }, { 0.5f,0.5f });
 	}
 	void zoomSmall(string Button) {
 		this->gui->get<tgui::Button>(Button)->setScale({ 1.0f / 1.1f, 1.0f / 1.1f }, { 0.5f,0.5f });
 	}
-	float w = 2.f, angle = 0.f, A = 360.f, totatTime = 0.f, opa = 0.f;
+	float w = 2.f, angle = 0.f, A = 360.f, totatTime = 0.f, opa = 0.f, pivotY = 110*SYSTEM_SCALE;
 
 	void initRank() {
 		vector<int> v(3);
@@ -123,7 +124,7 @@ public:
 		}
 		else if (totatTime >= 0) {
 			auto pos = this->gui->get<tgui::Picture>("Picture1")->getPosition();
-			this->gui->get<tgui::Picture>("Picture1")->setPosition({ pos.x, 110 - A/4 * sin(2 * w * totatTime) });
+			this->gui->get<tgui::Picture>("Picture1")->setPosition({ pos.x, pivotY - A/4 * sin(2 * w * totatTime) });
 			angle = A * sin(w * totatTime);
 
 			this->gui->get<tgui::Picture>("Picture1")->setRotation(angle,{0.5f, 0.5f});

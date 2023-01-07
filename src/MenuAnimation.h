@@ -5,7 +5,7 @@
 class MenuAnimation {
 private:
 	tgui::Gui* gui;
-	float timeManage, timeOverall, timeMoving, m_size, realSize, showBound;
+	float timeManage, timeOverall, timeMoving, m_size, realSize, showBound, negOffset;
 	
 	sf::Vector2f a[5], b[5], velocity;
 	sf::Sprite sprite;
@@ -16,9 +16,9 @@ private:
 		timeManage = 11;
 		timeOverall = 6;
 		timeMoving = 2;
-		m_size = 82;
+		m_size = 82*SYSTEM_SCALE;
 		realSize = 128;
-		showBound = 55;
+		showBound = 55*SYSTEM_SCALE;
 	}
 
 	enum class _DIRECTION
@@ -34,15 +34,15 @@ public:
 		initVariables();
 
 		// random 1 of 4 edges: up:0, down:1, left:2, right:3
-		a[(int)_DIRECTION::TO_DOWN] = { 0, -82 };
-		a[(int)_DIRECTION::TO_UP] = { 0, 768 };
-		a[(int)_DIRECTION::TO_RIGHT] = { -82, 0 };
-		a[(int)_DIRECTION::TO_LEFT] = { 1024, 0 };
+		a[(int)_DIRECTION::TO_DOWN] = { 0, -m_size };
+		a[(int)_DIRECTION::TO_UP] = { 0, 0.f + WINDOW_VIDEO_MODE.height };
+		a[(int)_DIRECTION::TO_RIGHT] = { -m_size, 0 };
+		a[(int)_DIRECTION::TO_LEFT] = { 0.f + WINDOW_VIDEO_MODE.width, 0 };
 
 		b[(int)_DIRECTION::TO_DOWN] = { 0, showBound };
-		b[(int)_DIRECTION::TO_UP] = { 0, 768 - showBound };
+		b[(int)_DIRECTION::TO_UP] = { 0, 0.f + WINDOW_VIDEO_MODE.height - showBound };
 		b[(int)_DIRECTION::TO_RIGHT] = { showBound, 0 };
-		b[(int)_DIRECTION::TO_LEFT] = { 1024 - showBound, 0};
+		b[(int)_DIRECTION::TO_LEFT] = { 0.f + WINDOW_VIDEO_MODE.width - showBound, 0};
 
 		rotations.resize(4);
 		rotations[(int)_DIRECTION::TO_DOWN] = 180.f;
@@ -91,13 +91,13 @@ public:
 
 	int randHorizontal(){
 		srand(time(NULL));
-        auto mod = 1024 - (int)m_size*3/2;
-		return ((rand()*rand()%1000000007 % mod) + mod) % mod;
+        auto mod = WINDOW_VIDEO_MODE.width - (int)m_size*3/2;
+		return max(0.f + ((rand()*rand()%1000000007 % mod) + mod) % mod, 3*m_size/2);
 	}
 	int randVertical(){
 		srand(time(NULL));
-        auto mod = 768 - (int)m_size*3/2;
-		return ((rand()*rand()%1000000007 % mod) + mod) % mod;
+        auto mod = WINDOW_VIDEO_MODE.height - (int)m_size*3/2;
+		return max(0.f + ((rand()*rand()%1000000007 % mod) + mod) % mod, 3*m_size/2);
 	}
 	void resetTimeManage() {
 		timeManage = 0;

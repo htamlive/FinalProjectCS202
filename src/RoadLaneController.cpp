@@ -55,13 +55,15 @@ std::string RoadLaneController::getClassName() const {
 
 void RoadLaneController::saveCurrentNode(std::ostream &out) const {
     Lane::saveCurrentNode(out);
-    out << laneCount << " " << laneHeight << " " << commuterSize.x << " " << commuterSize.y << " ";
+    out << laneCount << " " << laneHeight/SYSTEM_SCALE << " " << commuterSize.x/SYSTEM_SCALE << " " << commuterSize.y/SYSTEM_SCALE << " ";
     out << speedDistribution.dis().mean() << " " << speedDistribution.dis().stddev() << " ";
 }
 
 void RoadLaneController::loadCurrentNode(std::istream &in) {
     Lane::loadCurrentNode(in);
     in >> laneCount >> laneHeight >> commuterSize.x >> commuterSize.y;
+    laneHeight *= SYSTEM_SCALE;
+    commuterSize *= SYSTEM_SCALE;
     double mean, stddev;
     in >> mean >> stddev;
     speedDistribution = std::normal_distribution<double>(mean, stddev);

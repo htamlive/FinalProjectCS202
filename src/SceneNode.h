@@ -14,6 +14,8 @@
 #include <set>
 #include <iostream>
 
+#include "Consts.h"
+
 /**
  * @brief A node in the scene graph.
  */

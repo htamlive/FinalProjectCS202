@@ -7,20 +7,12 @@
 #include <vector>
 #include <chrono>
 #include <ctime> 
+
 #include <TGUI/TGUI.hpp>
 //#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <map>
 #include "AudioController.h"
-
-
-#ifdef __linux__ 
-
-#elif _WIN32
-
-	#include <TGUI/Backend/SFML-Graphics.hpp>
-#else
-
-#endif
+#include "Consts.h"
 
 
 using namespace std;
@@ -47,6 +39,23 @@ protected:
 		this->keybinds.emplace("MOVE_RIGHT", this->supportedKeys->at("D"));
 		this->keybinds.emplace("MOVE_DOWN", this->supportedKeys->at("S"));
 		this->keybinds.emplace("CLOSE", this->supportedKeys->at("Escape"));
+	}
+
+	void scaling() {
+		auto widgets = gui->getWidgets();
+		scaling(widgets);
+	}
+
+	void scaling(const std::vector<tgui::Widget::Ptr>& widgets) {
+		for (auto widget : widgets) {
+			auto pos = widget->getPosition();
+			auto dim = widget->getSize();
+			widget->setPosition(pos * SYSTEM_SCALE);
+			widget->setSize(dim * SYSTEM_SCALE);
+
+			auto textSize = widget->getTextSize();
+			widget->setTextSize(int(textSize * SYSTEM_SCALE));
+		}
 	}
 
 public:

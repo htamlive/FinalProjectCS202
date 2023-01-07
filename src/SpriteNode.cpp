@@ -22,7 +22,7 @@ void SpriteNode::saveCurrentNode(std::ostream &out) const {
     SceneNode::saveCurrentNode(out);
     std::cout << "Save spriteNode" << std::endl;
     out << id << std::endl;
-    out << size.x << " " << size.y << std::endl;
+    out << size.x/SYSTEM_SCALE << " " << size.y/SYSTEM_SCALE << std::endl;
 }
 
 void SpriteNode::loadCurrentNode(std::istream &in) {
@@ -30,6 +30,7 @@ void SpriteNode::loadCurrentNode(std::istream &in) {
     int i;
     in >> i;
     in >> size.x >> size.y;
+    size *= SYSTEM_SCALE;
     std::cout << "Size: " << size.x << " " << size.y << std::endl;
     id = (Texture::ID)(i);
     sf::Sprite newSprite(TextureHolder::instance().getTexture(id));

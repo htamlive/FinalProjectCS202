@@ -18,6 +18,7 @@ GameState::GameState(sf::RenderWindow *window,
     initVariables();
     initGameVariables();
     initMusic();
+    scaling();
 };
 
 GameState::GameState(sf::RenderWindow *window,
@@ -30,6 +31,7 @@ GameState::GameState(sf::RenderWindow *window,
     initVariables();
     loadGameFromFile(fileName);
     initMusic();
+    scaling();
 };
 void GameState::initGameVariables() {
     auto pPlayer = std::make_unique<Player>(
@@ -124,10 +126,9 @@ void GameState::updateEvents() {
 };
 
 void GameState::updateInput(const float &dt) {
-    this->pauseMenu->updateInput();
-
-    if (!player->isDead() && !camera->checkIsTransistioning()) {
-        if (this->ev.type == sf::Event::KeyPressed) {
+    if (!player->isDead()) {
+        this->pauseMenu->updateInput();
+        if (this->ev.type == sf::Event::KeyPressed && !camera->checkIsTransistioning()) {
             this->player->onKeyPressed(this->ev.key);
         }
     }

@@ -54,9 +54,9 @@ void Entity::adjustBounds(float offX, float offY, float cropWidth, float cropHei
 
 void Entity::saveCurrentNode(std::ostream &out) const {
     SceneNode::saveCurrentNode(out);
-    out << velocity.x << " " << velocity.y << std::endl;
-    out << localBounds.left << " " << localBounds.top << " " << localBounds.width << " " << localBounds.height << std::endl;
-    out << spriteBounds.left << " " << spriteBounds.top << " " << spriteBounds.width << " " << spriteBounds.height << std::endl;
+    out << velocity.x/SYSTEM_SCALE << " " << velocity.y/SYSTEM_SCALE << std::endl;
+    out << localBounds.left/SYSTEM_SCALE << " " << localBounds.top / SYSTEM_SCALE << " " << localBounds.width / SYSTEM_SCALE << " " << localBounds.height / SYSTEM_SCALE << std::endl;
+    out << spriteBounds.left / SYSTEM_SCALE << " " << spriteBounds.top / SYSTEM_SCALE << " " << spriteBounds.width / SYSTEM_SCALE << " " << spriteBounds.height / SYSTEM_SCALE << std::endl;
     animation.save(out);
 }
 
@@ -68,9 +68,10 @@ void Entity::loadCurrentNode(std::istream &in) {
     in >> velocityX >> velocityY;
     in >> localBoundsLeft >> localBoundsTop >> localBoundsWidth >> localBoundsHeight;
     in >> spriteBoundsLeft >> spriteBoundsTop >> spriteBoundsWidth >> spriteBoundsHeight;
-    spriteBounds = {spriteBoundsLeft, spriteBoundsTop, spriteBoundsWidth, spriteBoundsHeight};
-    localBounds = {localBoundsLeft, localBoundsTop, localBoundsWidth, localBoundsHeight};
+    spriteBounds = {spriteBoundsLeft*SYSTEM_SCALE, spriteBoundsTop * SYSTEM_SCALE, spriteBoundsWidth * SYSTEM_SCALE, spriteBoundsHeight * SYSTEM_SCALE };
+    localBounds = {localBoundsLeft * SYSTEM_SCALE, localBoundsTop * SYSTEM_SCALE, localBoundsWidth * SYSTEM_SCALE, localBoundsHeight * SYSTEM_SCALE };
     velocity = {velocityX, velocityY};
+    velocity *= SYSTEM_SCALE;
     animation.load(in);
 }
 

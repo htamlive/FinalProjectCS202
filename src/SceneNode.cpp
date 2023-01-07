@@ -141,9 +141,12 @@ void SceneNode::loadCurrentNode(std::istream& in) {
     float rotation;
     // position
     in >> x >> y;
+    x *= SYSTEM_SCALE;
+    y *= SYSTEM_SCALE;
     setPosition(x, y);
     // scale
     in >> scaleX >> scaleY;
+
     setScale(scaleX, scaleY);
     // rotation
     in >> rotation;
@@ -168,7 +171,7 @@ void SceneNode::saveNode(std::ostream& out) const {
 }
 
 void SceneNode::saveCurrentNode(std::ostream& out) const {
-    out << getPosition().x << " " << getPosition().y << std::endl;
+    out << getPosition().x / SYSTEM_SCALE << " " << getPosition().y / SYSTEM_SCALE << std::endl;
     out << getScale().x << " " << getScale().y << std::endl;
     out << getRotation() << std::endl;
 }

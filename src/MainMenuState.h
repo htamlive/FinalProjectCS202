@@ -30,9 +30,9 @@ private:
 	void initFileDialog() {
 		fileDialog = tgui::FileDialog::create("Load game", "Load");
 		this->gui->add(fileDialog, "fileDialog");
-		fileDialog->setPosition(200, 170);
-		fileDialog->setWidth(650);
-		fileDialog->setHeight(500);
+		fileDialog->setPosition(DEF_FILE_DIALOG_POS);
+		fileDialog->setSize(DEF_FILE_DIALOG_SIZE);
+		fileDialog->setTextSize(fileDialog->getTextSize() * SYSTEM_SCALE);
 		fileDialog->setFileMustExist(true);
 		fileDialog->setPositionLocked(true);
 		fileDialog->setPath(fileDialog->getPath().asString() + "/saved games");
@@ -59,7 +59,9 @@ public:
 		this->supportedKeys = supportedKeys;
 		
 		Meow.SetGui(this->gui);
-
+		
+		//this->gui->getContainer()->setScale(SCALE);
+		scaling();
 	};
 
 	void initBackground() {

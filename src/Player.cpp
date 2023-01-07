@@ -266,7 +266,7 @@ void Player::saveCurrentNode(std::ostream &out) const {
     // out << onSizeSmallerBoost << " ";
     // out << onSpeedBoost << " ";
     out << deadFlag << " ";
-    out << woodVelocity.x << " " << woodVelocity.y << " " << std::endl;
+    out << woodVelocity.x/SYSTEM_SCALE << " " << woodVelocity.y/SYSTEM_SCALE << " " << std::endl;
 }
 
 void Player::loadCurrentNode(std::istream &in) {
@@ -278,6 +278,7 @@ void Player::loadCurrentNode(std::istream &in) {
     in >> deadFlag;
     in >> woodVelocity.x;
     in >> woodVelocity.y;
+    woodVelocity *= SYSTEM_SCALE;
 }
 
 std::string Player::getClassName() const {
