@@ -172,30 +172,11 @@ void GameState::updateSaveGame() {
         //endState();
     }
 }
-void GameState::update(const float &dt) {
-    //summary menu when player is dead
-    updateSummary();
-
-    //score update
-    updateScore();
-
-    updateSaveGame();
-
-    float transDt = dt;
-    //if (camera->checkIsTransistioning()) {
-    //    transDt = 0;
-    //}
-    if(pauseMenu->isPausing() && !camera->checkIsTransistioning()) transDt = 0;
-
-    updateInput(transDt);
-    world->update(sf::seconds(transDt));
-    camera->update(sf::seconds(dt));
-    std::set<SceneNode::Pair> collisionPairs;
-    world->checkSceneCollision(*world, collisionPairs);
+void GameState::updateCollision(std::set<SceneNode::Pair>& collisionPairs) {
     // Queue to remove all colliding nodes
     // Prevent segmentation fault
     // Reason: The deleted node still exists in the collisionPairs
-    vector<SceneNode *> removeQueue;
+    vector<SceneNode*> removeQueue;
     // std::cout << "Player: " << player->getAbsPosition().x << " " <<
     // player->getAbsPosition().y << "\n";
     for (auto pair : collisionPairs) {
@@ -207,7 +188,7 @@ void GameState::update(const float &dt) {
         auto nodeB = pair.second;
 
         if (nodeA->getCategory() == Category::Player) {
-            auto collidable = dynamic_cast<PlayerCollidable *>(nodeB);
+            auto collidable = dynamic_cast<PlayerCollidable*>(nodeB);
             if (collidable) {
                 collidable->onPlayerCollision(*player);
                 if (!player->isInvincible() && (nodeB->getCategory() == Category::Obstacle ||
@@ -241,9 +222,34 @@ void GameState::update(const float &dt) {
             }
         }
     }
-    for (auto *item : removeQueue) {
+
+    for (auto* item : removeQueue) {
         world->getCurrentLevel()->removeObject(*item);
     }
+}
+void GameState::update(const float &dt) {
+    //summary menu when player is dead
+    updateSummary();
+
+    //score update
+    updateScore();
+
+    updateSaveGame();
+
+    float transDt = dt;
+    //if (camera->checkIsTransistioning()) {
+    //    transDt = 0;
+    //}
+    if(pauseMenu->isPausing() && !camera->checkIsTransistioning()) transDt = 0;
+
+    updateInput(transDt);
+    world->update(sf::seconds(transDt));
+    camera->update(sf::seconds(dt));
+    std::set<SceneNode::Pair> collisionPairs;
+    world->checkSceneCollision(*world, collisionPairs);
+    
+    //collision check
+    updateCollision(collisionPairs);
 };
 
 void GameState::render(sf::RenderTarget *target) {
