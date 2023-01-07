@@ -155,17 +155,20 @@ void GameState::updateSummary() {
         summaryMenu =
         new SummaryMenu(window, states, scoreDisplay->finalScore());
 }
-
+void GameState::updateScore() {
+    if (!player->isDead()) {
+        auto pos = player->getAbsPosition();
+        int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) /
+            GRID_SIZE.y;
+        scoreDisplay->update(score);
+    }
+}
 void GameState::update(const float &dt) {
     //summary menu when player is dead
     updateSummary();
 
-    if (!player->isDead()) {
-        auto pos = player->getAbsPosition();
-        int score = (WINDOW_VIDEO_MODE.height - player->getAbsPosition().y) /
-                    GRID_SIZE.y;
-        scoreDisplay->update(score);
-    }
+    //score update
+    updateScore();
 
     string savePath = pauseMenu->returnedSavePath();
     if (savePath != "") {
