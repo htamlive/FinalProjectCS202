@@ -73,6 +73,7 @@ public:
 	}
 	void updateEvents() override;
 
+	void updateSummary();
 	void updateInput(const float& dt) override;
 	void update(const float& dt) override;
 	void render(sf::RenderTarget* target = nullptr) override;
