@@ -162,46 +162,52 @@ private:
         TextureHolder::instance().load(Texture::LightningTheme, "./resources/spritesheet/lightning.png", {128,128},1);
 
     }
+    void initLoad() {
+        TextureHolder::instance().load(Texture::ID::RightRedTruck, "./resources/spritesheet/vehicles/redTruckRight.png",
+            { 128, 128 }, 4);
+        TextureHolder::instance().load(Texture::ID::LeftRedTruck, "./resources/spritesheet/vehicles/redTruckLeft.png",
+            { 128, 128 }, 4);
+        TextureHolder::instance().load(Texture::ID::LeftBlueCar, "./resources/spritesheet/vehicles/blueCar.png",
+            { 128, 128 }, 1);
+        TextureHolder::instance().load(Texture::ID::LeftGreenCar, "./resources/spritesheet/vehicles/greenCar.png",
+            { 128, 128 }, 1);
+        TextureHolder::instance().load(Texture::ID::LeftRedCar, "./resources/spritesheet/vehicles/redCar.png", 
+            { 128, 128 }, 1);
+        TextureHolder::instance().load(Texture::ID::RightCucumber,"./resources/spritesheet/animals/cucumber/moveRight.png",
+            { 128, 128 }, 6);
+        TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/animals/plane/goRight.png",
+            { 128, 128 }, 2);
+        TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/animals/plane/goLeft.png",
+            { 128, 128 }, 2);
+
+        TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_2.png");
+        TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle3.png", { 225, 214 });
+        TextureHolder::instance().load(Texture::ID::HealthBoost, "resources/spritesheet/regen.png");
+        TextureHolder::instance().load(Texture::ID::SpeedBoost, "resources/spritesheet/speed.png");
+        TextureHolder::instance().load(Texture::ID::SmallSizeBoost, "resources/spritesheet/smallSize.png");
+        TextureHolder::instance().load(Texture::ID::InvincibleBoost, "resources/spritesheet/invisible.png");
+        TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
+    }
+
+    void initAdd() {
+        TextureHolder::instance().add(Texture::ID::RightBlueCar, { Texture::ID::LeftBlueCar, true, false });
+
+        TextureHolder::instance().add(Texture::ID::RightGreenCar, { Texture::ID::LeftGreenCar, true, false });
+
+        TextureHolder::instance().add(Texture::ID::RightRedCar, { Texture::ID::LeftRedCar, true, false });
+
+        TextureHolder::instance().add(Texture::ID::LeftCucumber, { Texture::ID::RightCucumber, 0, 5, true, false });
+    }
 
     void initTextures() {
         // TODO: add stunned animation
-        TextureHolder::instance().load(Texture::ID::RightRedTruck, "./resources/spritesheet/vehicles/redTruckRight.png",
-                                       {128, 128}, 4);
-        TextureHolder::instance().load(Texture::ID::LeftRedTruck, "./resources/spritesheet/vehicles/redTruckLeft.png",
-                                       {128, 128}, 4);
-        TextureHolder::instance().load(Texture::ID::LeftBlueCar, "./resources/spritesheet/vehicles/blueCar.png",
-                                       {128, 128}, 1);
-        TextureHolder::instance().add(Texture::ID::RightBlueCar, {Texture::ID::LeftBlueCar, true, false});
-        TextureHolder::instance().load(Texture::ID::LeftGreenCar, "./resources/spritesheet/vehicles/greenCar.png",
-                                       {128, 128}, 1);
-        TextureHolder::instance().add(Texture::ID::RightGreenCar, {Texture::ID::LeftGreenCar, true, false});
-        TextureHolder::instance().load(Texture::ID::LeftRedCar, "./resources/spritesheet/vehicles/redCar.png", {128, 128},
-                                       1);
-        TextureHolder::instance().add(Texture::ID::RightRedCar, {Texture::ID::LeftRedCar, true, false});
-
-        TextureHolder::instance().load(Texture::ID::RightCucumber,
-                                       "./resources/spritesheet/animals/cucumber/moveRight.png",
-                                       {128, 128}, 6);
-        TextureHolder::instance().add(Texture::ID::LeftCucumber, {Texture::ID::RightCucumber, 0, 5, true, false});
-        TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/animals/plane/goRight.png",
-                                       {128, 128},
-                                       2);
-        TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/animals/plane/goLeft.png",
-                                       {128, 128},
-                                       2);
-
-        TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_2.png");
+        initLoad();
+        initAdd();
         initLaneTextures();
 		initTrafficLightTextures();
 		initMainCharacterTextures();
         initTheme();
-		TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle3.png", { 225, 214 });
-		TextureHolder::instance().load(Texture::ID::HealthBoost, "resources/spritesheet/regen.png");
-        TextureHolder::instance().load(Texture::ID::SpeedBoost, "resources/spritesheet/speed.png");
-        TextureHolder::instance().load(Texture::ID::SmallSizeBoost, "resources/spritesheet/smallSize.png");
-        TextureHolder::instance().load(Texture::ID::InvincibleBoost, "resources/spritesheet/invisible.png");
 
-        TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
 	};
 
     void updateEvents();
