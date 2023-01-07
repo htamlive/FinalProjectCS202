@@ -101,9 +101,6 @@ public:
 	bool checkResting() {
 		return !checkMoveBack() && !checkMoveTo();
 	}
-	bool inProcess() {
-		return timeManage != 0.f;
-	}
 
 	void setEdge(int kind)
 	{
