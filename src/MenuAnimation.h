@@ -59,11 +59,6 @@ public:
 	{
 		this->gui = gui;
 	}
-	void SetGui(tgui::Gui*& gui)
-	{
-		this->gui = gui;
-
-	}
 	void setXY(tgui::Vector2f pos, int kind)
 	{
 		//this->gui->get<tgui::Picture>(s[kind])->setPosition(pos);
