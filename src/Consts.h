@@ -12,9 +12,9 @@ const float SYSTEM_SCALE = 1.0f;
 const float SYSTEM_SCALE = 1.0f;
 
 #elif __APPLE__
-const float SYSTEM_SCALE = 2.0f;
+const float SYSTEM_SCALE = 1.5f;
 #include <ApplicationServices/ApplicationServices.h>
-
+#include <TGUI/TGUI.hpp>
 #else
 
 #endif
@@ -56,7 +56,7 @@ const sf::Time MIN_GREEN_LIGHT_DURATION = sf::seconds(5);
 const sf::Time MAX_GREEN_LIGHT_DURATION = sf::seconds(10);
 
 
-const sf::VideoMode WINDOW_VIDEO_MODE = {int(1024*SYSTEM_SCALE), int(768* SYSTEM_SCALE) };
+const sf::VideoMode WINDOW_VIDEO_MODE = {(unsigned int)(1024*SYSTEM_SCALE), (unsigned int)(768* SYSTEM_SCALE) };
 
 const tgui::Vector2f DEF_FILE_DIALOG_POS = { 200*SYSTEM_SCALE, 170*SYSTEM_SCALE};
 
@@ -72,7 +72,7 @@ const sf::Vector2f DEF_COMMUTER_SIZE = {100 * SYSTEM_SCALE, 100 * SYSTEM_SCALE};
 
 const float DEF_LANE_HEIGHT = 66.f * SYSTEM_SCALE;
 
-const float DEF_LIGHT_HEIGHT = DEF_LANE_HEIGHT * 1.2f * SYSTEM_SCALE;
+const float DEF_LIGHT_HEIGHT = DEF_LANE_HEIGHT * 1.2f;
 
 const float DESTROY_PADDING = 100 * SYSTEM_SCALE;
 
