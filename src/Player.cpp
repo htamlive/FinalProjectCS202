@@ -77,8 +77,8 @@ void Player::onKeyPressed(sf::Event::KeyEvent event) {
 
         auto newPos = getPosition();
         if (distanceVec != sf::Vector2f(0, 0)) {
-            distanceVec += {platformVelocity.x * JUMP_DURATION.asSeconds(),
-                            platformVelocity.y * JUMP_DURATION.asSeconds()};
+            distanceVec += {platformVelocity.x * JUMP_DURATION.asSeconds()*jumpDurationScale,
+                            platformVelocity.y * JUMP_DURATION.asSeconds()*jumpDurationScale};
             distanceVec = {distanceVec.x * (float) distanceScale.x, distanceVec.y * (float) distanceScale.y};
             newPos += distanceVec;
         }
