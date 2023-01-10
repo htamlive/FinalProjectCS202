@@ -58,25 +58,6 @@ public:
 	}
 
 	void initButtons() {
-		//this->gui->get<tgui::Button>("btnMusic")->onClick([&,this]() {
-		//	cout << "helllo\n";
-		//	this->gui->get<tgui::Button>("MusicOn")->setVisible(true);
-		//	});
-		//this->gui->get<tgui::Button>("btnSound")->onClick([&]() {
-		//	cout << "123\n";
-		//	this->gui->get<tgui::Button>("SoundOn")->setVisible(true);
-		//	});
-		//this->gui->get<tgui::Button>("btnBack")->onClick([&]() {
-		//	cout << "oooooo\n";
-		//	//this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplateCPY.txt");
-		//	this->quit = true;
-		//	});
-		//this->gui->get<tgui::Button>("MusicOn")->onClick([&]() {
-		//	this->gui->get<tgui::Button>("MusicOn")->setVisible(false);
-		//	});
-		//this->gui->get<tgui::Button>("SoundOn")->onClick([&]() {
-		//	this->gui->get<tgui::Button>("SoundOn")->setVisible(false);
-		//	});
 		this->gui->get<tgui::Slider>("sliderMusic")->onValueChange([&]() {
 			
 			int val = this->gui->get<tgui::Slider>("sliderMusic")->getValue();

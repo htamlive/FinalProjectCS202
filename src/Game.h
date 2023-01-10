@@ -51,6 +51,9 @@ private:
         fin.open("resources/textFile/MusicController.txt");
         fin >> value;
         AudioController::instance().setMusicVolume(value);
+        fin.open("resources/textFile/SoundController.txt");
+        fin >> value;
+        AudioController::instance().setSoundVolume(value);
         fin.close();
 
     }
@@ -162,6 +165,7 @@ private:
         TextureHolder::instance().load(Texture::LightningTheme, "./resources/spritesheet/lightning.png", {128,128},1);
 
     }
+
     void initLoad() {
         TextureHolder::instance().load(Texture::ID::RightRedTruck, "./resources/spritesheet/vehicles/redTruckRight.png",
             { 128, 128 }, 4);
