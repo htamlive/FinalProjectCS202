@@ -9,10 +9,8 @@ int main()
 {
     //AnimationsByFrames animations("FinalProjectCS202/spritesheet/character/goDown.png");
 
-    //string s = "D:/Microsoft Visual Studio/Source/repos/FinalProjectCS202/2023-01-01_56-16-18.meow";
-    //ofstream ofs(s);
-    //ofs << "Hello world\n";
-    //ofs.close();
+    
+
     Game game;
     game.run();
 

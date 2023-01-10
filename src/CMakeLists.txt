@@ -12,11 +12,15 @@ file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 
 set(APP_ICON_RESOURCE_WINDOWS "../resources/icons/appicon.rc")
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 
-add_executable(FinalProjectCS202
-        ${sourcecode}
-        ${APP_ICON_RESOURCE_WINDOWS}
-)
+if(WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+    add_executable(FinalProjectCS202 WIN32 ${sourcecode} ${APP_ICON_RESOURCE_WINDOWS} )
+else()
+    add_executable(FinalProjectCS202 ${sourcecode} ${APP_ICON_RESOURCE_WINDOWS})
+endif(WIN32)
+
 
 
 
@@ -27,7 +31,7 @@ endif()
 
 
 
-#message("Hello" + "${CMAKE_CURRENT_SOURCE_DIR}")
+message("Hello" + "${CMAKE_BUILD_TYPE}")
 
 if(WIN32)
 
@@ -36,12 +40,28 @@ if(WIN32)
     #        "${CMAKE_SOURCE_DIR}/External/bin"      # <--this is in-file
     #        $<TARGET_FILE_DIR:FinalProjectCS202>)
 
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-audio-d.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-graphics-d.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-network-d.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-system-d.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-window-d.lib)
-    target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/tgui-d.lib)
+
+    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+        #message("Hello" + "${CMAKE_BUILD_TYPE}")
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-audio-d.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-graphics-d.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-network-d.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-system-d.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-window-d.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/tgui-d.lib)
+    else()
+        #message("Hello" + "${CMAKE_BUILD_TYPE}")
+        #message("Hello" + "${CMAKE_BUILD_TYPE}")
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-audio.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-graphics.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-network.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-system.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/sfml-window.lib)
+        target_link_libraries(FinalProjectCS202 ${CMAKE_SOURCE_DIR}/External/lib/tgui.lib)
+    
+    endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+
 
     include_directories(${CMAKE_SOURCE_DIR}/External/include)
     #include_directories(${CMAKE_SOURCE_DIR}/External/bin)
