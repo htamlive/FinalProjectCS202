@@ -98,7 +98,7 @@ public:
 				setValue("Sound", val);
 
 				this->gui->get<tgui::EditBox>("eBoxSound")->setText(to_string(val));
-				
+				AudioController::instance().setSoundVolume(val);
 			});
 
 		

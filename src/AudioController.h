@@ -48,7 +48,7 @@ class AudioController {
 
     sf::Music music;
     std::list<sf::Sound> sounds;
-    float musicVolume;
+    float musicVolume, soundVolume;
     bool isMuted;
 
     sf::SoundBuffer& getSoundBuffer(SoundEffect::ID id);
@@ -65,6 +65,9 @@ public:
     void pauseSound();
     void setMuted(bool);
     void setMusicVolume(float vol);
+    void setSoundVolume(float vol) {
+        soundVolume = vol;
+    }
     void loadMusicFromFile(Music::ID type, const std::string &path);
     void loadSoundFromFile(SoundEffect::ID id, const std::string &path);
     void playSound(SoundEffect::ID id);
