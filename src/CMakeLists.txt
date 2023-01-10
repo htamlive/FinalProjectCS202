@@ -14,7 +14,7 @@ file(GLOB sourcecode ${CMAKE_SOURCE_DIR}/src/*.cpp)
 set(APP_ICON_RESOURCE_WINDOWS "../resources/icons/appicon.rc")
 #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 
-if(WIN32)
+if(WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
     add_executable(FinalProjectCS202 WIN32 ${sourcecode} ${APP_ICON_RESOURCE_WINDOWS} )
 else()
