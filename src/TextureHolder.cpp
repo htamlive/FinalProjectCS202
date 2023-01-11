@@ -6,11 +6,8 @@
 #include "TextureHolder.h"
 
 TextureHolder &TextureHolder::instance() {
-    static TextureHolder *ins = nullptr;
-    if (ins == nullptr) {
-        ins = new TextureHolder;
-    }
-    return *ins;
+    static TextureHolder ins;
+    return ins;
 }
 
 void TextureHolder::load(Texture::ID id, const std::string &filename,
