@@ -40,16 +40,17 @@ namespace Music {
  * Only classes that inherit SoundPlayable will be able to access audio play interface
 */
 class AudioController {
-    AudioController() = default;
-    static AudioController _instance;
+    AudioController() : musicVolume(0), soundVolume(0), isMuted(false) {
+    
+    };
 
     std::map<Music::ID, std::string> musicPlaylist;
     std::map<SoundEffect::ID, std::unique_ptr<sf::SoundBuffer>> soundBar;
 
     sf::Music music;
     std::list<sf::Sound> sounds;
-    float musicVolume, soundVolume;
-    bool isMuted;
+    float musicVolume = 0, soundVolume = 0;
+    bool isMuted = true;
 
     sf::SoundBuffer& getSoundBuffer(SoundEffect::ID id);
     void updateSettings();
