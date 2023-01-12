@@ -31,9 +31,9 @@ Crossing Cat requires a device with at least 50MB of RAM and 200MB of storage sp
 
 ## Troubleshooting
 
-If you encounter any issues with the game, please contact us at 
+If you encounter any issues with the game, please contact us
 
-[mail to htamlive](mailto:wwwnmquang@gmail.com) 
+- [mail to htamlive](mailto:wwwnmquang@gmail.com) 
 
 We will be happy to assist you!
 
