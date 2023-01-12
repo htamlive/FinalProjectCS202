@@ -49,7 +49,13 @@ Crossing Cat is released under the [MIT License](https://opensource.org/licenses
 
 ## Acknowledgements
 
-Crossing Cat was developed by [Your Name](https://yourusername.github.io/). It uses the following open-source libraries:
+Crossing Cat was developed by 
+- [htamlive](https://github.com/htamlive) 
+- [sxweetlollipop2912](https://github.com/sxweetlollipop2912)
+- [trongnghia2304](https://github.com/trongnghia2304)
+- [ltp1405](https://github.com/ltp1405)
+
+It uses the following open-source libraries:
 - [SFML](https://www.sfml-dev.org/)
 - [TGUI](https://tgui.eu/)
 
