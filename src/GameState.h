@@ -46,10 +46,6 @@ private:
     void loadGameFromFile(const std::string& fileName);
     void saveGameToFile(const std::string& fileName);
 
-	
-
-	
-
 public:
 
 	GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::vector<State*>* states);

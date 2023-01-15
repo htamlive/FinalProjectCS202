@@ -38,7 +38,7 @@ private:
         AudioController::instance().loadSoundFromFile(SoundEffect::Stun, APPDATA_PATH + "/resources/music/BirdsSound.wav");
         AudioController::instance().loadSoundFromFile(SoundEffect::Hitting, APPDATA_PATH + "/resources/music/hitCat.wav");
         AudioController::instance().loadSoundFromFile(SoundEffect::Regen, APPDATA_PATH + "/resources/music/regen.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Invisible, "/resources/music/invisible.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Invisible, APPDATA_PATH + "/resources/music/invisible.wav");
         AudioController::instance().loadSoundFromFile(SoundEffect::Small, APPDATA_PATH + "/resources/music/small.wav");
         AudioController::instance().loadSoundFromFile(SoundEffect::Speed, APPDATA_PATH + "/resources/music/speed.wav");
         AudioController::instance().loadSoundFromFile(SoundEffect::InvincibleVoice, APPDATA_PATH + "/resources/music/yummyDemon.wav");

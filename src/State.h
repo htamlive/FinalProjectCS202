@@ -9,7 +9,7 @@
 #include <ctime> 
 
 #include <TGUI/TGUI.hpp>
-//#include <TGUI/Backend/SFML-Graphics.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include <map>
 #include "AudioController.h"
 #include "Consts.h"

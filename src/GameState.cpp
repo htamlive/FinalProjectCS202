@@ -128,7 +128,7 @@ void GameState::updateEvents() {
 void GameState::updateInput(const float &dt) {
     if (!player->isDead()) {
         this->pauseMenu->updateInput();
-        if (this->ev.type == sf::Event::KeyPressed && !camera->checkIsTransistioning()) {
+        if (this->ev.type == sf::Event::KeyPressed && !camera->checkIsTransistioning() && dt > 0) {
             this->player->onKeyPressed(this->ev.key);
         }
     }

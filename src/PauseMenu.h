@@ -10,11 +10,14 @@ private:
 	string getNameFile() {
 
 		auto end = std::chrono::system_clock::now();
-		std::time_t now = std::chrono::system_clock::to_time_t(end);
+		std::time_t now = std::chrono::system_clock::to_time_t(end), tmp;
 		char buffer[80];
-		auto myTime = std::localtime(&now);
+		struct tm myTime;
+		localtime_s(&myTime,&tmp);
+	
+		
 
-		strftime(buffer, 80, "%F_%H-%M-%S", myTime);
+		strftime(buffer, 80, "%F_%H-%M-%S", &myTime);
 		string name = string(buffer) + ".meow";
 		return name;
 	}
