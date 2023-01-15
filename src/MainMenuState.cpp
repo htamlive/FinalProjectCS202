@@ -2,7 +2,7 @@
 
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::vector<State*>* states) : State(window, states)
 {
-	this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplateCPY.txt");
+	this->gui->loadWidgetsFromFile(APPDATA_PATH + "/resources/Template/MainMenuTemplateCPY.txt");
 
 	//initBackground();
 

@@ -3,16 +3,23 @@
 #include <SFML/Graphics.hpp>
 #include "Enums.h"
 #include "Random.h"
+#include <filesystem>
 
 #ifdef __linux__ 
 const float SYSTEM_SCALE = 1.0f;
+const std::string APPDATA_PATH = ".";
+const std::string DOCUMENTS_PATH = ".";
 #elif _WIN32
 
 #include <TGUI/Backend/SFML-Graphics.hpp>
 const float SYSTEM_SCALE = 1.0f;
+const std::string APPDATA_PATH = std::filesystem::path(std::getenv("APPDATA")).string() + '\\' + "Crossing Cat\\Windows";
+const std::string DOCUMENTS_PATH = std::filesystem::path(std::getenv("USERPROFILE")).string() + "\\Documents";
 
 #elif __APPLE__
 const float SYSTEM_SCALE = 1.5f;
+const std::string APPDATA_PATH = ".";
+const std::string DOCUMENTS_PATH = ".";
 #include <ApplicationServices/ApplicationServices.h>
 #include <TGUI/TGUI.hpp>
 #else

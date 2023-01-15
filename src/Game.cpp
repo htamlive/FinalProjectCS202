@@ -26,7 +26,7 @@ void Game::initWindow()
 		std::string name;
 		name += "Crossing Road";
 		sf::Image icon;
-		icon.loadFromFile("resources/icons/icon.png");
+		icon.loadFromFile(APPDATA_PATH + "/resources/icons/icon.png");
 
 		this->window = new sf::RenderWindow(this->videoMode, "Crossing Road", sf::Style::Titlebar | sf::Style::Close, windowSettings);
 		

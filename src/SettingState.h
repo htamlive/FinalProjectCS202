@@ -29,7 +29,7 @@ public:
 	void initBackground() {
 		//For Music Alteration
 		ifstream fin;
-		fin.open("resources/textFile/MusicController.txt");
+		fin.open(APPDATA_PATH + "/resources/textFile/MusicController.txt");
 
 		int value;
 		fin >> value;
@@ -39,7 +39,7 @@ public:
 		fin.close();
 
 		//To Sound Alteration
-		fin.open("resources/textFile/SoundController.txt");
+		fin.open(APPDATA_PATH + "/resources/textFile/SoundController.txt");
 
 		fin >> value;
 		this->gui->get<tgui::Slider>("sliderSound")->setValue(value);
@@ -50,7 +50,7 @@ public:
 
 	void setValue(string type, int value) {
 		ofstream fout;
-		fout.open("resources/textFile/" + type + "Controller.txt", ios::trunc);
+		fout.open(APPDATA_PATH + "/resources/textFile/" + type + "Controller.txt", ios::trunc);
 		
 		fout << value;
 		

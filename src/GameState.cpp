@@ -12,7 +12,7 @@ GameState::GameState(sf::RenderWindow *window,
                      std::map<std::string, int> *supportedKeys,
                      std::vector<State *> *states)
     : State(window, supportedKeys, states) {
-    this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
+    this->gui->loadWidgetsFromFile(APPDATA_PATH + "/resources/Template/GameTemplate.txt");
     this->initKeyBinds();
 
     initVariables();
@@ -25,7 +25,7 @@ GameState::GameState(sf::RenderWindow *window,
                      std::map<std::string, int> *supportedKeys,
                      std::vector<State *> *states, const std::string &fileName)
     : State(window, supportedKeys, states) {
-    this->gui->loadWidgetsFromFile("resources/Template/GameTemplate.txt");
+    this->gui->loadWidgetsFromFile(APPDATA_PATH + "/resources/Template/GameTemplate.txt");
     this->initKeyBinds();
 
     initVariables();
@@ -79,7 +79,7 @@ void GameState::initVariables() {
 void GameState::initMusic() {
     AudioController::instance().loadSoundFromFile(
         SoundEffect::CarNoise,
-        "resources/music/"
+        APPDATA_PATH + "/resources/music/"
         "mixkit-urban-city-sounds-and-light-car-traffic-369.wav");
     AudioController::instance().playSound(SoundEffect::CarNoise);
 }

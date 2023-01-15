@@ -32,7 +32,7 @@ private:
 	}
 
 	void saveScore(int score) {
-		std::ifstream ifs("data/scores.txt");
+		std::ifstream ifs(APPDATA_PATH + "/data/scores.txt");
 		vector<int> v(3);
 		for (int i = 0; i < 3; ++i) {
 			ifs >> v[i];
@@ -40,7 +40,7 @@ private:
 		v.push_back(score);
 		sort(v.rbegin(), v.rend());
 		ifs.close();
-		std::ofstream ofs("data/scores.txt");
+		std::ofstream ofs(APPDATA_PATH + "/data/scores.txt");
 		for (int i = 0; i < 3; ++i) {
 			ofs << v[i] << "\n";
 		}
@@ -49,7 +49,7 @@ private:
 	
 public:
 	SummaryMenu(sf::RenderWindow* window, vector<State*>* states, int finalScore) : State(window, states) {
-		this->gui->loadWidgetsFromFile("resources/Template/SummaryBoardTemplate.txt");
+		this->gui->loadWidgetsFromFile(APPDATA_PATH + "/resources/Template/SummaryBoardTemplate.txt");
 
 		myGroup = this->gui->get<tgui::Group>("SummaryBox");
 		myGroup->setVisible(true);

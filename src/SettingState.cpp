@@ -2,7 +2,7 @@
 
 SettingState::SettingState(sf::RenderWindow* window, std::vector<State*>* states) : State(window, states)
 {
-	this->gui->loadWidgetsFromFile("resources/Template/MainMenuTemplate.txt");
+	this->gui->loadWidgetsFromFile(APPDATA_PATH + "/resources/Template/MainMenuTemplate.txt");
 
 
 	initBackground();

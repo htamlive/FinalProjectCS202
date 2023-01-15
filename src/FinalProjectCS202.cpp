@@ -9,7 +9,7 @@ int main()
 {
     //AnimationsByFrames animations("FinalProjectCS202/spritesheet/character/goDown.png");
 
-    
+    //cout << APPDATA_PATH;
 
     Game game;
     game.run();

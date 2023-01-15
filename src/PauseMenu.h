@@ -29,7 +29,7 @@ private:
 		fileDialog->setPositionLocked(true);
 		fileDialog->setFileTypeFilters({{ "name.meow", {"*.meow"} }});
 		fileDialog->setFilename(getNameFile());
-		fileDialog->setPath(fileDialog->getPath().asString() + "/saved games");
+		fileDialog->setPath(DOCUMENTS_PATH);
 		
 
 		fileDialog->onFileSelect([&]() {
@@ -83,7 +83,7 @@ private:
 	}
 public:
 	PauseMenu(sf::RenderWindow* window, vector<State*>* states) : State(window, states) {
-		this->gui->loadWidgetsFromFile("resources/Template/PauseMenuTemplate.txt", false);
+		this->gui->loadWidgetsFromFile(APPDATA_PATH + "/resources/Template/PauseMenuTemplate.txt", false);
 		myGroup = this->gui->get<tgui::Group>("PauseMenu");
 		myGroup->setVisible(false);
 		this->initVariables();

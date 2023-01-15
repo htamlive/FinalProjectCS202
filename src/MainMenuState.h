@@ -35,7 +35,8 @@ private:
 		fileDialog->setTextSize(fileDialog->getTextSize() * SYSTEM_SCALE);
 		fileDialog->setFileMustExist(true);
 		fileDialog->setPositionLocked(true);
-		fileDialog->setPath(fileDialog->getPath().asString() + "/saved games");
+		fileDialog->setFileTypeFilters({ { "name.meow", {"*.meow"} } });
+		fileDialog->setPath(DOCUMENTS_PATH);
 		
 
 		fileDialog->onFileSelect([&]() {

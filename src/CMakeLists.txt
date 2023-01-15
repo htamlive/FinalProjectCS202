@@ -25,6 +25,8 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET FinalProjectCS202 PROPERTY CXX_STANDARD 20)
 endif()
 
+set_target_properties(FinalProjectCS202 PROPERTIES OUTPUT_NAME "Crossing Cat")
+
 
 
 message("Hello" + "${CMAKE_BUILD_TYPE}")

@@ -32,26 +32,26 @@ private:
 
     void initMusic() {
         //AudioController::instance().loadSoundFromFile(SoundEffect::Hit, "resources/mallHit.wav");
-        AudioController::instance().loadMusicFromFile(Music::Game, "resources/music/music_zapsplat_easy_cheesy.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::GameOver, "resources/music/NegativeBeep.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Jump, "resources/music/jumpSound.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Stun, "resources/music/BirdsSound.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Hitting, "resources/music/hitCat.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Regen, "resources/music/regen.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Invisible, "resources/music/invisible.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Small, "resources/music/small.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::Speed, "resources/music/speed.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::InvincibleVoice, "resources/music/yummyDemon.wav");
-        AudioController::instance().loadSoundFromFile(SoundEffect::SpeedVoice, "resources/music/iamspeed.wav");
+        AudioController::instance().loadMusicFromFile(Music::Game, APPDATA_PATH + "/resources/music/music_zapsplat_easy_cheesy.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::GameOver, APPDATA_PATH + "/resources/music/NegativeBeep.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Jump, APPDATA_PATH + "/resources/music/jumpSound.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Stun, APPDATA_PATH + "/resources/music/BirdsSound.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Hitting, APPDATA_PATH + "/resources/music/hitCat.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Regen, APPDATA_PATH + "/resources/music/regen.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Invisible, "/resources/music/invisible.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Small, APPDATA_PATH + "/resources/music/small.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::Speed, APPDATA_PATH + "/resources/music/speed.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::InvincibleVoice, APPDATA_PATH + "/resources/music/yummyDemon.wav");
+        AudioController::instance().loadSoundFromFile(SoundEffect::SpeedVoice, APPDATA_PATH + "/resources/music/iamspeed.wav");
 
         AudioController::instance().playMusic(Music::Game, true);
 
         int value;
         ifstream fin;
-        fin.open("resources/textFile/MusicController.txt");
+        fin.open(APPDATA_PATH + "/resources/textFile/MusicController.txt");
         fin >> value;
         AudioController::instance().setMusicVolume(value);
-        fin.open("resources/textFile/SoundController.txt");
+        fin.open(APPDATA_PATH + "/resources/textFile/SoundController.txt");
         fin >> value;
         AudioController::instance().setSoundVolume(value);
         fin.close();
@@ -67,65 +67,65 @@ private:
     }
 
     void initMainCharacterTextures() {
-        TextureHolder::instance().load(Texture::ID::PlayerIdleUp, "resources/spritesheet/character/idleUp.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleUp, APPDATA_PATH + "/resources/spritesheet/character/idleUp.png",
                                        {128, 128},
                                        6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleDown, "resources/spritesheet/character/idleDown.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleDown, APPDATA_PATH + "/resources/spritesheet/character/idleDown.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, "resources/spritesheet/character/idleLeft.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleLeft, APPDATA_PATH + "/resources/spritesheet/character/idleLeft.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleRight, "resources/spritesheet/character/idleRight.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleRight, APPDATA_PATH + "/resources/spritesheet/character/idleRight.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, "resources/spritesheet/character/goLeft.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpLeft, APPDATA_PATH + "/resources/spritesheet/character/goLeft.png",
                                        {128, 128},
                                        6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpRight, "resources/spritesheet/character/goRight.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpRight, APPDATA_PATH + "/resources/spritesheet/character/goRight.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpUp, "resources/spritesheet/character/goUp.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpUp, APPDATA_PATH + "/resources/spritesheet/character/goUp.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpDown, "resources/spritesheet/character/goDown.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpDown, APPDATA_PATH + "/resources/spritesheet/character/goDown.png",
                                        {128, 128},
                                        4);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleUpInvincible, "resources/spritesheet/character/invisible/idleUpInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleUpInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/idleUpInvisible.png",
                                        {128, 128},
                                        6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleDownInvincible, "resources/spritesheet/character/invisible/idleDownInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleDownInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/idleDownInvisible.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleLeftInvincible, "resources/spritesheet/character/invisible/idleLeftInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleLeftInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/idleLeftInvisible.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleRightInvincible, "resources/spritesheet/character/invisible/idleRightInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleRightInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/idleRightInvisible.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpLeftInvincible, "resources/spritesheet/character/invisible/goLeftInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpLeftInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/goLeftInvisible.png",
                                        {128, 128},
                                        6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpRightInvincible, "resources/spritesheet/character/invisible/goRightInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpRightInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/goRightInvisible.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpUpInvincible, "resources/spritesheet/character/invisible/goUpInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpUpInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/goUpInvisible.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerJumpDownInvincible, "resources/spritesheet/character/invisible/goDownInvisible.png",
+        TextureHolder::instance().load(Texture::ID::PlayerJumpDownInvincible, APPDATA_PATH + "/resources/spritesheet/character/invisible/goDownInvisible.png",
                                        {128, 128},
                                        4);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleUpStunned, "resources/spritesheet/character/stunned/idleUpStun.png", {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleDownStunned, "resources/spritesheet/character/stunned/idleDownStun.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleUpStunned, APPDATA_PATH + "/resources/spritesheet/character/stunned/idleUpStun.png", {128, 128}, 6);
+        TextureHolder::instance().load(Texture::ID::PlayerIdleDownStunned, APPDATA_PATH + "/resources/spritesheet/character/stunned/idleDownStun.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleLeftStunned, "resources/spritesheet/character/stunned/idleLeftStun.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleLeftStunned, APPDATA_PATH + "/resources/spritesheet/character/stunned/idleLeftStun.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::PlayerIdleRightStunned, "resources/spritesheet/character/stunned/idleRightStun.png",
+        TextureHolder::instance().load(Texture::ID::PlayerIdleRightStunned, APPDATA_PATH + "/resources/spritesheet/character/stunned/idleRightStun.png",
                                        {128, 128}, 6);
-        TextureHolder::instance().load(Texture::ID::RIP, "resources/spritesheet/character/rip.png", {128, 128}, 1);
+        TextureHolder::instance().load(Texture::ID::RIP, APPDATA_PATH + "/resources/spritesheet/character/rip.png", {128, 128}, 1);
     }
 
     void initTrafficLightTextures() {
-        TextureHolder::instance().load(Texture::ID::GreenLight, "./resources/images/greenLight.png");
-        TextureHolder::instance().load(Texture::ID::RedLight, "./resources/images/redLight.png");
-        TextureHolder::instance().load(Texture::ID::RedToGreen, "./resources/spritesheet/character/redToGreen.png",
+        TextureHolder::instance().load(Texture::ID::GreenLight, APPDATA_PATH + "/resources/images/greenLight.png");
+        TextureHolder::instance().load(Texture::ID::RedLight, APPDATA_PATH + "/resources/images/redLight.png");
+        TextureHolder::instance().load(Texture::ID::RedToGreen, APPDATA_PATH + "/resources/spritesheet/character/redToGreen.png",
                                        {128, 128}, 5);
-        TextureHolder::instance().load(Texture::ID::GreenToRed, "./resources/spritesheet/character/greenToRed.png",
+        TextureHolder::instance().load(Texture::ID::GreenToRed, APPDATA_PATH + "/resources/spritesheet/character/greenToRed.png",
                                        {128, 128}, 5);
     }
 
     void initWaterTextures() {
-        TextureHolder::instance().load(Texture::ID::WaterAndWood, "resources/images/waterAndWood.png", { 128, 128 }, 16,
+        TextureHolder::instance().load(Texture::ID::WaterAndWood, APPDATA_PATH + "/resources/images/waterAndWood.png", { 128, 128 }, 16,
             4);
         TextureHolder::instance().add(Texture::ID::WaterTopLane, { Texture::ID::WaterAndWood, 0, false, false });
         TextureHolder::instance().add(Texture::ID::WaterBeforeWoodTopLane,
@@ -152,7 +152,7 @@ private:
     }
 
     void initLaneTextures() {
-        TextureHolder::instance().load(Texture::ID::Road, "./resources/images/VehicleRoad.png", {128, 128}, 9);
+        TextureHolder::instance().load(Texture::ID::Road, APPDATA_PATH + "/resources/images/VehicleRoad.png", {128, 128}, 9);
         TextureHolder::instance().add(Texture::ID::TopRoadLane, {Texture::ID::Road, 1, false, false});
         TextureHolder::instance().add(Texture::ID::MidRoadLane, {Texture::ID::Road, 4, false, false});
         TextureHolder::instance().add(Texture::ID::BotRoadLane, {Texture::ID::Road, 7, false, false});
@@ -162,35 +162,35 @@ private:
     }
 
     void initTheme() {
-        TextureHolder::instance().load(Texture::LightningTheme, "./resources/spritesheet/lightning.png", {128,128},1);
+        TextureHolder::instance().load(Texture::LightningTheme, APPDATA_PATH + "/resources/spritesheet/lightning.png", {128,128},1);
 
     }
 
     void initLoad() {
-        TextureHolder::instance().load(Texture::ID::RightRedTruck, "./resources/spritesheet/vehicles/redTruckRight.png",
+        TextureHolder::instance().load(Texture::ID::RightRedTruck, APPDATA_PATH + "/resources/spritesheet/vehicles/redTruckRight.png",
             { 128, 128 }, 4);
-        TextureHolder::instance().load(Texture::ID::LeftRedTruck, "./resources/spritesheet/vehicles/redTruckLeft.png",
+        TextureHolder::instance().load(Texture::ID::LeftRedTruck, APPDATA_PATH + "/resources/spritesheet/vehicles/redTruckLeft.png",
             { 128, 128 }, 4);
-        TextureHolder::instance().load(Texture::ID::LeftBlueCar, "./resources/spritesheet/vehicles/blueCar.png",
+        TextureHolder::instance().load(Texture::ID::LeftBlueCar, APPDATA_PATH + "/resources/spritesheet/vehicles/blueCar.png",
             { 128, 128 }, 1);
-        TextureHolder::instance().load(Texture::ID::LeftGreenCar, "./resources/spritesheet/vehicles/greenCar.png",
+        TextureHolder::instance().load(Texture::ID::LeftGreenCar, APPDATA_PATH + "/resources/spritesheet/vehicles/greenCar.png",
             { 128, 128 }, 1);
-        TextureHolder::instance().load(Texture::ID::LeftRedCar, "./resources/spritesheet/vehicles/redCar.png", 
+        TextureHolder::instance().load(Texture::ID::LeftRedCar, APPDATA_PATH + "/resources/spritesheet/vehicles/redCar.png",
             { 128, 128 }, 1);
-        TextureHolder::instance().load(Texture::ID::RightCucumber,"./resources/spritesheet/animals/cucumber/moveRight.png",
+        TextureHolder::instance().load(Texture::ID::RightCucumber, APPDATA_PATH + "/resources/spritesheet/animals/cucumber/moveRight.png",
             { 128, 128 }, 6);
-        TextureHolder::instance().load(Texture::ID::RightPlane, "./resources/spritesheet/animals/plane/goRight.png",
+        TextureHolder::instance().load(Texture::ID::RightPlane, APPDATA_PATH + "/resources/spritesheet/animals/plane/goRight.png",
             { 128, 128 }, 2);
-        TextureHolder::instance().load(Texture::ID::LeftPlane, "./resources/spritesheet/animals/plane/goLeft.png",
+        TextureHolder::instance().load(Texture::ID::LeftPlane, APPDATA_PATH + "/resources/spritesheet/animals/plane/goLeft.png",
             { 128, 128 }, 2);
 
-        TextureHolder::instance().load(Texture::ID::Background, "./resources/images/bg_2.png");
-        TextureHolder::instance().load(Texture::ID::Obstacle, "resources/spritesheet/obstacle3.png", { 225, 214 });
-        TextureHolder::instance().load(Texture::ID::HealthBoost, "resources/spritesheet/regen.png");
-        TextureHolder::instance().load(Texture::ID::SpeedBoost, "resources/spritesheet/speed.png");
-        TextureHolder::instance().load(Texture::ID::SmallSizeBoost, "resources/spritesheet/smallSize.png");
-        TextureHolder::instance().load(Texture::ID::InvincibleBoost, "resources/spritesheet/invisible.png");
-        TextureHolder::instance().load(Texture::ID::Null, "resources/spritesheet/NULL.png", { 32, 32 }, 1);
+        TextureHolder::instance().load(Texture::ID::Background, APPDATA_PATH + "/resources/images/bg_2.png");
+        TextureHolder::instance().load(Texture::ID::Obstacle, APPDATA_PATH + "/resources/spritesheet/obstacle3.png", { 225, 214 });
+        TextureHolder::instance().load(Texture::ID::HealthBoost, APPDATA_PATH + "/resources/spritesheet/regen.png");
+        TextureHolder::instance().load(Texture::ID::SpeedBoost, APPDATA_PATH + "/resources/spritesheet/speed.png");
+        TextureHolder::instance().load(Texture::ID::SmallSizeBoost, APPDATA_PATH + "/resources/spritesheet/smallSize.png");
+        TextureHolder::instance().load(Texture::ID::InvincibleBoost, APPDATA_PATH + "/resources/spritesheet/invisible.png");
+        TextureHolder::instance().load(Texture::ID::Null, APPDATA_PATH + "/resources/spritesheet/NULL.png", { 32, 32 }, 1);
     }
 
     void initAdd() {

@@ -27,7 +27,7 @@ private:
 
 	void initRank() {
 		vector<int> v(3);
-		ifstream ifs("data/scores.txt");
+		ifstream ifs(APPDATA_PATH + "/data/scores.txt");
 		for (int i = 0; i < 3; ++i) {
 			ifs >> v[i];
 			if (v[i] == 0) continue;
@@ -51,7 +51,7 @@ public:
 
 	void reset() {
 		ofstream ofs;
-		ofs.open("data/scores.txt", ios::trunc);
+		ofs.open(APPDATA_PATH + "/data/scores.txt", ios::trunc);
 		for (int i = 0; i < 3; ++i)
 		{
 			ofs << 0 << "\n";
