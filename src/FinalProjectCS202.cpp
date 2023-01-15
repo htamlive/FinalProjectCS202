@@ -5,8 +5,12 @@
 //#include "TextureHolder.h"
 //#include "AudioController.h"
 
-int main()
+int main(int argc, char** argv)
 {
+    {
+        std::string path = argv[0];
+        std::filesystem::current_path(path.substr(0, path.find_last_of('/')));
+    }
     //AnimationsByFrames animations("FinalProjectCS202/spritesheet/character/goDown.png");
 
     //cout << APPDATA_PATH;
