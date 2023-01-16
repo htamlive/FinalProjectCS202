@@ -14,8 +14,8 @@ const std::string DOCUMENTS_PATH = ".";
 
 #include <TGUI/Backend/SFML-Graphics.hpp>
 const float SYSTEM_SCALE = 1.0f;
-const std::string APPDATA_PATH = ".";// std::filesystem::path(std::getenv("APPDATA")).string() + '\\' + "Crossing Cat\\Windows";
-const std::string DOCUMENTS_PATH = ".";//std::filesystem::path(std::getenv("USERPROFILE")).string() + "\\Documents";
+const std::string APPDATA_PATH =  std::filesystem::path(std::getenv("APPDATA")).string() + '\\' + "Crossing Cat\\Windows";
+const std::string DOCUMENTS_PATH = std::filesystem::path(std::getenv("USERPROFILE")).string() + "\\Documents";
 
 #elif __APPLE__
 
