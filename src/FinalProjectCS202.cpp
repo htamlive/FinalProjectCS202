@@ -8,6 +8,8 @@
 int main(int argc, char** argv)
 {
 #ifdef  __APPLE__
+    // This sets workdir to the same location as the executable.
+    // This is a workaround on unix OS.
     std::string path = argv[0];
     std::filesystem::current_path(path.substr(0, path.find_last_of('/')));
 #endif //  __APPLE__

@@ -8,8 +8,12 @@
 #include <chrono>
 #include <ctime> 
 
+#ifdef __UNIX__
 #include <TGUI/TGUI.hpp>
+#elif _WIN32
 #include <TGUI/Backend/SFML-Graphics.hpp>
+#endif
+
 #include <map>
 #include "AudioController.h"
 #include "Consts.h"
